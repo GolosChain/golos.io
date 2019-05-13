@@ -1,4 +1,4 @@
-import cyber from 'cyber-golos';
+import cyber from 'cyber-client';
 
 import { defaults } from 'utils/common';
 

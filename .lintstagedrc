@@ -1,0 +1,11 @@
+{
+  "*.js": [
+    "stylelint --ignore-pattern '!src'",
+    "prettier --write",
+    "git add"
+  ],
+  "*.md": [
+    "prettier --write",
+    "git add"
+  ]
+}

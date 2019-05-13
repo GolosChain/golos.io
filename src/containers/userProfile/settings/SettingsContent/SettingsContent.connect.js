@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { isEmpty } from 'ramda';
-import { getAccountPermissions } from 'cyber-golos/lib/auth';
+import { getAccountPermissions } from 'cyber-client/lib/auth';
 
 import { authProtection } from 'helpers/hoc';
 import { fetchSettings, updateSettings } from 'store/actions/gate/settings';

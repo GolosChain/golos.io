@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { getKeyPair } from 'cyber-golos/lib/auth';
+import { getKeyPair } from 'cyber-client/lib/auth';
 
 import { getAuth } from 'utils/localStorage';
 import { CardContent } from 'components/golos-ui/Card';

@@ -25,7 +25,7 @@
     "cookie-parser": "^1.4.4",
     "cyber-country-flag": "^0.0.3",
     "counterpart": "^0.18.6",
-    "cyber-golos": "^1.1.19",
+    "cyber-client": "^1.1.20",
     "cyber-keygen": "^1.3.3",
     "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",

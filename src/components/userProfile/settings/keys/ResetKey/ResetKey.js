@@ -5,8 +5,8 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { isEmpty } from 'ramda';
 import { Form, Field } from 'react-final-form';
-import cyber from 'cyber-golos';
-import { generateKeys } from 'cyber-golos/lib/auth';
+import cyber from 'cyber-client';
+import { generateKeys } from 'cyber-client/lib/auth';
 import ToastsManager from 'toasts-manager';
 
 import SplashLoader from 'components/golos-ui/SplashLoader';

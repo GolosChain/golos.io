@@ -1,4 +1,4 @@
-import cyber from 'cyber-golos';
+import cyber from 'cyber-client';
 
 import { logout } from 'store/actions/gate/auth';
 import { CYBERWAY_API, CYBERWAY_RPC } from 'store/middlewares/cyberway-api';

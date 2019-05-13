@@ -3714,21 +3714,21 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-country-flag@^0.0.3:
-  version "0.0.3"
-  resolved "http://159.69.117.25:4873/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
-  integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
-
-cyber-golos@^1.1.19:
-  version "1.1.19"
-  resolved "http://159.69.117.25:4873/cyber-golos/-/cyber-golos-1.1.19.tgz#199a4079f29db5eb11a291f4c8ffd634c1ead1d3"
-  integrity sha512-MXASAh3sO3NOyQNK5MNWN2F/fy6krltg+hUxbIpWMR1zlRgZmUnB+hZ5MCjAkIurNIRz3shKliIoIA3t6WnPKA==
+cyber-client@^1.1.20:
+  version "1.1.20"
+  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.20.tgz#b9ad13adfa51600fbaae8e1bf3192ce9e8c90a7a"
+  integrity sha512-ChPltRDJNqVeVQcXGQeUPYL7FLBMVh2VkUPisFA08a+3c/hKqS8uz3g+bYveAbvP7Dq5L/7BUNpcsAY4WLX6SA==
   dependencies:
     "@babel/runtime" "^7.2.0"
     cyberwayjs "^20.0.0-beta3.5"
     idb "^3.0.2"
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
+
+cyber-country-flag@^0.0.3:
+  version "0.0.3"
+  resolved "http://159.69.117.25:4873/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
+  integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
 
 cyber-keygen@^1.3.3:
   version "1.3.3"

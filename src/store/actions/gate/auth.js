@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
-import cyber from 'cyber-golos';
-import { sign } from 'cyber-golos/lib/auth';
+import cyber from 'cyber-client';
+import { sign } from 'cyber-client/lib/auth';
 
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { saveAuth, removeAuth } from 'utils/localStorage';
