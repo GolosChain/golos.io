@@ -1,0 +1,39 @@
+.MarkdownEditor {
+  & .CodeMirror {
+    padding: 0;
+    margin: 0 -3px;
+    border: none;
+    border-radius: 0;
+    color: #333;
+    background: none;
+  }
+
+  & .CodeMirror-scroll {
+    min-height: 350px;
+  }
+
+  &_comment {
+    & .CodeMirror,
+    & .CodeMirror-scroll {
+      min-height: 3em;
+    }
+  }
+
+  & .CodeMirror-placeholder {
+    font-family: Roboto, Arial, sans-serif;
+  }
+
+  & .CodeMirror-lines {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.56;
+  }
+
+  & .cm-formatting-strikethrough {
+    text-decoration: none !important;
+  }
+
+  & .CodeMirror-focused .CodeMirror-placeholder {
+    opacity: 0.2;
+  }
+}

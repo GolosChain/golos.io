@@ -1,0 +1,33 @@
+.CommentForm {
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    max-width: 75rem;
+    margin: 0 auto;
+
+    &_hidden {
+      display: none;
+    }
+  }
+
+  &__spinner-inner {
+    width: unset !important;
+    height: unset !important;
+    padding: 40px 60px;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &_edit {
+    padding: 0 18px;
+  }
+
+  &__preview {
+    margin-bottom: 3px;
+
+    & > * {
+      font-size: 16px !important;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+version: '3.6'
+services:
+  web:
+    container_name: golos
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - $DOCKER_CONNECTOR_WEB_HOST:$DOCKER_CONNECTOR_WEB_PORT:3000
+    env_file:
+      - .env

@@ -1,0 +1,46 @@
+.App__content {
+  .callout {
+    margin-top: 0.75rem;
+    border: 1px solid $light-gray;
+  }
+}
+
+.PlainLink {
+  color: $dark-gray;
+}
+
+.downvoted {
+  color: #848282;
+  opacity: 0.3;
+  -webkit-filter: grayscale(1); // image
+  filter: gray; // image grayscale
+  .Comment__header-user {
+    color: #848282;
+  }
+}
+.downvoted:hover {
+  opacity: 1;
+  filter: none;
+  -webkit-filter: none;
+}
+
+.App__announcement {
+  padding-right: 40px;
+
+  .logo-icon {
+    height: 1.8rem !important;
+    width: 1.8rem !important;
+    padding-top: 5px;
+    padding-left: 5px;
+    border: 1px solid #fff;
+    background-color: #fff;
+    border-radius: 50%;
+    margin-right: 1rem;
+  }
+
+  .link {
+    color: #fff;
+    display: inline-block;
+    margin-left: 1rem;
+  }
+}

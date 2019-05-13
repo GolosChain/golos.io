@@ -1,0 +1,37 @@
+.MarkdownViewer {
+  height: 100%;
+  overflow: hidden;
+
+  &__negative_group {
+    color: crimson;
+    border-top: 1px solid $medium-gray;
+    padding-top: 1rem;
+  }
+
+  .g-coub {
+    display: block;
+    margin: 0.5em auto;
+  }
+
+  .header-anchor {
+    display: inline-block;
+    margin-left: 8px;
+    margin-bottom: -1px;
+    width: 22px;
+    height: 22px;
+    background: url('/images/link.svg');
+    opacity: 0.1;
+    transition: opacity 0.25s;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &:hover .header-anchor {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,335 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import tt from 'counterpart';
+
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import Icon from 'components/golos-ui/Icon';
+
+import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
+import { isBadActor } from 'utils/chainValidation';
+import { parseAmount } from 'helpers/currency';
+import { processError } from 'helpers/dialogs';
+
+import DialogFrame from 'components/dialogs/DialogFrame';
+import DialogManager from 'components/elements/common/DialogManager';
+import AccountNameInput from 'components/common/AccountNameInput';
+
+import { GOLOS_CURRENCY_ID } from 'shared/constants';
+
+const DialogFrameStyled = styled(DialogFrame)`
+  flex-basis: 616px;
+
+  @media (max-width: 640px) {
+    flex-basis: 340px;
+  }
+`;
+
+const Content = styled.div`
+  padding: 5px 30px 14px;
+`;
+
+const SubHeader = styled.div`
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #959595;
+`;
+
+const Body = styled.div`
+  display: flex;
+  margin: 0 -10px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
+`;
+
+const Column = styled.div`
+  width: 288px;
+  padding: 0 10px;
+
+  @media (max-width: 640px) {
+    width: unset;
+  }
+`;
+
+const Section = styled.div`
+  margin-bottom: 10px;
+`;
+
+const Label = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 19px 0 9px;
+  font-size: 14px;
+`;
+
+const NoteIcon = styled(Icon)`
+  margin: -10px 6px -10px 0;
+  color: #e1e1e1;
+`;
+
+const Note = styled.textarea`
+  display: block;
+  width: 100%;
+  height: 120px;
+  padding: 7px 11px;
+  border: 1px solid #e1e1e1;
+  outline: none;
+  border-radius: 6px;
+  resize: none;
+  font-size: 14px;
+  box-shadow: none !important;
+
+  @media (max-width: 640px) {
+    height: 60px;
+  }
+`;
+
+const ErrorBlock = styled.div`
+  min-height: 25px;
+`;
+
+const ErrorLine = styled.div`
+  color: #ff4641;
+  animation: fade-in 0.15s;
+`;
+
+export default class TransferDialog extends PureComponent {
+  static propTypes = {
+    type: PropTypes.oneOf(['donate', 'query']),
+    recipientName: PropTypes.string.isRequired,
+    donatePostUrl: PropTypes.string,
+    onClose: PropTypes.func.isRequired,
+    amount: PropTypes.string,
+    token: PropTypes.string,
+    memo: PropTypes.string,
+  };
+
+  constructor(props) {
+    super(props);
+
+    let target = '';
+
+    if (props.recipientName && props.recipientName !== props.currentUsername) {
+      target = props.recipientName;
+    }
+
+    let note = '';
+
+    if (props.type === 'donate' && props.donatePostUrl) {
+      this._initialNote = note = tt('dialogs_transfer.post_donation', {
+        url: `https://${APP_DOMAIN}${props.donatePostUrl}`,
+      });
+    }
+
+    if (props.type === 'query' && props.memo) {
+      note = props.memo;
+    }
+
+    let amount = '';
+
+    if (props.type === 'query' && props.amount) {
+      amount = props.amount;
+    }
+
+    this.state = {
+      target,
+      initialTarget: Boolean(target),
+      amount,
+      note,
+      amountInFocus: false,
+      loader: false,
+      disabled: false,
+    };
+  }
+
+  confirmClose() {
+    const { target, note, amount } = this.state;
+
+    if (target || note.trim() || amount.trim()) {
+      DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
+        if (y) {
+          this.props.onClose();
+        }
+      });
+
+      return false;
+    }
+    return true;
+  }
+
+  onNoteChange = e => {
+    this.setState({
+      note: e.target.value,
+    });
+  };
+
+  onAmountChange = e => {
+    this.setState({
+      amount: e.target.value.replace(/[^\d .]+/g, '').replace(/,/g, '.'),
+    });
+  };
+
+  onAmountFocus = () => {
+    this.setState({
+      amountInFocus: true,
+    });
+  };
+
+  onAmountBlur = () => {
+    this.setState({
+      amountInFocus: false,
+    });
+  };
+
+  onTargetChange = value => {
+    this.setState({
+      target: value,
+    });
+  };
+
+  onCloseClick = () => {
+    this.props.onClose();
+  };
+
+  onOkClick = async () => {
+    const { type, donatePostUrl, transferToken, onClose } = this.props;
+    const { target, amount, note, loader, disabled } = this.state;
+
+    if (loader || disabled) {
+      return;
+    }
+
+    if (note) {
+      if (/\b5[\w\d]{50}\b/.test(note) || /\b[PK5][\w\d]{51}\b/.test(note)) {
+        DialogManager.alert(tt('g.note_contains_keys_error'));
+        return;
+      }
+    }
+
+    let memo = note;
+
+    if (type === 'donate' && donatePostUrl) {
+      if (note === this._initialNote) {
+        memo = `${DONATION_FOR} ${donatePostUrl}`;
+      }
+    }
+
+    const tokensAmount = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
+
+    this.setState({
+      loader: true,
+    });
+
+    try {
+      await transferToken(target, tokensAmount, memo);
+      this.unblockDialog();
+      onClose();
+    } catch (err) {
+      this.unblockDialog();
+      processError(err);
+    }
+  };
+
+  unblockDialog() {
+    this.setState({
+      loader: false,
+      disabled: false,
+    });
+  }
+
+  render() {
+    const { type, recipientName, balance } = this.props;
+    const { target, initialTarget, amount, note, loader, disabled, amountInFocus } = this.state;
+
+    const button = [
+      {
+        id: GOLOS_CURRENCY_ID,
+        title: tt('token_names.LIQUID_TOKEN'),
+      },
+    ];
+
+    let { value, error } = parseAmount(amount, balance, !amountInFocus);
+    if (isBadActor(target)) {
+      error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+    }
+
+    const allow = target && value > 0 && !error && !loader && !disabled;
+
+    const lockTarget = type === 'donate' && recipientName;
+    const focusTarget = !lockTarget && !initialTarget;
+
+    return (
+      <DialogFrameStyled
+        title={tt('dialogs_transfer.transfer.title')}
+        titleSize={20}
+        icon="coins"
+        buttons={[
+          {
+            text: tt('g.cancel'),
+            onClick: this.onCloseClick,
+          },
+          {
+            text: tt('dialogs_transfer.transfer.transfer_button'),
+            primary: true,
+            disabled: !allow,
+            onClick: this.onOkClick,
+          },
+        ]}
+        onCloseClick={this.onCloseClick}
+      >
+        <Content>
+          <SubHeader>{tt('dialogs_transfer.transfer.tip')}</SubHeader>
+          <Body>
+            <Column>
+              <Section>
+                <Label>{tt('dialogs_transfer.to')}</Label>
+                <AccountNameInput
+                  block
+                  name="account"
+                  autoFocus={focusTarget}
+                  disabled={lockTarget}
+                  placeholder={tt('dialogs_transfer.to_placeholder')}
+                  value={target}
+                  onChange={this.onTargetChange}
+                />
+              </Section>
+              <Section>
+                <Label>{tt('dialogs_transfer.amount')}</Label>
+                <ComplexInput
+                  placeholder={tt('dialogs_transfer.amount_placeholder', {
+                    amount: balance.toFixed(3),
+                  })}
+                  spellCheck="false"
+                  value={amount}
+                  autoFocus={!focusTarget}
+                  buttons={button}
+                  onChange={this.onAmountChange}
+                  onFocus={this.onAmountFocus}
+                  onBlur={this.onAmountBlur}
+                />
+              </Section>
+            </Column>
+            <Column>
+              <Section>
+                <Label>
+                  <NoteIcon name="note" /> {tt('dialogs_transfer.transfer.memo')}
+                </Label>
+                <Note
+                  placeholder={tt('dialogs_transfer.transfer.memo_placeholder')}
+                  value={note}
+                  onChange={this.onNoteChange}
+                />
+              </Section>
+            </Column>
+          </Body>
+          <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>
+        </Content>
+        {loader ? <SplashLoader /> : null}
+      </DialogFrameStyled>
+    );
+  }
+}

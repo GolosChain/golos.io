@@ -1,0 +1,79 @@
+import isEqual from 'react-fast-compare';
+import { createSelectorCreator, defaultMemoize } from 'reselect';
+import { path as ramdaPath } from 'ramda';
+
+// utils for selectors
+const toArray = path => (Array.isArray(path) ? path : [path]);
+
+// Create a "selector creator" that uses lodash.isEqual instead of '==='
+// More info you can find in: https://github.com/faassen/reselect#api
+export const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+// Структура хранения данных приложения следующая
+/*
+{
+    status: {
+        contents: { ... },
+        ...
+    },
+    entities: {
+        contents: { ... },
+        ...
+    }
+}
+*/
+
+// Выбирает конкретный статус из стора.
+// С помощью переменной type указывается тип статуса.
+export const statusSelector = path => state => ramdaPath(toArray(path))(state.status);
+// Выбирает конкретные сущности из стора.
+// С помощью переменной type указывается тип сущности.
+export const entitiesSelector = type => state => state.entities[type];
+
+// Entities selectors
+
+// Возвращает сущности определенного типа (type) в виде массива.
+export const entitiesArraySelector = type =>
+  createDeepEqualSelector([entitiesSelector(type)], entities =>
+    Object.keys(entities).map(id => entities[id])
+  );
+
+// Возвращает конкретную сушность по указанному типу (type) сущности и её id
+export const entitySelector = (type, id) =>
+  createDeepEqualSelector([entitiesSelector(type)], entities => entities[id]);
+
+export const modeSelector = state => state.ui.mode;
+
+// Выбирает поле ui из стора
+export const uiSelector = path => state => ramdaPath(toArray(path))(state.ui);
+
+export const dataSelector = path => state => ramdaPath(toArray(path))(state.data);
+
+export const profileSelector = userId => state => {
+  let profile = entitySelector('profiles', userId)(state);
+
+  if (!profile) {
+    profile = {
+      name: userId,
+      userId: userId,
+      username: userId,
+      created: null,
+      reputation: null,
+      stats: {
+        postCounts: 0,
+        commentsCount: 0,
+      },
+      personal: {},
+      registration: {},
+    };
+  }
+
+  return profile;
+};
+
+export const pathnameSelector = state => {
+  if (!uiSelector(['mode', 'isSSR'])(state)) {
+    return window.location.pathname;
+  }
+  return '';
+};

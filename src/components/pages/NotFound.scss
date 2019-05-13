@@ -1,0 +1,34 @@
+.NotFound {
+  width: 640px;
+  margin-top: 2em;
+  text-align: center;
+
+  @media screen and (max-width: 39.9375em) {
+    width: 340px;
+  }
+
+  &__menu {
+    text-align: center;
+
+    li {
+      float: none;
+      display: inline-block;
+      text-align: center;
+      margin-right: 1%;
+      list-style: none;
+      font-weight: 400;
+    }
+
+    li:after {
+      content: ' |';
+    }
+
+    li:last-child:after {
+      content: '';
+    }
+  }
+
+  &__header {
+    margin-top: 1em;
+  }
+}

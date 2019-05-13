@@ -1,0 +1,1226 @@
+{
+  "about_jsx": {
+    "mobile_banner_alt": "Get it on Google Play"
+  },
+  "about_page": {
+    "decription_1": "The platform was launched in October 2016.",
+    "decription_2": "Originally the blockchain Golos was created with STEEM.inc license for the Russian-speaking community. By the development process and new different innovations now Golos.io is a project with its structure, economy and rules, the geography of which is constantly expanding.",
+    "header": "Golos.io is a media platform built on blockchain Golos.",
+    "partners": "Partners",
+    "team": "Team",
+    "team_goloscore": {
+      "info": "Blockchain development and support",
+      "read_blog": "Read Golos Core news blog",
+      "tip": "News Golos Core"
+    },
+    "team_golosio": {
+      "info": "Development and support",
+      "read_blog": "Read Golos.io news blog  Golos.io",
+      "tip": "News Golos.io"
+    }
+  },
+  "header": {
+    "voice_power": "Vote power: %(voicePower)s%%"
+  },
+  "active_panel_tooltip": {
+    "complain_about_post": "Complain about post",
+    "edit": "Edit",
+    "pin_post": "Pin post",
+    "promote_post": "Promote post",
+    "unpin_post": "Unpin post"
+  },
+  "activity": {
+    "tab_title": {
+      "all": "All",
+      "all_placeholder": "Start posting and commenting to receive users feedback.",
+      "mention": "Mentions",
+      "mention_placeholder": "Get Golos users excited about your blog in order they mention you.",
+      "replies": "Replies",
+      "replies_placeholder": "Start posting interesting content to receive comments.",
+      "rewards": "Rewards",
+      "rewards_placeholder": "So far empty",
+      "social": "Social",
+      "social_placeholder": "Follow other authors and post interesting content tp expand your audience."
+    }
+  },
+  "aria_label": {
+    "additional_menu": "Additional menu",
+    "android_link": "Download Golos.io android app",
+    "avatar": "User's avatar",
+    "bitcoin_link": "Golos.io thread on Bitcoin Forum",
+    "cancel_sort_by_tag": "Cancel sort by tag: %(tag)s",
+    "category": "Category: %(category)s",
+    "chanel_card": "Contact",
+    "close_button": "Close",
+    "comments": "Comments. Quantity: %(count)s",
+    "dislikers_list": "Voted with dislike: %(count)s",
+    "expected_payout": "Expected payout",
+    "facebook_link": "Golos.io on Facebook page",
+    "followers": "Followers",
+    "following": "Following",
+    "header_logo": "Golos.io logo",
+    "likers_list": "Voted with like: %(count)s",
+    "notifications": "Notifications. Quantity: %(count)s",
+    "post_image": "Post image",
+    "reset_tags": "Reset tags",
+    "share_on_facebook": "Share on Facebook",
+    "share_on_lj": "Share on LiveJournal",
+    "share_on_twitter": "Share on Twitter",
+    "share_on_vk": "Share on VKontakte",
+    "sort_by_tag": "Sort by tag: %(tag)s",
+    "tag": "Hashtag: %(tag)s",
+    "telegram_link": "Golos.io Telegram Chat",
+    "total_paid": "Total paid",
+    "username": "Username",
+    "vk_link": "Golos.io on VKontakte page"
+  },
+  "auth_protection": {
+    "need_auth": "Not allowed, please authorize.",
+    "not_allowed": "Not allowed"
+  },
+  "category_selector_jsx": {
+    "denied_to_publish_the_posts_with_tag": "It is denied to publish the posts with tag 'stihi-io'",
+    "main_tag_hint": "First tag is main. Post will be posted in that category.",
+    "maximum_tag_length_is_24_characters": "Maximum tag length is 24 characters",
+    "must_end_with_a_letter_or_number": "Must end with a letter or number",
+    "must_set_category": "Need to add at least one tag",
+    "must_start_with_a_letter": "Must start with a letter",
+    "select_a_tag": "Select a tag",
+    "tag_your_story": "Tag (up to 5 tags), the first tag is your main category.",
+    "title_is_not_valid": "Title is not valid",
+    "title_is_required": "Title is not specified",
+    "use_one_dash": "Use only one dash",
+    "use_only_allowed_characters": "Use only lowercase letters, digits and one dash",
+    "use_only_lowercase_letters": "Use only lowercase letters",
+    "use_spaces_to_separate_tags": "Use spaces to separate tags"
+  },
+  "chain_errors": {
+    "account_does_not_have_sufficient_power_for_withdraw": "Account does not have sufficient Golos Power for withdraw",
+    "already_voted": "You have already voted in a similar way",
+    "exceeded_maximum_allowed_bandwidth": "Account exceeded maximum allowed bandwidth per vesting share",
+    "missing_active_authority": "Entered the wrong activity key",
+    "only_comment_once_every": "You may only comment once every 20 seconds",
+    "only_post_once_every": "You may only post once every 5 minutes",
+    "only_vote_once_every": "Can only vote once every 3 seconds",
+    "tx_missing_owner_auth": "Entered the wrong owner key",
+    "voting_weight_is_too_small": "Voting weight is too small, please accumulate more voting power or steem power"
+  },
+  "chainvalidation_js": {
+    "account_name_should": "Account name should ",
+    "be_longer": "be longer.",
+    "be_shorter": "be shorter.",
+    "each_account_segment_should": "Each account segment should ",
+    "end_with_a_letter_or_digit": "end with a letter or digit.",
+    "have_only_letters_digits_or_dashes": "have only letters, digits, or dashes.",
+    "have_only_one_dash_in_a_row": "have only one dash in a row.",
+    "not_be_empty": "not be empty.",
+    "start_with_a_letter": "start with a letter.",
+    "use_caution_sending_to_this_account": "Use caution sending to this account. Please double check your spelling for possible phishing."
+  },
+  "comment_card": {
+    "hidden": "This comment was hidden because of low rating."
+  },
+  "comment_editor": {
+    "cancel_comment": "Comment text will be erased. Are you sure?"
+  },
+  "content": {
+    "tip": {
+      "blog": {
+        "start_writing": "Create your first post using",
+        "start_writing_2": " hashtags.",
+        "tag_1": "golos",
+        "tag_2": "introducemyself",
+        "user_has_no_post": "User haven't started posting."
+      },
+      "comments": {
+        "start_writing": "Start commenting.",
+        "user_has_no_comments": "User haven't started commenting."
+      },
+      "replies": {
+        "start_writing": "Get started by writing posts and receiving comments.",
+        "user_has_no_replies": "User haven't received comments. Write your comment."
+      }
+    }
+  },
+  "createaccount_jsx": {
+    "final_confirm": "Accept our Terms of Use:",
+    "take_your_secret_key": "Receive your generated password"
+  },
+  "curation_percent": {
+    "curation_rewards_percent": "Curation rewards percent"
+  },
+  "dialog": {
+    "alert": "Alert",
+    "clear": "Clear",
+    "confirm": "Confirmation",
+    "disliked": "Disliked post",
+    "info": "Information",
+    "liked": "Liked post",
+    "prompt": "Enter the data",
+    "show_all": "Show all",
+    "show_more": "Show more"
+  },
+  "dialogs_convert": {
+    "power_down_line": "Power down process are running for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)."
+  },
+  "dialogs_dislike": {
+    "header": "By voting against you reduce the reward, and make the post less noticeable in the feed. There should be a good reason to vote against, for example:",
+    "item_1": "Disagreement with the award",
+    "item_2": "Fraud or plagiarism",
+    "item_3": "Incitement of hatred or Internet trolling",
+    "item_4": "Intentionally false information or spam",
+    "ok": "Vote against",
+    "title": "Voting against"
+  },
+  "dialogs_promote": {
+    "amount": "Amount",
+    "description": "Spend your GBG to advertise this post in the promoted content section.",
+    "fill_form_error": "Fill all fields correctly",
+    "promote_button": "Promote",
+    "success": "Promoted successfully",
+    "title": "Promote post"
+  },
+  "dialogs_repost": {
+    "ok": "Repost",
+    "placeholder": "Write your comment",
+    "success": "Repost published",
+    "title": "Repost this post",
+    "too_long": "Repost body can't exceed %(count)s symbols."
+  },
+  "dialogs_reset_keys": {
+    "title": "Reset %(user)s's Password"
+  },
+  "dialogs_transfer": {
+    "amount": "Amount",
+    "amount_placeholder": "Available %(amount)s",
+    "confirm_dialog_close": "Are you sure you want to close this window?",
+    "convert": {
+      "convert_button": "Convert",
+      "tabs": {
+        "gbg_golos": {
+          "hint": "Delay at converting Gold (GBG) to Golos tokens is necessary to prevent abuse of speculation.",
+          "tip_1": "Transfer GBG into Golos tokens in order to increase your Voice Power or sell them on external exchanges.",
+          "tip_2": "Conversion takes 3.5 days",
+          "tip_3": "and cannot be canceled.",
+          "title": "GBG → Golos"
+        },
+        "golos_gp": {
+          "hint": "Delegation - transfer some amount of your Golos Power to other users account. Delegation can be canceled at any time.",
+          "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and delegates.",
+          "tip_2": "Golos Power cannot be transferred to other users, but you can delegate it",
+          "tip_3": "The amount of Golos Power increases during storage.",
+          "title": "Golos → Golos Power"
+        },
+        "gp_golos": {
+          "per_week": "Payments will be about %(amount)s GOLOS per week.",
+          "tip_1": "Transfer Golos Power into Golos tokens to get a more liquid token that can be moved between users. At the same time, you reduce your voting power. The conversion takes 13 weeks.",
+          "title": "Golos Power → Golos"
+        }
+      },
+      "title": "Convert"
+    },
+    "delegate_vesting": {
+      "delegate_button": "Delegate",
+      "first_strategy": "Payout to delegater",
+      "second_strategy": "Payout is added to delegated vesting",
+      "tabs": {
+        "delegate": {
+          "interest_rate": "Interest rate",
+          "receive_rewards": "Receive rewards using delegated GP",
+          "tip_1": "You can delegate some amount of your Golos Power to other users.",
+          "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days.",
+          "title": "Delegate"
+        },
+        "delegated": {
+          "actions": "Action",
+          "amount": "Golos Power",
+          "amount_label": "Amount to delegate",
+          "cancel": "Cancel",
+          "edit": "Edit",
+          "title": "Delegated",
+          "to_placeholder": "Delegate to account"
+        }
+      },
+      "title": "Delegate Golos Power"
+    },
+    "operation_started": "Operation started!",
+    "operation_success": "Operation completed successfully!",
+    "post_donation": "Post donation %(url)s",
+    "to": "To",
+    "to_placeholder": "Transfer to account",
+    "transfer": {
+      "memo": "memo",
+      "memo_placeholder": "This memo is public",
+      "tip": "Transfer to another account",
+      "title": "Transfer to account",
+      "transfer_button": "Transfer",
+      "transfer_success": "Transfer successfully completed!",
+      "transfer_failed": "Transfer failed!"
+    },
+    "transfer_check": "Transfer to another account",
+    "transfer_to_savings": {
+      "tip_transfer": "Transfer your funds to savings in order to safe your funds if there is a suspicion that the password could have been compromised.",
+      "tip_withdraw": "You funds will be withdrawn within 3 days",
+      "title": "Savings",
+      "transfer": "Transfer",
+      "transfer_button": "Transfer",
+      "withdraw": "Withdraw"
+    }
+  },
+  "editor_toolbar": {
+    "add_image": "Add image",
+    "add_image_from_computer": "Add image from computer",
+    "add_image_via_link": "Add image via link",
+    "add_link": "Add link",
+    "add_video": "Add media (youtube/vimeo/coub...)",
+    "bold": "Toggle bold style",
+    "enter_link": "Enter the link",
+    "enter_the_link": "Enter the link",
+    "enter_video_link": "Enter YouTube/Vimeo link",
+    "header": "Make header",
+    "italic": "Toggle italic style",
+    "link_text": "Link title",
+    "link_value": "Link url",
+    "ordered_list": "Make ordered list",
+    "quote": "Toggle quote style",
+    "strikethrough": "Toggle strikethrough style",
+    "unordered_list": "Make list"
+  },
+  "error_page": {
+    "link_to_main": "Go to main",
+    "link_to_support": "Contact us support",
+    "oops": "Oops!",
+    "reload": "Reload",
+    "text": "Something went wrong. We've already received a notification about the problem and we are working to resolve it.",
+    "try_reload_text": "Try to reload the page."
+  },
+  "guard": {
+    "title": "Something went wrong",
+    "show_details": "Show details",
+    "hide_details": "Hide details",
+    "retry": "Retry",
+    "refresh": "Refresh page"
+  },
+  "faq_jsq": {
+    "email": "email",
+    "footer_message": "We will never ask for your private keys or money. If someone appears to be a member of the Golos.io team and asks for such information, please inform us",
+    "official_channels": "Official channels",
+    "page_description": "There you can find answers on all questions you may be curious about.",
+    "page_title": "FAQ",
+    "telegram": "telegram"
+  },
+  "favorites": {
+    "empty_block": "No favorites yet",
+    "empty_sub_text": "",
+    "info_block": "Favorites are private data"
+  },
+  "footer": {
+    "mobile_apps": "Mobile apps",
+    "social_networks": "Social networks",
+    "total_paid": "Total paid"
+  },
+  "g": {
+    "transaction_wait_failed": "Waiting for transaction failed",
+    "APP_NAME": "Golos",
+    "APP_NAME_support": "%(APP_NAME)s Support",
+    "account_name": "Account Name",
+    "account_name_chars_restrictions": "Account name should have only letters, digits, or dashes.",
+    "account_name_should_be_longer": "Account name should be longer.",
+    "account_name_should_be_shorter": "Account name should be shorter.",
+    "account_name_should_start_with_a_letter": "Account name should start with a letter.",
+    "account_not_found": "Account not found",
+    "account_updated": "Account Updated",
+    "active": "Active key",
+    "activity": "Activity",
+    "add": "Add",
+    "add_to_favorites": "Add to favourite",
+    "age": "age",
+    "amount": "Amount",
+    "and": "and",
+    "are_you_sure": "Are you sure?",
+    "ask": "Ask",
+    "auth_to_show": "Authorize to show",
+    "author_rewards": "Author rewards",
+    "authorize": "Authorize",
+    "authors_posts": "author's posts",
+    "authors_receive_rewards_for_upvotes": "",
+    "auto": "auto",
+    "back": "Back",
+    "back_to_top": "Back to top",
+    "backup_password_by_storing_it": "Back it up by storing in your password manager or a text file",
+    "balances": "Balances",
+    "bid": "Bid",
+    "blocked_user_content": "Контент удален по жалобе заинтересованного лица",
+    "blog": "Blog",
+    "browse": "Browse",
+    "buy": "Buy",
+    "buy_or_sell": "Buy or Sell",
+    "by": "by",
+    "cancel": "Cancel",
+    "cancel_subscription": "cancel subscription",
+    "change_password": "Change Password",
+    "clear": "Clear",
+    "clear_accounts_auths": "Clear multi-signature",
+    "click_to_generate_password": "Click to generate password",
+    "close": "Close",
+    "collapse": "Collapse",
+    "comments": "Comments",
+    "confirm_password": "Confirm Password",
+    "confirm_unfollow_user": "Are you sure you want to unfollow",
+    "continue": "continue",
+    "convert": "Convert",
+    "create_post": "Create post",
+    "created": "New First",
+    "current_password": "Current Password",
+    "date": "Date",
+    "delete": "Delete",
+    "dislike": "Dislike",
+    "dismiss": "Dismiss",
+    "documentation": "Documentation",
+    "donate": "Donate",
+    "edit": "Edit",
+    "edit_comment": "Edit comment",
+    "email": "Email",
+    "empty": "So far empty",
+    "empty_list": "Empty list",
+    "error": "Error",
+    "exclude": "Exclude",
+    "expand": "Expand",
+    "favorites": "Favorites",
+    "feed": "Feed",
+    "feeds": "Feeds",
+    "filter": "Filter",
+    "flag": "Flag",
+    "follow": "Follow",
+    "gender": {
+      "female": "Female",
+      "male": "Male"
+    },
+    "generated_password": "Generated Password",
+    "golos_fest": "Golos.io News",
+    "grid_posts": "Grid",
+    "hide": "Hide",
+    "hide_private_key": "Hide private key",
+    "hot": "Hot",
+    "i_saved_password": "I have securely saved my generated password",
+    "in": "in",
+    "incorrect_password": "Incorrect password",
+    "increase_post_reward_time_limit": "Cannot increase reward of post within the last minute before payout",
+    "invites": "Invites",
+    "ip_access_limit": "Only one account allowed per IP address every 10 minutes",
+    "like": "Like",
+    "list_posts": "List",
+    "loading": "Loading",
+    "login": "Login",
+    "logout": "Logout",
+    "market": "Market",
+    "mediafile": "mediafile",
+    "memo": "Memo key",
+    "messages": "Messages",
+    "more": "more",
+    "mute": "Mute",
+    "new": "new",
+    "new_password": "New Password",
+    "newer": "Newer",
+    "next": "Next",
+    "no": "No",
+    "no_topics_by_order_found": "No topics by %(order)s found ",
+    "note_contains_keys_error": "It seems that the memo includes password or private key. In this case your account can be taken by someone else. Please, edit the memo in order to make a transaction.",
+    "ok": "Ok",
+    "old": "Old First",
+    "older": "Older",
+    "or": "or",
+    "order_placed": "Order placed",
+    "owner": "Owner key",
+    "password": "Password",
+    "password_must_be_characters_or_more": "Password must be %(amount)s characters or more",
+    "passwords_do_not_match": "Passwords do not match",
+    "payouts": "Payouts",
+    "permissions": "Permissions",
+    "phone": "phone",
+    "please": "Please",
+    "please_email_questions_to": "Please email your questions to",
+    "post": "Post",
+    "post_as": "Post as",
+    "posting": "Posting key",
+    "posts": "Posts",
+    "preview": "Preview",
+    "previous": "Previous",
+    "price": "Price",
+    "print": "Print",
+    "promote": "Promote",
+    "promoted": "promoted",
+    "publish": "Publish",
+    "questions_answers": "Questions-answers",
+    "re": "RE",
+    "re2": "Re",
+    "re_enter_generate_password": "Re-enter Generated Password",
+    "read_only_mode": "Из-за технического обслуживания серверов мы работаем в режиме чтения. Извините за неудобство.",
+    "read_only_mode_notify": "Ведутся технические работы",
+    "receive": "Receive",
+    "recent_password": "Recent Password",
+    "recover_password": "Recover Account",
+    "recover_your_account": "recover your account",
+    "remove": "Remove",
+    "remove_from_favorites": "Remove from favourite",
+    "remove_vote": "Remove Vote",
+    "replied_to": "replied to",
+    "replies": "Replies",
+    "reply": "Reply",
+    "reply_has_published": "Reply has published",
+    "repost": "Repost",
+    "reputation": "Reputation",
+    "request": "request",
+    "required": "Required",
+    "rewards": "Rewards",
+    "save": "Save",
+    "saved": "Saved",
+    "search": "Search",
+    "select": "Select",
+    "select_topic": "Select Topic",
+    "sell": "Sell",
+    "server_returned_error": "server returned error",
+    "settings": "Settings",
+    "share_this_post": "Share this post",
+    "show": "Show",
+    "show_more": "Show more",
+    "show_more_2": "Show more",
+    "show_more_topics": "Show more topics",
+    "show_private_key": "Show private key",
+    "show_rules": "Show security rules",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "sign_up_action": "Sign Up",
+    "sign_up_to_vote_for_post_or_write_comments": "",
+    "since": "since",
+    "submit": "Submit",
+    "submit_a_story": "Submit a Story",
+    "subscriptions": "subscriptions",
+    "success_operation": "Operation completed successfully",
+    "tag": "Tag",
+    "tags_and_topics": "Tags",
+    "tags_filter": "Filter",
+    "team": "Team Golos.io",
+    "this_is_wrong_password": "This is the wrong password",
+    "this_will_update_usernames_authtype_key": "This will update %(username)s %(authType)s key",
+    "to": " to ",
+    "topics": "Topics",
+    "transaction_history": "Transaction History",
+    "transfer": "Transfer ",
+    "trending": "Trending",
+    "trending_topics": "Trending Topics",
+    "turn_back": "Turn back",
+    "type": "Type",
+    "understand_that_APP_NAME_cannot_recover_password": "I understand that %(APP_NAME)s cannot recover lost passwords",
+    "unfollow": "Unfollow",
+    "unknown": "Unknown",
+    "unmute": "Unmute",
+    "update": "Update",
+    "update_password": "Update Password",
+    "upstairs": "Upstairs",
+    "upvote": "Upvote",
+    "upvote_post": "Upvote post",
+    "username": "Username",
+    "username_does_not_exist": "Username does not exist",
+    "version": "Version",
+    "video": "Video",
+    "view_the_direct_parent": "View the direct parent",
+    "view_the_full_context": "View the full context",
+    "vote": "Vote",
+    "vote_currently_exists_user_must_be_indicate_a_to_reject_witness": "vote currently exists, user must be indicate a desire to reject witness",
+    "votes": "votes",
+    "voting_capacity": "Golos Power",
+    "wallet": "Wallet",
+    "warning": "warning",
+    "with_the_tag": "with the tag ",
+    "witness": "witness",
+    "write_your_story": "Write your story",
+    "yes": "Yes",
+    "you_need_private_password_or_key_not_a_public_key": "You need a private password or key (not a public key)"
+  },
+  "header_jsx": {
+    "home": "home"
+  },
+  "illegal_content": {
+    "due_to_illegal_content": "due to illegal content",
+    "terms_of_service": "Terms of service",
+    "terms_of_service_section": ", section 5.5.7",
+    "unavailable": "User is blocked"
+  },
+  "layout_switcher": {
+    "tooltip": {
+      "compact": "Compact list",
+      "grid": "Grid",
+      "list": "List"
+    }
+  },
+  "link_to": {
+    "telegram": "//tlg.name/golos_eng"
+  },
+  "loginform_jsx": {
+    "active_key_error": "Active key can’t be used for sign in. Use posting key or password.",
+    "authorize_for": "Authorize to complete the action",
+    "enter_your_username": "Enter your username",
+    "keep_me_logged_in": "Keep me logged in",
+    "login_by_owner_key": {
+      "first": "This password is bound to your account's owner key and can not be used to login to this site.",
+      "reset_keys": "update your password",
+      "second": "However, you can use it to",
+      "third": "to obtain a more secure set of keys"
+    },
+    "password_or_active": "Password or active key",
+    "password_or_owner": "Password or owner key",
+    "password_or_posting": "Password or posting key",
+    "password_warning": "Entered master password. For safety you could use private posting key.\n\nContinue with the password?",
+    "save_password_on_page": "Save password for this page"
+  },
+  "main_menu": {
+    "hot": "hot",
+    "trending": "trending"
+  },
+  "markdownviewer_jsx": {
+    "images_were_hidden_due_to_low_ratings": "Images were hidden due to low ratings."
+  },
+  "market_jsx": {
+    "24h_volume": "24h volume",
+    "action": "Action",
+    "available": "Available",
+    "buy_atleast_amount_for": "Buy at least %(min_to_receive)s for %(amount_to_sell)s (%(effectivePrice)s)",
+    "buy_orders": "Buy Orders",
+    "date_created": "Date Created",
+    "higher": "Higher",
+    "highest_bid": "Highest bid",
+    "last_price": "Last price",
+    "lower": "Lower",
+    "lowest_ask": "Lowest ask",
+    "open_orders": "Open Orders",
+    "order_cancel_confirm": "Cancel order %(order_id)s from %(user)s?",
+    "order_cancelled": "Order %(order_id)s cancelled.",
+    "sell_amount_for_atleast": "Sell %(amount_to_sell)s for at least %(min_to_receive)s (%(effectivePrice)s)",
+    "sell_orders": "Sell Orders",
+    "spread": "Spread",
+    "total": "Total",
+    "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Total %(DEBT_TOKEN_SHORT)s)",
+    "trade_history": "Trade History"
+  },
+  "messenger": {
+    "placeholder": {
+      "search": "Search",
+      "send_text_area": "Write your message here..."
+    }
+  },
+  "meta": {
+    "title": {
+      "common": {
+        "post": "%(title)s | Golos.io Blogs"
+      },
+      "profile": {
+        "activity": "Activity %(name)s | Golos.io Blogs",
+        "blog": "%(name)s | Golos.io Blogs",
+        "comments": "Comments %(name)s | Golos.io Blogs",
+        "default": "%(name)s | Golos.io Blogs",
+        "favorites": "Favorites %(name)s | Golos.io Blogs",
+        "messenger": "Messenger | Golos.io Blogs",
+        "replies": "Replies %(name)s | Golos.io Blogs",
+        "settings": "Settings %(name)s | Golos.io Blogs",
+        "wallet": "Wallet %(name)s | Golos.io Blogs"
+      }
+    }
+  },
+  "navigation": {
+    "about": "About",
+    "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
+    "delegates": "Delegates",
+    "explore": "Explore",
+    "faq": "FAQ",
+    "feedback": "Feedback",
+    "market": "Market",
+    "privacy_policy": "Privacy Policy",
+    "sell_LIQUID_TOKEN": "Sell %(LIQUID_TOKEN)s",
+    "sign_up": "Sign Up",
+    "stolen_account_recovery": "Stolen Accounts Recovery",
+    "technical_support": "Support",
+    "terms_of_service": "Terms of Service",
+    "welcome": "Welcome",
+    "witnesses": "Witnesses"
+  },
+  "notifications": {
+    "empty": "List is empty",
+    "activity": {
+      "curatorReward": "Curation reward of entry \"%(content)s\" %(amount)s",
+      "downvote": "Disliked your post \"%(content)s\"",
+      "downvote_comment": "Disliked your comment \"%(content)s\"",
+      "mention": "Mentioned you in entry \"%(content)s\"",
+      "reply": "Repliend your entry \"%(content)s\"",
+      "repost": "Made the repost of your entry \"%(content)s\"",
+      "reward": "Author reward of entry \"%(content)s\" %(amount)s",
+      "subscribe": "Has subscribed to your blog",
+      "transfer": "Has transferred to your account %(amount)s",
+      "unsubscribe": "Unsubscribed from your blog",
+      "upvote": "Liked your post \"%(content)s\"",
+      "upvote_comment": "Liked your comment \"%(content)s\"",
+      "witnessCancelVote": "Has removed your voice from your delegate node",
+      "witnessVote": "Voted for you as a delegate"
+    },
+    "online": {
+      "curatorReward": "Curation reward of entry %(content)s %(amount)s 💸",
+      "downvote": "%(user)s disliked your entry %(content)s 😵",
+      "mention": "%(user)s mentioned you in entry %(content)s 🤔",
+      "reply": "%(user)s repliend your entry %(content)s  ✌️",
+      "repost": "%(user)s made the repost of your entry %(content)s 😎",
+      "reward": "Author reward of entry %(content)s %(amount)s 💸",
+      "subscribe": "%(user)s has subscribed to your blog 😊",
+      "transfer": "%(user)s has transferred to your account %(amount)s 💸",
+      "unsubscribe": "%(user)s unsubscribed from your blog 😔",
+      "upvote": "%(user)s liked your entry %(content)s 👍",
+      "witnessCancelVote": "%(user)s has removed your voice from your delegate node 🙈",
+      "witnessVote": "%(user)s voted for you as a delegate 🔥"
+    }
+  },
+  "notifications_menu": {
+    "clear_notifications_history": "Mark all notifications as read"
+  },
+  "on_golos_from": "On Golos from",
+  "password_rules": {
+    "p1": "Do not lose your password.",
+    "p2": "Do not lose your password",
+    "p3": "We cannot recover your password.",
+    "p4": "If you can remember the password, it's not secure.",
+    "p5": "Use only randomly-generated passwords.",
+    "p6": "Do not tell anyone your password.",
+    "p7": "Always back up your password."
+  },
+  "payout_info": {
+    "author": "Author's payout",
+    "author_hint": "Reward for the post",
+    "beneficiary": "Beneficiary rewards",
+    "beneficiary_hint": "Reward to the golos.io beneficiary",
+    "curator": "Curator's payout",
+    "curator_hint": "Curating reward",
+    "payout": "Payout",
+    "potential_payout": "Potential payout"
+  },
+  "plurals": {
+    "view_count": {
+      "one": "1 view",
+      "other": "%(count)s views",
+      "zero": "no views"
+    }
+  },
+  "post": {
+    "hidden": "This post was hidden because of low rating.",
+    "not_found": "Post not found",
+    "loading_error": "Post loading failed"
+  },
+  "post_card": {
+    "add_to_favorites": "Add to favorites",
+    "pin_post": "Pin post",
+    "post_pinned": "Pinned post",
+    "remove_from_favorites": "Remove from favorites",
+    "repost": "Repost",
+    "unpin_post": "Unpin"
+  },
+  "post_card_menu": {
+    "share_in": "Share in"
+  },
+  "post_editor": {
+    "add_image": "Add image",
+    "body_length_over_limit_error": "Post body too big",
+    "cant_ends_with_special_char": "Title ended with dot is a bad taste",
+    "convert_to_html_warning": "Converting to HTML may cause some changes and markup loses. Are you sure?",
+    "convert_to_md_warning": "Converting to Markdown may cause some changes and markup loses. Are you sure?",
+    "edit_mode": "Go back to edit mode",
+    "empty_body_error": "Empty body",
+    "enter_body": "Write the post",
+    "enter_title": "Enter the title",
+    "html_editor": "HTML editor",
+    "image_preview_error": "Image loading error",
+    "new_editor": "New editor",
+    "nsfw_content": "Nsfw content",
+    "nsfw_hint": "Mark for not safe for children",
+    "payout_hint": "Payout method",
+    "payout_option_0": "Refuse payout",
+    "payout_option_0_hint": "Publish post without payout",
+    "payout_option_100": "Power of voice 100%%",
+    "payout_option_100_hint": "Receive all payout in Golos tokens",
+    "payout_option_50": "50%%/50%%",
+    "payout_option_50_hint": "Receive payout in Golos and GBG",
+    "preview_mode": "Preview mode",
+    "recommended_tags": "Recommended tags",
+    "set_curator_percent": "Set curator reward percent:",
+    "set_payout_type": "Select the type of payment for your post",
+    "tags_input_placeholder": "Add tags",
+    "text_placeholder": "Start your story...",
+    "title_placeholder": "Enter the title",
+    "update": "Update",
+    "wait_uploading": "Images uploading..."
+  },
+  "post_jsx": {
+    "comments_were_hidden_due_to_low_ratings": "Comments were hidden due to low ratings",
+    "timeDesc": "First new",
+    "time": "First old",
+    "now_showing_comments_with_low_ratings": "Now showing comments with low ratings",
+    "popularity": "Popularity",
+    "sort_by": "Sort by",
+    "sort_order": "Sort Order",
+    "voices": "Voices"
+  },
+  "postfull_jsx": {
+    "deadline_for_recovery_is": "Deadline for recovery is",
+    "i_understand_dont_show_again": "I understand, don't show me again",
+    "if_you_did_not_make_this_change": "If you did not make this change please",
+    "owhership_changed_on": "Ownership Changed On",
+    "share": "Share",
+    "share_in_social_networks": "Share in soc. networks",
+    "stop_power_down": "Stop power down",
+    "your_password_permissions_were_reduced": "Your password permissions were reduced"
+  },
+  "registration_banner_jsx": {
+    "community_votes": "Community votes",
+    "create_an_account": "Create an account",
+    "everything_is_simple": "Everything is simple:",
+    "faq": "FAQ",
+    "new_to_golos": "New to Golos?",
+    "to_learn_more": "To learn morn",
+    "write_a_post": "Write a post on Golos.io",
+    "you_get_rewards": "You get rewards"
+  },
+  "reply": {
+    "comments_count": "Comments count"
+  },
+  "reply_editor": {
+    "are_you_sure_you_want_to_clear_this_form": "Are you sure you want to clear this form?",
+    "check_this_to_auto_upvote_your_post": "Check this to auto-upvote your post",
+    "decline_payout": "Decline Payout",
+    "default_50_50": "Default (50%% / 50%%)",
+    "draft_saved": "Draft saved.",
+    "editor": "Editor",
+    "exceeds_maximum_length": "Exceeds maximum length (%(maxKb)sKB)",
+    "feedback_placeholder": "Write...",
+    "feedback_welcome": {
+      "dear_users": "Dear users!",
+      "message1": "We do our best to create fun & creative activities.",
+      "message2": "But, sometimes, technical errors can occur… If you find any errors in our lessons, please send us your feedback!",
+      "message3": "You can use this ",
+      "message4": " button to create new post.",
+      "message5": "THANK YOU! Your feedback is important for us!"
+    },
+    "image_upload": "Image upload",
+    "including_the_category": "(including the category '%(rootCategory)s')",
+    "insert_images_by_dragging_dropping": "Insert images by dragging & dropping, ",
+    "markdown_styling_guide": "Markdown Styling Guide",
+    "pasting_from_the_clipboard": "pasting from the clipboard, ",
+    "placeholder": "Tile",
+    "please_insert_only_image_files": "Please insert only image files",
+    "power_up_100": "Power Up 100%%",
+    "questions_or_requests": "You can always send detailed questions or requests to us by e-mail:",
+    "selecting_them": "selecting them",
+    "shorten_title": "Shorten title",
+    "support_by_telegram": "In addition, for operational technical assistance, we have introduced a Golos Support Service in Telegram",
+    "update_post": "Update Post",
+    "uploading": "Uploading"
+  },
+  "settings_jsx": {
+    "about_is_too_long": "About is too long",
+    "account": {
+      "placeholders": {
+        "about": "What did I learn. Where and by whom I work. My projects. Interests. The family. Life credo",
+        "gender": "Select your gender",
+        "location": "Enter your city",
+        "name": "Full name",
+        "social_facebook": "Link to Facebook",
+        "social_instagram": "Link to Instagram",
+        "social_twitter": "Link to Twitter",
+        "social_vkontakte": "Link to Vkontakte",
+        "website": "Link to website"
+      }
+    },
+    "always_hide": "Always hide",
+    "always_show": "Always show",
+    "always_warn": "Always warn",
+    "choose_currency": "Choose currency",
+    "choose_language": "Choose language",
+    "cover_image_url": "Cover image url",
+    "default_voting_power_tip": "Voting power %(value)s%%",
+    "invalid_url": "Invalid URL",
+    "keys": {
+      "info": "It's important to keep your password key. Golos.io does not store your passwords. Be sure to securely store your key.",
+      "tabs": {
+        "keys": "Keys",
+        "new": "New key"
+      }
+    },
+    "location_is_too_long": "Location is too long",
+    "muted_users": "Muted Users",
+    "name_is_too_long": "Name is too long",
+    "name_must_not_begin_with": "Name must not begin with @",
+    "not_safe_for_work_nsfw_content": "Not safe for work (NSFW) content",
+    "notifications": {
+      "allOnline": "Enable/disable all online notifications",
+      "allOnlineLabel": "Instant notifications on the site",
+      "award": "Author's award",
+      "curatorAward": "Curating award",
+      "flag": "Vote against",
+      "mention": "Mention in a post or comments",
+      "reply": "Reply to a post or comment",
+      "repost": "Repost",
+      "subscribe": "Subscribe to the blog",
+      "transfer": "Transfer",
+      "unsubscribe": "Unsubscribe from blog",
+      "vote": "Vote for",
+      "witnessCancelVote": "Cancel vote for witness",
+      "witnessVote": "Vote for witness"
+    },
+    "private_post_display_settings": "Private Post Display Settings",
+    "profile_about": "About",
+    "profile_email": "Email",
+    "profile_gender": {
+      "genders": {
+        "female": "Female",
+        "male": "Male",
+        "undefined": "Not specified"
+      },
+      "title": "Gender"
+    },
+    "profile_image_url": "Profile picture url",
+    "profile_location": "Location",
+    "profile_name": "Display Name",
+    "profile_username": "Username",
+    "profile_website": "Website",
+    "public_profile_settings": "Public Profile Settings",
+    "reset": "Reset",
+    "rounding_numbers": {
+      "info_message": "Displaying awards",
+      "integer": "Round to integer",
+      "one_decimal": "One decimal place after comma",
+      "three_decimal": "Three decimal places",
+      "two_decimal": "Two decimal places"
+    },
+    "self_vote_default": "Vote by default for your publication",
+    "social_networks": "Social networks",
+    "tabs": {
+      "account": "Account",
+      "common": "Common",
+      "keys": "Keys",
+      "notifications": "Notifications"
+    },
+    "update": "Update",
+    "voting": "Voting settings",
+    "voting_power_by_default": "Using voting power settings",
+    "website_url_is_too_long": "Website URL is too long"
+  },
+  "start_mobile_app": {
+    "close_forever": "Close forever",
+    "close_once": "Close once",
+    "open_in_app": "Open in Application"
+  },
+  "submit_a_story": {
+    "markdown_not_supported": "Markdown is not supported here",
+    "welcome_to_the_blockchain": "Welcome to the Blockchain!"
+  },
+  "tags": {
+    "popularTags": "Popular tags",
+    "selectedTags": "Tags, that you choosed",
+    "show_more_tags": "Show more"
+  },
+  "token_names": {
+    "DEBT_TOKEN": "Gold Backed Golos",
+    "DEBT_TOKEN2": "Gold",
+    "LIQUID_TOKEN": "Golos",
+    "LIQUID_TOKEN_PLURALIZE": {
+      "one": "Golos",
+      "other": "Golos",
+      "zero": "Golos"
+    },
+    "LIQUID_TOKEN_UPPERCASE": "GOLOS",
+    "TOKEN_WORTH": "~1 mg of gold",
+    "VESTING_TOKEN": "Golos Power",
+    "VESTING_TOKEN3": "GP",
+    "VESTING_TOKENS": "Golos Power",
+    "VESTING_TOKEN_PLURALIZE": {
+      "one": "Golos Power",
+      "other": "Golos Power",
+      "zero": "Golos Power"
+    }
+  },
+  "user_profile": {
+    "account_summary": {
+      "about": "About",
+      "comment_count": {
+        "one": "Comment",
+        "other": "Comments",
+        "zero": "Comments"
+      },
+      "followers": "Followers",
+      "following": "Following",
+      "gender": "gender",
+      "post_count": {
+        "one": "Post",
+        "other": "Posts",
+        "zero": "posts"
+      },
+      "registered": "Registered on",
+      "reputation": "Reputation",
+      "status": {
+        "crucian": "crucian",
+        "dolphin": "dolphin",
+        "minnow": "minnow",
+        "orca": "orca",
+        "whale": "whale"
+      },
+      "title": "Account Summary"
+    },
+    "account_tokens": {
+      "title": "Account Value",
+      "tokens": {
+        "delegated": "Delegated",
+        "savings": "Savings",
+        "wallet": "Wallet"
+      }
+    },
+    "actions": {
+      "buy_or_sell": "Buy or Sell",
+      "convert": "Convert",
+      "delegate_vesting_shares": "Delegate Golos Power",
+      "transfer": "Transfer",
+      "transfer_to_savings": "Transfer to savings"
+    },
+    "change_cover": "Change cover",
+    "explore_APP_NAME": "Explore %(APP_NAME)s",
+    "follower_count": {
+      "one": "1 follower",
+      "other": "%(count)s followers",
+      "zero": "No followers"
+    },
+    "followers": "Followers",
+    "following_count": {
+      "one": "1 following",
+      "other": "%(count)s following",
+      "zero": "Not following anybody"
+    },
+    "full_faq": "The full F.A.Q on %(APP_NAME)s",
+    "if_you_recently_added_new_users_to_follow": "If you recently added new users to follow, your personalized feed will populate once new content is available.",
+    "post_count": {
+      "one": "1 post",
+      "other": "%(count)s posts",
+      "zero": "No posts"
+    },
+    "select_image": "Choose image",
+    "unknown_account": "Unknown Account",
+    "user_hasnt_followed_anything_yet": "Looks like %(name)s might not be following anyone yet! If %(name)s recently added new users to follow, their personalized feed will populate once new content is available.",
+    "users_blog": "%(name)s's blog",
+    "users_posts": "%(name)s's posts",
+    "users_wallet": "%(name)s's wallet"
+  },
+  "user_saga_js": {
+    "image_upload": {
+      "error": {
+        "account_is_not_found": "Account is not found",
+        "err_uploading": "Error uploading",
+        "image_size_is_too_large": "Image size is too large",
+        "login_first": "Please logged in first ...",
+        "login_with_posting_key": "Login with your posting key",
+        "server_unavailable": "The server is unavailable",
+        "signature_did_not_verify": "Signature did not verify",
+        "unsupported_posting_key": "Unsupported posting key configuration",
+        "upload_failed": "Upload failed",
+        "upload_only_images": "Upload only images"
+      },
+      "uploading": "Uploading"
+    }
+  },
+  "user_wallet": {
+    "content": {
+      "donate": "Donate",
+      "empty_list": "List is empty",
+      "failed_load": "Failed to load",
+      "feature_not_implemented": "This feature is not yet implemented",
+      "from": "From",
+      "nothing_here_yet": "Nothing here yet",
+      "power_up": "Power Up",
+      "tip": {
+        "cancel_delegation": "Cancel delegation",
+        "edit_delegation": "Edit delegation",
+        "start_commenting": "Start commenting and upvoting to get rewards",
+        "start_writing": "Start writing posts to get rewards",
+        "user_has_no_comments": "User haven't started commenting and upvoting to get rewards",
+        "user_has_no_posts": "User haven't started writing posts to get rewards."
+      },
+      "to": "To",
+      "transfer_to_savings": {
+        "from": "Withdraw from savings",
+        "to": "Transfer to savings"
+      }
+    },
+    "tab_title": {
+      "all": "All",
+      "author_rewards": "Author Rewards",
+      "curation_rewards": "Curation Rewards",
+      "delegation": "Delegation",
+      "delegation_rewards": "Delegated GP",
+      "gbg": "GBG",
+      "golos": "Golos",
+      "golos_power": "Golos Power",
+      "received": "Received",
+      "rewards": "Rewards",
+      "savings": "Savings",
+      "sent": "Sent",
+      "transaction_history": "Transaction History"
+    }
+  },
+  "userkeys_jsx": {
+    "posting_key_is_required_it_should_be_different": "The posting key is used for posting and voting. It should be different from the active and owner keys.",
+    "private": "Private",
+    "private_something_key": "Private %(key)s Key",
+    "public": "Public",
+    "public_something_key": "Public %(key)s Key",
+    "the_active_key_is_used_to_make_transfers_and_place_orders": "The active key is used to make transfers and place orders in the internal market.",
+    "the_memo_key_is_used_to_create_and_read_memos": "The memo key is used to create and read memos.",
+    "the_owner_key_is_required_to_change_other_keys": "The owner key is the master key for the account and is required to change the other keys.",
+    "the_private_key_or_password_should_be_kept_offline": "The private key or password for the owner key should be kept offline as much as possible."
+  },
+  "view_count": {
+    "view_count": "Views count"
+  },
+  "voting_jsx": {
+    "begin_recovery": "Begin Recovery",
+    "changing_to_a_downvote": "Changing to a Down-Vote",
+    "changing_to_an_upvote": "Changing to an Up-Vote",
+    "confirm_flag": "Confirm Flag",
+    "curators": "Curators",
+    "downvote": "Downvote",
+    "past_payouts": "Past Payouts",
+    "post_as": "Post as",
+    "potential_payout": "Potential Payout",
+    "raw_html": "Raw HTML",
+    "removing_your_vote": "Removing your vote",
+    "search": "Search",
+    "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
+  },
+  "wallet": {
+    "cancel": "Cancel",
+    "next_power_down_date": "The next power down is scheduled to happen ",
+    "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",
+    "success": "Operation completed successfully"
+  },
+  "welcome_page": {
+    "about": {
+      "item": {
+        "first": "No paid articles, only unique ideas",
+        "first_neg": "",
+        "fourth": "No moderation, you’re the owner of all the info you share",
+        "fourth_neg": "",
+        "second": "No banners and ads, only posts and comments",
+        "second_neg": "",
+        "third": "User-friendly feeds",
+        "third_neg": ""
+      },
+      "subheader_1": "Golos.io is the only place on the web where people share their thoughts and post unique articles.",
+      "subheader_2": "It’s the platform, that enables the community to act and create meanings."
+    },
+    "congratulations": " We’re happy you joined us!",
+    "differences_button": "Read more",
+    "differences_title": "Why we are different",
+    "greeting_1": "Welcome",
+    "greeting_2": "to Golos.io",
+    "initial_header": "What to read",
+    "initial_subheader": "Popular topics",
+    "link": {
+      "envelope": "Send us an e-mail",
+      "monitor": "FAQ",
+      "telegram": "Ask in Telegram",
+      "wikipedia": "Visit the WIKI"
+    },
+    "mobile_1": "You can use web",
+    "mobile_2": "or mobile (android) version",
+    "mobile_3": "of the Golos.io platform",
+    "questions_header": "Do you have any other questions?",
+    "questions_subheader": "Check out the helpful links",
+    "reviews": "Community voices"
+  },
+  "witnesses_jsx": {
+    "account_creation_fee": "Account creation fee",
+    "allow_distribute_auction_reward": "Allow distribute auction reward",
+    "allow_return_auction_reward_to_fund": "Allow return auction reward to fund",
+    "approval": "Votes",
+    "apr": "APR",
+    "auction_window_size": "Auction window size",
+    "block_size": "Block size",
+    "comments_per_window": "Comments per window",
+    "comments_window": "Comments window",
+    "create_account_delegation_time": "Create account delegation time",
+    "create_account_min_delegation": "Create account min delegation",
+    "create_account_min_golos_fee": "Create account min golos fee",
+    "curation_reward_curve": "Curation reward curve",
+    "custom_ops_bandwidth_multiplier": "Custom ops bandwidth multiplier",
+    "if_you_want_to_vote_outside_of_top_enter_account_name": "If you would like to vote for a witness outside of the top 100, enter the account name below to cast a vote",
+    "information": "Information",
+    "last_block1": "Last",
+    "last_block2": "block",
+    "max_curation_percent": "Max curation percent",
+    "max_delegated_vesting_interest_rate": "Max delegated vesting interest rate",
+    "max_referral_break_fee": "Max referral break fee",
+    "max_referral_interest_rate": "Max referral interest rate",
+    "max_referral_term_sec": "Max referral term sec",
+    "maximum_block_size": "Maximum Block Size",
+    "min_curation_percent": "Min curation percent",
+    "min_delegation": "Min delegation",
+    "min_referral_break_fee": "Min referral break fee",
+    "missed_1": "Missed",
+    "missed_2": "blocks",
+    "no_price_feed": "Withness did not publish the price feed",
+    "posts_window": "Posts window",
+    "price_feed": "Price feed",
+    "props": "Props",
+    "proxy_update_error": "Your proxy was not updated",
+    "rating": "Rating",
+    "reg_fee": "Registration fee",
+    "remove_vote": "Remove vote",
+    "sbg_interest_rate": "SBD interest rate",
+    "top_witnesses": "Witness Voting",
+    "version": "Version",
+    "vote": "Vote for",
+    "votes_per_window": "Votes per window",
+    "votes_window": "Votes window",
+    "witness": "Witness",
+    "witness_deactive": "Withness suspended the signature of the blocks",
+    "witness_proxy_set": "Set proxy",
+    "witness_thread": "witness thread",
+    "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 witnesses",
+    "you_have_votes_remaining": "",
+    "you_have_votes_remaining_count": {
+      "one": "You have 1 vote remaining",
+      "other": "You have %(count)s votes remaining",
+      "zero": "You have no votes remaining"
+    }
+  },
+  "settings": {
+    "update_success": "Saved Successfully"
+  },
+  "registration": {
+    "next": "Next",
+    "enter_your_phone_number": "Enter your phone number",
+    "enter_phone_number": "Enter phone number",
+    "choose_country": "Choose country",
+    "send_verification_code": "Send verification code",
+    "resend_send_verification_code": "Resend verification code",
+    "enter_verification_code_from_sms": "Enter verification code from SMS",
+    "enter_desired_username": "Enter desired username",
+    "enter_username": "Enter username",
+    "master_key_has_been_generated": "Master key has been generated",
+    "you_need_master_key_for_sign_in": "You need master key for Sign in",
+    "start": "Start!",
+    "congratulations": "Congratulations!",
+    "you_have_been_registered_successfully": "You've been registered successfully",
+    "errors": {
+      "phone_number_field_is_empty": "Phone number field is empty.",
+      "too_short_phone_number": "Too short phone number.",
+      "country_field_is_empty": "Country field is empty.",
+      "you_should_fill_every_ceil": "You should fill every ceil.",
+      "username_field_is_empty": "Username field is empty.",
+      "not_more_than_12_symbols": "Not more than 12 symbols.",
+      "not_more_than_one_dot": "Not more than one dot.",
+      "code_did_not_resend": "Code didn't resend. Try again."
+    }
+  }
+}

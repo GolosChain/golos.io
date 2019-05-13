@@ -1,0 +1,1219 @@
+{
+  "list": [
+    {
+      "code": "93",
+      "countryCode": "AF",
+      "country": "Afghanistan"
+    },
+    {
+      "code": "358",
+      "countryCode": "AX",
+      "country": "Åland Islands"
+    },
+    {
+      "code": "355",
+      "countryCode": "AL",
+      "country": "Albania"
+    },
+    {
+      "code": "213",
+      "countryCode": "DZ",
+      "country": "Algeria"
+    },
+    {
+      "code": "1",
+      "countryCode": "AS",
+      "country": "American Samoa"
+    },
+    {
+      "code": "376",
+      "countryCode": "AD",
+      "country": "Andorra"
+    },
+    {
+      "code": "244",
+      "countryCode": "AO",
+      "country": "Angola"
+    },
+    {
+      "code": "1",
+      "countryCode": "AI",
+      "country": "Anguilla"
+    },
+    {
+      "code": "1",
+      "countryCode": "AG",
+      "country": "Antigua and Barbuda"
+    },
+    {
+      "code": "54",
+      "countryCode": "AR",
+      "country": "Argentina"
+    },
+    {
+      "code": "374",
+      "countryCode": "AM",
+      "country": "Armenia"
+    },
+    {
+      "code": "297",
+      "countryCode": "AW",
+      "country": "Aruba"
+    },
+    {
+      "code": "61",
+      "countryCode": "AU",
+      "country": "Australia"
+    },
+    {
+      "code": "43",
+      "countryCode": "AT",
+      "country": "Austria"
+    },
+    {
+      "code": "994",
+      "countryCode": "AZ",
+      "country": "Azerbaijan"
+    },
+    {
+      "code": "1",
+      "countryCode": "BS",
+      "country": "Bahamas"
+    },
+    {
+      "code": "973",
+      "countryCode": "BH",
+      "country": "Bahrain"
+    },
+    {
+      "code": "880",
+      "countryCode": "BD",
+      "country": "Bangladesh"
+    },
+    {
+      "code": "1",
+      "countryCode": "BB",
+      "country": "Barbados"
+    },
+    {
+      "code": "375",
+      "countryCode": "BY",
+      "country": "Belarus"
+    },
+    {
+      "code": "32",
+      "countryCode": "BE",
+      "country": "Belgium"
+    },
+    {
+      "code": "501",
+      "countryCode": "BZ",
+      "country": "Belize"
+    },
+    {
+      "code": "229",
+      "countryCode": "BJ",
+      "country": "Benin"
+    },
+    {
+      "code": "1",
+      "countryCode": "BM",
+      "country": "Bermuda"
+    },
+    {
+      "code": "975",
+      "countryCode": "BT",
+      "country": "Bhutan"
+    },
+    {
+      "code": "591",
+      "countryCode": "BO",
+      "country": "Bolivia"
+    },
+    {
+      "code": "387",
+      "countryCode": "BA",
+      "country": "Bosnia and Herzegovina"
+    },
+    {
+      "code": "267",
+      "countryCode": "BW",
+      "country": "Botswana"
+    },
+    {
+      "code": "55",
+      "countryCode": "BR",
+      "country": "Brazil"
+    },
+    {
+      "code": "246",
+      "countryCode": "IO",
+      "country": "British Indian Ocean Territory"
+    },
+    {
+      "code": "1",
+      "countryCode": "VG",
+      "country": "British Virgin Islands"
+    },
+    {
+      "code": "673",
+      "countryCode": "BN",
+      "country": "Brunei"
+    },
+    {
+      "code": "359",
+      "countryCode": "BG",
+      "country": "Bulgaria"
+    },
+    {
+      "code": "226",
+      "countryCode": "BF",
+      "country": "Burkina Faso"
+    },
+    {
+      "code": "257",
+      "countryCode": "BI",
+      "country": "Burundi"
+    },
+    {
+      "code": "855",
+      "countryCode": "KH",
+      "country": "Cambodia"
+    },
+    {
+      "code": "237",
+      "countryCode": "CM",
+      "country": "Cameroon"
+    },
+    {
+      "code": "1",
+      "countryCode": "CA",
+      "country": "Canada"
+    },
+    {
+      "code": "238",
+      "countryCode": "CV",
+      "country": "Cape Verde"
+    },
+    {
+      "code": "599",
+      "countryCode": "BQ",
+      "country": "Caribbean Netherlands"
+    },
+    {
+      "code": "1",
+      "countryCode": "KY",
+      "country": "Cayman Islands"
+    },
+    {
+      "code": "236",
+      "countryCode": "CF",
+      "country": "Central African Republic"
+    },
+    {
+      "code": "235",
+      "countryCode": "TD",
+      "country": "Chad"
+    },
+    {
+      "code": "56",
+      "countryCode": "CL",
+      "country": "Chile"
+    },
+    {
+      "code": "86",
+      "countryCode": "CN",
+      "country": "China"
+    },
+    {
+      "code": "61",
+      "countryCode": "CX",
+      "country": "Christmas Island"
+    },
+    {
+      "code": "61",
+      "countryCode": "CC",
+      "country": "Cocos [Keeling] Islands"
+    },
+    {
+      "code": "57",
+      "countryCode": "CO",
+      "country": "Colombia"
+    },
+    {
+      "code": "269",
+      "countryCode": "KM",
+      "country": "Comoros"
+    },
+    {
+      "code": "243",
+      "countryCode": "CD",
+      "country": "Democratic Republic Congo"
+    },
+    {
+      "code": "242",
+      "countryCode": "CG",
+      "country": "Republic of Congo"
+    },
+    {
+      "code": "682",
+      "countryCode": "CK",
+      "country": "Cook Islands"
+    },
+    {
+      "code": "506",
+      "countryCode": "CR",
+      "country": "Costa Rica"
+    },
+    {
+      "code": "225",
+      "countryCode": "CI",
+      "country": "Côte d'Ivoire"
+    },
+    {
+      "code": "385",
+      "countryCode": "HR",
+      "country": "Croatia"
+    },
+    {
+      "code": "53",
+      "countryCode": "CU",
+      "country": "Cuba"
+    },
+    {
+      "code": "599",
+      "countryCode": "CW",
+      "country": "Curaçao"
+    },
+    {
+      "code": "357",
+      "countryCode": "CY",
+      "country": "Cyprus"
+    },
+    {
+      "code": "420",
+      "countryCode": "CZ",
+      "country": "Czech Republic"
+    },
+    {
+      "code": "45",
+      "countryCode": "DK",
+      "country": "Denmark"
+    },
+    {
+      "code": "253",
+      "countryCode": "DJ",
+      "country": "Djibouti"
+    },
+    {
+      "code": "1",
+      "countryCode": "DM",
+      "country": "Dominica"
+    },
+    {
+      "code": "1",
+      "countryCode": "DO",
+      "country": "Dominican Republic"
+    },
+    {
+      "code": "670",
+      "countryCode": "TL",
+      "country": "East Timor"
+    },
+    {
+      "code": "593",
+      "countryCode": "EC",
+      "country": "Ecuador"
+    },
+    {
+      "code": "20",
+      "countryCode": "EG",
+      "country": "Egypt"
+    },
+    {
+      "code": "503",
+      "countryCode": "SV",
+      "country": "El Salvador"
+    },
+    {
+      "code": "240",
+      "countryCode": "GQ",
+      "country": "Equatorial Guinea"
+    },
+    {
+      "code": "291",
+      "countryCode": "ER",
+      "country": "Eritrea"
+    },
+    {
+      "code": "372",
+      "countryCode": "EE",
+      "country": "Estonia"
+    },
+    {
+      "code": "251",
+      "countryCode": "ET",
+      "country": "Ethiopia"
+    },
+    {
+      "code": "500",
+      "countryCode": "FK",
+      "country": "Falkland Islands [Islas Malvinas]"
+    },
+    {
+      "code": "298",
+      "countryCode": "FO",
+      "country": "Faroe Islands"
+    },
+    {
+      "code": "679",
+      "countryCode": "FJ",
+      "country": "Fiji"
+    },
+    {
+      "code": "358",
+      "countryCode": "FI",
+      "country": "Finland"
+    },
+    {
+      "code": "33",
+      "countryCode": "FR",
+      "country": "France"
+    },
+    {
+      "code": "594",
+      "countryCode": "GF",
+      "country": "French Guiana"
+    },
+    {
+      "code": "689",
+      "countryCode": "PF",
+      "country": "French Polynesia"
+    },
+    {
+      "code": "241",
+      "countryCode": "GA",
+      "country": "Gabon"
+    },
+    {
+      "code": "220",
+      "countryCode": "GM",
+      "country": "Gambia"
+    },
+    {
+      "code": "995",
+      "countryCode": "GE",
+      "country": "Georgia"
+    },
+    {
+      "code": "49",
+      "countryCode": "DE",
+      "country": "Germany"
+    },
+    {
+      "code": "233",
+      "countryCode": "GH",
+      "country": "Ghana"
+    },
+    {
+      "code": "350",
+      "countryCode": "GI",
+      "country": "Gibraltar"
+    },
+    {
+      "code": "30",
+      "countryCode": "GR",
+      "country": "Greece"
+    },
+    {
+      "code": "299",
+      "countryCode": "GL",
+      "country": "Greenland"
+    },
+    {
+      "code": "1",
+      "countryCode": "GD",
+      "country": "Grenada"
+    },
+    {
+      "code": "590",
+      "countryCode": "GP",
+      "country": "Guadeloupe"
+    },
+    {
+      "code": "1",
+      "countryCode": "GU",
+      "country": "Guam"
+    },
+    {
+      "code": "502",
+      "countryCode": "GT",
+      "country": "Guatemala"
+    },
+    {
+      "code": "44",
+      "countryCode": "GG",
+      "country": "Guernsey"
+    },
+    {
+      "code": "224",
+      "countryCode": "GN",
+      "country": "Guinea Conakry"
+    },
+    {
+      "code": "245",
+      "countryCode": "GW",
+      "country": "Guinea-Bissau"
+    },
+    {
+      "code": "592",
+      "countryCode": "GY",
+      "country": "Guyana"
+    },
+    {
+      "code": "509",
+      "countryCode": "HT",
+      "country": "Haiti"
+    },
+    {
+      "code": "672",
+      "countryCode": "HM",
+      "country": "Heard Island and McDonald Islands"
+    },
+    {
+      "code": "504",
+      "countryCode": "HN",
+      "country": "Honduras"
+    },
+    {
+      "code": "852",
+      "countryCode": "HK",
+      "country": "Hong Kong"
+    },
+    {
+      "code": "36",
+      "countryCode": "HU",
+      "country": "Hungary"
+    },
+    {
+      "code": "354",
+      "countryCode": "IS",
+      "country": "Iceland"
+    },
+    {
+      "code": "91",
+      "countryCode": "IN",
+      "country": "India"
+    },
+    {
+      "code": "62",
+      "countryCode": "ID",
+      "country": "Indonesia"
+    },
+    {
+      "code": "98",
+      "countryCode": "IR",
+      "country": "Iran"
+    },
+    {
+      "code": "964",
+      "countryCode": "IQ",
+      "country": "Iraq"
+    },
+    {
+      "code": "353",
+      "countryCode": "IE",
+      "country": "Ireland"
+    },
+    {
+      "code": "44",
+      "countryCode": "IM",
+      "country": "Isle of Man"
+    },
+    {
+      "code": "972",
+      "countryCode": "IL",
+      "country": "Israel"
+    },
+    {
+      "code": "39",
+      "countryCode": "IT",
+      "country": "Italy"
+    },
+    {
+      "code": "1",
+      "countryCode": "JM",
+      "country": "Jamaica"
+    },
+    {
+      "code": "81",
+      "countryCode": "JP",
+      "country": "Japan"
+    },
+    {
+      "code": "962",
+      "countryCode": "JO",
+      "country": "Jordan"
+    },
+    {
+      "code": "7",
+      "countryCode": "KZ",
+      "country": "Kazakhstan"
+    },
+    {
+      "code": "254",
+      "countryCode": "KE",
+      "country": "Kenya"
+    },
+    {
+      "code": "686",
+      "countryCode": "KI",
+      "country": "Kiribati"
+    },
+    {
+      "code": "965",
+      "countryCode": "KW",
+      "country": "Kuwait"
+    },
+    {
+      "code": "996",
+      "countryCode": "KG",
+      "country": "Kyrgyzstan"
+    },
+    {
+      "code": "856",
+      "countryCode": "LA",
+      "country": "Laos"
+    },
+    {
+      "code": "371",
+      "countryCode": "LV",
+      "country": "Latvia"
+    },
+    {
+      "code": "961",
+      "countryCode": "LB",
+      "country": "Lebanon"
+    },
+    {
+      "code": "266",
+      "countryCode": "LS",
+      "country": "Lesotho"
+    },
+    {
+      "code": "231",
+      "countryCode": "LR",
+      "country": "Liberia"
+    },
+    {
+      "code": "218",
+      "countryCode": "LY",
+      "country": "Libya"
+    },
+    {
+      "code": "423",
+      "countryCode": "LI",
+      "country": "Liechtenstein"
+    },
+    {
+      "code": "370",
+      "countryCode": "LT",
+      "country": "Lithuania"
+    },
+    {
+      "code": "352",
+      "countryCode": "LU",
+      "country": "Luxembourg"
+    },
+    {
+      "code": "853",
+      "countryCode": "MO",
+      "country": "Macau"
+    },
+    {
+      "code": "389",
+      "countryCode": "MK",
+      "country": "Macedonia"
+    },
+    {
+      "code": "261",
+      "countryCode": "MG",
+      "country": "Madagascar"
+    },
+    {
+      "code": "265",
+      "countryCode": "MW",
+      "country": "Malawi"
+    },
+    {
+      "code": "60",
+      "countryCode": "MY",
+      "country": "Malaysia"
+    },
+    {
+      "code": "960",
+      "countryCode": "MV",
+      "country": "Maldives"
+    },
+    {
+      "code": "223",
+      "countryCode": "ML",
+      "country": "Mali"
+    },
+    {
+      "code": "356",
+      "countryCode": "MT",
+      "country": "Malta"
+    },
+    {
+      "code": "692",
+      "countryCode": "MH",
+      "country": "Marshall Islands"
+    },
+    {
+      "code": "596",
+      "countryCode": "MQ",
+      "country": "Martinique"
+    },
+    {
+      "code": "222",
+      "countryCode": "MR",
+      "country": "Mauritania"
+    },
+    {
+      "code": "230",
+      "countryCode": "MU",
+      "country": "Mauritius"
+    },
+    {
+      "code": "262",
+      "countryCode": "YT",
+      "country": "Mayotte"
+    },
+    {
+      "code": "52",
+      "countryCode": "MX",
+      "country": "Mexico"
+    },
+    {
+      "code": "691",
+      "countryCode": "FM",
+      "country": "Micronesia"
+    },
+    {
+      "code": "373",
+      "countryCode": "MD",
+      "country": "Moldova"
+    },
+    {
+      "code": "377",
+      "countryCode": "MC",
+      "country": "Monaco"
+    },
+    {
+      "code": "976",
+      "countryCode": "MN",
+      "country": "Mongolia"
+    },
+    {
+      "code": "382",
+      "countryCode": "ME",
+      "country": "Montenegro"
+    },
+    {
+      "code": "1",
+      "countryCode": "MS",
+      "country": "Montserrat"
+    },
+    {
+      "code": "212",
+      "countryCode": "MA",
+      "country": "Morocco"
+    },
+    {
+      "code": "258",
+      "countryCode": "MZ",
+      "country": "Mozambique"
+    },
+    {
+      "code": "95",
+      "countryCode": "MM",
+      "country": "Myanmar [Burma]"
+    },
+    {
+      "code": "264",
+      "countryCode": "NA",
+      "country": "Namibia"
+    },
+    {
+      "code": "674",
+      "countryCode": "NR",
+      "country": "Nauru"
+    },
+    {
+      "code": "977",
+      "countryCode": "NP",
+      "country": "Nepal"
+    },
+    {
+      "code": "31",
+      "countryCode": "NL",
+      "country": "Netherlands"
+    },
+    {
+      "code": "687",
+      "countryCode": "NC",
+      "country": "New Caledonia"
+    },
+    {
+      "code": "64",
+      "countryCode": "NZ",
+      "country": "New Zealand"
+    },
+    {
+      "code": "505",
+      "countryCode": "NI",
+      "country": "Nicaragua"
+    },
+    {
+      "code": "227",
+      "countryCode": "NE",
+      "country": "Niger"
+    },
+    {
+      "code": "234",
+      "countryCode": "NG",
+      "country": "Nigeria"
+    },
+    {
+      "code": "683",
+      "countryCode": "NU",
+      "country": "Niue"
+    },
+    {
+      "code": "672",
+      "countryCode": "NF",
+      "country": "Norfolk Island"
+    },
+    {
+      "code": "850",
+      "countryCode": "KP",
+      "country": "North Korea"
+    },
+    {
+      "code": "1",
+      "countryCode": "MP",
+      "country": "Northern Mariana Islands"
+    },
+    {
+      "code": "47",
+      "countryCode": "NO",
+      "country": "Norway"
+    },
+    {
+      "code": "968",
+      "countryCode": "OM",
+      "country": "Oman"
+    },
+    {
+      "code": "92",
+      "countryCode": "PK",
+      "country": "Pakistan"
+    },
+    {
+      "code": "680",
+      "countryCode": "PW",
+      "country": "Palau"
+    },
+    {
+      "code": "970",
+      "countryCode": "PS",
+      "country": "Palestinian Territories"
+    },
+    {
+      "code": "507",
+      "countryCode": "PA",
+      "country": "Panama"
+    },
+    {
+      "code": "675",
+      "countryCode": "PG",
+      "country": "Papua New Guinea"
+    },
+    {
+      "code": "595",
+      "countryCode": "PY",
+      "country": "Paraguay"
+    },
+    {
+      "code": "51",
+      "countryCode": "PE",
+      "country": "Peru"
+    },
+    {
+      "code": "63",
+      "countryCode": "PH",
+      "country": "Philippines"
+    },
+    {
+      "code": "48",
+      "countryCode": "PL",
+      "country": "Poland"
+    },
+    {
+      "code": "351",
+      "countryCode": "PT",
+      "country": "Portugal"
+    },
+    {
+      "code": "1",
+      "countryCode": "PR",
+      "country": "Puerto Rico"
+    },
+    {
+      "code": "974",
+      "countryCode": "QA",
+      "country": "Qatar"
+    },
+    {
+      "code": "262",
+      "countryCode": "RE",
+      "country": "Réunion"
+    },
+    {
+      "code": "40",
+      "countryCode": "RO",
+      "country": "Romania"
+    },
+    {
+      "code": "7",
+      "countryCode": "RU",
+      "country": "Russia"
+    },
+    {
+      "code": "250",
+      "countryCode": "RW",
+      "country": "Rwanda"
+    },
+    {
+      "code": "590",
+      "countryCode": "BL",
+      "country": "Saint Barthélemy"
+    },
+    {
+      "code": "290",
+      "countryCode": "SH",
+      "country": "Saint Helena"
+    },
+    {
+      "code": "1",
+      "countryCode": "KN",
+      "country": "St. Kitts"
+    },
+    {
+      "code": "1",
+      "countryCode": "LC",
+      "country": "St. Lucia"
+    },
+    {
+      "code": "590",
+      "countryCode": "MF",
+      "country": "Saint Martin"
+    },
+    {
+      "code": "508",
+      "countryCode": "PM",
+      "country": "Saint Pierre and Miquelon"
+    },
+    {
+      "code": "1",
+      "countryCode": "VC",
+      "country": "St. Vincent"
+    },
+    {
+      "code": "685",
+      "countryCode": "WS",
+      "country": "Samoa"
+    },
+    {
+      "code": "378",
+      "countryCode": "SM",
+      "country": "San Marino"
+    },
+    {
+      "code": "239",
+      "countryCode": "ST",
+      "country": "São Tomé and Príncipe"
+    },
+    {
+      "code": "966",
+      "countryCode": "SA",
+      "country": "Saudi Arabia"
+    },
+    {
+      "code": "221",
+      "countryCode": "SN",
+      "country": "Senegal"
+    },
+    {
+      "code": "381",
+      "countryCode": "RS",
+      "country": "Serbia"
+    },
+    {
+      "code": "248",
+      "countryCode": "SC",
+      "country": "Seychelles"
+    },
+    {
+      "code": "232",
+      "countryCode": "SL",
+      "country": "Sierra Leone"
+    },
+    {
+      "code": "65",
+      "countryCode": "SG",
+      "country": "Singapore"
+    },
+    {
+      "code": "1",
+      "countryCode": "SX",
+      "country": "Sint Maarten"
+    },
+    {
+      "code": "421",
+      "countryCode": "SK",
+      "country": "Slovakia"
+    },
+    {
+      "code": "386",
+      "countryCode": "SI",
+      "country": "Slovenia"
+    },
+    {
+      "code": "677",
+      "countryCode": "SB",
+      "country": "Solomon Islands"
+    },
+    {
+      "code": "252",
+      "countryCode": "SO",
+      "country": "Somalia"
+    },
+    {
+      "code": "27",
+      "countryCode": "ZA",
+      "country": "South Africa"
+    },
+    {
+      "code": "500",
+      "countryCode": "GS",
+      "country": "South Georgia and the South Sandwich Islands"
+    },
+    {
+      "code": "82",
+      "countryCode": "KR",
+      "country": "South Korea"
+    },
+    {
+      "code": "211",
+      "countryCode": "SS",
+      "country": "South Sudan"
+    },
+    {
+      "code": "34",
+      "countryCode": "ES",
+      "country": "Spain"
+    },
+    {
+      "code": "94",
+      "countryCode": "LK",
+      "country": "Sri Lanka"
+    },
+    {
+      "code": "249",
+      "countryCode": "SD",
+      "country": "Sudan"
+    },
+    {
+      "code": "597",
+      "countryCode": "SR",
+      "country": "Suriname"
+    },
+    {
+      "code": "47",
+      "countryCode": "SJ",
+      "country": "Svalbard and Jan Mayen"
+    },
+    {
+      "code": "268",
+      "countryCode": "SZ",
+      "country": "Swaziland"
+    },
+    {
+      "code": "46",
+      "countryCode": "SE",
+      "country": "Sweden"
+    },
+    {
+      "code": "41",
+      "countryCode": "CH",
+      "country": "Switzerland"
+    },
+    {
+      "code": "963",
+      "countryCode": "SY",
+      "country": "Syria"
+    },
+    {
+      "code": "886",
+      "countryCode": "TW",
+      "country": "Taiwan"
+    },
+    {
+      "code": "992",
+      "countryCode": "TJ",
+      "country": "Tajikistan"
+    },
+    {
+      "code": "255",
+      "countryCode": "TZ",
+      "country": "Tanzania"
+    },
+    {
+      "code": "66",
+      "countryCode": "TH",
+      "country": "Thailand"
+    },
+    {
+      "code": "228",
+      "countryCode": "TG",
+      "country": "Togo"
+    },
+    {
+      "code": "690",
+      "countryCode": "TK",
+      "country": "Tokelau"
+    },
+    {
+      "code": "676",
+      "countryCode": "TO",
+      "country": "Tonga"
+    },
+    {
+      "code": "1",
+      "countryCode": "TT",
+      "country": "Trinidad/Tobago"
+    },
+    {
+      "code": "216",
+      "countryCode": "TN",
+      "country": "Tunisia"
+    },
+    {
+      "code": "90",
+      "countryCode": "TR",
+      "country": "Turkey"
+    },
+    {
+      "code": "993",
+      "countryCode": "TM",
+      "country": "Turkmenistan"
+    },
+    {
+      "code": "1",
+      "countryCode": "TC",
+      "country": "Turks and Caicos Islands"
+    },
+    {
+      "code": "688",
+      "countryCode": "TV",
+      "country": "Tuvalu"
+    },
+    {
+      "code": "1",
+      "countryCode": "VI",
+      "country": "U.S. Virgin Islands"
+    },
+    {
+      "code": "256",
+      "countryCode": "UG",
+      "country": "Uganda"
+    },
+    {
+      "code": "380",
+      "countryCode": "UA",
+      "country": "Ukraine"
+    },
+    {
+      "code": "971",
+      "countryCode": "AE",
+      "country": "United Arab Emirates"
+    },
+    {
+      "code": "44",
+      "countryCode": "GB",
+      "country": "United Kingdom"
+    },
+    {
+      "code": "1",
+      "countryCode": "US",
+      "country": "United States"
+    },
+    {
+      "code": "598",
+      "countryCode": "UY",
+      "country": "Uruguay"
+    },
+    {
+      "code": "998",
+      "countryCode": "UZ",
+      "country": "Uzbekistan"
+    },
+    {
+      "code": "678",
+      "countryCode": "VU",
+      "country": "Vanuatu"
+    },
+    {
+      "code": "379",
+      "countryCode": "VA",
+      "country": "Vatican City"
+    },
+    {
+      "code": "58",
+      "countryCode": "VE",
+      "country": "Venezuela"
+    },
+    {
+      "code": "84",
+      "countryCode": "VN",
+      "country": "Vietnam"
+    },
+    {
+      "code": "681",
+      "countryCode": "WF",
+      "country": "Wallis and Futuna"
+    },
+    {
+      "code": "212",
+      "countryCode": "EH",
+      "country": "Western Sahara"
+    },
+    {
+      "code": "967",
+      "countryCode": "YE",
+      "country": "Yemen"
+    },
+    {
+      "code": "260",
+      "countryCode": "ZM",
+      "country": "Zambia"
+    },
+    {
+      "code": "263",
+      "countryCode": "ZW",
+      "country": "Zimbabwe"
+    }
+  ]
+}
