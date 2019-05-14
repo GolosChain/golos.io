@@ -10,7 +10,6 @@ export default class Post extends Component {
 
     const contentId = {
       userId: query.userId,
-      refBlockNum: Number(query.refBlockNum),
       permlink: query.permlink,
     };
 
