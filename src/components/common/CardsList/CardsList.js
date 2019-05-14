@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
+import LazyLoad from 'react-lazyload';
 
 import { getScrollElement } from 'helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'utils/StateFunctions';
