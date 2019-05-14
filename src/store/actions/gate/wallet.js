@@ -5,6 +5,9 @@ import {
   FETCH_TRANSFERS_HISTORY,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
   FETCH_TRANSFERS_HISTORY_ERROR,
+  FETCH_VESTING_HISTORY,
+  FETCH_VESTING_HISTORY_SUCCESS,
+  FETCH_VESTING_HISTORY_ERROR,
 } from 'store/constants';
 import { TRANSFERS_FILTER_TYPE } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
@@ -73,5 +76,29 @@ export const waitForWalletTransaction = transactionId => {
       params,
     },
     meta: params,
+  };
+};
+
+export const getVestingHistory = (userId, from = -1) => {
+  if (!userId) {
+    throw new Error('Username is required!');
+  }
+
+  const params = {
+    account: userId,
+    limit: 20,
+    from,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_VESTING_HISTORY, FETCH_VESTING_HISTORY_SUCCESS, FETCH_VESTING_HISTORY_ERROR],
+      method: 'wallet.getVestingHistory',
+      params,
+    },
+    meta: {
+      ...params,
+      name: userId,
+    },
   };
 };

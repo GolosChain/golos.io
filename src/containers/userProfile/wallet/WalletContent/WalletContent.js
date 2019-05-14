@@ -111,6 +111,7 @@ export default class WalletContent extends Component {
     isOwner: PropTypes.bool,
 
     getTransfersHistory: PropTypes.func.isRequired,
+    getVestingHistory: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -131,7 +132,7 @@ export default class WalletContent extends Component {
   contentRef = createRef();
 
   async componentDidMount() {
-    const { getTransfersHistory, userId } = this.props;
+    const { getTransfersHistory, getVestingHistory, userId } = this.props;
     // const { location, openTransferDialog } = this.props;
     // this.loadDelegationsData();
 
@@ -144,6 +145,7 @@ export default class WalletContent extends Component {
       await Promise.all([
         getTransfersHistory(userId, { isIncoming: false }),
         getTransfersHistory(userId, { isIncoming: true }),
+        getVestingHistory(userId),
       ]);
     } catch (err) {
       // eslint-disable-next-line
