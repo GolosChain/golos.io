@@ -24,8 +24,7 @@ export const userProfileSchema = new schema.Entity(
   }
 );
 
-export const formatContentId = contentId =>
-  `${contentId.userId}/${contentId.refBlockNum}/${contentId.permlink}`;
+export const formatContentId = contentId => `${contentId.userId}/${contentId.permlink}`;
 
 export const postSchema = new schema.Entity(
   'posts',

@@ -342,8 +342,7 @@ export default class PostCard extends PureComponent {
       if (idArr.length) {
         contentId = {
           userId: idArr[0],
-          refBlockNum: +idArr[1],
-          permlink: idArr[2],
+          permlink: idArr[1],
         };
       }
 

@@ -525,13 +525,12 @@ export default class PostForm extends React.Component {
           await wait(1000);
         }
 
-        const { author, ref_block_num } = result.processed.action_traces[0].act.data.message_id;
+        const { author } = result.processed.action_traces[0].act.data.message_id;
 
         if (selfVote) {
           const voteResult = await vote({
             contentId: {
               userId: author,
-              refBlockNum: ref_block_num,
               permlink: data.permlink,
             },
             type: 'post',
@@ -549,7 +548,6 @@ export default class PostForm extends React.Component {
 
         Router.pushRoute('post', {
           userId: author,
-          refBlockNum: ref_block_num,
           permlink: data.permlink,
         });
       }
