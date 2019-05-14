@@ -23,6 +23,7 @@ import {
   changeLocale,
 } from 'store/actions/ui';
 import { setServerAccountName } from 'store/actions/gate/auth';
+import { getActualRates } from 'store/actions/gate';
 import defaultTheme from 'themes';
 import ModalManager from 'components/modals/ModalManager';
 import { LOCALE_COOKIE_KEY, AMPLITUDE_SESSION, readOnlyMode } from 'constants/config';
@@ -76,6 +77,13 @@ export default class GolosApp extends App {
       if (locale) {
         ctx.store.dispatch(changeLocale(locale));
       }
+    }
+
+    try {
+      await ctx.store.dispatch(getActualRates());
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn(err);
     }
 
     return {

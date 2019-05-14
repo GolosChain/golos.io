@@ -5,40 +5,50 @@ import { createSelector } from 'reselect';
 // import { showNotification } from 'app/redux/actions/ui';
 // import { powerDownSelector } from 'app/redux/selectors/wallet/powerDown';
 // import { vestsToGolos } from 'utils/StateFunctions';
-import { currentUserIdSelector, currentUsernameSelector } from 'store/selectors/auth';
+import { currentUserIdSelector } from 'store/selectors/auth';
 import { dataSelector } from 'store/selectors/common';
 import { withdrawTokens, transferToken } from 'store/actions/cyberway';
 import { calculateAmount } from 'utils/wallet';
+import { getBalance, getVestingBalance } from 'store/actions/gate';
 
 import ConvertDialog from './ConvertDialog';
 
 export default connect(
   createSelector(
     [
-      currentUsernameSelector,
+      currentUserIdSelector,
       state => dataSelector(['wallet', currentUserIdSelector(state), 'balances'])(state),
+      state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
     ],
-    (currentUsername, balances = []) => {
-      const gls = balances.find(currency => currency.sym === 'GOLOS');
-
+    (currentUserId, balances = [], vesting) => {
       let balance = 0;
+      let powerBalance = 0;
 
-      if (gls) {
+      if (balances.length) {
+        const [gls] = balances;
         balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
+      }
+
+      if (vesting && vesting.amount) {
+        powerBalance = Number(
+          calculateAmount({ amount: vesting.amount.amount, decs: vesting.amount.decs })
+        );
       }
 
       return {
         globalProps: {},
-        currentUsername,
+        currentUserId,
         myAccount: {},
         balance,
-        powerBalance: 100,
+        powerBalance,
       };
     }
   ),
   {
     transferToken,
     withdrawTokens,
+    getBalance,
+    getVestingBalance,
   },
   null,
   { forwardRef: true }

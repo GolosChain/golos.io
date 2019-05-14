@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import { profileSelector } from 'store/selectors/common';
 import { currentUnsafeUserSelector, currentUserSelector } from 'store/selectors/auth';
-import { getBalance } from 'store/actions/gate';
 
 import UserProfile from './UserProfile';
 
@@ -27,6 +26,5 @@ export default connect(
       payload: { file, progress },
     }),
     updateAccount: () => () => console.error('Unhandled action'),
-    getBalance,
   }
 )(UserProfile);
