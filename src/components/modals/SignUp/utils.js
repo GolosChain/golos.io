@@ -5,6 +5,7 @@ import {
   CONFIRM_CODE_SCREEN_ID,
   CREATE_USERNAME_SCREEN_ID,
   MASTER_KEY_SCREEN_ID,
+  CONGRATULATIONS_SCREEN_ID,
 } from './constants';
 
 export function createPdf(keys, user, phoneNumber) {
@@ -49,6 +50,8 @@ export function stepToScreenId(step) {
       return CREATE_USERNAME_SCREEN_ID;
     case 'toBlockChain':
       return MASTER_KEY_SCREEN_ID;
+    case 'registered':
+      return CONGRATULATIONS_SCREEN_ID;
     default:
   }
 }

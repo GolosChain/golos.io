@@ -173,15 +173,14 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     setRegistrationData({ isRegFinished: true });
   } catch ({ message, currentState }) {
     if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
-      stepToScreenId(currentState);
+      return stepToScreenId(currentState);
     }
     throw message;
   }
 
   createPdf(keys, user, phoneNumber);
 
-  // TODO uncomment after delay will be fined on backend
-  // await dispatch(openWallet(user));
+  await dispatch(openWallet(user));
 
   const password = keys.privateKeys.active;
   const auth = await dispatch(login(user, password));

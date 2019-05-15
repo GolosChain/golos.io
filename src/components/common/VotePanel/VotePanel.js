@@ -176,7 +176,7 @@ export default class VotePanel extends VotePanelAbstract {
   }
 
   renderInner() {
-    const { entity, className, vertical } = this.props;
+    const { entity, vertical, className } = this.props;
     const { showSlider, sliderAction } = this.state;
 
     if (!entity) {
