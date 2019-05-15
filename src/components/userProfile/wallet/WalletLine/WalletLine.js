@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'mocks/react-router';
+import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -65,7 +65,7 @@ const WhoTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
-const WhoLink = styled(Link)`
+const WhoLink = styled.a`
   color: #333;
   white-space: nowrap;
   overflow: hidden;
@@ -134,7 +134,7 @@ const MemoText = styled.div`
   ${breakWordStyles};
 `;
 
-const DataLink = styled(Link)`
+const DataLink = styled.a`
   flex-grow: 1;
   flex-basis: 10px;
   max-height: 40px;
@@ -290,7 +290,9 @@ export default class WalletLine extends PureComponent {
                 {type === DIRECTION.SENT
                   ? tt('user_wallet.content.to')
                   : tt('user_wallet.content.from')}{' '}
-                <WhoLink to={`/@${name}`}>@{name}</WhoLink>
+                <Link route={`/@${name}`} passHref>
+                  <WhoLink>@{name}</WhoLink>
+                </Link>
               </WhoName>
             ) : null}
             {title ? <WhoTitle>{title}</WhoTitle> : null}
@@ -313,7 +315,11 @@ export default class WalletLine extends PureComponent {
               </MemoCut>
             </Memo>
           ) : null}
-          {data.data ? <DataLink to={link}>{data.data}</DataLink> : null}
+          {data.data ? (
+            <Link route={link} passHref>
+              <DataLink>{data.data}</DataLink>
+            </Link>
+          ) : null}
           {showDelegationActions ? this.renderDelegationActions() : null}
           {currencies ? (
             <Currencies>

@@ -1,3 +1,5 @@
+import update from 'immutability-helper';
+
 import {
   FETCH_USER_BALANCE_SUCCESS,
   FETCH_USER_BALANCE_ERROR,
@@ -14,10 +16,18 @@ const initialState = {};
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_USER_BALANCE_SUCCESS:
+      if (state[payload.name || meta.name]) {
+        return update(state, {
+          [payload.name || meta.name]: {
+            balances: {
+              $set: payload.balances || [],
+            },
+          },
+        });
+      }
       return {
         ...state,
         [payload.name || meta.name]: {
-          ...state[payload.name || payload.name || meta.name],
           balances: payload.balances || [],
         },
       };
@@ -26,12 +36,22 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
       };
     case FETCH_TRANSFERS_HISTORY_SUCCESS:
+      if (state[payload.name || meta.name]) {
+        return update(state, {
+          [payload.name || meta.name]: {
+            transfers: transfers =>
+              update(transfers || {}, {
+                [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
+                  $set: payload.transfers || [],
+                },
+              }),
+          },
+        });
+      }
       return {
         ...state,
         [meta.name]: {
-          ...state[meta.name],
           transfers: {
-            ...(state[meta.name] ? state[meta.name].transfers : []),
             [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]:
               payload.transfers || [],
           },
@@ -42,14 +62,21 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
       };
     case FETCH_VESTING_HISTORY_SUCCESS:
+      // TODO: should be fixed when pagination be added
+      if (state[meta.name]) {
+        return update(state, {
+          [meta.name]: {
+            vestingHistory: vestingHistory =>
+              update(vestingHistory || [], {
+                $push: payload.result,
+              }),
+          },
+        });
+      }
       return {
         ...state,
         [meta.name]: {
-          ...state[meta.name],
-          vestingHistory: {
-            ...state[meta.name].vestingHistory,
-            ...payload.result,
-          },
+          vestingHistory: payload.result,
         },
       };
     case FETCH_VESTING_HISTORY_ERROR:
