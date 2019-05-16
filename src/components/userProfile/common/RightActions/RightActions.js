@@ -55,13 +55,13 @@ const ActionTitle = styled.div`
 export default class RightActions extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    loggedUserId: PropTypes.string,
+    loggedUserId: PropTypes.string.isRequired,
     isOwner: PropTypes.bool.isRequired,
   };
 
   onTransferClick = async () => {
-    const { userId, loggedUserId } = this.props;
-    await openTransferDialog(loggedUserId, userId);
+    const { loggedUserId } = this.props;
+    await openTransferDialog(loggedUserId);
   };
 
   onDelegateClick = async () => {
