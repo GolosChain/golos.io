@@ -79,7 +79,7 @@ export const waitForWalletTransaction = transactionId => {
   };
 };
 
-export const getVestingHistory = (userId, from = -1) => {
+export const getVestingHistory = (userId, sequenceKey = null) => {
   if (!userId) {
     throw new Error('Username is required!');
   }
@@ -87,7 +87,7 @@ export const getVestingHistory = (userId, from = -1) => {
   const params = {
     account: userId,
     limit: 20,
-    from,
+    sequenceKey,
   };
 
   return {

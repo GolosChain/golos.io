@@ -1,4 +1,5 @@
 import update from 'immutability-helper';
+import { unionWith, eqBy, prop } from 'ramda';
 
 import {
   FETCH_USER_BALANCE_SUCCESS,
@@ -62,21 +63,33 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
       };
     case FETCH_VESTING_HISTORY_SUCCESS:
-      // TODO: should be fixed when pagination be added
       if (state[meta.name]) {
         return update(state, {
           [meta.name]: {
-            vestingHistory: vestingHistory =>
-              update(vestingHistory || [], {
-                $push: payload.result,
-              }),
+            vestingHistory: vestingHistory => {
+              if (
+                state[meta.name].vestingSequenceKey &&
+                state[meta.name].vestingSequenceKey !== meta.sequenceKey
+              ) {
+                return unionWith(
+                  eqBy(prop('trx_id')),
+                  vestingHistory,
+                  payload?.result?.items || []
+                );
+              }
+              return vestingHistory;
+            },
+            vestingSequenceKey: payload?.result?.sequenceKey || null,
+            vestingHistorySize: payload?.result?.itemsSize || 0,
           },
         });
       }
       return {
         ...state,
         [meta.name]: {
-          vestingHistory: payload.result,
+          vestingHistory: payload?.result?.items || [],
+          vestingSequenceKey: payload?.result?.sequenceKey || null,
+          vestingHistorySize: payload?.result?.itemsSize || 0,
         },
       };
     case FETCH_VESTING_HISTORY_ERROR:

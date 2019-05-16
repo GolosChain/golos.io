@@ -109,6 +109,8 @@ export default class WalletContent extends Component {
     myAccountName: PropTypes.string,
     transfers: PropTypes.arrayOf(PropTypes.shape({})),
     isOwner: PropTypes.bool,
+    vestingSequenceKey: PropTypes.string,
+    isVestingHistoryLoaded: PropTypes.bool,
 
     getTransfersHistory: PropTypes.func.isRequired,
     getVestingHistory: PropTypes.func.isRequired,
@@ -118,6 +120,8 @@ export default class WalletContent extends Component {
     myAccountName: '',
     transfers: [],
     isOwner: false,
+    vestingSequenceKey: null,
+    isVestingHistoryLoaded: false,
   };
 
   state = {
@@ -132,7 +136,7 @@ export default class WalletContent extends Component {
   contentRef = createRef();
 
   async componentDidMount() {
-    const { getTransfersHistory, getVestingHistory, userId } = this.props;
+    const { getTransfersHistory, getVestingHistory, userId, vestingSequenceKey } = this.props;
     // const { location, openTransferDialog } = this.props;
     // this.loadDelegationsData();
 
@@ -145,7 +149,7 @@ export default class WalletContent extends Component {
       await Promise.all([
         getTransfersHistory(userId, { isIncoming: false }),
         getTransfersHistory(userId, { isIncoming: true }),
-        getVestingHistory(userId),
+        getVestingHistory(userId, vestingSequenceKey),
       ]);
     } catch (err) {
       // eslint-disable-next-line
@@ -194,17 +198,16 @@ export default class WalletContent extends Component {
   onLoadDelegationsData = () => this.loadDelegationsData();
 
   onScrollLazy = throttle(
-    () => {
-      const { limit } = this.state;
-      if (this.hasMore) {
-        if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
-          this.setState({
-            limit: limit + DEFAULT_ROWS_LIMIT,
-          });
-        }
+    async () => {
+      const { vestingSequenceKey, getVestingHistory, userId, isVestingHistoryLoaded } = this.props;
+      if (
+        this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2 &&
+        !isVestingHistoryLoaded
+      ) {
+        await getVestingHistory(userId, vestingSequenceKey);
       }
     },
-    100,
+    500,
     { leading: false }
   );
 
