@@ -31,6 +31,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
         currentUser: {
           userId: payload.userId,
           username: payload.username,
+          permission: payload.permission,
         },
       };
     case AUTH_LOGIN_ERROR:
