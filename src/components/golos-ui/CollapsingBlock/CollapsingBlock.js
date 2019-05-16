@@ -94,11 +94,11 @@ export default class CollapsingBlock extends PureComponent {
       collapsed = getState(props.saveStateKey);
     }
 
-    if (collapsed == null && props.initialCollapsed) {
+    if (collapsed === null && props.initialCollapsed) {
       collapsed = props.initialCollapsed;
     }
 
-    if (collapsed == null) {
+    if (collapsed === null) {
       collapsed = false;
     }
 
@@ -209,7 +209,7 @@ function getState(key) {
   if (process.browser) {
     const value = localStorage.getItem(`golos.collapse.${key}`);
 
-    if (value != null) {
+    if (value !== null) {
       return value === '1';
     }
     return null;

@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
-import { ToggleFeature } from '@flopflip/react-redux';
 
 import { Link } from 'shared/routes';
-import { POSTHEADER_POPOVERBODY } from 'shared/feature-flags';
 import Icon from 'components/golos-ui/Icon';
 import { ButtonBlock } from 'components/golos-ui/Button';
 import { TagLink } from 'components/golos-ui/Tag';
@@ -109,7 +107,7 @@ const FollowRound = styled(ButtonBlock)`
   cursor: pointer;
 `;
 
-const UserInfoWrapper = styled.a`
+const UserInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -244,18 +242,23 @@ export default class PostHeader extends Component {
 
     return (
       <Wrapper ref={forwardRef} className={className}>
-        <Link route="profile" params={{ userId: author.id }} passHref>
-          <UserInfoWrapper>
-            <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
-              <PopoverBackgroundShade show={showPopover} />
-              <UserpicStyled userId={author.id} size={50} />
-            </Avatar>
-            <InfoBlock>
-              <AuthorName aria-label={tt('aria_label.username')}>{author.username}</AuthorName>
-              <TimeAgoWrapper date={meta.time} />
-            </InfoBlock>
-          </UserInfoWrapper>
-        </Link>
+        <UserInfoWrapper>
+          <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
+            <PopoverBackgroundShade show={showPopover} />
+            <UserpicStyled userId={author.id} size={50} />
+            {showPopover && (
+              <AvatarBox popoverOffsetTop={50} userPicSize={50}>
+                <PopoverStyled closePopover={this.closePopover} show>
+                  <PopoverBody userId={author.id} closePopover={this.closePopover} />
+                </PopoverStyled>
+              </AvatarBox>
+            )}
+          </Avatar>
+          <InfoBlock>
+            <AuthorName aria-label={tt('aria_label.username')}>{author.username}</AuthorName>
+            <TimeAgoWrapper date={meta.time} />
+          </InfoBlock>
+        </UserInfoWrapper>
         {/*{!isOwner && (
           <FollowButtonWrapper
             FollowComp={
@@ -295,15 +298,6 @@ export default class PostHeader extends Component {
             isOwner={isOwner}
           />
         </PostActionsWrapper>
-        {showPopover && (
-          <AvatarBox popoverOffsetTop={50} userPicSize={50}>
-            <ToggleFeature flag={POSTHEADER_POPOVERBODY}>
-              <PopoverStyled closePopover={this.closePopover} show>
-                <PopoverBody accountName={author} closePopover={this.closePopover} />
-              </PopoverStyled>
-            </ToggleFeature>
-          </AvatarBox>
-        )}
       </Wrapper>
     );
   }
