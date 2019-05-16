@@ -15,7 +15,7 @@ async function checkedLoggedUser(currentUsername) {
 
 export async function openTransferDialog(
   currentUsername,
-  accountUsername,
+  recipientName = '',
   type = 'query',
   donatePostUrl = ''
 ) {
@@ -25,7 +25,7 @@ export async function openTransferDialog(
         DialogManager.showDialog({
           component: TransferDialog,
           props: {
-            recipientName: accountUsername,
+            recipientName,
             type,
             donatePostUrl,
           },
