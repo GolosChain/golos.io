@@ -13,7 +13,7 @@ routes.add('trending', '/trending', 'feed');
 // routes.add('communitySection', '/c/:communityId/:section', 'community');
 // routes.add('messenger', '/messenger');
 // routes.add('policy', '/policies/:policy');
-routes.add('post', '/@:userId/:refBlockNum(\\d+)/:permlink/:mode?');
+routes.add('post', '/@:userId/:permlink/:mode?');
 // routes.add('trending', '/trending');
 // routes.add('profileSection', '/@:userId/:section', 'profile');
 routes.add('submit', '/submit', 'submit');

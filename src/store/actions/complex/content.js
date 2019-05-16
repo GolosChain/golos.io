@@ -36,7 +36,6 @@ export const updatePost = ({ contentId, title, body, tags, jsonmetadata, resourc
     message_id: {
       author: contentId.userId,
       permlink: contentId.permlink,
-      ref_block_num: contentId.refBlockNum,
     },
     headermssg: title,
     bodymssg: body,
@@ -63,7 +62,6 @@ export const createComment = ({ contentId, body, jsonmetadata, resources }) => {
     parent_id: {
       author: contentId.userId,
       permlink: contentId.permlink,
-      ref_block_num: contentId.refBlockNum,
     },
     bodymssg: body,
     jsonmetadata: JSON.stringify(jsonmetadata),
@@ -85,7 +83,6 @@ export const updateComment = ({ contentId, body, jsonmetadata, resources }) => {
     message_id: {
       author: contentId.userId,
       permlink: contentId.permlink,
-      ref_block_num: contentId.refBlockNum,
     },
     headermssg: '',
     bodymssg: body,
