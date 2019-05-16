@@ -4,6 +4,8 @@ export default class GateError extends Error {
 
     super(`GateError ${methodName}: ${message}`);
 
+    this.originalMessage = message;
+
     // Возвращаем флаг enumerable обратно в true, чтобы JSON.stringify не отбрассывал это поле
     Object.defineProperty(this, 'message', {
       configurable: true,
