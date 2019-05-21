@@ -9,7 +9,6 @@ export const vote = ({ contentId, type, weight }) => async dispatch => {
     cyberwayVote({
       message_id: {
         author: contentId.userId,
-        ref_block_num: contentId.refBlockNum,
         permlink: contentId.permlink,
       },
       weight,

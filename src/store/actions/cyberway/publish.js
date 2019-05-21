@@ -32,7 +32,6 @@ export const createmssg = data => async (dispatch, getState) => {
     parent_id: {
       author: '',
       permlink: '',
-      ref_block_num: 0,
     },
     parent_recid: 0,
     beneficiaries: [],
@@ -133,7 +132,6 @@ export const reblog = ({ contentId }) => async (dispatch, getState) => {
     rebloger: userId,
     message_id: {
       author: contentId.userId,
-      ref_block_num: contentId.refBlockNum,
       permlink: contentId.permlink,
     },
   };

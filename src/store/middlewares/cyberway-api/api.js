@@ -1,8 +1,10 @@
 import cyber from 'cyber-client';
+import { openModal } from 'redux-modals-manager';
 
 import { defaults } from 'utils/common';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { PROVIDE_BW, PROVIDE_BW_SUCCESS, PROVIDE_BW_ERROR } from 'store/constants';
+import { SHOW_MODAL_LOGIN } from 'store/constants/modalTypes';
 import { currentUserSelector } from 'store/selectors/auth';
 
 export const CYBERWAY_API = 'CYBERWAY_API';
@@ -31,9 +33,34 @@ export default ({ getState }) => next => async action => {
   });
 
   try {
-    const user = currentUserSelector(getState());
+    const { userId, permission, username } = currentUserSelector(getState());
+
+    let currentPermission = permission;
+
+    if (permission === 'posting' && contract !== 'publish') {
+      const { auth } = await next(
+        openModal(SHOW_MODAL_LOGIN, {
+          isConfirm: true,
+          keyRole: 'active',
+          lockUsername: true,
+          username,
+        })
+      );
+
+      if (!auth) {
+        throw new Error('Missing active authority');
+      }
+
+      currentPermission = 'active';
+      cyber.initProvider(auth.actualKey);
+    }
+
     // raw transaction if providebw option specified or result of transaction
-    let result = await cyber[contract][method]({ accountName: user.userId }, params, options);
+    let result = await cyber[contract][method](
+      { accountName: userId, permission: currentPermission },
+      params,
+      options
+    );
 
     if (options.providebw) {
       const { signatures, serializedTransaction } = result;

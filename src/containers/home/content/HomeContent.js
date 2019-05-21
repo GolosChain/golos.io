@@ -37,7 +37,7 @@ export default class HomeContent extends Component {
     isEnd: PropTypes.bool,
     tagsStr: PropTypes.string,
     sequenceKey: PropTypes.string,
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.string,
     username: PropTypes.string,
     loggedUserId: PropTypes.string,
     fetchPosts: PropTypes.func.isRequired,
