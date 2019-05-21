@@ -190,38 +190,34 @@ export default class UserCardAbout extends PureComponent {
   };
 
   onShowFollowers = () => {
-    ToastsManager.warn('Просмотр списка подписчиков временно не работает');
+    const { profile } = this.props;
 
-    // const { profile } = this.props;
-
-    // DialogManager.showDialog({
-    //   component: FollowersDialog,
-    //   props: {
-    //     userId: profile.id,
-    //     type: 'follower',
-    //   },
-    // });
+    DialogManager.showDialog({
+      component: FollowersDialog,
+      props: {
+        userId: profile.userId,
+        type: 'followers',
+      },
+    });
   };
 
   onShowFollowing = () => {
-    ToastsManager.warn('Просмотр списка подписок временно не работает');
+    const { profile } = this.props;
 
-    // const { profile } = this.props;
-
-    // DialogManager.showDialog({
-    //   component: FollowersDialog,
-    //   props: {
-    //     userId: profile.userId,
-    //     type: 'following',
-    //   },
-    // });
+    DialogManager.showDialog({
+      component: FollowersDialog,
+      props: {
+        userId: profile.userId,
+        type: 'followings',
+      },
+    });
   };
 
   renderFollowingRow() {
     const { profile } = this.props;
 
     const followingCount = profile?.subscriptions?.usersCount || 0;
-    const followerCount = profile?.subscriptions?.usersCount || 0;
+    const followerCount = profile?.subscribers?.usersCount || 0;
 
     return (
       <SizedRow>

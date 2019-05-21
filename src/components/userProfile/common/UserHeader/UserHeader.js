@@ -510,7 +510,12 @@ export default class UserHeader extends Component {
 
   renderButtons() {
     const { profile, isOwner } = this.props;
-    return !isOwner && <FollowWitnessButtons targetUser={profile.username} isOwner={isOwner} />;
+
+    if (isOwner) {
+      return;
+    }
+
+    return <FollowWitnessButtons targetUser={profile.userId} isOwner={isOwner} />;
   }
 
   renderLoginContainer() {
@@ -535,7 +540,7 @@ export default class UserHeader extends Component {
               {this.renderAvatar()}
               <Details>
                 {this.renderName()}
-                {/* {this.renderButtons()} */}
+                {this.renderButtons()}
                 {this.renderLoginContainer()}
               </Details>
               {isOwner && isSettingsPage && this.renderCoverDropDown()}

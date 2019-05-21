@@ -5,6 +5,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
+import { displayError } from 'utils/toastMessages';
 import { showLoginModal } from 'store/actions/modals';
 import DialogManager from 'components/elements/common/DialogManager';
 import UnfollowDialog from 'components/dialogs/UnfollowDialog';
@@ -62,7 +63,7 @@ export default class FollowUserButton extends Component {
         await followUser(targetUser);
       }
     } catch (err) {
-      console.error(err);
+      displayError(tt('g.error'), err);
     }
   };
 

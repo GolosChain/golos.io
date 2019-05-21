@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { displayError } from 'utils/toastMessages';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
+import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import Avatar from 'components/common/Avatar';
 import Follow from 'components/common/Follow';
 import {
@@ -18,78 +20,99 @@ import {
   LoaderWrapper,
 } from 'components/dialogs/common/Dialog';
 
-// const ShowMore = styled.button`
-//   width: 100%;
-//   height: 50px;
-//   padding: 17px 0;
-//
-//   border-radius: 0 0 8px 8px;
-//   box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
-//   background-color: #fff;
-//   font-weight: bold;
-//
-//   color: #111;
-//   text-align: center;
-//   font-size: 14px;
-//   cursor: pointer;
-//
-//   &:hover {
-//     color: #2879ff;
-//   }
-// `;
+const DialogStyled = styled(Dialog)`
+  min-height: 300px;
+`;
 
-// const StyledLoaderWrapper = styled(LoaderWrapper)`
-//   @media (max-width: 768px) {
-//     align-items: ${({ cutContent }) => (cutContent ? 'flex-start' : 'center')};
-//   }
-// `;
+const LoaderWrapperStyled = styled(LoaderWrapper)`
+  @media (max-width: 768px) {
+    align-items: ${({ cutContent }) => (cutContent ? 'flex-start' : 'center')};
+  }
+`;
 
 export default class FollowersDialog extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['followers', 'followings']).isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        userId: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        avatarUrl: PropTypes.string,
+      })
+    ),
+    isEnd: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     profile: PropTypes.shape({}).isRequired,
+    getSubscriptions: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   };
 
-  showMore = () => {
-    // TODO: Not implemented
-  };
-
-  renderUser({ userId, name, avatarUrl }) {
-    return (
-      <UserItem key={userId}>
-        <UserLink userId={userId} title={userId} onClick={this.props.onClose}>
-          <Avatar avatarUrl={avatarUrl} />
-          <Name>{name}</Name>
-        </UserLink>
-        <Follow following={userId} collapseOnMobile />
-      </UserItem>
-    );
+  componentDidMount() {
+    this.load({
+      closeOnError: true,
+    });
   }
 
-  render() {
-    const { type, profile } = this.props;
+  async load({ sequenceKey = null, closeOnError }) {
+    const { userId, type, getSubscriptions, getSubscribers, onClose } = this.props;
 
-    const userIds = profile.subscriptions.userIds;
+    try {
+      if (type === 'followers') {
+        await getSubscribers({ userId, sequenceKey });
+      } else {
+        await getSubscriptions({ userId, sequenceKey });
+      }
+    } catch (err) {
+      displayError(err);
+
+      if (closeOnError) {
+        onClose();
+      }
+    }
+  }
+
+  onNeedLoadMore = () => {
+    const { isEnd, isLoading, sequenceKey } = this.props;
+
+    if (isEnd || isLoading) {
+      return;
+    }
+
+    this.load({ sequenceKey });
+  };
+
+  renderUser = ({ userId, username, avatarUrl, hasSubscription }) => (
+    <UserItem key={userId}>
+      <UserLink userId={userId} title={userId} onClick={this.props.onClose}>
+        <Avatar avatarUrl={avatarUrl} />
+        <Name>{username || userId}</Name>
+      </UserLink>
+      <Follow following={userId} isFollow={hasSubscription} collapseOnMobile />
+    </UserItem>
+  );
+
+  render() {
+    const { type, profile, items, isLoading, isEnd } = this.props;
+    const { usersCount } = profile.subscriptions;
 
     return (
-      <Dialog>
+      <DialogStyled>
         <Header>
-          <Title>{tt(`user_profile.${type}_count`, { count: userIds.length })}</Title>
+          <Title>{tt(`user_profile.${type}_count`, { count: usersCount })}</Title>
           <IconClose onClick={this.props.onClose} />
         </Header>
         <Content>
-          {userIds.map(this.renderUser)}
-          {/*{loading && (*/}
-          {/*  <StyledLoaderWrapper cutContent={hasMore}>*/}
-          {/*    <LoadingIndicator type="circle" size={40} />*/}
-          {/*  </StyledLoaderWrapper>*/}
-          {/*)}*/}
+          <InfinityScrollHelper disabled={isLoading || isEnd} onNeedLoadMore={this.onNeedLoadMore}>
+            {items.map(this.renderUser)}
+          </InfinityScrollHelper>
+          {isLoading && (
+            <LoaderWrapperStyled cutContent={!isEnd}>
+              <LoadingIndicator type="circle" size={40} />
+            </LoaderWrapperStyled>
+          )}
         </Content>
-        {/*{hasMore && !loading ? (*/}
-        {/*  <ShowMore onClick={this.showMore}>{tt('dialog.show_more')}</ShowMore>*/}
-        {/*) : null}*/}
-      </Dialog>
+      </DialogStyled>
     );
   }
 }
