@@ -13,7 +13,8 @@ export default connect(
       (state, props) => dataSelector(['wallet', props.userId, 'balances'])(state),
       (state, props) => dataSelector(['wallet', props.userId, 'vesting'])(state),
       dataSelector(['settings', 'basic', 'currency']),
-      dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])]),
+      state =>
+        dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),
       statusSelector(['wallet', 'isLoading']),
     ],
     (balances = [], vesting, currency = 'GOLOS', actualRate, isLoading) => {
