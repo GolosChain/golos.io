@@ -2,11 +2,13 @@ import ToastsManager from 'toasts-manager';
 
 import { normalizeCyberwayErrorMessage } from './errors';
 
+export function displayMessage(text) {
+  ToastsManager.info(text);
+}
+
 export function displayError(title, err) {
   if (arguments.length === 1) {
-    // eslint-disable-next-line no-param-reassign
     err = title;
-    // eslint-disable-next-line no-param-reassign
     title = null;
   }
 
@@ -16,14 +18,13 @@ export function displayError(title, err) {
     prefix = title.endsWith(':') ? title : `${title}:`;
   }
 
-  // eslint-disable-next-line no-console
-  console.error(prefix, err);
+  if (prefix) {
+    console.error(prefix, err);
+  } else {
+    console.error(err);
+  }
 
   const message = normalizeCyberwayErrorMessage(err);
 
   ToastsManager.error(`${prefix ? `${prefix} ` : ''}${message}`);
-}
-
-export function displayMessage(text) {
-  ToastsManager.info(text);
 }

@@ -208,7 +208,7 @@ export default class UserCardAbout extends PureComponent {
       component: FollowersDialog,
       props: {
         userId: profile.userId,
-        type: 'followings',
+        type: 'following',
       },
     });
   };

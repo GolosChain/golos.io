@@ -33,7 +33,7 @@ const LoaderWrapperStyled = styled(LoaderWrapper)`
 export default class FollowersDialog extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['followers', 'followings']).isRequired,
+    type: PropTypes.oneOf(['followers', 'following']).isRequired,
     items: PropTypes.arrayOf(
       PropTypes.shape({
         userId: PropTypes.string.isRequired,
@@ -88,18 +88,25 @@ export default class FollowersDialog extends PureComponent {
         <Avatar avatarUrl={avatarUrl} />
         <Name>{username || userId}</Name>
       </UserLink>
-      <Follow following={userId} isFollow={hasSubscription} collapseOnMobile />
+      <Follow userId={userId} isFollow={hasSubscription} collapseOnMobile />
     </UserItem>
   );
 
   render() {
     const { type, profile, items, isLoading, isEnd } = this.props;
-    const { usersCount } = profile.subscriptions;
+
+    let totalCount;
+
+    if (type === 'followers') {
+      totalCount = profile.subscribers.usersCount;
+    } else {
+      totalCount = profile.subscriptions.usersCount;
+    }
 
     return (
       <DialogStyled>
         <Header>
-          <Title>{tt(`user_profile.${type}_count`, { count: usersCount })}</Title>
+          <Title>{tt(`user_profile.${type}_count`, { count: totalCount })}</Title>
           <IconClose onClick={this.props.onClose} />
         </Header>
         <Content>

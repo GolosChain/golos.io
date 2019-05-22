@@ -1,7 +1,9 @@
 import {
-  FETCH_SUBSCRIBERS,
-  FETCH_SUBSCRIBERS_SUCCESS,
-  FETCH_SUBSCRIBERS_ERROR,
+  FETCH_FOLLOWING,
+  FETCH_FOLLOWING_SUCCESS,
+  FETCH_FOLLOWING_ERROR,
+  FOLLOW_USER_SUCCESS,
+  UNFOLLOW_USER_SUCCESS,
 } from 'store/constants';
 
 const initialState = {
@@ -13,7 +15,7 @@ const initialState = {
 
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
-    case FETCH_SUBSCRIBERS:
+    case FETCH_FOLLOWING:
       if (meta.sequenceKey) {
         return {
           ...state,
@@ -26,7 +28,7 @@ export default function(state = initialState, { type, payload, meta }) {
         };
       }
 
-    case FETCH_SUBSCRIBERS_SUCCESS:
+    case FETCH_FOLLOWING_SUCCESS:
       return {
         ...state,
         items: state.items.concat(payload.items),
@@ -35,10 +37,26 @@ export default function(state = initialState, { type, payload, meta }) {
         isEnd: payload.items.length < meta.limit,
       };
 
-    case FETCH_SUBSCRIBERS_ERROR:
+    case FETCH_FOLLOWING_ERROR:
       return {
         ...initialState,
         isLoading: false,
+      };
+
+    case FOLLOW_USER_SUCCESS:
+    case UNFOLLOW_USER_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(item => {
+          if (item.userId === meta.pinning) {
+            return {
+              ...item,
+              hasSubscription: type === FOLLOW_USER_SUCCESS,
+            };
+          }
+
+          return item;
+        }),
       };
 
     default:

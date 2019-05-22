@@ -11,8 +11,8 @@ import wallet from './wallet';
 import witness from './witness';
 import postVotes from './postVotes';
 import commentVotes from './commentVotes';
-import subscribers from './subscribers';
-import subscriptions from './subscriptions';
+import followers from './followers';
+import following from './following';
 
 export default combineReducers({
   auth,
@@ -26,6 +26,6 @@ export default combineReducers({
   witness,
   postVotes,
   commentVotes,
-  subscribers,
-  subscriptions,
+  followers,
+  following,
 });

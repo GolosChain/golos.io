@@ -8,7 +8,7 @@ import FollowersDialog from './FollowersDialog';
 export default connect(
   (state, props) => {
     const profile = entitySelector('profiles', props.userId)(state);
-    const data = dataSelector(props.type === 'followers' ? 'subscribers' : 'subscriptions')(state);
+    const data = dataSelector(props.type)(state);
 
     return {
       items: data.items,

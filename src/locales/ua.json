@@ -888,7 +888,7 @@
       "zero": "0 підписників"
     },
     "followers": "Підписники",
-    "followings_count": {
+    "following_count": {
       "one": "1 підписка",
       "other": "%(count)s підписок",
       "zero": "0 підписок"

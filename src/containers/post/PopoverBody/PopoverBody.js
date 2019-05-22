@@ -223,7 +223,7 @@ export default class PopoverBody extends Component {
         )}
         {/*{showFollowBlock && (
           <ButtonsBlock>
-            <FollowButton following={userId} collapseOnMobile={false} onClick={this.closePopover} />
+            <FollowButton userId={userId} onClick={this.closePopover} />
             <MuteButton role="button" muting={userId} onClick={this.closePopover} />
           </ButtonsBlock>
         )}*/}

@@ -5,12 +5,12 @@ import {
   FETCH_LEADERS,
   FETCH_LEADERS_SUCCESS,
   FETCH_LEADERS_ERROR,
-  FETCH_SUBSCRIPTIONS,
-  FETCH_SUBSCRIPTIONS_SUCCESS,
-  FETCH_SUBSCRIPTIONS_ERROR,
-  FETCH_SUBSCRIBERS,
-  FETCH_SUBSCRIBERS_SUCCESS,
-  FETCH_SUBSCRIBERS_ERROR,
+  FETCH_FOLLOWING,
+  FETCH_FOLLOWING_SUCCESS,
+  FETCH_FOLLOWING_ERROR,
+  FETCH_FOLLOWERS,
+  FETCH_FOLLOWERS_SUCCESS,
+  FETCH_FOLLOWERS_ERROR,
 } from 'store/constants';
 
 export const waitForTransaction = transactionId => {
@@ -57,7 +57,7 @@ export const getSubscriptions = ({ userId, sequenceKey } = {}) => {
   return {
     [CALL_GATE]: {
       method: 'content.getSubscriptions',
-      types: [FETCH_SUBSCRIPTIONS, FETCH_SUBSCRIPTIONS_SUCCESS, FETCH_SUBSCRIPTIONS_ERROR],
+      types: [FETCH_FOLLOWING, FETCH_FOLLOWING_SUCCESS, FETCH_FOLLOWING_ERROR],
       params,
     },
     meta: params,
@@ -74,7 +74,7 @@ export const getSubscribers = ({ userId, sequenceKey } = {}) => {
   return {
     [CALL_GATE]: {
       method: 'content.getSubscribers',
-      types: [FETCH_SUBSCRIBERS, FETCH_SUBSCRIBERS_SUCCESS, FETCH_SUBSCRIBERS_ERROR],
+      types: [FETCH_FOLLOWERS, FETCH_FOLLOWERS_SUCCESS, FETCH_FOLLOWERS_ERROR],
       params,
     },
     meta: {

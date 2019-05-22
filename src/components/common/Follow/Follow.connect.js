@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 
+import { pin, unpin } from 'store/actions/cyberway';
+
 import Follow from './Follow';
 
 export default connect(
-  () => ({
-    username: 'who-is-it',
-  }),
+  null,
   {
-    updateFollow: () => () => console.error('Unhandled action'),
+    pin,
+    unpin,
   }
 )(Follow);

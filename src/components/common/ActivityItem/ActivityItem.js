@@ -229,7 +229,7 @@ export default class ActivityItem extends Component {
       if (type === 'subscribe') {
         followBlock = (
           <FollowWrapper isCompact={isCompact}>
-            <Follow following={userId} collapseOnMobile collapse={isCompact} />
+            <Follow userId={userId} collapseOnMobile collapse={isCompact} />
           </FollowWrapper>
         );
       }

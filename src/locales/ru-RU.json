@@ -1005,7 +1005,7 @@
       "zero": "0 подписчиков"
     },
     "followers": "Подписчики",
-    "followings_count": {
+    "following_count": {
       "one": "1 подписка",
       "other": "%(count)s подписок",
       "zero": "0 подписок"

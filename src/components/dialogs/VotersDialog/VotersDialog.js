@@ -99,7 +99,7 @@ export default class VotersDialog extends PureComponent {
               </UserLink>
               <Percent>{Math.round(user.percent)}%</Percent>
               {user.name !== username ? (
-                <Follow following={user.name} collapseOnMobile />
+                <Follow userId={user.name} collapseOnMobile />
               ) : (
                 <EmptyBlockLikeFollow />
               )}

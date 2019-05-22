@@ -993,7 +993,7 @@
       "zero": "No followers"
     },
     "followers": "Followers",
-    "followings_count": {
+    "following_count": {
       "one": "1 following",
       "other": "%(count)s following",
       "zero": "Not following anybody"
