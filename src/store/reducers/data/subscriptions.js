@@ -14,10 +14,17 @@ const initialState = {
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_SUBSCRIPTIONS:
-      return {
-        ...initialState,
-        isLoading: true,
-      };
+      if (meta.sequenceKey) {
+        return {
+          ...state,
+          isLoading: true,
+        };
+      } else {
+        return {
+          ...initialState,
+          isLoading: true,
+        };
+      }
 
     case FETCH_SUBSCRIPTIONS_SUCCESS:
       return {

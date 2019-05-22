@@ -67,7 +67,7 @@ export const getSubscriptions = ({ userId, sequenceKey } = {}) => {
 export const getSubscribers = ({ userId, sequenceKey } = {}) => {
   const params = {
     userId,
-    limit: 1,
+    limit: 20,
     sequenceKey,
   };
 

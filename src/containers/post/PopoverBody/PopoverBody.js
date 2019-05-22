@@ -207,7 +207,7 @@ export default class PopoverBody extends Component {
           <UserStatus profile={profile} popover />
           {Boolean(personal.about) && <About>{personal.about}</About>}
           <Followers>
-            {tt('user_profile.follower_count', { count: subscribers.usersCount })}
+            {tt('user_profile.followers_count', { count: subscribers.usersCount })}
           </Followers>
         </Block>
         {pinnedPosts.length > 0 && (

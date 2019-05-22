@@ -999,13 +999,13 @@
     },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 подписчик",
       "other": "%(count)s подписчиков",
       "zero": "0 подписчиков"
     },
     "followers": "Подписчики",
-    "following_count": {
+    "followings_count": {
       "one": "1 подписка",
       "other": "%(count)s подписок",
       "zero": "0 подписок"

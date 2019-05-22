@@ -521,7 +521,7 @@ export default class UserHeader extends Component {
   renderLoginContainer() {
     const { profile, power } = this.props;
 
-    return <LoginContainer targetUser={profile.username} power={power} />;
+    return <LoginContainer targetUser={profile.userId} power={power} />;
   }
 
   render() {
