@@ -206,7 +206,6 @@ export default class PostForm extends React.Component {
     createPost: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
-    waitForBlock: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
     uploadImage: PropTypes.func.isRequired,
   };

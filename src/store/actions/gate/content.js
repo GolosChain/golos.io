@@ -3,20 +3,6 @@
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { FETCH_LEADERS, FETCH_LEADERS_SUCCESS, FETCH_LEADERS_ERROR } from 'store/constants';
 
-export const waitForBlock = blockNum => {
-  const params = {
-    blockNum,
-  };
-
-  return {
-    [CALL_GATE]: {
-      method: 'content.waitForBlock',
-      params,
-    },
-    meta: params,
-  };
-};
-
 export const waitForTransaction = transactionId => {
   const params = {
     transactionId,
