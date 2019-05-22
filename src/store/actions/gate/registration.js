@@ -61,9 +61,6 @@ export const fetchRegFirstStep = phoneNumber => async dispatch => {
         types: [FETCH_REG_FIRST_STEP, FETCH_REG_FIRST_STEP_SUCCESS, FETCH_REG_FIRST_STEP_ERROR],
         method: 'registration.firstStep',
         params: {
-          captcha: '',
-          mail: ' ',
-          testingPass: 'machtfrei',
           phone: phoneNumber,
         },
       },
@@ -154,9 +151,10 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
   }
 
   const { keys } = regDataSelector(getState());
+  let result;
 
   try {
-    await dispatch({
+    result = await dispatch({
       [CALL_GATE]: {
         types: [FETCH_REG_BLOCK_CHAIN, FETCH_REG_BLOCK_CHAIN_SUCCESS, FETCH_REG_BLOCK_CHAIN_ERROR],
         method: 'registration.toBlockChain',
@@ -178,15 +176,21 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     throw message;
   }
 
-  createPdf(keys, user, phoneNumber);
+  const { userId, username } = result;
+
+  createPdf(keys, {
+    userId,
+    username,
+    phoneNumber,
+  });
 
   // TODO uncomment after delay will be fined on backend
   // await dispatch(openWallet(user));
 
   const password = keys.privateKeys.active;
-  const auth = await dispatch(login(user, password));
+  const auth = await dispatch(login(userId, password));
   if (auth) {
-    saveAuth(user, password);
+    saveAuth(userId, password);
   }
 };
 
