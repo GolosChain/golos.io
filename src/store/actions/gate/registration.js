@@ -1,3 +1,6 @@
+import { isEmpty } from 'ramda';
+import { generateKeys } from 'cyber-client/lib/auth';
+
 import {
   FETCH_REG_FIRST_STEP,
   FETCH_REG_FIRST_STEP_SUCCESS,
@@ -25,7 +28,7 @@ import {
 import { regDataSelector, fullNumberSelector } from 'store/selectors/registration';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { saveAuth, setRegistrationData } from 'utils/localStorage';
-import { createPdf, generateKeys, stepToScreenId } from 'components/modals/SignUp/utils';
+import { createPdf, stepToScreenId } from 'components/modals/SignUp/utils';
 import { login } from './auth';
 import { openWallet } from '../cyberway/vesting';
 
@@ -141,12 +144,12 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     type: START_REG_BLOCK_CHAIN,
   });
 
-  if (!regData.keys.masterPrivateKey) {
-    const master = await generateKeys();
+  if (isEmpty(regData.keys)) {
+    const generatedKeys = await generateKeys(user);
 
     dispatch({
       type: SET_USERS_KEYS,
-      payload: { keys: master },
+      payload: { keys: generatedKeys },
     });
   }
 
@@ -160,9 +163,10 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
         method: 'registration.toBlockChain',
         params: {
           user,
-          owner: keys.publicKeys.owner,
-          active: keys.publicKeys.active,
-          posting: ' ',
+          owner: keys.owner.publicKey,
+          active: keys.active.publicKey,
+          posting: keys.posting.publicKey,
+          // TODO
           memo: ' ',
         },
       },
@@ -186,7 +190,7 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
 
   await dispatch(openWallet(user));
 
-  const password = keys.privateKeys.active;
+  const password = keys.active.privateKey;
   const auth = await dispatch(login(userId, password));
   if (auth) {
     saveAuth(userId, password);
