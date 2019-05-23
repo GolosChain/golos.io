@@ -46,7 +46,7 @@ export default function(state = initialState, { type, payload, meta }) {
       const updatePersonal = {};
 
       if (updatedMeta.profile_image !== undefined) {
-        updatePersonal.profileUrl = updatedMeta.profile_image;
+        updatePersonal.avatarUrl = updatedMeta.profile_image;
       }
 
       if (updatedMeta.cover_image !== undefined) {
