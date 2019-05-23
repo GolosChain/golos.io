@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { fetchPost } from 'store/actions/gate';
 import { createPost, updatePost } from 'store/actions/complex/content';
-import { waitForBlock, waitForTransaction } from 'store/actions/gate/content';
+import { waitForTransaction } from 'store/actions/gate/content';
 import { vote } from 'store/actions/complex/votes';
 import { createDeepEqualSelector } from 'store/selectors/common';
 import { currentUnsafeUserSelector } from 'store/selectors/auth';

@@ -45,7 +45,6 @@ export default class CommentForm extends Component {
 
     createComment: PropTypes.func.isRequired,
     updateComment: PropTypes.func.isRequired,
-    waitForBlock: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
     fetchPostComments: PropTypes.func.isRequired,
     uploadImage: PropTypes.func,
