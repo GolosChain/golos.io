@@ -147,8 +147,10 @@ export default class ConfirmationCode extends PureComponent {
   nextScreen = async () => {
     const { setScreenId, fetchRegVerify } = this.props;
     const { inputs } = this.state;
-    const code = inputs.join('');
-    if (code.length < NUMBER_OF_INPUTS) {
+    const codeStr = inputs.join('');
+    const code = Number(codeStr);
+
+    if (codeStr.length < NUMBER_OF_INPUTS) {
       this.setState({ codeError: LOCALE_NOT_FULL_CODE_ERROR });
       return;
     }

@@ -7,12 +7,13 @@ import {
   MASTER_KEY_SCREEN_ID,
 } from './constants';
 
-export function createPdf(keys, user, phoneNumber) {
+export function createPdf(keys, { userId, username, phoneNumber }) {
   const { masterPrivateKey, privateKeys } = keys;
 
   const privateKeysPdf = [
     `phone number: ${phoneNumber} `,
-    `username: ${user}`,
+    `user id: ${userId}`,
+    `username: ${username}`,
     `masterKey: ${masterPrivateKey}`,
   ];
   for (const key of Object.keys(privateKeys)) {
@@ -31,7 +32,7 @@ export function createPdf(keys, user, phoneNumber) {
   });
   pdfDoc.setFontSize(20);
   pdfDoc.text(privateKeysPdf, 10, 50);
-  pdfDoc.save(`Commun-private-keys(${user}).pdf`);
+  pdfDoc.save(`Commun-private-keys(${username}).pdf`);
 }
 
 export function generateKeys() {
