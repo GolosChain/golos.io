@@ -65,16 +65,16 @@ export const fetchRegFirstStep = phoneNumber => async dispatch => {
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === PHONE_ALREADY_REGISTERED) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === PHONE_ALREADY_REGISTERED) {
       dispatch(setFirstStepError('Phone has been already registered'));
-      throw message;
+      throw originalMessage;
     }
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
     dispatch(setFirstStepError('Unknown error.'));
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -97,11 +97,11 @@ export const fetchRegVerify = code => async (dispatch, getState) => {
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -120,11 +120,11 @@ export const fetchSetUser = username => async (dispatch, getState) => {
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -169,11 +169,11 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     });
 
     setRegistrationData({ isRegFinished: true });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
-      stepToScreenId(currentState);
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
+      return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 
   const { userId, username } = result;
@@ -184,8 +184,7 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     phoneNumber,
   });
 
-  // TODO uncomment after delay will be fined on backend
-  // await dispatch(openWallet(user));
+  await dispatch(openWallet(user));
 
   const password = keys.privateKeys.active;
   const auth = await dispatch(login(userId, password));

@@ -292,7 +292,7 @@ export default class ConfirmationCode extends PureComponent {
         >
           {tt('registration.next')}
         </SendButton>
-        <BackButton className="js-ConfirmationCodeBack" onClick={this.backToPreviousScreen}>
+        <BackButton light className="js-ConfirmationCodeBack" onClick={this.backToPreviousScreen}>
           {tt('g.back')}
         </BackButton>
       </>

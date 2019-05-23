@@ -163,9 +163,7 @@ export default function(state = initialState, { type, payload, error }) {
 
     case FETCH_REG_BLOCK_CHAIN_ERROR:
       let blockChainError = '';
-      if (error.code === 409) {
-        blockChainError = 'Already in blockchain (dev only)';
-      } else {
+      if (error) {
         blockChainError = 'Blockchain internal error.';
       }
 

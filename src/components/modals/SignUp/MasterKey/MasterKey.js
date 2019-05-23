@@ -15,7 +15,7 @@ import {
   ErrorText,
 } from '../commonStyled';
 
-const Download = styled(SendButton)`
+const ActionButton = styled(SendButton)`
   margin: 40px 0 70px;
 `;
 
@@ -42,7 +42,7 @@ export default class MasterKey extends Component {
     clearRegErrors();
   }
 
-  nextScreen = () => {
+  actionButtonClick = () => {
     const { setScreenId, blockChainError } = this.props;
     if (blockChainError) {
       this.sendToBlockChain();
@@ -53,10 +53,14 @@ export default class MasterKey extends Component {
   };
 
   async sendToBlockChain() {
-    const { fetchToBlockChain, blockChainStopLoader } = this.props;
+    const { fetchToBlockChain, blockChainStopLoader, setScreenId } = this.props;
 
     try {
-      await fetchToBlockChain();
+      const screenId = await fetchToBlockChain();
+      if (screenId) {
+        setScreenId(screenId);
+        setRegistrationData({ screenId });
+      }
       blockChainStopLoader();
     } catch (err) {
       blockChainStopLoader();
@@ -77,9 +81,9 @@ export default class MasterKey extends Component {
           {tt('registration.you_need_master_key_for_sign_in')}
         </LastScreenSubTitle>
         <CustomErrorText>{blockChainError}</CustomErrorText>
-        <Download className="js-MasterKeyDownload" onClick={this.nextScreen}>
+        <ActionButton className="js-MasterKeyDownload" onClick={this.actionButtonClick}>
           {blockChainError ? tt('g.back') : tt('registration.next')}
-        </Download>
+        </ActionButton>
       </>
     );
   }
