@@ -10,6 +10,7 @@ import { ALLOWED_IMAGE_TYPES } from 'constants/config';
 import { proxyImage } from 'utils/images';
 import { uploadImage, validateImageFile } from 'utils/uploadImages';
 import { displayError, displayMessage } from 'utils/toastMessages';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import Icon from 'components/golos-ui/Icon';
 
@@ -195,6 +196,11 @@ function DropZoneItem({ children, disabled, onDrop }) {
 
 DropZoneItem.propTypes = {
   onDrop: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+DropZoneItem.defaultProps = {
+  disabled: false,
 };
 
 const DropdownStyled = styled(Dropdown)`
@@ -333,7 +339,6 @@ export default class UserHeader extends Component {
     currentUser: PropTypes.shape({}),
     isOwner: PropTypes.bool,
     isSettingsPage: PropTypes.bool,
-    reputation: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     power: PropTypes.number,
     witnessInfo: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.instanceOf(Map)]),
 
@@ -344,7 +349,6 @@ export default class UserHeader extends Component {
     isOwner: false,
     isSettingsPage: false,
     currentUser: null,
-    reputation: 0,
     power: 0,
     witnessInfo: null,
   };
@@ -410,13 +414,24 @@ export default class UserHeader extends Component {
     });
   }
 
+  renderReputation() {
+    const { profile } = this.props;
+    const { reputation } = profile.stats;
+
+    if (isNil(reputation)) {
+      return null;
+    }
+
+    return <Reputation>{repLog10(reputation)}</Reputation>;
+  }
+
   renderAvatar() {
-    const { isOwner, isSettingsPage, profile, reputation } = this.props;
+    const { isOwner, isSettingsPage, profile } = this.props;
     const { isAvatarUploading } = this.state;
 
     return (
       <UserProfileAvatarWrapper>
-        {isNil(reputation) ? null : <Reputation>{reputation}</Reputation>}
+        {this.renderReputation()}
         <UserProfileAvatar avatarUrl={profile.personal.avatarUrl}>
           {isOwner && isSettingsPage && (
             <ReactDropZone

@@ -163,7 +163,7 @@ export default class CreateUsername extends PureComponent {
         <CustomSendButton className="js-CreateUsernameSend" onClick={this.nextScreen}>
           {tt('registration.next')}
         </CustomSendButton>
-        <BackButton className="js-CreateUsernameBack" onClick={this.backToPreviousScreen}>
+        <BackButton light className="js-CreateUsernameBack" onClick={this.backToPreviousScreen}>
           {tt('g.back')}
         </BackButton>
       </>

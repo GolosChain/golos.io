@@ -77,7 +77,7 @@ function log10(str) {
 }
 
 export const repLog10 = rep2 => {
-  if (rep2 == null || rep2 === 0) {
+  if (!rep2) {
     return rep2;
   }
 

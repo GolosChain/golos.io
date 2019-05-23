@@ -94,11 +94,11 @@ export default class CollapsingBlock extends PureComponent {
       collapsed = getState(props.saveStateKey);
     }
 
-    if (collapsed == null && props.initialCollapsed) {
+    if (collapsed === null && props.initialCollapsed) {
       collapsed = props.initialCollapsed;
     }
 
-    if (collapsed == null) {
+    if (collapsed === null) {
       collapsed = false;
     }
 
@@ -110,38 +110,6 @@ export default class CollapsingBlock extends PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._animationOffTimeout);
-  }
-
-  render() {
-    const { title, children, upperCase, withShadow } = this.props;
-    const { collapsed, height, animated } = this.state;
-
-    const passProps = {
-      ...this.props,
-      title: undefined,
-      upperCase: undefined,
-      initialCollapsed: undefined,
-      saveStateKey: undefined,
-    };
-
-    return (
-      <Root {...passProps} ref={this._onRootRef}>
-        <Header
-          onClick={this.onCollapseClick}
-          role="button"
-          aria-label={collapsed ? tt('g.uncollapse') : tt('g.collapse')}
-        >
-          {withShadow ? <Shadow /> : null}
-          <HeaderTitle upper={upperCase}>
-            {typeof title === 'function' ? title() : title}
-          </HeaderTitle>
-          <CollapseIcon name="chevron" flip={collapsed ? 1 : 0} />
-        </Header>
-        <BodyWrapper animated={animated} style={{ height: height || (collapsed ? 0 : null) }}>
-          <Body ref={this._onBodyRef}>{children}</Body>
-        </BodyWrapper>
-      </Root>
-    );
   }
 
   _onRootRef = el => {
@@ -203,13 +171,45 @@ export default class CollapsingBlock extends PureComponent {
       );
     }
   };
+
+  render() {
+    const { title, children, upperCase, withShadow } = this.props;
+    const { collapsed, height, animated } = this.state;
+
+    const passProps = {
+      ...this.props,
+      title: undefined,
+      upperCase: undefined,
+      initialCollapsed: undefined,
+      saveStateKey: undefined,
+    };
+
+    return (
+      <Root {...passProps} ref={this._onRootRef}>
+        <Header
+          onClick={this.onCollapseClick}
+          role="button"
+          aria-label={collapsed ? tt('g.uncollapse') : tt('g.collapse')}
+        >
+          {withShadow ? <Shadow /> : null}
+          <HeaderTitle upper={upperCase}>
+            {typeof title === 'function' ? title() : title}
+          </HeaderTitle>
+          <CollapseIcon name="chevron" flip={collapsed ? 1 : 0} />
+        </Header>
+        <BodyWrapper animated={animated} style={{ height: height || (collapsed ? 0 : null) }}>
+          <Body ref={this._onBodyRef}>{children}</Body>
+        </BodyWrapper>
+      </Root>
+    );
+  }
 }
 
 function getState(key) {
   if (process.browser) {
     const value = localStorage.getItem(`golos.collapse.${key}`);
 
-    if (value != null) {
+    if (value !== null) {
       return value === '1';
     }
     return null;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import { Link } from 'mocks/react-router';
+import { Link } from 'shared/routes';
 
 import Icon from 'components/golos-ui/Icon';
 
@@ -12,14 +12,14 @@ import Userpic from 'components/common/Userpic';
 import { ClosePopoverButton } from 'components/post/PopoverAdditionalStyles';
 import Mute from 'components/common/Mute';
 import Follow from 'components/common/Follow';
-// import UserStatus from 'components/userProfile/common/UserStatus';
+import UserStatus from 'components/userProfile/common/UserStatus';
 
 const USER_ICON_SIZE = 50;
 
 const Block = styled.div`
   width: 100%;
   border-bottom: 2px solid #e1e1e1;
-  padding: 17px 0 21px;
+  padding: 20px 0;
 
   &:last-child {
     border-bottom: none;
@@ -55,7 +55,8 @@ const AuthorTitle = styled.div`
   padding-right: 20px;
 `;
 
-const AuthorInfoBlock = styled(Link)`
+const AuthorInfoBlock = styled.a`
+  display: block;
   padding-right: 12px;
   margin-right: auto;
 `;
@@ -80,15 +81,16 @@ const AuthorAccount = styled.div`
 `;
 
 const About = styled.p`
-  color: #959595;
+  padding: 20px 0;
   font: 16px 'Open Sans', sans-serif;
   letter-spacing: -0.26px;
   line-height: 24px;
+  color: #959595;
 `;
 
 const Followers = styled.div``;
 
-const AvatarLink = styled(Link)`
+const AvatarLink = styled.a`
   position: relative;
   display: flex;
   width: ${USER_ICON_SIZE}px;
@@ -167,32 +169,21 @@ export default class PopoverBody extends Component {
   };
 
   componentDidMount() {
-    this.fetchFollowData();
     if (this.props.pinnedPostsUrls) {
       this.props.getPostContent(this.props.pinnedPostsUrls);
     }
   }
 
-  fetchFollowData() {
-    const { account, followersCount, loadUserFollowData } = this.props;
-    if (!followersCount) {
-      loadUserFollowData(account);
-    }
-  }
-
   render() {
     const {
-      account,
-      name,
-      about,
-      followersCount,
+      profile,
       pinnedPosts,
       showFollowBlock,
       reputation,
       closePopover,
       className,
     } = this.props;
-    const linkToAccount = `/@${account}`;
+    const { userId, personal, subscribers } = profile;
 
     return (
       <Wrapper className={className}>
@@ -201,17 +192,23 @@ export default class PopoverBody extends Component {
         </ClosePopoverButton>
         <Block>
           <AuthorTitle>
-            <AuthorInfoBlock to={linkToAccount}>
-              <AuthorName>{name}</AuthorName>
-              <AuthorAccount aria-label={tt('aria_label.username')}>@{account}</AuthorAccount>
-            </AuthorInfoBlock>
-            <AvatarLink to={linkToAccount} aria-label={tt('aria_label.avatar')} rating={reputation}>
-              <Userpic userId={account} size={USER_ICON_SIZE} />
-            </AvatarLink>
+            <Link route="profile" params={{ userId }} passHref>
+              <AuthorInfoBlock>
+                <AuthorName>{personal.name || userId}</AuthorName>
+                <AuthorAccount aria-label={tt('aria_label.username')}>@{userId}</AuthorAccount>
+              </AuthorInfoBlock>
+            </Link>
+            <Link route="profile" params={{ userId }} passHref>
+              <AvatarLink aria-label={tt('aria_label.avatar')} rating={reputation}>
+                <Userpic userId={userId} size={USER_ICON_SIZE} />
+              </AvatarLink>
+            </Link>
           </AuthorTitle>
-          {/* <UserStatus currentAccount={account} popover /> */}
-          <About>{about}</About>
-          <Followers>{tt('user_profile.follower_count', { count: followersCount })}</Followers>
+          <UserStatus profile={profile} popover />
+          {Boolean(personal.about) && <About>{personal.about}</About>}
+          <Followers>
+            {tt('user_profile.follower_count', { count: subscribers.usersCount })}
+          </Followers>
         </Block>
         {pinnedPosts.length > 0 && (
           <Block>
@@ -224,16 +221,12 @@ export default class PopoverBody extends Component {
             ))}
           </Block>
         )}
-        {showFollowBlock && (
+        {/*{showFollowBlock && (
           <ButtonsBlock>
-            <FollowButton
-              following={account}
-              collapseOnMobile={false}
-              onClick={this.closePopover}
-            />
-            <MuteButton role="button" muting={account} onClick={this.closePopover} />
+            <FollowButton following={userId} collapseOnMobile={false} onClick={this.closePopover} />
+            <MuteButton role="button" muting={userId} onClick={this.closePopover} />
           </ButtonsBlock>
-        )}
+        )}*/}
       </Wrapper>
     );
   }

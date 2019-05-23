@@ -147,8 +147,10 @@ export default class ConfirmationCode extends PureComponent {
   nextScreen = async () => {
     const { setScreenId, fetchRegVerify } = this.props;
     const { inputs } = this.state;
-    const code = inputs.join('');
-    if (code.length < NUMBER_OF_INPUTS) {
+    const codeStr = inputs.join('');
+    const code = Number(codeStr);
+
+    if (codeStr.length < NUMBER_OF_INPUTS) {
       this.setState({ codeError: LOCALE_NOT_FULL_CODE_ERROR });
       return;
     }
@@ -290,7 +292,7 @@ export default class ConfirmationCode extends PureComponent {
         >
           {tt('registration.next')}
         </SendButton>
-        <BackButton className="js-ConfirmationCodeBack" onClick={this.backToPreviousScreen}>
+        <BackButton light className="js-ConfirmationCodeBack" onClick={this.backToPreviousScreen}>
           {tt('g.back')}
         </BackButton>
       </>

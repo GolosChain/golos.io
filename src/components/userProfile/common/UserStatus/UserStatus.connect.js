@@ -1,31 +1,17 @@
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 
-// import { getUserStatus } from 'helpers/users';
+import { getUserStatus } from 'helpers/users';
+import { entitySelector } from 'store/selectors/common';
 
 import UserStatus from './UserStatus';
 
-// const selector = createSelector(
-//     [
-//         (state, props) => {
-//             const account =
-//                 props.currentAccount instanceof Map
-//                     ? props.currentAccount.name
-//                     : props.currentAccount;
-//             return globalSelector(['accounts', account])(state);
-//         },
-//     ],
-//     user => {
-//         if (!user) {
-//             return {};
-//         }
-//
-//         const power = parseFloat(user.get('vesting_shares')).toFixed(3);
-//         return {
-//             userStatus: getUserStatus(power),
-//             power,
-//         };
-//     }
-// );
+export default connect((state, props) => {
+  // mocked data
+  // const profile = entitySelector('profile', props);
+  const power = parseFloat('800000').toFixed(3);
 
-export default connect()(UserStatus);
+  return {
+    userStatus: getUserStatus(power),
+    power,
+  };
+})(UserStatus);

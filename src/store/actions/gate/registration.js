@@ -61,23 +61,20 @@ export const fetchRegFirstStep = phoneNumber => async dispatch => {
         types: [FETCH_REG_FIRST_STEP, FETCH_REG_FIRST_STEP_SUCCESS, FETCH_REG_FIRST_STEP_ERROR],
         method: 'registration.firstStep',
         params: {
-          captcha: '',
-          mail: ' ',
-          testingPass: 'machtfrei',
           phone: phoneNumber,
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === PHONE_ALREADY_REGISTERED) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === PHONE_ALREADY_REGISTERED) {
       dispatch(setFirstStepError('Phone has been already registered'));
-      throw message;
+      throw originalMessage;
     }
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
     dispatch(setFirstStepError('Unknown error.'));
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -100,11 +97,11 @@ export const fetchRegVerify = code => async (dispatch, getState) => {
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -123,11 +120,11 @@ export const fetchSetUser = username => async (dispatch, getState) => {
         },
       },
     });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
       return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 };
 
@@ -154,9 +151,10 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
   }
 
   const { keys } = regDataSelector(getState());
+  let result;
 
   try {
-    await dispatch({
+    result = await dispatch({
       [CALL_GATE]: {
         types: [FETCH_REG_BLOCK_CHAIN, FETCH_REG_BLOCK_CHAIN_SUCCESS, FETCH_REG_BLOCK_CHAIN_ERROR],
         method: 'registration.toBlockChain',
@@ -171,22 +169,27 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     });
 
     setRegistrationData({ isRegFinished: true });
-  } catch ({ message, currentState }) {
-    if (message.split(': ')[1] === INVALID_STEP_TAKEN) {
-      stepToScreenId(currentState);
+  } catch ({ originalMessage, currentState }) {
+    if (originalMessage === INVALID_STEP_TAKEN) {
+      return stepToScreenId(currentState);
     }
-    throw message;
+    throw originalMessage;
   }
 
-  createPdf(keys, user, phoneNumber);
+  const { userId, username } = result;
 
-  // TODO uncomment after delay will be fined on backend
-  // await dispatch(openWallet(user));
+  createPdf(keys, {
+    userId,
+    username,
+    phoneNumber,
+  });
+
+  await dispatch(openWallet(user));
 
   const password = keys.privateKeys.active;
-  const auth = await dispatch(login(user, password));
+  const auth = await dispatch(login(userId, password));
   if (auth) {
-    saveAuth(user, password);
+    saveAuth(userId, password);
   }
 };
 
