@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -70,8 +71,14 @@ const AccountPowerChunk = styled.div`
 `;
 
 export default class AccountInfo extends PureComponent {
+  static propTypes = {
+    userId: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    votingPower: PropTypes.number.isRequired,
+  };
+
   render() {
-    const { votingPower, name, userId } = this.props;
+    const { votingPower, username, userId } = this.props;
 
     const powerPercent = formatPower(votingPower);
 
@@ -80,7 +87,7 @@ export default class AccountInfo extends PureComponent {
         <AccountInfoBlock>
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>
-            <AccountName>{name}</AccountName>
+            <AccountName>{username}</AccountName>
             <AccountPowerBlock>
               <AccountPowerBar title={tt('header.voice_power', { voicePower: powerPercent })}>
                 <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />

@@ -882,7 +882,7 @@
       "zero": "Коментарiв"
     },
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 підписник",
       "other": "%(count)s підписників",
       "zero": "0 підписників"

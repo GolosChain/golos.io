@@ -2,18 +2,29 @@ import ToastsManager from 'toasts-manager';
 
 import { normalizeCyberwayErrorMessage } from './errors';
 
-export function displayError(title, err) {
-  // eslint-disable-next-line no-param-reassign
-  title = title.endsWith(':') ? title : `${title}:`;
+export function displayMessage(text) {
+  ToastsManager.info(text);
+}
 
-  // eslint-disable-next-line no-console
-  console.error(title, err);
+export function displayError(title, err) {
+  if (arguments.length === 1) {
+    err = title;
+    title = null;
+  }
+
+  let prefix = null;
+
+  if (title) {
+    prefix = title.endsWith(':') ? title : `${title}:`;
+  }
+
+  if (prefix) {
+    console.error(prefix, err);
+  } else {
+    console.error(err);
+  }
 
   const message = normalizeCyberwayErrorMessage(err);
 
-  ToastsManager.error(`${title} ${message}`);
-}
-
-export function displayMessage(text) {
-  ToastsManager.info(text);
+  ToastsManager.error(`${prefix ? `${prefix} ` : ''}${message}`);
 }

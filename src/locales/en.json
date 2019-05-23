@@ -987,7 +987,7 @@
     },
     "change_cover": "Change cover",
     "explore_APP_NAME": "Explore %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 follower",
       "other": "%(count)s followers",
       "zero": "No followers"
