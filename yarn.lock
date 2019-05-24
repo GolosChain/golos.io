@@ -777,7 +777,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4":
+"@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4":
   version "7.4.3"
   resolved "http://159.69.117.25:4873/@babel%2fruntime/-/runtime-7.4.3.tgz#79888e452034223ad9609187a0ad1fe0d2ad4bdc"
   integrity sha512-9lsJwJLxDh/T3Q3SZszfWOTkk3pHbkmH+3KY+zwIDmsNlxsumuhS2TH3NIpktU4kNvfzy+k3eLT7aTJSPTo0OA==
@@ -3714,13 +3714,13 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@^1.1.20:
-  version "1.1.20"
-  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.20.tgz#b9ad13adfa51600fbaae8e1bf3192ce9e8c90a7a"
-  integrity sha512-ChPltRDJNqVeVQcXGQeUPYL7FLBMVh2VkUPisFA08a+3c/hKqS8uz3g+bYveAbvP7Dq5L/7BUNpcsAY4WLX6SA==
+cyber-client@^1.1.21:
+  version "1.1.21"
+  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.21.tgz#49e200bd6df9ce3e822a3f3fb944bf630f93baaf"
+  integrity sha512-eMIqNonOb/gBC6lo82hlblarfYTiRhbMpDUBOfwxUCHof3sPfnh+DcGOU8pPM0bfsMZC1eBtvwi0HbCGHYh5Bg==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    cyberwayjs "^20.0.0-beta3.5"
+    cyberwayjs "^20.0.0-beta4"
     idb "^3.0.2"
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
@@ -3730,20 +3730,10 @@ cyber-country-flag@^0.0.3:
   resolved "http://159.69.117.25:4873/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
   integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
 
-cyber-keygen@^1.3.3:
-  version "1.3.3"
-  resolved "http://159.69.117.25:4873/cyber-keygen/-/cyber-keygen-1.3.3.tgz#449753d1dfea5c88f3c83a16de434d8744a84141"
-  integrity sha512-/pgcNQtC9ogr1/d6ujFQQZ6wJNGCOkBz6grWGcK4UXTNdOH4/JjvlEMTlrukiZa6y9pAnZ0iMxpi4K+h1egQfg==
-  dependencies:
-    eosjs-ecc "^4.0.1"
-    history "^4.7.2"
-    localStorage "^1.0.3"
-    minimatch "^3.0.4"
-
-cyberwayjs@^20.0.0-beta3.5:
-  version "20.0.0-beta3.5"
-  resolved "http://159.69.117.25:4873/cyberwayjs/-/cyberwayjs-20.0.0-beta3.5.tgz#4a72bf3f386cf389040564ce311b0080b52ff506"
-  integrity sha512-AzvDaUXt/mjwp5ISHrWpFa98ryh+jTZH5sNaDKv/bbQj+mVc8S8qja1lyBSp/bx+D57Pq9bHM7VQ7Tc3GW/lOg==
+cyberwayjs@^20.0.0-beta4:
+  version "20.0.0-beta4"
+  resolved "http://159.69.117.25:4873/cyberwayjs/-/cyberwayjs-20.0.0-beta4.tgz#2c4da2dac5157f2981085e97034f228435336709"
+  integrity sha512-oS5dJJH926F5txtzD1Im94Vch5HY4G5bLy4xVUhbVhky2fHvh6e27/cURnxSbAk+VGrWuNSeuXMWu9bM+HqmXQ==
   dependencies:
     babel-polyfill "^6.26.0"
     eosjs-ecc "^4.0.1"
@@ -5675,18 +5665,6 @@ he@1.2.x, he@^1.1.1:
   resolved "http://159.69.117.25:4873/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-history@^4.7.2:
-  version "4.9.0"
-  resolved "http://159.69.117.25:4873/history/-/history-4.9.0.tgz#84587c2068039ead8af769e9d6a6860a14fa1bca"
-  integrity sha512-H2DkjCjXf0Op9OAr6nJ56fcRkTSNrUiv41vNJ6IswJjif6wlpZK0BTfFbi7qK9dXLSYZxkq5lBsj3vUjlYBYZA==
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    loose-envify "^1.2.0"
-    resolve-pathname "^2.2.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
-    value-equal "^0.4.0"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "http://159.69.117.25:4873/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -7471,11 +7449,6 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-localStorage@^1.0.3:
-  version "1.0.4"
-  resolved "http://159.69.117.25:4873/localStorage/-/localStorage-1.0.4.tgz#57dfa28084385f81431accb8ae24b196398223f7"
-  integrity sha512-r35zrihcDiX+dqWlJSeIwS9nrF95OQTgqMFm3FB2D/+XgdmZtcutZOb7t0xXkhOEM8a9kpuu7cc28g1g36I5DQ==
-
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "http://159.69.117.25:4873/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -7620,7 +7593,7 @@ longest@^1.0.1:
   resolved "http://159.69.117.25:4873/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "http://159.69.117.25:4873/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -10283,11 +10256,6 @@ resolve-global@0.1.0, resolve-global@^0.1.0:
   dependencies:
     global-dirs "^0.1.0"
 
-resolve-pathname@^2.2.0:
-  version "2.2.0"
-  resolved "http://159.69.117.25:4873/resolve-pathname/-/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
-  integrity sha512-bAFz9ld18RzJfddgrO2e/0S2O81710++chRMUxHjXOYKF6jTAMrUNZrEZ1PvV0zlhfjidm08iRPdTLPno1FuRg==
-
 resolve-url@^0.2.1:
   version "0.2.1"
   resolved "http://159.69.117.25:4873/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
@@ -11558,12 +11526,7 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tiny-invariant@^1.0.2:
-  version "1.0.4"
-  resolved "http://159.69.117.25:4873/tiny-invariant/-/tiny-invariant-1.0.4.tgz#346b5415fd93cb696b0c4e8a96697ff590f92463"
-  integrity sha512-lMhRd/djQJ3MoaHEBrw8e2/uM4rs9YMNk0iOr8rHQ0QdbM7D4l0gFl3szKdeixrlyfm9Zqi4dxHCM2qVG8ND5g==
-
-tiny-warning@1.0.2, tiny-warning@^1.0.0:
+tiny-warning@1.0.2:
   version "1.0.2"
   resolved "http://159.69.117.25:4873/tiny-warning/-/tiny-warning-1.0.2.tgz#1dfae771ee1a04396bdfde27a3adcebc6b648b28"
   integrity sha512-rru86D9CpQRLvsFG5XFdy0KdLAvjdQDyZCsRcuu60WtzFylDM3eAWSxEVz5kzL2Gp544XiUvPbVKtOA/txLi9Q==
@@ -12087,11 +12050,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-value-equal@^0.4.0:
-  version "0.4.0"
-  resolved "http://159.69.117.25:4873/value-equal/-/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
-  integrity sha512-x+cYdNnaA3CxvMaTX0INdTCN8m8aF2uY9BvEqmxuYp8bL09cs/kWVQPVGcA35fMktdOsP69IgU7wFj/61dJHEw==
 
 vary@~1.1.2:
   version "1.1.2"

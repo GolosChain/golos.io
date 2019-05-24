@@ -1,5 +1,3 @@
-import { Keygen as keyGen } from 'cyber-keygen';
-
 import {
   PHONE_SCREEN_ID,
   CONFIRM_CODE_SCREEN_ID,
@@ -9,17 +7,17 @@ import {
 } from './constants';
 
 export function createPdf(keys, { userId, username, phoneNumber }) {
-  const { masterPrivateKey, privateKeys } = keys;
+  const { master, owner, active, posting } = keys;
 
   const privateKeysPdf = [
     `phone number: ${phoneNumber} `,
     `user id: ${userId}`,
     `username: ${username}`,
-    `masterKey: ${masterPrivateKey}`,
+    `masterKey: ${master}`,
+    `posting: ${posting.privateKey}`,
+    `active: ${active.privateKey}`,
+    `owner: ${owner.privateKey}`,
   ];
-  for (const key of Object.keys(privateKeys)) {
-    privateKeysPdf.push(`${key}: ${privateKeys[key]}`);
-  }
 
   let JsPdf = null;
   if (process.browser) {
@@ -33,11 +31,7 @@ export function createPdf(keys, { userId, username, phoneNumber }) {
   });
   pdfDoc.setFontSize(20);
   pdfDoc.text(privateKeysPdf, 10, 50);
-  pdfDoc.save(`Commun-private-keys(${username}).pdf`);
-}
-
-export function generateKeys() {
-  return keyGen.generateMasterKeys();
+  pdfDoc.save(`Golos-private-keys(${username}).pdf`);
 }
 
 // eslint-disable-next-line consistent-return

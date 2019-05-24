@@ -9,11 +9,7 @@ import { setRegistrationData } from 'utils/localStorage';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 
 import { MASTER_KEY_SCREEN_ID, PHONE_SCREEN_ID } from '../constants';
-import {
-  LOCALE_USERNAME_EMPTY_ERROR,
-  LOCALE_NAME_LESS_SYMBOLS,
-  LOCALE_ONE_DOT_IN_NAME,
-} from '../locales';
+import { LOCALE_USERNAME_EMPTY_ERROR, LOCALE_ONE_DOT_IN_NAME } from '../locales';
 import { SubTitle, Input, SendButton, BackButton, ErrorText } from '../commonStyled';
 
 const UsernameInput = styled(Input)`
@@ -126,10 +122,6 @@ export default class CreateUsername extends PureComponent {
   checkUsername(username) {
     if (!username) {
       this.setState({ usernameError: LOCALE_USERNAME_EMPTY_ERROR });
-      return false;
-    }
-    if (username.length > 12) {
-      this.setState({ usernameError: LOCALE_NAME_LESS_SYMBOLS });
       return false;
     }
     if ((username.match(/\./g) || []).length > 1) {
