@@ -4,7 +4,12 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 
-import { MODAL_CANCEL, SHOW_MODAL_LOGIN, SHOW_MODAL_SIGNUP } from 'store/constants/modalTypes';
+import {
+  MODAL_CANCEL,
+  SHOW_MODAL_LOGIN,
+  SHOW_MODAL_SIGNUP,
+  SHOW_MODAL_BECOME_LOADER,
+} from 'store/constants/modalTypes';
 // import ScrollFix from 'components/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
 
@@ -61,6 +66,7 @@ const ModalBackground = styled.div`
 const modalsMap = new Map([
   [SHOW_MODAL_LOGIN, dynamic(() => import('components/modals/Login'))],
   [SHOW_MODAL_SIGNUP, dynamic(() => import('components/modals/SignUp'))],
+  [SHOW_MODAL_BECOME_LOADER, dynamic(() => import('components/modals/BecomeLeader'))],
 ]);
 
 export default class ModalManager extends PureComponent {
