@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
+import { displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import { Input } from 'components/golos-ui/Form';
-import { displayError } from 'utils/toastMessages';
 
 const Wrapper = styled.div`
-  padding: 30px;
+  padding: 20px 30px 28px;
   border-radius: 6px;
   background-color: #fff;
 `;
@@ -25,6 +26,7 @@ const Field = styled.label`
 `;
 
 const FieldTitle = styled.span`
+  display: block;
   margin-bottom: 6px;
 `;
 
@@ -72,17 +74,17 @@ export default class BecomeLeader extends PureComponent {
 
     return (
       <Wrapper>
-        <HeaderTitle>Зарегистрироваться как делегат</HeaderTitle>
+        <HeaderTitle>{tt('witnesses_jsx.register_dialog.title')}</HeaderTitle>
         <Fields>
           <Field>
-            <FieldTitle>Ссылка на приветственный пост:</FieldTitle>
+            <FieldTitle>{tt('witnesses_jsx.register_dialog.title')}:</FieldTitle>
             <Input placeholder="https://" value={url} onChange={this.onUrlChange} />
           </Field>
         </Fields>
         <FooterButtons>
-          <Button onClick={this.onRegisterClick}>Register</Button>
+          <Button onClick={this.onRegisterClick}>{tt('g.register')}</Button>
           <Button light onClick={this.onCancelClick}>
-            Cancel
+            {tt('g.cancel')}
           </Button>
         </FooterButtons>
       </Wrapper>

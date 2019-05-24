@@ -472,6 +472,7 @@
     "reputation": "Reputation",
     "request": "request",
     "required": "Required",
+    "register": "Register",
     "rewards": "Rewards",
     "save": "Save",
     "saved": "Saved",
@@ -1192,6 +1193,12 @@
       "one": "You have 1 vote remaining",
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
+    },
+    "become": "Become a witness",
+    "manage": "Manage",
+    "register_dialog": {
+      "title": "Register as witness",
+      "url": "Witness welcome post link"
     }
   },
   "settings": {

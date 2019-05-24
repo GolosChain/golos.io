@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
 
+import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
-import Icon from '../../golos-ui/Icon/Icon';
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,10 +84,10 @@ export default class WitnessHeader extends PureComponent {
     }
 
     if (isWitness) {
-      return <Button onClick={this.onManageClick}>Manage</Button>;
+      return <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>;
     }
 
-    return <Button onClick={this.onBecomeLeaderClick}>Become a leader</Button>;
+    return <Button onClick={this.onBecomeLeaderClick}>{tt('witnesses_jsx.become')}</Button>;
   }
 
   render() {
