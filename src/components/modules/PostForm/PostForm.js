@@ -288,6 +288,9 @@ export default class PostForm extends React.Component {
 
   componentWillUnmount() {
     this._unmount = true;
+    this._saveDraftLazy.cancel();
+    this.checkBodyLazy.cancel();
+
     window.removeEventListener('scroll', this.checkPreviewButtonPosition);
   }
 

@@ -128,6 +128,9 @@ export default class CommentForm extends Component {
     if (forwardRef) {
       forwardRef.current = null;
     }
+
+    this.saveDraftLazy.cancel();
+    this.checkBodyLazy.cancel();
   }
 
   setFocus() {

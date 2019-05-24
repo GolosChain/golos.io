@@ -156,6 +156,7 @@ export default class WalletContent extends Component {
     this.unmount = true;
 
     window.removeEventListener('scroll', this.onScrollLazy);
+    this.onScrollLazy.cancel();
   }
 
   onMainTabChange = ({ id }) => {
