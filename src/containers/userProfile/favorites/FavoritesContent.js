@@ -70,7 +70,7 @@ export default class FavoritesContent extends Component {
       );
     }
 
-    return <FavoritePostsList userId={userId} />;
+    return <FavoritePostsList isProfile userId={userId} />;
   }
 
   render() {

@@ -30,14 +30,16 @@ export default connect(
       currentUserIdSelector,
       (state, props) => props.post,
       (state, props) => entitySelector('users', props.post.author)(state),
+      (state, props) => entitySelector('profiles', props.post.author)(state),
       dataSelector(['favorites', 'postsList']),
     ],
-    (currentUserId, post, author, favoritePosts = []) => {
+    (currentUserId, post, author, authorProfile, favoritePosts = []) => {
       const isOwner = currentUserId === post.author;
       const isFavorite = favoritePosts.some(favoritePost => favoritePost === post.id);
 
       return {
         author,
+        authorProfile,
         isOwner,
         isFavorite,
       };

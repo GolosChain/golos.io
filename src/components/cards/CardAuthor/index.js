@@ -1,1 +1,1 @@
-export { default } from './CardAuthor';
+export { default } from './CardAuthor.connect';

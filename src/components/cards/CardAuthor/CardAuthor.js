@@ -162,27 +162,32 @@ export default class CardAuthor extends Component {
   };
 
   renderPopover() {
-    const { popoverOffsetTop, author } = this.props;
+    const { popoverOffsetTop, author, profile } = this.props;
     const { showPopover } = this.state;
 
-    return (
+    return showPopover && profile ? (
       <>
         <PopoverBackgroundShade show={showPopover} />
-        {showPopover && (
-          <AvatarBox popoverOffsetTop={popoverOffsetTop} userPicSize={USER_PIC_SIZE}>
-            <ToggleFeature flag={CARDAUTHOR_POPOVERBODY}>
-              <PopoverStyled closePopover={this.closePopover} show>
-                <PopoverBody userId={author.id} closePopover={this.closePopover} />
-              </PopoverStyled>
-            </ToggleFeature>
-          </AvatarBox>
-        )}
+        <AvatarBox popoverOffsetTop={popoverOffsetTop} userPicSize={USER_PIC_SIZE}>
+          <PopoverStyled closePopover={this.closePopover} show>
+            <PopoverBody userId={author.id} closePopover={this.closePopover} />
+          </PopoverStyled>
+        </AvatarBox>
       </>
-    );
+    ) : null;
   }
 
   render() {
-    const { contentId, author, isRepost, created, noLinks, commentInPost, className } = this.props;
+    const {
+      contentId,
+      author,
+      isRepost,
+      created,
+      noLinks,
+      commentInPost,
+      className,
+      profile,
+    } = this.props;
 
     let profileLinkProps = null;
 
@@ -206,20 +211,27 @@ export default class CardAuthor extends Component {
 
     return (
       <>
-        {this.renderPopover()}
         <Wrapper className={className}>
-          <Avatar
-            {...profileLinkProps}
-            aria-label={tt('aria_label.avatar')}
-            onClick={this.openPopover}
-          >
-            <Userpic account={author?.id} size={USER_PIC_SIZE} />
-            {isRepost ? (
-              <RepostIconWrapper>
-                <RepostIcon name="repost" width={14} height={12} />
-              </RepostIconWrapper>
-            ) : null}
-          </Avatar>
+          {profile ? (
+            <Avatar aria-label={tt('aria_label.avatar')} onClick={this.openPopover}>
+              <Userpic account={author?.id} size={USER_PIC_SIZE} />
+              {this.renderPopover()}
+              {isRepost ? (
+                <RepostIconWrapper>
+                  <RepostIcon name="repost" width={14} height={12} />
+                </RepostIconWrapper>
+              ) : null}
+            </Avatar>
+          ) : (
+            <Avatar {...profileLinkProps} aria-label={tt('aria_label.avatar')}>
+              <Userpic account={author?.id} size={USER_PIC_SIZE} />
+              {isRepost ? (
+                <RepostIconWrapper>
+                  <RepostIcon name="repost" width={14} height={12} />
+                </RepostIconWrapper>
+              ) : null}
+            </Avatar>
+          )}
           <PostDesc>
             <AuthorLine>
               <AuthorName {...profileLinkProps}>{author?.username}</AuthorName>
