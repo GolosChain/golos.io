@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { ToggleFeature } from '@flopflip/react-redux';
 
 import { Link } from 'shared/routes';
-import { CARDAUTHOR_POPOVERBODY } from 'shared/feature-flags';
 import Icon from 'components/golos-ui/Icon';
 import Userpic from 'components/common/Userpic';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
@@ -109,6 +107,7 @@ export default class CardAuthor extends Component {
       id: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired,
     }).isRequired,
+    profile: PropTypes.shape({}),
     contentLink: PropTypes.string,
     popoverOffsetTop: PropTypes.number,
     contentId: PropTypes.shape({}),
@@ -128,6 +127,7 @@ export default class CardAuthor extends Component {
     noLinks: false,
     commentInPost: false,
     infoPopover: false,
+    profile: null,
   };
 
   closePopoverTs = 0;

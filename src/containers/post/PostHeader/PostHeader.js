@@ -262,21 +262,21 @@ export default class PostHeader extends Component {
         <UserInfoWrapper>
           {authorProfile ? (
             <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
-              <UserpicStyled userId={author.id} size={50} />
+              <UserpicStyled userId={author?.id} size={50} />
               {showPopover && (
                 <>
                   <PopoverBackgroundShade show={showPopover} />
                   <AvatarBox popoverOffsetTop={50} userPicSize={50}>
                     <PopoverStyled closePopover={this.closePopover} show>
-                      <PopoverBody userId={author.id} closePopover={this.closePopover} />
+                      <PopoverBody userId={author?.id} closePopover={this.closePopover} />
                     </PopoverStyled>
                   </AvatarBox>
                 </>
               )}
             </Avatar>
           ) : (
-            <Avatar route={`/@${author.id}`} aria-label={tt('aria_label.avatar')}>
-              <UserpicStyled userId={author.id} size={50} />
+            <Avatar route={`/@${author?.id}`} aria-label={tt('aria_label.avatar')}>
+              <UserpicStyled userId={author?.id} size={50} />
             </Avatar>
           )}
           <InfoBlock>

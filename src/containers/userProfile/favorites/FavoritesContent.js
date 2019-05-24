@@ -24,6 +24,7 @@ export default class FavoritesContent extends Component {
     isOwner: PropTypes.bool,
     userId: PropTypes.string,
     list: PropTypes.arrayOf(PropTypes.string),
+    isSSR: PropTypes.bool,
 
     fetchFavorites: PropTypes.func.isRequired,
   };
@@ -32,6 +33,7 @@ export default class FavoritesContent extends Component {
     userId: '',
     isOwner: false,
     list: null,
+    isSSR: false,
   };
 
   async componentDidMount() {
