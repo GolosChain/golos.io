@@ -1,12 +1,7 @@
 import { path } from 'ramda';
 import update from 'immutability-helper';
 
-import {
-  SET_POST_VOTE,
-  RECORD_POST_VIEW_SUCCESS,
-  FETCH_POST_VIEW_COUNT_SUCCESS,
-  AUTH_LOGOUT,
-} from 'store/constants';
+import { SET_POST_VOTE, RECORD_POST_VIEW_SUCCESS, AUTH_LOGOUT } from 'store/constants';
 import { formatContentId } from 'store/schemas/gate';
 import { mergeEntities } from 'utils/store';
 import { applyVotesChanges } from 'utils/votes';
@@ -36,23 +31,19 @@ export default function(state = initialState, { type, payload, meta }) {
      */
     return mergeEntities(state, entities, {
       transform: post => ({
-        type: 'post',
         ...post,
+        type: 'post',
         id: formatContentId(post.contentId),
-        meta: {
-          ...post.meta,
-          viewCount: undefined,
-        },
       }),
       merge: (cachedPost, newPost) =>
         update(newPost, {
           content: {
             body: {
-              $set: newPost.content.body,
+              $apply: body => ({
+                ...cachedPost.content.body,
+                ...body,
+              }),
             },
-          },
-          meta: {
-            $set: newPost.meta,
           },
         }),
     });
@@ -70,11 +61,12 @@ export default function(state = initialState, { type, payload, meta }) {
         });
       }
       return state;
+
     case RECORD_POST_VIEW_SUCCESS:
       if (state[meta.contentUrl]) {
         return update(state, {
           [meta.contentUrl]: {
-            meta: {
+            stats: {
               viewCount: {
                 $apply: viewCount => viewCount + 1,
               },
@@ -83,26 +75,6 @@ export default function(state = initialState, { type, payload, meta }) {
         });
       }
       return state;
-    case FETCH_POST_VIEW_COUNT_SUCCESS:
-      let newState = state;
-
-      for (const { postLink, viewCount } of payload.results) {
-        if (!newState[postLink]) {
-          continue;
-        }
-
-        newState = update(newState, {
-          [postLink]: {
-            meta: {
-              viewCount: {
-                $set: viewCount,
-              },
-            },
-          },
-        });
-      }
-
-      return newState;
 
     case AUTH_LOGOUT:
       return unsetVoteStatus(state);
