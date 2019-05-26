@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -54,7 +54,7 @@ const PreInputNumberCode = styled.div`
   letter-spacing: -0.41px;
 
   ${({ isFilled, theme }) => `
-    color: ${isFilled ? theme.colors.contextBlack : theme.colors.contextGrey};
+    color: ${isFilled ? theme.colors.contextBlack : '#c8c8c8'};
   `};
 `;
 
@@ -94,7 +94,10 @@ export default class Phone extends PureComponent {
     phoneNumber: '',
     phoneNumberError: '',
     locationDataError: '',
+    isInputWrapperFocused: false,
   };
+
+  phoneInputRef = createRef();
 
   componentDidMount() {
     const { phoneNumber } = this.props;
@@ -109,7 +112,7 @@ export default class Phone extends PureComponent {
       this.setState({ phoneNumber: nextProps.phoneNumber });
     }
     if (locationData.code !== nextProps.locationData.code) {
-      this.setState({ locationDataError: '' });
+      this.resetLocDataError();
     }
   }
 
@@ -199,11 +202,23 @@ export default class Phone extends PureComponent {
 
   phoneInputBlured = () => {
     this.setPhoneNumberInStore();
+    this.setState({ isInputWrapperFocused: false });
+  };
+
+  phoneInputFocused = () => {
+    this.setState({ isInputWrapperFocused: true });
+  };
+
+  resetLocDataError = () => {
+    const { locationDataError } = this.state;
+    if (locationDataError) {
+      this.setState({ locationDataError: '' });
+    }
   };
 
   render() {
     const { locationData, isLoadingFirstStep, sendPhoneError, setLocationData } = this.props;
-    const { phoneNumber, phoneNumberError, locationDataError } = this.state;
+    const { phoneNumber, phoneNumberError, locationDataError, isInputWrapperFocused } = this.state;
     const { code } = locationData;
 
     return (
@@ -212,17 +227,20 @@ export default class Phone extends PureComponent {
         <SubTitle>{tt('registration.enter_your_phone_number')}</SubTitle>
         <DataInWrapper>
           <CountryChooser
+            phoneInputRef={this.phoneInputRef}
             locationData={locationData}
             locationDataError={locationDataError}
             setLocationData={setLocationData}
+            resetLocDataError={this.resetLocDataError}
           />
-          <PhoneInputWrapper error={phoneNumberError}>
+          <PhoneInputWrapper focused={isInputWrapperFocused} error={phoneNumberError}>
             {code ? (
               <PreInputNumberCode isFilled={phoneNumber ? 1 : 0}>+{code}</PreInputNumberCode>
             ) : null}
             <PhoneInput
               placeholder={tt('registration.enter_phone_number')}
               name="sign-up__phone-input"
+              ref={this.phoneInputRef}
               value={phoneNumber}
               isCode={code ? 1 : 0}
               onFocus={this.phoneInputFocused}
