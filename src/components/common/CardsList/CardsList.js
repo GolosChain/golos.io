@@ -167,12 +167,12 @@ export default class CardsList extends PureComponent {
   };
 
   itemRender = props => {
-    const { layout } = this.props;
+    const { layout, isProfile } = this.props;
 
     if (layout === 'compact') {
       return <PostCardCompact {...props} />;
     }
-    return <PostCard {...props} />;
+    return <PostCard postInFeed={!isProfile} {...props} />;
   };
 
   renderCards() {

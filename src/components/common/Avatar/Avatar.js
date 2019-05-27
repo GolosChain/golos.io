@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import is from 'styled-is';
 
 import { proxyImage } from 'utils/images';
 
@@ -51,12 +50,13 @@ export default class Avatar extends PureComponent {
   static propTypes = {
     avatarUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     size: PropTypes.number,
-    icon: PropTypes.object,
+    icon: PropTypes.shape({}),
   };
 
   static defaultProps = {
     size: 40,
     icon: null,
+    avatarUrl: null,
   };
 
   render() {
