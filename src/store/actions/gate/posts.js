@@ -97,15 +97,24 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
   });
 };
 
-export const fetchPostVotes = contentId => ({
-  [CALL_GATE]: {
-    types: [FETCH_POST_VOTES, FETCH_POST_VOTES_SUCCESS, FETCH_POST_VOTES_ERROR],
-    method: 'content.getPostVotes',
-    params: {
-      ...contentId,
+export const fetchPostVotes = (contentId, type = 'like', sequenceKey = null, limit = 20) => {
+  const params = {
+    ...contentId,
+    type,
+    sequenceKey,
+    limit,
+  };
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_POST_VOTES, FETCH_POST_VOTES_SUCCESS, FETCH_POST_VOTES_ERROR],
+      method: 'content.getPostVotes',
+      params,
     },
-  },
-  meta: {
-    contentId,
-  },
-});
+    meta: {
+      contentId,
+      type,
+      sequenceKey,
+      limit,
+    },
+  };
+};

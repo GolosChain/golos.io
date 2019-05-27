@@ -1,3 +1,5 @@
+import { displayError } from 'utils/toastMessages';
+
 export function applyVotesChanges(votes, action) {
   const newVotes = {
     ...votes,
@@ -25,6 +27,7 @@ export function applyVotesChanges(votes, action) {
         hasUpVote: false,
         hasDownVote: false,
       };
+    default:
   }
 
   if (newVotes.upCount < 0) {
@@ -36,4 +39,29 @@ export function applyVotesChanges(votes, action) {
   }
 
   return newVotes;
+}
+
+export async function getVoters(
+  { contentId, entityType, type },
+  sequenceKey,
+  fetchPostVotes,
+  fetchCommentVotes
+) {
+  try {
+    switch (entityType) {
+      case 'post':
+        await fetchPostVotes(contentId, type, sequenceKey);
+        return;
+
+      case 'comment':
+        await fetchCommentVotes(contentId, type, sequenceKey);
+        return;
+
+      default:
+        return;
+    }
+  } catch (err) {
+    // eslint-disable-next-line consistent-return
+    return displayError('Cannot load voters list', err);
+  }
 }
