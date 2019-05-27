@@ -34,7 +34,6 @@ export default class SettingsShow extends PureComponent {
       publicKeys,
       options,
       isFetching,
-      isRich,
       onSubmitBlockchain,
       onSubmitGate,
     } = this.props;
@@ -44,21 +43,16 @@ export default class SettingsShow extends PureComponent {
         {isFetching && <SplashLoader />}
         <Tabs activeTab={{ id: 'commonTab' }}>
           <TabContainer id="commonTab" title={tt('settings_jsx.tabs.common')}>
-            <Common
-              options={options}
-              isRich={isRich}
-              isFetching={isFetching}
-              onSubmitGate={onSubmitGate}
-            />
+            <Common options={options} isFetching={isFetching} onSubmitGate={onSubmitGate} />
           </TabContainer>
-          {/*<TabContainer id="accountTab" title={tt('settings_jsx.tabs.account')}>
+          <TabContainer id="accountTab" title={tt('settings_jsx.tabs.account')}>
             <Account
               profile={profile}
               options={options}
               isFetching={isFetching}
               onSubmitBlockchain={onSubmitBlockchain}
             />
-          </TabContainer>*/}
+          </TabContainer>
           <TabContainer id="notificationsTab" title={tt('settings_jsx.tabs.notifications')}>
             <Online options={options} onSubmitGate={onSubmitGate} />
             {/* <Notifications
