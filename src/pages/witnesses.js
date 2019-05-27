@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import { fetchLeaders } from 'store/actions/gate';
-import Witnesses from 'containers/witnesses/Witnesses';
+import Witnesses from 'components/witness/Witnesses';
 
 export default class WitnessesPage extends PureComponent {
   static async getInitialProps({ store }) {

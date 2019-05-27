@@ -1,11 +1,17 @@
 import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
 
-import { VOTE_WITNESS, UNVOTE_WITNESS } from 'store/constants/actionTypes';
+import {
+  VOTE_WITNESS,
+  UNVOTE_WITNESS,
+  REG_WITNESS,
+  REG_WITNESS_SUCCESS,
+  REG_WITNESS_ERROR,
+} from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
 const CONTRACT_NAME = 'ctrl';
 
-const voteWitnessAction = (methodName, actionName) => witness => async (dispatch, getState) => {
+const makeVoteWitnessAction = (methodName, actionName) => witness => (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -28,5 +34,28 @@ const voteWitnessAction = (methodName, actionName) => witness => async (dispatch
   });
 };
 
-export const voteWitness = voteWitnessAction('votewitness', VOTE_WITNESS);
-export const unvoteWitness = voteWitnessAction('unvotewitn', UNVOTE_WITNESS);
+export const voteWitness = makeVoteWitnessAction('votewitness', VOTE_WITNESS);
+export const unvoteWitness = makeVoteWitnessAction('unvotewitn', UNVOTE_WITNESS);
+
+export const registerWitness = ({ url }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const data = {
+    witness: userId,
+    url,
+  };
+
+  return dispatch({
+    [CYBERWAY_API]: {
+      types: [REG_WITNESS, REG_WITNESS_SUCCESS, REG_WITNESS_ERROR],
+      contract: CONTRACT_NAME,
+      method: 'regwitness',
+      params: data,
+    },
+    meta: data,
+  });
+};
