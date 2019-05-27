@@ -77,12 +77,16 @@ export const updateProfileMeta = meta => async (dispatch, getState) => {
     defaults(
       {
         name: current.name,
-        about: current.about,
         profile_image: current.avatarUrl,
         cover_image: current.coverUrl,
         gender: current.gender,
+        email: current.email,
         location: current.location,
+        about: current.about,
         website: current.website,
+        facebook: current.facebook,
+        vk: current.vk,
+        instagram: current.instagram,
       },
       DEFAULT_META_VALUES
     )

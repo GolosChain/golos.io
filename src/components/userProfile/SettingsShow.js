@@ -51,14 +51,14 @@ export default class SettingsShow extends PureComponent {
               onSubmitGate={onSubmitGate}
             />
           </TabContainer>
-          {/*<TabContainer id="accountTab" title={tt('settings_jsx.tabs.account')}>
+          <TabContainer id="accountTab" title={tt('settings_jsx.tabs.account')}>
             <Account
               profile={profile}
               options={options}
               isFetching={isFetching}
               onSubmitBlockchain={onSubmitBlockchain}
             />
-          </TabContainer>*/}
+          </TabContainer>
           <TabContainer id="notificationsTab" title={tt('settings_jsx.tabs.notifications')}>
             <Online options={options} onSubmitGate={onSubmitGate} />
             {/* <Notifications
