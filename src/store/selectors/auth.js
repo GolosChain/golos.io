@@ -1,4 +1,4 @@
-import { dataSelector } from './common';
+import { dataSelector, entitySelector } from './common';
 
 export const currentUserSelector = dataSelector(['auth', 'currentUser']);
 
@@ -41,4 +41,14 @@ export const currentUnsafeServerUserIdSelector = state => {
   }
 
   return currentUsernameSelector(state);
+};
+
+export const loggedProfileSelector = state => {
+  const userId = currentUnsafeUserIdSelector(state);
+
+  if (!userId) {
+    return null;
+  }
+
+  return entitySelector('profiles', userId)(state);
 };
