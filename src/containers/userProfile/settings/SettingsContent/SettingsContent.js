@@ -84,7 +84,7 @@ export default class SettingsContent extends PureComponent {
   };
 
   renderContent() {
-    const { profile, publicKeys, settingsData } = this.props;
+    const { profile, publicKeys, isRich, settingsData } = this.props;
     const { isLoading, error } = this.state;
 
     if (error) {
@@ -96,6 +96,7 @@ export default class SettingsContent extends PureComponent {
         profile={profile}
         publicKeys={publicKeys}
         options={settingsData}
+        isRich={isRich}
         isFetching={isLoading}
         onSubmitBlockchain={this.onSubmitBlockchain}
         onSubmitGate={this.onSubmitGate}
