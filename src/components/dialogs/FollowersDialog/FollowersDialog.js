@@ -94,7 +94,6 @@ export default class FollowersDialog extends PureComponent {
 
   render() {
     const { type, profile, items, isLoading, isEnd } = this.props;
-
     let totalCount;
 
     if (type === 'followers') {
