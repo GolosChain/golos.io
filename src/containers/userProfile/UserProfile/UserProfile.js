@@ -150,11 +150,11 @@ export default class UserProfile extends Component {
       );
     }
 
-    if (blockedUsers.includes(profile.name)) {
+    if (blockedUsers.includes(profile.username)) {
       return <IllegalContentMessage />;
     }
 
-    if (blockedUsersContent.includes(profile.name)) {
+    if (blockedUsersContent.includes(profile.username)) {
       return <BlockedContent reason={tt('g.blocked_user_content')} />;
     }
 
