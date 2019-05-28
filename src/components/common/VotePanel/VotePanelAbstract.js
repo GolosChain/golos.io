@@ -251,11 +251,11 @@ export default class VotePanelAbstract extends PureComponent {
     );
   }
 
-  // getPayoutInfoComponent = () => {
-  //   const { entity } = this.props;
-  //
-  //   return <PayoutInfo postLink={data.get('author') + '/' + data.get('permlink')} />;
-  // };
+  getPayoutInfoComponent = () => {
+    const { entity } = this.props;
+
+    return <PayoutInfo postLink={entity.id} />;
+  };
 
   // getVotesTooltips() {
   //   const { votesSummary } = this.props;
@@ -278,53 +278,66 @@ export default class VotePanelAbstract extends PureComponent {
   // }
 
   renderPayout(add) {
-    const { entity } = this.props;
-    const { isVoting } = this.state;
+    const { totalSum } = this.props;
+    const { isVoting, isMobile } = this.state;
     // const postLink = data.get('author') + '/' + data.get('permlink');
 
     const Money = this.getMoneyComponent();
 
-    // if (isMobile) {
-    //   return (
-    //     <MoneyWrapper aria-label={tt('aria_label.expected_payout')} onClick={this.onPayoutClick}>
-    //       <Money>
-    //         <PostPayoutStyled postLink={postLink} />
-    //         {add}
-    //       </Money>
-    //     </MoneyWrapper>
-    //   );
-    // } else {
-    //   return (
-    //     <Popover content={this.getPayoutInfoComponent}>
-    //       <MoneyWrapper>
-    //         <Money>
-    //           <PostPayoutStyled postLink={postLink} />
-    //           {add}
-    //         </Money>
-    //       </MoneyWrapper>
-    //     </Popover>
-    //   );
-    // }
-
-    // TODO: Temporary hidden payout value
-    return null;
+    if (isMobile) {
+      return (
+        <MoneyWrapper aria-label={tt('aria_label.expected_payout')} onClick={this.onPayoutClick}>
+          <Money isVoting={isVoting}>
+            {isVoting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : null}
+            <MoneyText isInvisible={isVoting}>
+              {totalSum} GOLOS
+              {/* <PostPayoutStyled postLink={postLink} /> */}
+              {add}
+            </MoneyText>
+          </Money>
+        </MoneyWrapper>
+      );
+    }
 
     return (
-      <MoneyWrapper>
-        <Money isVoting={isVoting}>
-          {isVoting ? (
-            <LoaderWrapper>
-              <LoadingIndicator type="circle" size={16} />
-            </LoaderWrapper>
-          ) : null}
-          <MoneyText isInvisible={isVoting}>
-            {entity.payout.rShares}
-            {/* <PostPayoutStyled postLink={postLink} /> */}
-            {add}
-          </MoneyText>
-        </Money>
-      </MoneyWrapper>
+      <Popover content={this.getPayoutInfoComponent}>
+        <MoneyWrapper>
+          <Money isVoting={isVoting}>
+            {isVoting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : null}
+            <MoneyText isInvisible={isVoting}>
+              {totalSum} GOLOS
+              {/* <PostPayoutStyled postLink={postLink} /> */}
+              {add}
+            </MoneyText>
+          </Money>
+        </MoneyWrapper>
+      </Popover>
     );
+
+    // return (
+    //   <MoneyWrapper>
+    //     <Money isVoting={isVoting}>
+    //       {isVoting ? (
+    //         <LoaderWrapper>
+    //           <LoadingIndicator type="circle" size={16} />
+    //         </LoaderWrapper>
+    //       ) : null}
+    //       <MoneyText isInvisible={isVoting}>
+    //         {entity.payout.rShares}
+    //         {/* <PostPayoutStyled postLink={postLink} /> */}
+    //         {add}
+    //       </MoneyText>
+    //     </Money>
+    //   </MoneyWrapper>
+    // );
   }
 
   hideSlider() {
