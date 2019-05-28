@@ -202,7 +202,12 @@ export default class VotePanelAbstract extends PureComponent {
         entityType: entity.type,
       };
 
-      await getVoters(data, null);
+      try {
+        await getVoters(data, null);
+      } catch (err) {
+        return displayError('Cannot load voters list', err);
+      }
+
       return this.openVotersDialog(data, entity.id, true);
     }
 
@@ -219,7 +224,12 @@ export default class VotePanelAbstract extends PureComponent {
         entityType: entity.type,
       };
 
-      await getVoters(data, null);
+      try {
+        await getVoters(data, null);
+      } catch (err) {
+        return displayError('Cannot load voters list', err);
+      }
+
       return this.openVotersDialog(data, entity.id, false);
     }
     return ToastsManager.err('Cannot load voters list');

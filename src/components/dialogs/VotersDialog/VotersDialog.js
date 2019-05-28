@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { displayError } from 'utils/toastMessages';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import Avatar from 'components/common/Avatar';
@@ -63,7 +64,11 @@ export default class VotersDialog extends PureComponent {
 
   loadMore = async () => {
     const { data, sequenceKey, getVoters } = this.props;
-    await getVoters(data, sequenceKey);
+    try {
+      await getVoters(data, sequenceKey);
+    } catch (err) {
+      displayError('Cannot load voters list', err);
+    }
   };
 
   onNeedLoadMore = () => {
