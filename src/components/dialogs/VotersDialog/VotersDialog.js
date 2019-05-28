@@ -108,7 +108,11 @@ export default class VotersDialog extends PureComponent {
           <IconClose onClick={onClose} />
         </Header>
         <Content>
-          <InfinityScrollHelper disabled={isLoading || isEnd} onNeedLoadMore={this.onNeedLoadMore}>
+          <InfinityScrollHelper
+            isDialog
+            disabled={isLoading || isEnd}
+            onNeedLoadMore={this.onNeedLoadMore}
+          >
             {this.renderUsers()}
           </InfinityScrollHelper>
           {isLoading && (

@@ -109,7 +109,11 @@ export default class FollowersDialog extends PureComponent {
           <IconClose onClick={this.props.onClose} />
         </Header>
         <Content>
-          <InfinityScrollHelper disabled={isLoading || isEnd} onNeedLoadMore={this.onNeedLoadMore}>
+          <InfinityScrollHelper
+            isDialog
+            disabled={isLoading || isEnd}
+            onNeedLoadMore={this.onNeedLoadMore}
+          >
             {items.map(this.renderUser)}
           </InfinityScrollHelper>
           {isLoading && (
