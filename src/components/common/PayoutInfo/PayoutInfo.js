@@ -171,7 +171,7 @@ export default class PayoutInfo extends PureComponent {
           {/*) : null}*/}
         </Part>
         <Part>
-          {payout.author?.vesting?.value ? (
+          {payout.author?.vesting ? (
             <Line>
               <Label>{tt('payout_info.author')}</Label>
               <Money>
@@ -186,7 +186,7 @@ export default class PayoutInfo extends PureComponent {
               <HintIcon hint={tt('payout_info.author_hint')} />
             </Line>
           ) : null}
-          {payout.curator?.vesting?.value ? (
+          {payout.curator?.vesting ? (
             <Line>
               <Label>{tt('payout_info.curator')}</Label>
               <Money>
@@ -195,7 +195,7 @@ export default class PayoutInfo extends PureComponent {
               <HintIcon hint={tt('payout_info.curator_hint')} />
             </Line>
           ) : null}
-          {payout.benefactor?.vesting?.value ? (
+          {payout.benefactor?.vesting ? (
             <Line>
               <Label>{tt('payout_info.beneficiary')}</Label>
               <Money>
