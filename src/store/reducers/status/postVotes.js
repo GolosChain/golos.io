@@ -5,10 +5,12 @@ import {
 } from 'store/constants/actionTypes';
 
 const initialState = {
+  isEnd: false,
   isLoading: false,
+  sequenceKey: null,
 };
 
-export default function(state = initialState, { type }) {
+export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_POST_VOTES:
       return {
@@ -20,6 +22,8 @@ export default function(state = initialState, { type }) {
       return {
         ...state,
         isLoading: false,
+        sequenceKey: payload.sequenceKey,
+        isEnd: payload.items.length < meta.limit,
       };
     }
 

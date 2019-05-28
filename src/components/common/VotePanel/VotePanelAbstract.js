@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this, import/no-named-as-default */
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
@@ -8,9 +9,10 @@ import ToastsManager from 'toasts-manager';
 import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
-import PostPayout from 'components/common/PostPayout';
+// import PostPayout from 'components/common/PostPayout';
 import DislikeAlert from 'components/dialogs/DislikeAlert';
 import DialogManager from 'components/elements/common/DialogManager';
+import VotersDialog from 'components/dialogs/VotersDialog';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
 import Popover from '../Popover';
@@ -18,11 +20,11 @@ import PayoutInfo from '../PayoutInfo';
 import PayoutInfoDialog from '../PayoutInfoDialog';
 
 import {
-  USERS_NUMBER_IN_TOOLTIP,
+  // USERS_NUMBER_IN_TOOLTIP,
   getSavedPercent,
   savePercent,
-  makeTooltip,
-  usersListForTooltip,
+  // makeTooltip,
+  // usersListForTooltip,
 } from './helpers';
 
 const MOBILE_WIDTH = 890;
@@ -102,10 +104,10 @@ const SliderStyled = styled(Slider)`
   flex-shrink: 1;
 `;
 
-const PostPayoutStyled = styled(PostPayout)`
-  white-space: nowrap;
-  user-select: none;
-`;
+// const PostPayoutStyled = styled(PostPayout)`
+//   white-space: nowrap;
+//   user-select: none;
+// `;
 
 const Money = styled.div``;
 
@@ -142,10 +144,24 @@ const LoaderWrapper = styled.div`
 export default class VotePanelAbstract extends PureComponent {
   static propTypes = {
     entity: PropTypes.shape({}),
-    username: PropTypes.string,
-    vertical: PropTypes.bool,
+    // username: PropTypes.string,
+    // vertical: PropTypes.bool,
+    isRich: PropTypes.bool,
+    settingsVotePower: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    totalSum: PropTypes.number,
+
     waitForTransaction: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
+    getVoters: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    entity: null,
+    // username: '',
+    // vertical: false,
+    isRich: false,
+    settingsVotePower: 100,
+    totalSum: 0,
   };
 
   state = {
@@ -155,6 +171,12 @@ export default class VotePanelAbstract extends PureComponent {
     votePercent: 0,
     isMobile: false,
   };
+
+  rootRef = createRef();
+
+  likeRef = createRef();
+
+  dislikeRef = createRef();
 
   componentDidMount() {
     window.addEventListener('resize', this.onResize);
@@ -171,85 +193,47 @@ export default class VotePanelAbstract extends PureComponent {
   }
 
   onLikesNumberClick = async () => {
-    ToastsManager.warn('Просмотр списка проголосовавших временно не работает');
-    return;
+    const { entity, getVoters } = this.props;
 
-    // TODO: uncomment when fetchPostVotes and FetchCommentVotes will return real data
+    if (entity?.type) {
+      const data = {
+        contentId: entity.contentId,
+        type: 'like',
+        entityType: entity.type,
+      };
 
-    // const { entity, fetchPostVotes, fetchCommentVotes } = this.props;
+      try {
+        await getVoters(data, null);
+      } catch (err) {
+        return displayError('Cannot load voters list', err);
+      }
 
-    // if (entity?.type) {
-    //   switch (entity.type) {
-    //     case 'post':
-    //       await fetchPostVotes(entity.contentId);
-    //       break;
-
-    //     case 'comment':
-    //       await fetchCommentVotes(entity.contentId);
-    //       break;
-
-    //     default:
-    //       break;
-    //   }
-    // }
-
-    // const { contentLink } = this.props;
-    // this.props.openVotersDialog(contentLink, 'likes');
-  };
-
-  onDislikesNumberClick = () => {
-    ToastsManager.warn('Просмотр списка проголосовавших временно не работает');
-    return;
-
-    const { contentLink } = this.props;
-
-    this.props.openVotersDialog(contentLink, 'dislikes');
-  };
-
-  render() {
-    if (!this.props.entity) {
-      return null;
+      return this.openVotersDialog(data, entity.id, true);
     }
 
-    return this.renderInner();
-  }
+    return ToastsManager.err('Cannot load voters list');
+  };
 
-  renderInner() {
-    throw new Error('Abstract method call');
-  }
+  onDislikesNumberClick = async () => {
+    const { entity, getVoters } = this.props;
 
-  calcTipLeft() {
-    return 0;
-  }
+    if (entity?.type) {
+      const data = {
+        contentId: entity.contentId,
+        type: 'dislike',
+        entityType: entity.type,
+      };
 
-  callVerticalOffset() {
-    return 0;
-  }
+      try {
+        await getVoters(data, null);
+      } catch (err) {
+        return displayError('Cannot load voters list', err);
+      }
 
-  renderSlider() {
-    const { sliderAction, votePercent } = this.state;
-
-    const tipLeft = this.calcTipLeft();
-    const verticalOffset = this.callVerticalOffset();
-
-    return (
-      <SliderBlock style={{ top: verticalOffset }}>
-        <SliderBlockTip left={`${tipLeft}px`} />
-        <OkIcon
-          name="check"
-          red={sliderAction === 'dislike' ? 1 : 0}
-          data-tooltip={tt('g.vote')}
-          onClick={this.onOkVoteClick}
-        />
-        <SliderStyled
-          value={votePercent}
-          red={sliderAction === 'dislike'}
-          onChange={this.onPercentChange}
-        />
-        <CancelIcon name="cross" data-tooltip={tt('g.cancel')} onClick={this.onCancelVoteClick} />
-      </SliderBlock>
-    );
-  }
+      return this.openVotersDialog(data, entity.id, false);
+    }
+    return ToastsManager.err('Cannot load voters list');
+  };
 
   getPayoutInfoComponent = () => {
     const { entity } = this.props;
@@ -277,89 +261,11 @@ export default class VotePanelAbstract extends PureComponent {
   //   };
   // }
 
-  renderPayout(add) {
-    const { totalSum } = this.props;
-    const { isVoting, isMobile } = this.state;
-    // const postLink = data.get('author') + '/' + data.get('permlink');
-
-    const Money = this.getMoneyComponent();
-
-    if (isMobile) {
-      return (
-        <MoneyWrapper aria-label={tt('aria_label.expected_payout')} onClick={this.onPayoutClick}>
-          <Money isVoting={isVoting}>
-            {isVoting ? (
-              <LoaderWrapper>
-                <LoadingIndicator type="circle" size={16} />
-              </LoaderWrapper>
-            ) : null}
-            <MoneyText isInvisible={isVoting}>
-              {totalSum} GOLOS
-              {/* <PostPayoutStyled postLink={postLink} /> */}
-              {add}
-            </MoneyText>
-          </Money>
-        </MoneyWrapper>
-      );
-    }
-
-    return (
-      <Popover content={this.getPayoutInfoComponent}>
-        <MoneyWrapper>
-          <Money isVoting={isVoting}>
-            {isVoting ? (
-              <LoaderWrapper>
-                <LoadingIndicator type="circle" size={16} />
-              </LoaderWrapper>
-            ) : null}
-            <MoneyText isInvisible={isVoting}>
-              {totalSum} GOLOS
-              {/* <PostPayoutStyled postLink={postLink} /> */}
-              {add}
-            </MoneyText>
-          </Money>
-        </MoneyWrapper>
-      </Popover>
-    );
-
-    // return (
-    //   <MoneyWrapper>
-    //     <Money isVoting={isVoting}>
-    //       {isVoting ? (
-    //         <LoaderWrapper>
-    //           <LoadingIndicator type="circle" size={16} />
-    //         </LoaderWrapper>
-    //       ) : null}
-    //       <MoneyText isInvisible={isVoting}>
-    //         {entity.payout.rShares}
-    //         {/* <PostPayoutStyled postLink={postLink} /> */}
-    //         {add}
-    //       </MoneyText>
-    //     </Money>
-    //   </MoneyWrapper>
-    // );
-  }
-
-  hideSlider() {
-    this.setState({
-      showSlider: false,
-      sliderAction: null,
-    });
-
-    window.removeEventListener('click', this.onAwayClick);
-    window.removeEventListener('touchstart', this.onAwayClick);
-  }
-
-  rootRef = createRef();
-
-  likeRef = createRef();
-
-  dislikeRef = createRef();
-
   onLikeClick = () => {
     const { entity, isRich, settingsVotePower } = this.props;
+    const { showSlider } = this.state;
 
-    if (this.state.showSlider) {
+    if (showSlider) {
       this.hideSlider();
       return;
     }
@@ -392,8 +298,9 @@ export default class VotePanelAbstract extends PureComponent {
 
   onDislikeClick = async () => {
     const { entity, isRich } = this.props;
+    const { showSlider } = this.state;
 
-    if (this.state.showSlider) {
+    if (showSlider) {
       this.hideSlider();
     } else if (entity.votes.hasDownVote) {
       this.vote(0);
@@ -409,6 +316,17 @@ export default class VotePanelAbstract extends PureComponent {
     } else if (await this.showDislikeAlert()) {
       this.vote(-1);
     }
+  };
+
+  openVotersDialog = (data, id, isLikes) => {
+    DialogManager.showDialog({
+      component: VotersDialog,
+      props: {
+        data,
+        id,
+        isLikes,
+      },
+    });
   };
 
   vote = async fraction => {
@@ -449,17 +367,6 @@ export default class VotePanelAbstract extends PureComponent {
     });
   };
 
-  showDislikeAlert() {
-    return new Promise(resolve => {
-      DialogManager.showDialog({
-        component: DislikeAlert,
-        onClose(yes) {
-          resolve(yes);
-        },
-      });
-    });
-  }
-
   onAwayClick = e => {
     if (this.rootRef.current && !this.rootRef.current.contains(e.target)) {
       this.hideSlider();
@@ -497,6 +404,7 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onPayoutClick = () => {
+    // eslint-disable-next-line react/prop-types
     const { data } = this.props;
 
     DialogManager.showDialog({
@@ -510,10 +418,142 @@ export default class VotePanelAbstract extends PureComponent {
   onResize = () => {
     const isMobile = window.innerWidth < MOBILE_WIDTH;
 
+    // eslint-disable-next-line react/destructuring-assignment
     if (this.state.isMobile !== isMobile) {
       this.setState({
         isMobile,
       });
     }
   };
+
+  calcTipLeft() {
+    return 0;
+  }
+
+  callVerticalOffset() {
+    return 0;
+  }
+
+  hideSlider() {
+    this.setState({
+      showSlider: false,
+      sliderAction: null,
+    });
+
+    window.removeEventListener('click', this.onAwayClick);
+    window.removeEventListener('touchstart', this.onAwayClick);
+  }
+
+  showDislikeAlert() {
+    return new Promise(resolve => {
+      DialogManager.showDialog({
+        component: DislikeAlert,
+        onClose(yes) {
+          resolve(yes);
+        },
+      });
+    });
+  }
+
+  renderSlider() {
+    const { sliderAction, votePercent } = this.state;
+
+    const tipLeft = this.calcTipLeft();
+    const verticalOffset = this.callVerticalOffset();
+
+    return (
+      <SliderBlock style={{ top: verticalOffset }}>
+        <SliderBlockTip left={`${tipLeft}px`} />
+        <OkIcon
+          name="check"
+          red={sliderAction === 'dislike' ? 1 : 0}
+          data-tooltip={tt('g.vote')}
+          onClick={this.onOkVoteClick}
+        />
+        <SliderStyled
+          value={votePercent}
+          red={sliderAction === 'dislike'}
+          onChange={this.onPercentChange}
+        />
+        <CancelIcon name="cross" data-tooltip={tt('g.cancel')} onClick={this.onCancelVoteClick} />
+      </SliderBlock>
+    );
+  }
+
+  renderPayout(add) {
+    const { totalSum } = this.props;
+    const { isVoting, isMobile } = this.state;
+    // const postLink = data.get('author') + '/' + data.get('permlink');
+
+    // eslint-disable-next-line no-shadow
+    const Money = this.getMoneyComponent();
+
+    if (isMobile) {
+      return (
+        <MoneyWrapper aria-label={tt('aria_label.expected_payout')} onClick={this.onPayoutClick}>
+          <Money isVoting={isVoting}>
+            {isVoting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : null}
+            <MoneyText isInvisible={isVoting}>
+              {totalSum} GOLOS
+              {/* <PostPayoutStyled postLink={postLink} /> */}
+              {add}
+            </MoneyText>
+          </Money>
+        </MoneyWrapper>
+      );
+    }
+
+    return (
+      <Popover content={this.getPayoutInfoComponent}>
+        <MoneyWrapper>
+          <Money isVoting={isVoting}>
+            {isVoting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : null}
+            <MoneyText isInvisible={isVoting}>
+              {totalSum} GOLOS
+              {/* <PostPayoutStyled postLink={postLink} /> */}
+              {add}
+            </MoneyText>
+          </Money>
+        </MoneyWrapper>
+      </Popover>
+    );
+  }
+
+  // return (
+  //   <MoneyWrapper>
+  //     <Money isVoting={isVoting}>
+  //       {isVoting ? (
+  //         <LoaderWrapper>
+  //           <LoadingIndicator type="circle" size={16} />
+  //         </LoaderWrapper>
+  //       ) : null}
+  //       <MoneyText isInvisible={isVoting}>
+  //         {entity.payout.rShares}
+  //         {/* <PostPayoutStyled postLink={postLink} /> */}
+  //         {add}
+  //       </MoneyText>
+  //     </Money>
+  //   </MoneyWrapper>
+  // );
+
+  renderInner() {
+    throw new Error('Abstract method call');
+  }
+
+  render() {
+    const { entity } = this.props;
+    if (!entity) {
+      return null;
+    }
+
+    return this.renderInner();
+  }
 }
