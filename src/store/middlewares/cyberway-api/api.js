@@ -139,7 +139,7 @@ function generateRandomProposalName() {
   const numbers = [];
 
   for (let i = 0; i < 10; i++) {
-    numbers.push(Math.floor(Math.random() * 6));
+    numbers.push(Math.floor(Math.random() * 5 + 1));
   }
 
   return `pr${numbers.join('')}`;
