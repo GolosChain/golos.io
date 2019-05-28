@@ -22,7 +22,7 @@ export default ({ getState }) => next => async action => {
   const actionWithoutCall = { ...action };
   delete actionWithoutCall[CYBERWAY_API];
 
-  const { types, contract, method, params, options, msig } = callApi;
+  const { types, contract, method, params, options, auth } = callApi;
   const [requestType, successType, failureType] = types || [];
 
   if (requestType) {
@@ -57,39 +57,12 @@ export default ({ getState }) => next => async action => {
       cyber.initProvider(auth.actualKey);
     }
 
-    let result;
-
-    if (msig) {
-      const trx = await cyber[contract][method](msig.requested, params, {
-        msig: true,
-        msigExpires: msig.expires,
-      });
-
-      const proposeParams = {
-        proposer: userId,
-        proposal_name: generateRandomProposalName(),
-        requested: [
-          {
-            actor: 'gls.publish',
-            permission: 'active',
-          },
-        ],
-        trx,
-      };
-
-      result = await cyber.cyberMsig.propose(
-        { accountName: userId, permission: currentPermission },
-        proposeParams,
-        options
-      );
-    } else {
-      // raw transaction if providebw option specified or result of transaction
-      result = await cyber[contract][method](
-        { accountName: userId, permission: currentPermission },
-        params,
-        options
-      );
-    }
+    // raw transaction if providebw option specified or result of transaction
+    let result = await cyber[contract][method](
+      auth || { accountName: userId, permission: currentPermission },
+      params,
+      options
+    );
 
     if (options.providebw) {
       const { signatures, serializedTransaction } = result;
@@ -134,13 +107,3 @@ export default ({ getState }) => next => async action => {
     throw err;
   }
 };
-
-function generateRandomProposalName() {
-  const numbers = [];
-
-  for (let i = 0; i < 10; i++) {
-    numbers.push(Math.floor(Math.random() * 5 + 1));
-  }
-
-  return `pr${numbers.join('')}`;
-}

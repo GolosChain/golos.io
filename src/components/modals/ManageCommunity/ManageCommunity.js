@@ -8,7 +8,6 @@ import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import { Input } from 'components/golos-ui/Form';
 import SplashLoader from 'components/golos-ui/SplashLoader';
-import { setPublishParams } from '../../../store/actions/cyberway';
 
 const Wrapper = styled.div`
   position: relative;
@@ -84,7 +83,7 @@ export default class ManageCommunity extends PureComponent {
     const max = parseInt(curatorMax, 10);
 
     if (Number.isNaN(min) || Number.isNaN(max) || min > max || min < 0 || max > 100) {
-      ToastsManager.error('Введены некорректные значения');
+      displayError('Введены некорректные значения');
       return;
     }
 
