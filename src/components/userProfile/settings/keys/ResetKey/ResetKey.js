@@ -230,6 +230,7 @@ export default class ResetKey extends PureComponent {
                       type="password"
                       autoCorrect="off"
                       autoCapitalize="off"
+                      autoComplete="new-password"
                       spellCheck="false"
                       disabled={submitting}
                     />

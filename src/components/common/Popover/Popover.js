@@ -285,7 +285,7 @@ export default class Popover extends PureComponent {
   };
 
   _onAwayClick = el => {
-    if (this._popover.contains(el.target) || this._target.contains(el.target)) {
+    if (this._popover?.contains(el.target) || this._target?.contains(el.target)) {
       return;
     }
 

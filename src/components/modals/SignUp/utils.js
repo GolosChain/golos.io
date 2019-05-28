@@ -7,14 +7,13 @@ import {
 } from './constants';
 
 export function createPdf(keys, { userId, username, phoneNumber }) {
-  const { master, owner, active, posting } = keys;
+  const { master, owner, active } = keys;
 
   const privateKeysPdf = [
     `phone number: ${phoneNumber} `,
     `user id: ${userId}`,
     `username: ${username}`,
     `masterKey: ${master}`,
-    `posting: ${posting.privateKey}`,
     `active: ${active.privateKey}`,
     `owner: ${owner.privateKey}`,
   ];

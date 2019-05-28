@@ -214,7 +214,7 @@ export default class CardAuthor extends Component {
         <Wrapper className={className}>
           {profile ? (
             <Avatar aria-label={tt('aria_label.avatar')} onClick={this.openPopover}>
-              <Userpic account={author?.id} size={USER_PIC_SIZE} />
+              <Userpic userId={author?.id} size={USER_PIC_SIZE} />
               {this.renderPopover()}
               {isRepost ? (
                 <RepostIconWrapper>
@@ -224,7 +224,7 @@ export default class CardAuthor extends Component {
             </Avatar>
           ) : (
             <Avatar {...profileLinkProps} aria-label={tt('aria_label.avatar')}>
-              <Userpic account={author?.id} size={USER_PIC_SIZE} />
+              <Userpic userId={author?.id} size={USER_PIC_SIZE} />
               {isRepost ? (
                 <RepostIconWrapper>
                   <RepostIcon name="repost" width={14} height={12} />
