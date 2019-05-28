@@ -99,7 +99,6 @@ function renderSocialField(placeholder, input, meta, icon) {
         type="text"
         placeholder={placeholder}
         value={input.value.replace(' ', '').trim()}
-        disabled
       />
       <FormError meta={meta} />
     </FormGroupRow>
@@ -158,7 +157,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
             {({ input, meta }) => (
               <FormGroup>
                 <Label>{tt('settings_jsx.profile_email')}</Label>
-                <Input {...input} autocomplete="email" type="text" disabled />
+                <Input {...input} autocomplete="email" type="text" />
                 <FormError meta={meta} />
               </FormGroup>
             )}

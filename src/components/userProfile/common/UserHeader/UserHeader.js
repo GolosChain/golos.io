@@ -462,7 +462,7 @@ export default class UserHeader extends Component {
 
     // const isWitness = witnessInfo && witnessInfo.get('isWitness');
     // const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
-    const accountUsername = profile.username; // should be account real name instead of username
+    const accountUsername = profile.personal?.name || profile.username;
     // const authUsername = currentUser ? currentUser.username : null;
 
     return (
@@ -493,7 +493,7 @@ export default class UserHeader extends Component {
               onDrop: this.onDropCover,
             },
           },
-          profile.personal.coverUrl
+          profile.personal?.coverUrl
             ? {
                 title: `${tt('g.remove')}...`,
                 onClick: this.onRemoveCoverClick,
@@ -512,7 +512,7 @@ export default class UserHeader extends Component {
     const { profile, isOwner } = this.props;
 
     if (isOwner) {
-      return;
+      return null;
     }
 
     return <FollowWitnessButtons targetUser={profile.userId} isOwner={isOwner} />;
