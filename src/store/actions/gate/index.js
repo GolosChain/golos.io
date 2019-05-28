@@ -9,3 +9,4 @@ export * from './wallet';
 export * from './tags';
 export * from './content';
 export * from './notifications';
+export * from './votes';

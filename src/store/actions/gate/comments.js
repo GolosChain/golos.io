@@ -79,25 +79,3 @@ export const fetchUserComments = ({ userId, sequenceKey = null, sortBy = SORT_BY
     meta: newParams,
   };
 };
-
-export const fetchCommentVotes = (contentId, type = 'like', sequenceKey = null, limit = 20) => {
-  const params = {
-    ...contentId,
-    type,
-    sequenceKey,
-    limit,
-  };
-  return {
-    [CALL_GATE]: {
-      types: [FETCH_COMMENT_VOTES, FETCH_COMMENT_VOTES_SUCCESS, FETCH_COMMENT_VOTES_ERROR],
-      method: 'content.getCommentVotes',
-      params,
-    },
-    meta: {
-      contentId,
-      type,
-      sequenceKey,
-      limit,
-    },
-  };
-};

@@ -7,7 +7,6 @@ import is from 'styled-is';
 import ToastsManager from 'toasts-manager';
 
 import { displayError } from 'utils/toastMessages';
-import { getVoters } from 'utils/votes';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 // import PostPayout from 'components/common/PostPayout';
@@ -153,8 +152,7 @@ export default class VotePanelAbstract extends PureComponent {
 
     waitForTransaction: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
-    fetchPostVotes: PropTypes.func.isRequired,
-    fetchCommentVotes: PropTypes.func.isRequired,
+    getVoters: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -195,7 +193,7 @@ export default class VotePanelAbstract extends PureComponent {
   }
 
   onLikesNumberClick = async () => {
-    const { entity, fetchPostVotes, fetchCommentVotes } = this.props;
+    const { entity, getVoters } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -204,7 +202,7 @@ export default class VotePanelAbstract extends PureComponent {
         entityType: entity.type,
       };
 
-      await getVoters(data, null, fetchPostVotes, fetchCommentVotes);
+      await getVoters(data, null);
       return this.openVotersDialog(data, entity.id, true);
     }
 
@@ -212,7 +210,7 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onDislikesNumberClick = async () => {
-    const { entity, fetchPostVotes, fetchCommentVotes } = this.props;
+    const { entity, getVoters } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -221,7 +219,7 @@ export default class VotePanelAbstract extends PureComponent {
         entityType: entity.type,
       };
 
-      await getVoters(data, null, fetchPostVotes, fetchCommentVotes);
+      await getVoters(data, null);
       return this.openVotersDialog(data, entity.id, false);
     }
     return ToastsManager.err('Cannot load voters list');

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { getVoters } from 'utils/votes';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import Avatar from 'components/common/Avatar';
@@ -53,8 +52,7 @@ export default class VotersDialog extends PureComponent {
     isEnd: PropTypes.bool.isRequired,
     sequenceKey: PropTypes.string,
 
-    fetchPostVotes: PropTypes.func.isRequired,
-    fetchCommentVotes: PropTypes.func.isRequired,
+    getVoters: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
@@ -64,8 +62,8 @@ export default class VotersDialog extends PureComponent {
   };
 
   loadMore = async () => {
-    const { data, sequenceKey, fetchPostVotes, fetchCommentVotes } = this.props;
-    await getVoters(data, sequenceKey, fetchPostVotes, fetchCommentVotes);
+    const { data, sequenceKey, getVoters } = this.props;
+    await getVoters(data, sequenceKey);
   };
 
   onNeedLoadMore = () => {

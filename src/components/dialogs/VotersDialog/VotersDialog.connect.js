@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { dataSelector, statusSelector } from 'store/selectors/common';
-import { fetchPostVotes, fetchCommentVotes } from 'store/actions/gate';
+import { getVoters } from 'store/actions/gate';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
 import VotersDialog from 'components/dialogs/VotersDialog/VotersDialog';
@@ -41,7 +41,6 @@ export default connect(
     }
   ),
   {
-    fetchPostVotes,
-    fetchCommentVotes,
+    getVoters,
   }
 )(VotersDialog);
