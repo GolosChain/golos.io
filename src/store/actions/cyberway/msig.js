@@ -27,7 +27,6 @@ export const setPublishParams = ({ curatorMin, curatorMax }) => async (dispatch,
       contract: 'publish',
       method: 'setparams',
       params,
-      // params: proposeParams,
       msig: {
         requested: { accountName: 'gls.publish', permission: 'active' },
         expires: 36000,

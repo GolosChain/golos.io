@@ -28,8 +28,6 @@ export default function(state = initialState, { type, payload, error, meta }) {
         order = payload.result.items;
       }
 
-      console.log('AAAA', payload);
-
       return {
         ...state,
         order,

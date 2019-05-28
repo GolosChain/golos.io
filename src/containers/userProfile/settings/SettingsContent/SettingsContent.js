@@ -6,7 +6,7 @@ import { FORM_ERROR } from 'final-form';
 import { pick } from 'ramda';
 import tt from 'counterpart';
 
-import { displayMessage } from 'utils/toastMessages';
+import { displaySuccess } from 'utils/toastMessages';
 import { SettingsShow } from 'components/userProfile';
 
 const ErrorBlock = styled.div`
@@ -80,7 +80,7 @@ export default class SettingsContent extends PureComponent {
       };
     }
 
-    displayMessage(tt('settings.update_success'));
+    displaySuccess(tt('settings.update_success'));
   };
 
   renderContent() {

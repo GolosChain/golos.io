@@ -108,7 +108,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       // В противном случае fetchFavorites вызовет авторизацию снова что приведет к рекурсии.
       setTimeout(async () => {
         if (!isAutoLogging) {
-          // Пушим роут для обновления страницу
+          // Пушим роут для обновления страницы
           Router.pushRoute(Router.asPath);
         }
 

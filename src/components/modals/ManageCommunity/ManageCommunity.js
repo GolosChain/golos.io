@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
 
-import { displayError, displayMessage } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import { Input } from 'components/golos-ui/Form';
 import SplashLoader from 'components/golos-ui/SplashLoader';
+import { setPublishParams } from '../../../store/actions/cyberway';
 
 const Wrapper = styled.div`
   position: relative;
@@ -54,7 +55,7 @@ const InputSmall = styled(Input)`
 export default class ManageCommunity extends PureComponent {
   static propTypes = {
     close: PropTypes.func.isRequired,
-    setParams: PropTypes.func.isRequired,
+    setPublishParams: PropTypes.func.isRequired,
   };
 
   state = {
@@ -76,7 +77,7 @@ export default class ManageCommunity extends PureComponent {
   };
 
   onUpdateClick = async () => {
-    const { setParams } = this.props;
+    const { setPublishParams, close } = this.props;
     const { curatorMin, curatorMax } = this.state;
 
     const min = parseInt(curatorMin, 10);
@@ -92,8 +93,9 @@ export default class ManageCommunity extends PureComponent {
     });
 
     try {
-      await setParams({ curatorMin: min * 100, curatorMax: max * 100 });
-      displayMessage('Success');
+      await setPublishParams({ curatorMin: min * 100, curatorMax: max * 100 });
+      displaySuccess('Success');
+      close();
     } catch (err) {
       displayError(err);
     }

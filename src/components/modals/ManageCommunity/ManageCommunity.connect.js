@@ -7,6 +7,6 @@ import ManageCommunity from './ManageCommunity';
 export default connect(
   null,
   {
-    setParams: setPublishParams,
+    setPublishParams,
   }
 )(ManageCommunity);

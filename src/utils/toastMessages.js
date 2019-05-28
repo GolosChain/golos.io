@@ -2,7 +2,7 @@ import ToastsManager from 'toasts-manager';
 
 import { normalizeCyberwayErrorMessage } from './errors';
 
-export function displayMessage(text) {
+export function displaySuccess(text) {
   ToastsManager.info(text);
 }
 
