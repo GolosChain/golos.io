@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { openModal } from 'redux-modals-manager';
 
 import { currentUserSelector } from 'store/selectors/auth';
 import { login } from 'store/actions/gate/auth';
@@ -13,6 +12,5 @@ export default connect(
   }),
   {
     login,
-    openModal,
   }
 )(LoginPanel);

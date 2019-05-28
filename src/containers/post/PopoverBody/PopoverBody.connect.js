@@ -15,7 +15,7 @@ export default connect(
         profile,
         pinnedPosts: [],
         pinnedPostsUrls: [],
-        showFollowBlock: profile.userId !== currentUserId,
+        showFollowBlock: profile?.userId !== currentUserId,
         reputation: repLog10(123),
       };
     }

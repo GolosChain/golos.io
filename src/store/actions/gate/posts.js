@@ -96,16 +96,3 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
     meta: newParams,
   });
 };
-
-export const fetchPostVotes = contentId => ({
-  [CALL_GATE]: {
-    types: [FETCH_POST_VOTES, FETCH_POST_VOTES_SUCCESS, FETCH_POST_VOTES_ERROR],
-    method: 'content.getPostVotes',
-    params: {
-      ...contentId,
-    },
-  },
-  meta: {
-    contentId,
-  },
-});

@@ -85,6 +85,7 @@ const InputWrapper = styled.div`
   display: flex;
   margin-top: 40px;
   border-radius: 8px;
+  border: solid 1px ${({ theme }) => theme.colors.contextLightGrey};
   transition: box-shadow 150ms;
 
   ${({ error, theme }) => `
@@ -105,7 +106,7 @@ const InputPlaceholder = styled.div`
 
 const ChooseCountryText = styled.p`
   margin-left: 1px;
-  color: ${({ theme }) => theme.colors.contextGrey};
+  color: #c8c8c8;
 `;
 
 const NoSearchResults = styled.p`

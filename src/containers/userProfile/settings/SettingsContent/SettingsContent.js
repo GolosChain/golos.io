@@ -54,7 +54,7 @@ export default class SettingsContent extends PureComponent {
     const { updateProfileMeta } = this.props;
 
     const meta = pick(
-      ['about', 'gender', 'location', 'website', 'facebook', 'instagram', 'vk'],
+      ['name', 'gender', 'email', 'location', 'about', 'website', 'facebook', 'vk', 'instagram'],
       values
     );
 
@@ -84,7 +84,7 @@ export default class SettingsContent extends PureComponent {
   };
 
   renderContent() {
-    const { profile, account, publicKeys, isRich, settingsData } = this.props;
+    const { profile, publicKeys, isRich, settingsData } = this.props;
     const { isLoading, error } = this.state;
 
     if (error) {
@@ -94,7 +94,6 @@ export default class SettingsContent extends PureComponent {
     return (
       <SettingsShow
         profile={profile}
-        account={account}
         publicKeys={publicKeys}
         options={settingsData}
         isRich={isRich}

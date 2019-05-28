@@ -169,8 +169,13 @@ export default class PopoverBody extends Component {
   };
 
   componentDidMount() {
-    if (this.props.pinnedPostsUrls) {
-      this.props.getPostContent(this.props.pinnedPostsUrls);
+    const { pinnedPostsUrls, closePopover, getPostContent, profile } = this.props;
+    if (pinnedPostsUrls) {
+      getPostContent(pinnedPostsUrls);
+    }
+
+    if (!profile && closePopover) {
+      closePopover();
     }
   }
 
@@ -183,6 +188,11 @@ export default class PopoverBody extends Component {
       closePopover,
       className,
     } = this.props;
+
+    if (!profile) {
+      return null;
+    }
+
     const { userId, personal, subscribers } = profile;
 
     return (

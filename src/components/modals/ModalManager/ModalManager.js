@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
+import { last } from 'ramda';
 
-import { MODAL_CANCEL, SHOW_MODAL_LOGIN, SHOW_MODAL_SIGNUP } from 'store/constants/modalTypes';
+import {
+  MODAL_CANCEL,
+  SHOW_MODAL_LOGIN,
+  SHOW_MODAL_SIGNUP,
+  SHOW_MODAL_BECOME_LOADER,
+} from 'store/constants/modalTypes';
 // import ScrollFix from 'components/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
 
@@ -26,6 +32,7 @@ const ModalContainer = styled.div`
   overflow-y: auto;
   overscroll-behavior: none;
   z-index: 1;
+  pointer-events: none;
 
   &:last-child {
     z-index: 3;
@@ -41,6 +48,10 @@ const ModalWrapper = styled.div`
 
   ${up('tablet')} {
     padding: 40px 20px;
+  }
+
+  & > * {
+    pointer-events: initial;
   }
 
   @media (max-width: 768px) {
@@ -61,6 +72,7 @@ const ModalBackground = styled.div`
 const modalsMap = new Map([
   [SHOW_MODAL_LOGIN, dynamic(() => import('components/modals/Login'))],
   [SHOW_MODAL_SIGNUP, dynamic(() => import('components/modals/SignUp'))],
+  [SHOW_MODAL_BECOME_LOADER, dynamic(() => import('components/modals/BecomeLeader'))],
 ]);
 
 export default class ModalManager extends PureComponent {
@@ -120,21 +132,19 @@ export default class ModalManager extends PureComponent {
     document.body.style.overflow = isShowDialog ? 'hidden' : '';
   }
 
-  onBackgroundClick = async (e, modalId) => {
-    const { closeModal } = this.props;
+  onBackgroundClick = async () => {
+    const { closeModal, modals } = this.props;
+    const { modalId } = last(modals);
 
-    // If event is triggered directly by wrapper (not by children)
-    if (e.target === e.currentTarget) {
-      const modalRef = this.modalsRefs[modalId];
+    const modalRef = this.modalsRefs[modalId];
 
-      if (modalRef && modalRef.current && modalRef.current.canClose) {
-        if (!(await modalRef.current.canClose())) {
-          return;
-        }
+    if (modalRef && modalRef.current && modalRef.current.canClose) {
+      if (!(await modalRef.current.canClose())) {
+        return;
       }
-
-      closeModal(modalId, { status: MODAL_CANCEL });
     }
+
+    closeModal(modalId, { status: MODAL_CANCEL });
   };
 
   getReadyDialogs() {
@@ -176,7 +186,7 @@ export default class ModalManager extends PureComponent {
 
       return (
         <ModalContainer key={modalId} className="scroll-container">
-          <ModalWrapper onClick={e => this.onBackgroundClick(e, modalId)}>
+          <ModalWrapper>
             <ModalComponent
               {...props}
               {...modalFetchData.initialProps}
@@ -192,7 +202,7 @@ export default class ModalManager extends PureComponent {
     if (dialogs.length) {
       return (
         <Wrapper>
-          <ModalBackground />
+          <ModalBackground onClick={this.onBackgroundClick} />
           {dialogs}
         </Wrapper>
       );

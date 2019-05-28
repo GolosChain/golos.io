@@ -72,83 +72,138 @@ const Plus = styled.span`
 `;
 
 export default class PayoutInfo extends PureComponent {
-  componentWillReceiveProps(newProps) {
-    const { needLoadRatesForDate } = this.props;
-    const needNew = newProps.needLoadRatesForDate;
+  // componentWillReceiveProps(newProps) {
+  //   const { needLoadRatesForDate } = this.props;
+  //   const needNew = newProps.needLoadRatesForDate;
+  //
+  //   if (needNew && needLoadRatesForDate !== needNew) {
+  //     this.props.getHistoricalData(needNew);
+  //   }
+  // }
 
-    if (needNew && needLoadRatesForDate !== needNew) {
-      this.props.getHistoricalData(needNew);
-    }
-  }
+  // renderOverallValue() {
+  //   const { total, totalGbg, overallTotal, lastPayout } = this.props;
+  //
+  //   const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
+  //   const amountGolos = `${total.toFixed(3)} GOLOS`;
+  //   const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
+  //
+  //   const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
+  //
+  //   if (showOneCurrency) {
+  //     return <Money>{amount}</Money>;
+  //   }
+  //
+  //   let gbgSection = null;
+  //
+  //   if (amountGbg) {
+  //     gbgSection = (
+  //       <>
+  //         {' + '}
+  //         <Money>{amountGbg}</Money>{' '}
+  //       </>
+  //     );
+  //   }
+  //
+  //   return (
+  //     <>
+  //       <Money>{amountGolos}</Money>
+  //       {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
+  //     </>
+  //   );
+  // }
 
   renderOverallValue() {
-    const { total, totalGbg, overallTotal, lastPayout } = this.props;
-
-    const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
-    const amountGolos = `${total.toFixed(3)} GOLOS`;
-    const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
-
-    const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
-
-    if (showOneCurrency) {
-      return <Money>{amount}</Money>;
-    }
-
-    let gbgSection = null;
-
-    if (amountGbg) {
-      gbgSection = (
-        <>
-          {' + '}
-          <Money>{amountGbg}</Money>{' '}
-        </>
-      );
-    }
+    const { totalPayout } = this.props;
+    // const { total, totalGbg, overallTotal, lastPayout } = this.props;
+    //
+    // const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
+    // const amountGolos = `${total.toFixed(3)} GOLOS`;
+    // const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
+    //
+    // const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
+    //
+    // if (showOneCurrency) {
+    //   return <Money>{amount}</Money>;
+    // }
+    //
+    // let gbgSection = null;
+    //
+    // if (amountGbg) {
+    //   gbgSection = (
+    //     <>
+    //       {' + '}
+    //       <Money>{amountGbg}</Money>{' '}
+    //     </>
+    //   );
+    // }
+    //
+    // return (
+    //   <>
+    //     <Money>{amountGolos}</Money>
+    //     {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
+    //   </>
+    // );
 
     return (
       <>
-        <Money>{amountGolos}</Money>
-        {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
+        <Money>{totalPayout} GOLOS</Money>
       </>
     );
   }
 
   render() {
-    const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
+    const { post } = this.props;
+    // const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
+    const { payout } = post;
     return (
       <Root>
         <Part>
-          <Title>{isPending ? tt('payout_info.potential_payout') : tt('payout_info.payout')}</Title>
+          <Title>
+            {payout.done ? tt('payout_info.payout') : tt('payout_info.potential_payout')}
+          </Title>
           <Payout>{this.renderOverallValue()}</Payout>
-          {isPending ? (
-            <Duration>
-              <TimeAgoWrapper date={cashoutTime} />
-            </Duration>
-          ) : null}
+          {/*{isPending ? (*/}
+          {/*  <Duration>*/}
+          {/*    <TimeAgoWrapper date={cashoutTime} />*/}
+          {/*  </Duration>*/}
+          {/*) : null}*/}
         </Part>
         <Part>
-          <Line>
-            <Label>{tt('payout_info.author')}</Label>
-            <Money>{author.toFixed(3)} GOLOS</Money>
-            {authorGbg ? (
-              <>
-                <Plus>+</Plus>
-                <Money>{authorGbg.toFixed(3)} GBG</Money>
-              </>
-            ) : null}
-            <HintIcon hint={tt('payout_info.author_hint')} />
-          </Line>
-          <Line>
-            <Label>{tt('payout_info.curator')}</Label>
-            <Money>{curator.toFixed(3)} GOLOS</Money>
-            <HintIcon hint={tt('payout_info.curator_hint')} />
-          </Line>
-          <Line>
-            <Label>{tt('payout_info.beneficiary')}</Label>
-            <Money>{benefactor.toFixed(3)} GOLOS</Money>
-            <HintIcon hint={tt('payout_info.beneficiary_hint')} />
-          </Line>
+          {payout.author?.vesting ? (
+            <Line>
+              <Label>{tt('payout_info.author')}</Label>
+              <Money>
+                {payout.author.vesting.value} {payout.author.vesting.name}
+              </Money>
+              {/*{authorGbg ? (*/}
+              {/*  <>*/}
+              {/*    <Plus>+</Plus>*/}
+              {/*    <Money>{authorGbg.toFixed(3)} GBG</Money>*/}
+              {/*  </>*/}
+              {/*) : null}*/}
+              <HintIcon hint={tt('payout_info.author_hint')} />
+            </Line>
+          ) : null}
+          {payout.curator?.vesting ? (
+            <Line>
+              <Label>{tt('payout_info.curator')}</Label>
+              <Money>
+                {payout.curator.vesting.value} {payout.curator.vesting.name}
+              </Money>
+              <HintIcon hint={tt('payout_info.curator_hint')} />
+            </Line>
+          ) : null}
+          {payout.benefactor?.vesting ? (
+            <Line>
+              <Label>{tt('payout_info.beneficiary')}</Label>
+              <Money>
+                {payout.benefactor.vesting.value} {payout.benefactor.vesting.name}
+              </Money>
+              <HintIcon hint={tt('payout_info.beneficiary_hint')} />
+            </Line>
+          ) : null}
         </Part>
       </Root>
     );
