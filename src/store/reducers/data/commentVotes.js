@@ -8,7 +8,11 @@ const initialState = {};
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_COMMENT_VOTES_SUCCESS:
-      if (state[formatContentId(meta.contentId)] && payload.sequenceKey !== meta.sequenceKey) {
+      if (
+        state[formatContentId(meta.contentId)] &&
+        meta.sequenceKey &&
+        payload.sequenceKey !== meta.sequenceKey
+      ) {
         return update(state, {
           [formatContentId(meta.contentId)]: {
             [meta.type]: {

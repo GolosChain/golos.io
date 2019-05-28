@@ -23,7 +23,7 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
         isLoading: false,
         sequenceKey: payload.sequenceKey,
-        isEnd: payload?.items?.length < meta.limit,
+        isEnd: payload?.items?.length && payload.items.length < meta.limit,
       };
     }
 
