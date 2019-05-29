@@ -6,7 +6,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { HEADER_HEIGHT } from 'constants/commonUI';
+import { HEADER_HEIGHT } from 'constants/ui';
 
 const PAD_BREAK_POINT = 768;
 const MOBILE_BREAK_POINT = 576;
