@@ -5,7 +5,8 @@ import { browserHistory } from 'mocks/react-router';
 import Container from 'components/common/Container';
 import LoginForm from './LoginForm';
 
-const HEADER_HEIGHT = 60;
+import { HEADER_HEIGHT } from 'constants/commonUI';
+
 const CONTAINER_WIDTH = 460;
 const DESKTOP_FOOTER_HEIGHT = 324;
 
