@@ -61,7 +61,7 @@ export function formatDecimal(value, decPlaces = 2, truncate0s = true) {
 }
 
 export function parsePayoutAmount(amount) {
-  return parseFloat(String(amount).replace(/\s[A-Z]*$/, ''));
+  return parseFloat(String(amount));
 }
 
 /**

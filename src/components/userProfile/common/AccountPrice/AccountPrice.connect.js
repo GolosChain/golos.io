@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { dataSelector, statusSelector } from 'store/selectors/common';
 import { getBalance, getVestingBalance } from 'store/actions/gate';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import AccountPrice from './AccountPrice';
 
@@ -21,8 +22,9 @@ export default connect(
       let price;
 
       if (balance) {
-        const balanceAmount = parseFloat(balance);
-        const vestingAmount = vesting ? parseFloat(vesting) : 0;
+        const balanceAmount = parsePayoutAmount(balance);
+        const vestingAmount = vesting ? parsePayoutAmount(vesting.amount) : 0;
+        // TODO: replace vestingAmount with calculated vesting to golos value
         price = balanceAmount + vestingAmount;
       }
 

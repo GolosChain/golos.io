@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { dataSelector } from 'store/selectors/common';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import AccountTokens from './AccountTokens';
 
@@ -17,22 +18,16 @@ export default connect(
       let powerDelegated;
 
       if (balances && balances.length) {
-        gls = balances.find(value => value.endsWith(' GOLOS'));
+        [gls] = balances;
       }
 
-      // if (vesting && vesting.amount) {
-      //   power = calculateAmount({
-      //     amount: vesting.amount.amount,
-      //     decs: vesting.amount.decs,
-      //   });
-      // }
+      if (vesting && vesting.amount) {
+        power = parsePayoutAmount(vesting.amount);
+      }
 
-      // if (vesting && vesting.deligated) {
-      //   powerDelegated = calculateAmount({
-      //     amount: vesting.delegated.amount,
-      //     decs: vesting.delegated.decs,
-      //   });
-      // }
+      if (vesting && vesting.deligated) {
+        powerDelegated = parsePayoutAmount(vesting.delegated);
+      }
 
       return {
         golos: gls || '0',

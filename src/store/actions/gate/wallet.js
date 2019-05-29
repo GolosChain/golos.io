@@ -51,7 +51,9 @@ export const getVestingBalance = userId => {
       method: 'wallet.getVestingBalance',
       params,
     },
-    meta: params,
+    meta: {
+      name: userId,
+    },
   };
 };
 

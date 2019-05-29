@@ -1,15 +1,11 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
-// import { showNotification } from 'app/redux/actions/ui';
-// import { powerDownSelector } from 'app/redux/selectors/wallet/powerDown';
-// import { vestsToGolos } from 'utils/StateFunctions';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { dataSelector } from 'store/selectors/common';
 import { withdrawTokens, transferToken } from 'store/actions/cyberway';
-import { calculateAmount } from 'utils/wallet';
 import { getBalance, getVestingBalance } from 'store/actions/gate';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import ConvertDialog from './ConvertDialog';
 
@@ -26,13 +22,11 @@ export default connect(
 
       if (balances.length) {
         const [gls] = balances;
-        balance = parseFloat(gls);
+        balance = parsePayoutAmount(gls);
       }
 
       if (vesting && vesting.amount) {
-        powerBalance = Number(
-          calculateAmount({ amount: vesting.amount.amount, decs: vesting.amount.decs })
-        );
+        powerBalance = parsePayoutAmount(vesting.amount) - parsePayoutAmount(vesting.delegated);
       }
 
       return {

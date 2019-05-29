@@ -4,6 +4,7 @@ import { currentUsernameSelector, currentUserIdSelector } from 'store/selectors/
 import { dataSelector } from 'store/selectors/common';
 
 import { transferToken } from 'store/actions/cyberway/cyberToken';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 import TransferDialog from './TransferDialog';
 
 export default connect(
@@ -16,7 +17,7 @@ export default connect(
     let balance = 0;
 
     if (gls) {
-      balance = parseFloat(gls);
+      balance = parsePayoutAmount(gls);
     }
 
     return {
