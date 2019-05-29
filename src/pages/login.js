@@ -12,7 +12,7 @@ import {
 import Container from 'components/common/Container';
 import LoginPanel from 'components/common/LoginPanel';
 
-import { HEADER_HEIGHT } from 'constants/ui';
+import { HEADER_HEIGHT } from 'constants/communUI';
 
 const CONTAINER_WIDTH = 460;
 const DESKTOP_FOOTER_HEIGHT = 324;
