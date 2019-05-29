@@ -120,7 +120,7 @@ export default class WalletContent extends Component {
     transfers: [],
     isOwner: false,
     vestingSequenceKey: null,
-    isVestingHistoryLoaded: false,
+    isVestingHistoryLoaded: true,
     username: '',
   };
 

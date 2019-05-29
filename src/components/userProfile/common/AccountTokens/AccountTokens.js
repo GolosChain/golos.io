@@ -91,9 +91,9 @@ const SubLabel = styled.div`
 
 export default class AccountTokens extends PureComponent {
   static propTypes = {
-    golos: PropTypes.string.isRequired,
-    power: PropTypes.string.isRequired,
-    powerDelegated: PropTypes.string.isRequired,
+    golos: PropTypes.number.isRequired,
+    power: PropTypes.number.isRequired,
+    powerDelegated: PropTypes.number.isRequired,
   };
 
   state = {
@@ -154,7 +154,7 @@ export default class AccountTokens extends PureComponent {
       let sum = 0;
 
       for (const { value } of label.values) {
-        sum += parseFloat(value);
+        sum += value;
       }
 
       label.value = sum.toFixed(3);
@@ -162,7 +162,7 @@ export default class AccountTokens extends PureComponent {
 
     return (
       <Root>
-        {parseFloat(golos) || parseFloat(power) || parseFloat(powerDelegated) ? (
+        {golos || power || powerDelegated ? (
           <ChartBlock>
             <ChartWrapper>
               <PieChart

@@ -7,6 +7,7 @@ import { currentUserIdSelector } from 'store/selectors/auth';
 import { isOwnerSelector } from 'store/selectors/user';
 import { getTransfersHistory, getVestingHistory } from 'store/actions/gate';
 import { TRANSACTIONS_TYPE } from 'shared/constants';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import WalletContent from './WalletContent';
 
@@ -54,9 +55,9 @@ export default connect(
         vesting = vestingHistory.map(({ who, diff, trx_id, timestamp }) => ({
           id: trx_id,
           type: TRANSACTIONS_TYPE.TRANSFER_TO_VESTING,
-          from: diff.amount < 0 ? loggedUserId : who,
-          to: diff.amount < 0 ? who : loggedUserId,
-          amount: diff.amount,
+          from: parsePayoutAmount(diff) < 0 ? loggedUserId : who,
+          to: parsePayoutAmount(diff) < 0 ? who : loggedUserId,
+          amount: diff,
           timestamp,
         }));
       }

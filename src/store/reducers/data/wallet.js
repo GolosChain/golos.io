@@ -99,33 +99,27 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
       };
     case FETCH_VESTING_HISTORY_SUCCESS:
-      if (state[meta.name]) {
+      if (state[meta.name] && meta.sequenceKey && payload.sequenceKey !== meta.sequenceKey) {
         return update(state, {
           [meta.name]: {
-            vestingHistory: vestingHistory => {
-              if (
-                state[meta.name].vestingSequenceKey &&
-                state[meta.name].vestingSequenceKey !== meta.sequenceKey
-              ) {
-                return unionWith(
-                  eqBy(prop('trx_id')),
-                  vestingHistory,
-                  payload?.result?.items || []
-                );
-              }
-              return vestingHistory;
+            vestingHistory: {
+              $push: payload.items,
             },
-            vestingSequenceKey: payload?.result?.sequenceKey || null,
-            vestingHistorySize: payload?.result?.itemsSize || 0,
+            vestingSequenceKey: {
+              $set: payload?.sequenceKey || null,
+            },
+            vestingHistorySize: {
+              $set: payload?.itemsSize || 0,
+            },
           },
         });
       }
       return {
         ...state,
         [meta.name]: {
-          vestingHistory: payload?.result?.items || [],
-          vestingSequenceKey: payload?.result?.sequenceKey || null,
-          vestingHistorySize: payload?.result?.itemsSize || 0,
+          vestingHistory: payload?.items || [],
+          vestingSequenceKey: payload?.sequenceKey || null,
+          vestingHistorySize: payload?.itemsSize || 0,
         },
       };
     case FETCH_VESTING_HISTORY_ERROR:
