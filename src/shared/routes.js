@@ -8,18 +8,19 @@ routes.add('hot', '/hot', 'feed');
 routes.add('home', '/', 'feed');
 routes.add('trending', '/trending', 'feed');
 // routes.add('agreement', '/agreement');
-// routes.add('communities', '/communities');
-// routes.add('community', '/c/:communityId');
-// routes.add('communitySection', '/c/:communityId/:section', 'community');
-// routes.add('messenger', '/messenger');
 // routes.add('policy', '/policies/:policy');
+routes.add('profile', '/@:userId');
+routes.add(
+  'profileSection',
+  '/@:userId/:section(comments|replies|favorites|wallet|activity|settings)/:subSection?',
+  'profile'
+);
 routes.add('post', '/@:userId/:permlink/:mode?');
 // routes.add('trending', '/trending');
 // routes.add('profileSection', '/@:userId/:section', 'profile');
 routes.add('submit', '/submit', 'submit');
 routes.add('login', '/login', 'login');
-routes.add('profile', '/@:userId');
-routes.add('profileSection', '/@:userId/:section/:subSection?', 'profile');
+
 // routes.add('new', '/new');
 // routes.add('wallet', '/wallet');
 // routes.add('walletSection', '/wallet/:section', 'wallet');

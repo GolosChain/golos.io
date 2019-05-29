@@ -1,4 +1,4 @@
-import { dataSelector } from './common';
+import { dataSelector, entitySelector } from './common';
 
 export const currentUserSelector = dataSelector(['auth', 'currentUser']);
 

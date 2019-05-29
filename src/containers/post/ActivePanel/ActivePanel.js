@@ -93,8 +93,11 @@ const SharingTriangle = styled(Repost)`
   `};
 `;
 
-const DotsMore = styled(Repost)`
+const DotsMoreWrapper = styled.div`
   position: relative;
+`;
+
+const DotsMore = styled(Repost)`
   padding: 0 18px;
 
   & > ${Icon} {
@@ -118,30 +121,30 @@ const DotsMore = styled(Repost)`
   }
 `;
 
-const Action = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+// const Action = styled.div`
+//   display: flex;
+//   align-items: center;
+//   cursor: pointer;
 
-  &:hover {
-    color: #2879ff;
-  }
+//   &:hover {
+//     color: #2879ff;
+//   }
 
-  svg {
-    min-width: 20px;
-    min-height: 20px;
-    padding: 0;
-  }
-`;
+//   svg {
+//     min-width: 20px;
+//     min-height: 20px;
+//     padding: 0;
+//   }
+// `;
 
-const ActionText = styled.div`
-  margin-left: 25px;
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 44px;
-  white-space: nowrap;
-  cursor: pointer;
-`;
+// const ActionText = styled.div`
+//   margin-left: 25px;
+//   font-family: Roboto, sans-serif;
+//   font-size: 14px;
+//   line-height: 44px;
+//   white-space: nowrap;
+//   cursor: pointer;
+// `;
 
 const ActionIcon = styled(Icon)``;
 
@@ -182,10 +185,9 @@ ActionIcon.defaultProps = {
 };
 
 export default class ActivePanel extends Component {
-  static propTypes = {
-    togglePin: PropTypes.func.isRequired,
-    toggleFavorite: PropTypes.func.isRequired,
-  };
+  // static propTypes = {
+  //   togglePin: PropTypes.func.isRequired,
+  // };
 
   state = {
     showDotsPopover: false,
@@ -193,8 +195,8 @@ export default class ActivePanel extends Component {
   };
 
   promotePost = () => {
-    const { account, permLink } = this.props;
-    this.props.openPromoteDialog(`${account}/${permLink}`);
+    const { account, permLink, openPromoteDialog } = this.props;
+    openPromoteDialog(`${account}/${permLink}`);
   };
 
   openSharePopover = () => {
@@ -222,12 +224,12 @@ export default class ActivePanel extends Component {
   };
 
   repost = () => {
-    const { account, permLink } = this.props;
-    this.props.openRepostDialog(`${account}/${permLink}`);
+    const { account, permLink, openRepostDialog } = this.props;
+    openRepostDialog(`${account}/${permLink}`);
   };
 
   render() {
-    const { post, username, isPinned, togglePin, isOwner, isFavorite } = this.props;
+    const { post, username, isPinned, /* togglePin, */ isOwner, isFavorite } = this.props;
     const { showDotsPopover, showSharePopover } = this.state;
 
     const shareTooltip = showSharePopover ? undefined : tt('postfull_jsx.share_in_social_networks');
@@ -238,14 +240,14 @@ export default class ActivePanel extends Component {
         <VotePanelWrapper entity={post} />
         <Divider />
         <RepostSharingWrapper>
-          {/*{isOwner ? null : (
+          {/* {isOwner ? null : (
             <>
               <Repost role="button" data-tooltip={tt('g.repost')} aria-label={tt('g.repost')}>
                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
               </Repost>
               <Divider />
             </>
-          )}*/}
+          )} */}
           <SharingTriangle
             as="button"
             type="button"
@@ -269,16 +271,23 @@ export default class ActivePanel extends Component {
         {username ? (
           <>
             <Divider />
-            <DotsMore
-              isOpen={showDotsPopover}
-              as="button"
-              type="button"
-              name="actions-panel__more-actions"
-              data-tooltip={dotsTooltip}
-              aria-label={dotsTooltip}
-            >
+            <DotsMoreWrapper>
+              <DotsMore
+                isOpen={showDotsPopover}
+                as="button"
+                type="button"
+                name="actions-panel__more-actions"
+                data-tooltip={dotsTooltip}
+                aria-label={dotsTooltip}
+              >
+                <Icon
+                  width="32"
+                  height="32"
+                  name="dots-more_normal"
+                  onClick={this.openDotsPopover}
+                />
+              </DotsMore>
               <PopoverBackgroundShade show={showDotsPopover} onClick={this.closeDotsPopover} />
-              <Icon width="32" height="32" name="dots-more_normal" onClick={this.openDotsPopover} />
               <PopoverStyled
                 position="top"
                 closePopover={this.closeDotsPopover}
@@ -290,7 +299,7 @@ export default class ActivePanel extends Component {
                     isFavorite={isFavorite}
                     isPinned={isPinned}
                     isOwner={isOwner}
-                    togglePin={togglePin}
+                    // togglePin={togglePin}
                     coloredOnHover
                     showText
                   />
@@ -308,7 +317,7 @@ export default class ActivePanel extends Component {
                   */}
                 </Actions>
               </PopoverStyled>
-            </DotsMore>
+            </DotsMoreWrapper>
           </>
         ) : null}
         <ReplyBlockStyled count={post.children} link={post.id} text={tt('g.reply')} />

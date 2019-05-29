@@ -4,43 +4,36 @@ import { createSelector } from 'reselect';
 import { dataSelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { vote } from 'store/actions/complex/votes';
-import { waitForTransaction, fetchPostVotes, fetchCommentVotes } from 'store/actions/gate';
-import { calculateAmount } from 'utils/wallet';
+import { waitForTransaction, getVoters } from 'store/actions/gate';
+import { payoutSum } from 'utils/payout';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 export default connect(
   createSelector(
     [
-      state => dataSelector(['wallet', currentUserIdSelector(state), 'balances'])(state),
+      state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
       dataSelector(['settings', 'basic', 'votePower']),
+      (state, props) => payoutSum(props.entity),
     ],
-    (balances, votePower) => {
+    (vesting, votePower, totalSum) => {
       let isRich = false;
 
-      if (balances) {
-        // TODO: Replace gls by vesting
-        const gls = balances.find(currency => currency.sym === 'GOLOS');
-
-        let balance = 0;
-
-        if (gls) {
-          balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
-        }
-
+      if (vesting && vesting.amount) {
+        const balance = parsePayoutAmount(vesting.amount);
         isRich = balance > 10000;
       }
 
       return {
-        // TODO: Hardcoded true until wallet doesn't work correctly
-        isRich: true,
         settingsVotePower: votePower,
+        isRich,
+        totalSum,
       };
     }
   ),
   {
     vote,
     waitForTransaction,
-    fetchPostVotes,
-    fetchCommentVotes,
+    getVoters,
     openVotersDialog: () => () => console.error('Unhandled action'),
     loginIfNeed: () => () => console.error('Unhandled action'),
   }

@@ -55,26 +55,15 @@ const Wrapper = styled.div`
 export default class ViewCount extends Component {
   static propTypes = {
     contentUrl: PropTypes.string.isRequired,
-    viewCount: PropTypes.number,
+    viewCount: PropTypes.number.isRequired,
     mini: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
     micro: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
-
-    fetchPostViewCount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    viewCount: 0,
     mini: false,
     micro: false,
   };
-
-  componentDidMount() {
-    const { contentUrl, viewCount, fetchPostViewCount } = this.props;
-
-    if (isNil(viewCount)) {
-      fetchPostViewCount(contentUrl);
-    }
-  }
 
   render() {
     const { viewCount, mini, micro, className } = this.props;

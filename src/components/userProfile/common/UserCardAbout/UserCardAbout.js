@@ -190,38 +190,34 @@ export default class UserCardAbout extends PureComponent {
   };
 
   onShowFollowers = () => {
-    ToastsManager.warn('Просмотр списка подписчиков временно не работает');
+    const { profile } = this.props;
 
-    // const { profile } = this.props;
-
-    // DialogManager.showDialog({
-    //   component: FollowersDialog,
-    //   props: {
-    //     userId: profile.id,
-    //     type: 'follower',
-    //   },
-    // });
+    DialogManager.showDialog({
+      component: FollowersDialog,
+      props: {
+        userId: profile.userId,
+        type: 'followers',
+      },
+    });
   };
 
   onShowFollowing = () => {
-    ToastsManager.warn('Просмотр списка подписок временно не работает');
+    const { profile } = this.props;
 
-    // const { profile } = this.props;
-
-    // DialogManager.showDialog({
-    //   component: FollowersDialog,
-    //   props: {
-    //     userId: profile.userId,
-    //     type: 'following',
-    //   },
-    // });
+    DialogManager.showDialog({
+      component: FollowersDialog,
+      props: {
+        userId: profile.userId,
+        type: 'following',
+      },
+    });
   };
 
   renderFollowingRow() {
     const { profile } = this.props;
 
     const followingCount = profile?.subscriptions?.usersCount || 0;
-    const followerCount = profile?.subscriptions?.usersCount || 0;
+    const followerCount = profile?.subscribers?.usersCount || 0;
 
     return (
       <SizedRow>
@@ -292,7 +288,7 @@ export default class UserCardAbout extends PureComponent {
 
   renderOthersRow() {
     const { profile } = this.props;
-    const { gender } = profile;
+    const gender = profile.personal?.gender;
 
     const localizedGender = {
       male: tt('g.gender.male'),
@@ -300,7 +296,7 @@ export default class UserCardAbout extends PureComponent {
     };
 
     if (!localizedGender[gender] && !profile.created) {
-      return;
+      return null;
     }
 
     return (
@@ -326,7 +322,9 @@ export default class UserCardAbout extends PureComponent {
 
   renderLocationBlock() {
     const { profile } = this.props;
-    const { location, website } = profile;
+
+    const location = profile.personal?.location;
+    const website = profile.personal?.website;
 
     if (!website && !location) {
       return null;
@@ -393,7 +391,7 @@ export default class UserCardAbout extends PureComponent {
 
   render() {
     const { profile } = this.props;
-    const { about } = profile;
+    const about = profile.personal?.about;
 
     return (
       <CollapsingCardStyled title={tt('user_profile.account_summary.title')} saveStateKey="info">

@@ -7,6 +7,7 @@ import { wait } from 'utils/time';
 import CurrentRequests from './utils/CurrentRequests';
 
 export const CALL_GATE = 'CALL_GATE';
+const SSR_TIMEOUT = 3000;
 
 export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => next => {
   let client = null;
@@ -89,7 +90,16 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
           userId = currentUnsafeServerUserIdSelector(getState());
         }
 
-        let result = await client.callApi(method, params, userId);
+        let result;
+
+        if (process.browser) {
+          result = await client.callApi(method, params, userId);
+        } else {
+          result = await Promise.race([
+            client.callApi(method, params, userId),
+            timeoutError(SSR_TIMEOUT, method),
+          ]);
+        }
 
         if (requestInfo.isCanceled) {
           return;
@@ -116,6 +126,10 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
 
         resolve(result);
       } catch (err) {
+        if (requestInfo.isCanceled) {
+          return;
+        }
+
         if (failureType) {
           next({
             ...actionWithoutCall,
@@ -138,3 +152,11 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
     return result;
   };
 };
+
+function timeoutError(ms, apiName) {
+  return new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`Request timeout ${apiName}`));
+    }, ms);
+  });
+}

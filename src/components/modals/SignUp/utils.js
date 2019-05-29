@@ -1,23 +1,22 @@
-import { Keygen as keyGen } from 'cyber-keygen';
-
 import {
   PHONE_SCREEN_ID,
   CONFIRM_CODE_SCREEN_ID,
   CREATE_USERNAME_SCREEN_ID,
   MASTER_KEY_SCREEN_ID,
+  CONGRATULATIONS_SCREEN_ID,
 } from './constants';
 
-export function createPdf(keys, user, phoneNumber) {
-  const { masterPrivateKey, privateKeys } = keys;
+export function createPdf(keys, { userId, username, phoneNumber }) {
+  const { master, owner, active } = keys;
 
   const privateKeysPdf = [
     `phone number: ${phoneNumber} `,
-    `username: ${user}`,
-    `masterKey: ${masterPrivateKey}`,
+    `user id: ${userId}`,
+    `username: ${username}`,
+    `masterKey: ${master}`,
+    `active: ${active.privateKey}`,
+    `owner: ${owner.privateKey}`,
   ];
-  for (const key of Object.keys(privateKeys)) {
-    privateKeysPdf.push(`${key}: ${privateKeys[key]}`);
-  }
 
   let JsPdf = null;
   if (process.browser) {
@@ -31,11 +30,7 @@ export function createPdf(keys, user, phoneNumber) {
   });
   pdfDoc.setFontSize(20);
   pdfDoc.text(privateKeysPdf, 10, 50);
-  pdfDoc.save(`Commun-private-keys(${user}).pdf`);
-}
-
-export function generateKeys() {
-  return keyGen.generateMasterKeys();
+  pdfDoc.save(`Golos-private-keys(${username}).pdf`);
 }
 
 // eslint-disable-next-line consistent-return
@@ -49,6 +44,8 @@ export function stepToScreenId(step) {
       return CREATE_USERNAME_SCREEN_ID;
     case 'toBlockChain':
       return MASTER_KEY_SCREEN_ID;
+    case 'registered':
+      return CONGRATULATIONS_SCREEN_ID;
     default:
   }
 }

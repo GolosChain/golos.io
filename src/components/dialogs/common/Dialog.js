@@ -82,8 +82,19 @@ export const UserItem = styled.div`
 
 const UserName = styled.a`
   display: flex;
-  min-width: 180px;
+  min-width: 230px;
+  max-width: 230px;
+
   align-items: center;
+
+  & > * {
+    transition: color 0.3s;
+  }
+
+  &:hover > *,
+  &:focus > * {
+    color: #2879ff;
+  }
 
   @media (max-width: 360px) {
     min-width: unset;

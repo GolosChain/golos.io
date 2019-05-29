@@ -9,7 +9,8 @@ import tt from 'counterpart';
 import { ALLOWED_IMAGE_TYPES } from 'constants/config';
 import { proxyImage } from 'utils/images';
 import { uploadImage, validateImageFile } from 'utils/uploadImages';
-import { displayError, displayMessage } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import Icon from 'components/golos-ui/Icon';
 
@@ -195,6 +196,11 @@ function DropZoneItem({ children, disabled, onDrop }) {
 
 DropZoneItem.propTypes = {
   onDrop: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+DropZoneItem.defaultProps = {
+  disabled: false,
 };
 
 const DropdownStyled = styled(Dropdown)`
@@ -333,7 +339,6 @@ export default class UserHeader extends Component {
     currentUser: PropTypes.shape({}),
     isOwner: PropTypes.bool,
     isSettingsPage: PropTypes.bool,
-    reputation: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     power: PropTypes.number,
     witnessInfo: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.instanceOf(Map)]),
 
@@ -344,7 +349,6 @@ export default class UserHeader extends Component {
     isOwner: false,
     isSettingsPage: false,
     currentUser: null,
-    reputation: 0,
     power: 0,
     witnessInfo: null,
   };
@@ -368,7 +372,7 @@ export default class UserHeader extends Component {
       return;
     }
 
-    displayMessage('Update done!');
+    displaySuccess('Update done!');
   };
 
   onAvatarDrop = files => {
@@ -400,7 +404,7 @@ export default class UserHeader extends Component {
         [key]: url,
       });
 
-      displayMessage('Update done!');
+      displaySuccess('Update done!');
     } catch (err) {
       displayError('Update failed', err);
     }
@@ -410,13 +414,24 @@ export default class UserHeader extends Component {
     });
   }
 
+  renderReputation() {
+    const { profile } = this.props;
+    const { reputation } = profile.stats;
+
+    if (isNil(reputation)) {
+      return null;
+    }
+
+    return <Reputation>{repLog10(reputation)}</Reputation>;
+  }
+
   renderAvatar() {
-    const { isOwner, isSettingsPage, profile, reputation } = this.props;
+    const { isOwner, isSettingsPage, profile } = this.props;
     const { isAvatarUploading } = this.state;
 
     return (
       <UserProfileAvatarWrapper>
-        {isNil(reputation) ? null : <Reputation>{reputation}</Reputation>}
+        {this.renderReputation()}
         <UserProfileAvatar avatarUrl={profile.personal.avatarUrl}>
           {isOwner && isSettingsPage && (
             <ReactDropZone
@@ -447,7 +462,7 @@ export default class UserHeader extends Component {
 
     // const isWitness = witnessInfo && witnessInfo.get('isWitness');
     // const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
-    const accountUsername = profile.username; // should be account real name instead of username
+    const accountUsername = profile.personal?.name || profile.username || profile.userId;
     // const authUsername = currentUser ? currentUser.username : null;
 
     return (
@@ -478,7 +493,7 @@ export default class UserHeader extends Component {
               onDrop: this.onDropCover,
             },
           },
-          profile.personal.coverUrl
+          profile.personal?.coverUrl
             ? {
                 title: `${tt('g.remove')}...`,
                 onClick: this.onRemoveCoverClick,
@@ -495,13 +510,18 @@ export default class UserHeader extends Component {
 
   renderButtons() {
     const { profile, isOwner } = this.props;
-    return !isOwner && <FollowWitnessButtons targetUser={profile.username} isOwner={isOwner} />;
+
+    if (isOwner) {
+      return null;
+    }
+
+    return <FollowWitnessButtons targetUser={profile.userId} isOwner={isOwner} />;
   }
 
   renderLoginContainer() {
     const { profile, power } = this.props;
 
-    return <LoginContainer targetUser={profile.username} power={power} />;
+    return <LoginContainer targetUser={profile} power={power} />;
   }
 
   render() {
@@ -520,7 +540,7 @@ export default class UserHeader extends Component {
               {this.renderAvatar()}
               <Details>
                 {this.renderName()}
-                {/* {this.renderButtons()} */}
+                {this.renderButtons()}
                 {this.renderLoginContainer()}
               </Details>
               {isOwner && isSettingsPage && this.renderCoverDropDown()}

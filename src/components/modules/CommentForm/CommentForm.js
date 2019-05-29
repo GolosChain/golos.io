@@ -7,14 +7,6 @@ import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
 
-import {
-  PreviewButtonWrapper,
-  ReplyHeader,
-  CommentFooterWrapper,
-  CommentLoader,
-  WorkArea,
-} from './CommentFormStyled';
-
 import DialogManager from 'components/elements/common/DialogManager';
 import Icon from 'components/elements/Icon';
 import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor/MarkdownEditor';
@@ -24,6 +16,14 @@ import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer/M
 import { checkPostHtml } from 'utils/validator';
 import { getTags } from 'utils/bodyProcessing/htmlReady';
 import CommentAuthor from 'components/cards/CommentAuthor';
+
+import {
+  PreviewButtonWrapper,
+  ReplyHeader,
+  CommentFooterWrapper,
+  CommentLoader,
+  WorkArea,
+} from './CommentFormStyled';
 import './CommentForm.scss';
 
 const DRAFT_KEY = 'golos.comment.draft';
@@ -34,7 +34,7 @@ export default class CommentForm extends Component {
     editMode: PropTypes.bool,
     commentInputFocused: PropTypes.bool,
     params: PropTypes.shape({}).isRequired,
-    parentPost: PropTypes.shape({}).isRequired,
+    parentPost: PropTypes.shape({}),
     jsonMetadata: PropTypes.shape({}),
     autoFocus: PropTypes.bool,
     clearAfterAction: PropTypes.bool,
@@ -45,7 +45,7 @@ export default class CommentForm extends Component {
 
     createComment: PropTypes.func.isRequired,
     updateComment: PropTypes.func.isRequired,
-    waitForBlock: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
     fetchPostComments: PropTypes.func.isRequired,
     uploadImage: PropTypes.func,
@@ -65,6 +65,7 @@ export default class CommentForm extends Component {
     hideFooter: false,
     commentTitleRef: null,
     replyAuthor: null,
+    parentPost: null,
 
     uploadImage: () => {},
     onSuccess: () => {},
@@ -127,6 +128,9 @@ export default class CommentForm extends Component {
     if (forwardRef) {
       forwardRef.current = null;
     }
+
+    this.saveDraftLazy.cancel();
+    this.checkBodyLazy.cancel();
   }
 
   setFocus() {
@@ -400,12 +404,14 @@ export default class CommentForm extends Component {
     this.onCancelClick();
   }
 
+  // eslint-disable-next-line class-methods-use-this
   safeWrapper(callback) {
     return (...args) => {
       try {
         return callback(...args);
       } catch (err) {
         displayError(tt('g.error'));
+        return null;
       }
     };
   }

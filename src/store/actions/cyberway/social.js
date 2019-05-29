@@ -77,12 +77,16 @@ export const updateProfileMeta = meta => async (dispatch, getState) => {
     defaults(
       {
         name: current.name,
-        about: current.about,
         profile_image: current.avatarUrl,
         cover_image: current.coverUrl,
         gender: current.gender,
+        email: current.email,
         location: current.location,
+        about: current.about,
         website: current.website,
+        facebook: current.facebook,
+        vk: current.vk,
+        instagram: current.instagram,
       },
       DEFAULT_META_VALUES
     )
@@ -104,16 +108,16 @@ export const updateProfileMeta = meta => async (dispatch, getState) => {
   });
 };
 
-export const pinAction = (methodName, actionName) => communityId => async (dispatch, getState) => {
-  const userId = currentUserIdSelector(getState());
+export const createPinAction = (methodName, actionName) => userId => async (dispatch, getState) => {
+  const loggedUserId = currentUserIdSelector(getState());
 
-  if (!userId) {
+  if (!loggedUserId) {
     throw new Error('Unauthorized');
   }
 
   const data = {
-    pinner: userId,
-    pinning: communityId,
+    pinner: loggedUserId,
+    pinning: userId,
   };
 
   return dispatch({
@@ -127,17 +131,17 @@ export const pinAction = (methodName, actionName) => communityId => async (dispa
   });
 };
 
-export const pin = pinAction('pin', FOLLOW_USER);
-export const unpin = pinAction('unpin', UNFOLLOW_USER);
+export const pin = createPinAction('pin', FOLLOW_USER);
+export const unpin = createPinAction('unpin', UNFOLLOW_USER);
 
 const createBlockAction = (methodName, actionName) => userId => async (dispatch, getState) => {
-  const currentUserId = currentUserIdSelector(getState());
+  const loggedUserId = currentUserIdSelector(getState());
 
-  if (!currentUserId) {
+  if (!loggedUserId) {
     throw new Error('Unauthorized');
   }
   const data = {
-    blocker: currentUserId,
+    blocker: loggedUserId,
     blocking: userId,
   };
 

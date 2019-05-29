@@ -12,6 +12,7 @@ export default withRouter(
       [currentUserIdSelector, (state, props) => props.post],
       (username, post) => ({
         isAuthor: username === post.author,
+        author: post.author,
       })
     )
   )(PostContent)

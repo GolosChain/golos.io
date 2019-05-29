@@ -475,6 +475,7 @@
     "reputation": "Репутация",
     "request": "запрос",
     "required": "Обязательно",
+    "register": "Зарегистрироваться",
     "rewards": "Награды",
     "save": "Сохранить",
     "saved": "Сохранено",
@@ -579,6 +580,7 @@
     "save_password_on_page": "Сохранить для этой страницы"
   },
   "main_menu": {
+    "new": "Новое",
     "hot": "Актуальное",
     "trending": "Популярное"
   },
@@ -889,7 +891,7 @@
     "profile_image_url": "Вставьте ссылку на изображение или загрузите его",
     "profile_location": "Город",
     "profile_name": "Отображаемое имя",
-    "profile_username": "Юзернейм",
+    "profile_userid": "ID пользователя",
     "profile_website": "Сайт",
     "public_profile_settings": "Настройки Публичного Профиля",
     "reset": "Сбросить",
@@ -999,7 +1001,7 @@
     },
     "change_cover": "Изменить фон",
     "explore_APP_NAME": "Исследовать %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 подписчик",
       "other": "%(count)s подписчиков",
       "zero": "0 подписчиков"
@@ -1180,6 +1182,12 @@
       "one": "1 голос",
       "other": "%(count)s голосов",
       "zero": "0 голосов"
+    },
+    "become": "Стать делегатом",
+    "manage": "Управление сообществом",
+    "register_dialog": {
+      "title": "Зарегистрироваться как делегат",
+      "url": "Ссылка на приветственный пост"
     }
   },
   "settings": {

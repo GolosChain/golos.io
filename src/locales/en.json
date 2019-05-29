@@ -419,7 +419,7 @@
     "messages": "Messages",
     "more": "more",
     "mute": "Mute",
-    "new": "new",
+    "new": "Нове",
     "new_password": "New Password",
     "newer": "Newer",
     "next": "Next",
@@ -472,6 +472,7 @@
     "reputation": "Reputation",
     "request": "request",
     "required": "Required",
+    "register": "Register",
     "rewards": "Rewards",
     "save": "Save",
     "saved": "Saved",
@@ -575,6 +576,7 @@
     "save_password_on_page": "Save password for this page"
   },
   "main_menu": {
+    "new": "new",
     "hot": "hot",
     "trending": "trending"
   },
@@ -885,7 +887,7 @@
     "profile_image_url": "Profile picture url",
     "profile_location": "Location",
     "profile_name": "Display Name",
-    "profile_username": "Username",
+    "profile_userid": "User ID",
     "profile_website": "Website",
     "public_profile_settings": "Public Profile Settings",
     "reset": "Reset",
@@ -987,7 +989,7 @@
     },
     "change_cover": "Change cover",
     "explore_APP_NAME": "Explore %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 follower",
       "other": "%(count)s followers",
       "zero": "No followers"
@@ -1192,6 +1194,12 @@
       "one": "You have 1 vote remaining",
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
+    },
+    "become": "Become a witness",
+    "manage": "Manage",
+    "register_dialog": {
+      "title": "Register as witness",
+      "url": "Witness welcome post link"
     }
   },
   "settings": {

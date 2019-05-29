@@ -97,45 +97,8 @@ const RatingValue = styled.span`
 `;
 
 export default class UserStatus extends Component {
-  render() {
-    const { userStatus, profile, popover } = this.props;
-
-    const statusPosition = this.getStatusPosition(userStatuses, userStatus);
-    const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
-    const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
-
-    const reputation = profile.reputation;
-
-    const rep10 = repLog10(reputation);
-
-    return coloredStatuses ? (
-      <Wrapper popover={Boolean(popover)}>
-        <Statuses>
-          {coloredStatuses.map(status => (
-            <ColoredIcon
-              name={status.name}
-              width={status.width}
-              height={status.height}
-              data-tooltip={tt(['user_profile', 'account_summary', 'status', status.name])}
-              key={status.name}
-              color={status.color}
-            />
-          ))}
-        </Statuses>
-        <ProgressLine progress={statusPosition} toNext={toNext} />
-        {reputation ? (
-          <Rating>
-            {tt('user_profile.account_summary.reputation')}: <RatingValue>{rep10}</RatingValue>
-          </Rating>
-        ) : null}
-      </Wrapper>
-    ) : null;
-  }
-
   getStatusPosition = (userStatuses, userStatus) => {
-    const currentStatusPosition = userStatuses.findIndex(status => status.name === userStatus);
-
-    return currentStatusPosition;
+    return userStatuses.findIndex(status => status.name === userStatus);
   };
 
   getColoredStatuses = (userStatuses, currentStatusPosition) => {
@@ -172,4 +135,40 @@ export default class UserStatus extends Component {
       percent: Number((power / userStatusesByPower[currentPosition]).toFixed(2)),
     };
   };
+
+  render() {
+    const { userStatus, popover, profile } = this.props;
+    const statusPosition = this.getStatusPosition(userStatuses, userStatus);
+    const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
+    const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
+
+    let reputation = 0;
+
+    if (profile?.stats?.reputation) {
+      reputation = repLog10(profile.stats.reputation);
+    }
+
+    return coloredStatuses ? (
+      <Wrapper popover={Boolean(popover)}>
+        <Statuses>
+          {coloredStatuses.map(status => (
+            <ColoredIcon
+              name={status.name}
+              width={status.width}
+              height={status.height}
+              data-tooltip={tt(['user_profile', 'account_summary', 'status', status.name])}
+              key={status.name}
+              color={status.color}
+            />
+          ))}
+        </Statuses>
+        <ProgressLine progress={statusPosition} toNext={toNext} />
+        {reputation ? (
+          <Rating>
+            {tt('user_profile.account_summary.reputation')}: <RatingValue>{reputation}</RatingValue>
+          </Rating>
+        ) : null}
+      </Wrapper>
+    ) : null;
+  }
 }

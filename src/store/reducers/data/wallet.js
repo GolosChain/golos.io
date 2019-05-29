@@ -8,6 +8,8 @@ import {
   FETCH_TRANSFERS_HISTORY_ERROR,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
+  FETCH_USER_VESTING_BALANCE_SUCCESS,
+  FETCH_USER_VESTING_BALANCE_ERROR,
 } from 'store/constants';
 
 import { TRANSFERS_TYPE } from 'shared/constants';
@@ -26,16 +28,49 @@ export default function(state = initialState, { type, payload, meta }) {
           },
         });
       }
+
       return {
         ...state,
         [payload.name || meta.name]: {
           balances: payload.balances || [],
         },
       };
+
     case FETCH_USER_BALANCE_ERROR:
       return {
         ...state,
       };
+
+    case FETCH_USER_VESTING_BALANCE_SUCCESS:
+      if (state[payload.account || meta.name]) {
+        return update(state, {
+          [payload.name || meta.name]: {
+            vesting: {
+              $set: {
+                amount: payload.vesting,
+                delegated: payload.delegated,
+                received: payload.received,
+              },
+            },
+          },
+        });
+      }
+      return {
+        ...state,
+        [payload.account || meta.name]: {
+          vesting: {
+            amount: payload.vesting,
+            delegated: payload.delegated,
+            received: payload.received,
+          },
+        },
+      };
+
+    case FETCH_USER_VESTING_BALANCE_ERROR:
+      return {
+        ...state,
+      };
+
     case FETCH_TRANSFERS_HISTORY_SUCCESS:
       if (state[payload.name || meta.name]) {
         return update(state, {
@@ -58,6 +93,7 @@ export default function(state = initialState, { type, payload, meta }) {
           },
         },
       };
+
     case FETCH_TRANSFERS_HISTORY_ERROR:
       return {
         ...state,

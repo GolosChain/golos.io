@@ -10,8 +10,8 @@ export function getPropsForInterpolation(notification) {
 
   if (actor) {
     interProps.user = (
-      <Link route="profile" params={{ userId: actor.id }}>
-        @{actor.name || actor.id}
+      <Link route="profile" params={{ userId: actor.userId }}>
+        @{actor.username || actor.userId}
       </Link>
     );
   }

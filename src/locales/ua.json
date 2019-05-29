@@ -506,6 +506,7 @@
     "save_password_on_page": "Зберегти для цієї сторінки"
   },
   "main_menu": {
+    "new": "Нове",
     "hot": "Актуальне",
     "trending": "Популярне"
   },
@@ -791,7 +792,7 @@
     "profile_image_url": "Вставте посилання на зображення або завантажте його",
     "profile_location": "Місто",
     "profile_name": "Відображене ім'я",
-    "profile_username": "Юзернейм",
+    "profile_userid": "ID користувача",
     "profile_website": "Сайт",
     "public_profile_settings": "Налаштування Публічного Профілю",
     "reset": "Скинути",
@@ -882,7 +883,7 @@
       "zero": "Коментарiв"
     },
     "explore_APP_NAME": "Дослідити %(APP_NAME)s",
-    "follower_count": {
+    "followers_count": {
       "one": "1 підписник",
       "other": "%(count)s підписників",
       "zero": "0 підписників"

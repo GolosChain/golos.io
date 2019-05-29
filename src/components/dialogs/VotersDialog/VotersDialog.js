@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { displayError } from 'utils/toastMessages';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-
+import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import Avatar from 'components/common/Avatar';
 import Follow from 'components/common/Follow';
 import {
@@ -18,23 +19,6 @@ import {
   Name,
   LoaderWrapper,
 } from 'components/dialogs/common/Dialog';
-
-const ShowAll = styled.button`
-  width: 100%;
-  height: 50px;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
-  background-color: #fff;
-
-  color: #111;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-
-  &:hover {
-    color: #2879ff;
-  }
-`;
 
 const EmptyBlockLikeFollow = styled.div`
   min-width: 165px;
@@ -61,59 +45,83 @@ const Percent = styled.p`
 
 export default class VotersDialog extends PureComponent {
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    users: PropTypes.array,
-    username: PropTypes.string.isRequired,
+    users: PropTypes.arrayOf(PropTypes.shape({})),
+    data: PropTypes.shape({}).isRequired,
+    currentUserId: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isLikes: PropTypes.bool.isRequired,
+    isEnd: PropTypes.bool.isRequired,
+    sequenceKey: PropTypes.string,
+
+    getVoters: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    if (this.props.users.length === 0) {
-      this.props.getVoters(this.props.postLink, 50);
-    }
-  }
+  static defaultProps = {
+    users: [],
+    sequenceKey: null,
+  };
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.loading && nextProps.users.length === 0 && nextProps.hasMore) {
-      this.props.getVoters(this.props.postLink);
+  loadMore = async () => {
+    const { data, sequenceKey, getVoters } = this.props;
+    try {
+      await getVoters(data, sequenceKey);
+    } catch (err) {
+      displayError('Cannot load voters list', err);
     }
-  }
+  };
 
-  showAll = () => {
-    this.props.getVoters(this.props.postLink);
+  onNeedLoadMore = () => {
+    const { isEnd, isLoading } = this.props;
+
+    if (isEnd || isLoading) {
+      return;
+    }
+
+    this.loadMore();
+  };
+
+  renderUsers = () => {
+    const { users, currentUserId, onClose } = this.props;
+    return users.map(({ name, userId, avatar, percent, hasSubscription }) => (
+      <UserItem key={name}>
+        <UserLink userId={userId} title={name} onClick={onClose}>
+          <Avatar avatarUrl={avatar} />
+          <Name>{name}</Name>
+        </UserLink>
+        <Percent>{Math.round(percent)}%</Percent>
+        {/* TODO: uncomment when hasSubscription flag will be added
+        {userId !== currentUserId ? (
+          <Follow userId={userId} collapseOnMobile isFollow={hasSubscription} />
+        ) : ( */}
+        <EmptyBlockLikeFollow />
+        {/* )} */}
+      </UserItem>
+    ));
   };
 
   render() {
-    const { loading, users, hasMore, username, isLikes } = this.props;
+    const { isLoading, isLikes, isEnd, onClose } = this.props;
     return (
       <Dialog>
         <Header>
           <Title>{tt(`dialog.${isLikes ? 'liked' : 'disliked'}`)}</Title>
-          <IconClose onClick={this.props.onClose} />
+          <IconClose onClick={onClose} />
         </Header>
         <Content>
-          {users.map(user => (
-            <UserItem key={user.name}>
-              <UserLink to={`/@${user.name}`} title={user.name} onClick={this.props.onClose}>
-                <Avatar avatarUrl={user.avatar} />
-                <Name>{user.name}</Name>
-              </UserLink>
-              <Percent>{Math.round(user.percent)}%</Percent>
-              {user.name !== username ? (
-                <Follow following={user.name} collapseOnMobile />
-              ) : (
-                <EmptyBlockLikeFollow />
-              )}
-            </UserItem>
-          ))}
-          {loading && (
+          <InfinityScrollHelper
+            isDialog
+            disabled={isLoading || isEnd}
+            onNeedLoadMore={this.onNeedLoadMore}
+          >
+            {this.renderUsers()}
+          </InfinityScrollHelper>
+          {isLoading && (
             <LoaderWrapper>
               <LoadingIndicator type="circle" size={40} />
             </LoaderWrapper>
           )}
         </Content>
-        {hasMore && !loading ? (
-          <ShowAll onClick={this.showAll}>{tt('dialog.show_all')}</ShowAll>
-        ) : null}
       </Dialog>
     );
   }

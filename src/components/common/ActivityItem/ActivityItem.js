@@ -37,6 +37,7 @@ const Content = styled.div`
 const ActivityDesc = styled.div`
   display: flex;
   flex: 1 0;
+  margin-top: 7px;
   margin-left: 10px;
   max-width: 100%;
   overflow: hidden;
@@ -65,9 +66,10 @@ const ActivityDate = styled.div`
   top: 0;
   right: 0;
   padding: 0 9px 0 20px;
-  margin-top: -4px;
+  margin-top: -6px;
   margin-right: -8px;
   font-size: 12px;
+  line-height: 15px;
   color: #959595;
   background: linear-gradient(
     to right,
@@ -207,10 +209,7 @@ export default class ActivityItem extends Component {
     }
 
     if (notification.actor) {
-      const account = notification.actor;
-
-      const { id: userId, avatarUrl } = account;
-      const name = account.name || userId;
+      const { userId, username, avatarUrl } = notification.actor;
 
       leftSide = (
         <AvatarLink route="profile" params={{ userId }}>
@@ -221,7 +220,7 @@ export default class ActivityItem extends Component {
       if (!isRewards) {
         nameLink = (
           <AuthorName route="profile" params={{ userId }}>
-            {name || userId}
+            {username || userId}
           </AuthorName>
         );
       }
@@ -229,7 +228,7 @@ export default class ActivityItem extends Component {
       if (type === 'subscribe') {
         followBlock = (
           <FollowWrapper isCompact={isCompact}>
-            <Follow following={userId} collapseOnMobile collapse={isCompact} />
+            <Follow userId={userId} collapseOnMobile collapse={isCompact} />
           </FollowWrapper>
         );
       }

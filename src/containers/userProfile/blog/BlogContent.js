@@ -69,6 +69,7 @@ export default class BlogContent extends Component {
 
     return (
       <CardsList
+        isProfile
         userId={profile.id}
         category="blog"
         showPinButton

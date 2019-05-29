@@ -22,11 +22,23 @@ const Loader = styled(LoadingIndicator).attrs({ type: 'circle', center: true, si
 export default class CommentsContainer extends Component {
   static propTypes = {
     post: PropTypes.shape().isRequired,
-    sequenceKey: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-
+    sequenceKey: PropTypes.string,
+    list: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     isAutoLogging: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
+    isEnd: PropTypes.bool,
+    commentInputFocused: PropTypes.bool,
+    isAuthorized: PropTypes.bool,
+
     fetchPostComments: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
+    isEnd: false,
+    commentInputFocused: false,
+    isAuthorized: false,
+    sequenceKey: null,
   };
 
   commentContainerRef = createRef();
@@ -68,7 +80,6 @@ export default class CommentsContainer extends Component {
       isLoading,
       isEnd,
       list,
-      postContentId,
       commentInputFocused,
       isAuthorized,
     } = this.props;
@@ -93,7 +104,7 @@ export default class CommentsContainer extends Component {
         ) : null}
         {list.length ? (
           <CommentsList
-            postContentId={postContentId}
+            postContentId={[post.contentId]}
             list={list}
             allowFetch={!isEnd && !isLoading}
             fetchComments={this.fetchComments}

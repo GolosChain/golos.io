@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export function applyVotesChanges(votes, action) {
   const newVotes = {
     ...votes,
@@ -25,6 +26,7 @@ export function applyVotesChanges(votes, action) {
         hasUpVote: false,
         hasDownVote: false,
       };
+    default:
   }
 
   if (newVotes.upCount < 0) {

@@ -142,8 +142,8 @@ export default function(state = initialState, { type, payload, error }) {
 
     case FETCH_REG_SET_USER_ERROR:
       let sendUserError = '';
-      if (error.code === 409) {
-        sendUserError = 'Such username is busy.';
+      if (error.code === 400) {
+        sendUserError = 'Name is already in use.';
       } else {
         sendUserError = 'Unknown error.';
       }
@@ -163,9 +163,7 @@ export default function(state = initialState, { type, payload, error }) {
 
     case FETCH_REG_BLOCK_CHAIN_ERROR:
       let blockChainError = '';
-      if (error.code === 409) {
-        blockChainError = 'Already in blockchain (dev only)';
-      } else {
+      if (error) {
         blockChainError = 'Blockchain internal error.';
       }
 

@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import WitnessesLine, { lineTemplate } from '../WitnessesLine';
 import { displayError } from 'utils/toastMessages';
 import { getScrollElement } from 'helpers/window';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import VoteForAnyWitness from '../VoteForAnyWitness';
+import WitnessHeader from 'components/witness/WitnessHeader';
+import WitnessesLine, { lineTemplate } from 'components/witness/WitnessesLine';
+// import VoteForAnyWitness from 'components/witness/VoteForAnyWitness';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -25,24 +26,6 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   padding-top: 30px;
-`;
-
-const HeaderTitle = styled.h2`
-  margin-bottom: 10px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 34px;
-  font-weight: bold;
-  line-height: 1.21;
-  letter-spacing: 0.4px;
-  color: #333;
-`;
-
-const HeaderSubtitle = styled.p`
-  margin-bottom: 30px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.2px;
-  color: #393636;
 `;
 
 const TableWrapper = styled.div`
@@ -126,7 +109,6 @@ export default class Witnesses extends PureComponent {
     try {
       await fetchLeaders({ sequenceKey });
     } catch (err) {
-      console.error(err);
       displayError(tt('g.error'), err);
     }
   };
@@ -138,17 +120,7 @@ export default class Witnesses extends PureComponent {
       <WrapperForBackground>
         <Wrapper>
           <Header>
-            <HeaderTitle>{tt('witnesses_jsx.top_witnesses')}</HeaderTitle>
-            <HeaderSubtitle>
-              {/*<strong>*/}
-              {/*  {tt('witnesses_jsx.you_have_votes_remaining') +*/}
-              {/*    tt('witnesses_jsx.you_have_votes_remaining_count', {*/}
-              {/*      count: '???',*/}
-              {/*    })}*/}
-              {/*  .*/}
-              {/*</strong>{' '}*/}
-              {tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}.
-            </HeaderSubtitle>
+            <WitnessHeader />
           </Header>
           <TableWrapper>
             <TableHead>

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import styled from 'styled-components';
+import LazyLoad from 'react-lazyload';
 
 import { getScrollElement } from 'helpers/window';
 import { isFetchingOrRecentlyUpdated } from 'utils/StateFunctions';
@@ -167,12 +168,12 @@ export default class CardsList extends PureComponent {
   };
 
   itemRender = props => {
-    const { layout } = this.props;
+    const { layout, isProfile } = this.props;
 
     if (layout === 'compact') {
       return <PostCardCompact {...props} />;
     }
-    return <PostCard {...props} />;
+    return <PostCard postInFeed={!isProfile} {...props} />;
   };
 
   renderCards() {

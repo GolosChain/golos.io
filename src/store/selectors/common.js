@@ -59,6 +59,7 @@ export const profileSelector = userId => state => {
       username: userId,
       created: null,
       reputation: null,
+      leaderIn: [],
       stats: {
         postCounts: 0,
         commentsCount: 0,

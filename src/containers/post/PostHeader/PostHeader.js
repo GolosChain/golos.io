@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
-import { ToggleFeature } from '@flopflip/react-redux';
 
 import { Link } from 'shared/routes';
-import { POSTHEADER_POPOVERBODY } from 'shared/feature-flags';
 import Icon from 'components/golos-ui/Icon';
-import { ButtonBlock } from 'components/golos-ui/Button';
+// import { ButtonBlock } from 'components/golos-ui/Button';
 import { TagLink } from 'components/golos-ui/Tag';
 
 import Userpic from 'components/common/Userpic';
@@ -19,7 +17,7 @@ import {
   PopoverStyled,
 } from 'components/post/PopoverAdditionalStyles';
 import PostActions from 'components/post/PostActions';
-import FollowUserButton from 'components/common/FollowUserButton';
+// import FollowUserButton from 'components/common/FollowUserButton';
 
 const Wrapper = styled.div`
   position: relative;
@@ -44,10 +42,23 @@ const Wrapper = styled.div`
   }
 `;
 
-const Avatar = styled.div`
+const ALink = styled(({ route, children, ...props }) => (
+  <Link route={route} passHref>
+    <a {...props}>{children}</a>
+  </Link>
+))``;
+
+const Avatar = styled(({ route, ...props }) =>
+  route ? (
+    <ALink route={route} {...props} />
+  ) : (
+    <button type="button" name="card-author__open-popover" {...props} />
+  )
+)`
   position: relative;
   display: flex;
   align-items: center;
+  cursor: pointer !important;
 `;
 
 const InfoBlock = styled.div`
@@ -82,34 +93,34 @@ const AuthorName = styled.div`
   }
 `;
 
-const CustomIcon = styled(Icon)`
-  min-width: 12px;
-  min-height: 12px;
-  flex-shrink: 0;
-`;
+// const CustomIcon = styled(Icon)`
+//   min-width: 12px;
+//   min-height: 12px;
+//   flex-shrink: 0;
+// `;
 
-const FollowedIcon = styled(CustomIcon)`
-  margin: 1px 0 0 1px;
-`;
+// const FollowedIcon = styled(CustomIcon)`
+//   margin: 1px 0 0 1px;
+// `;
 
-const FollowButtonWrapper = styled(FollowUserButton)`
-  margin-left: 30px;
+// const FollowButtonWrapper = styled(FollowUserButton)`
+//   margin-left: 30px;
 
-  grid-area: follow;
-  align-self: center;
-`;
+//   grid-area: follow;
+//   align-self: center;
+// `;
 
-const FollowRound = styled(ButtonBlock)`
-  width: 34px;
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  cursor: pointer;
-`;
+// const FollowRound = styled(ButtonBlock)`
+//   width: 34px;
+//   height: 34px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 50%;
+//   cursor: pointer;
+// `;
 
-const UserInfoWrapper = styled.a`
+const UserInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -182,6 +193,8 @@ const Category = styled(TagLink)`
 export default class PostHeader extends Component {
   static propTypes = {
     post: PropTypes.shape({}).isRequired,
+    author: PropTypes.shape({}).isRequired,
+    authorProfile: PropTypes.shape({}),
     forwardRef: PropTypes.shape({
       current: PropTypes.any,
     }),
@@ -193,6 +206,7 @@ export default class PostHeader extends Component {
   };
 
   static defaultProps = {
+    authorProfile: null,
     forwardRef: null,
     isPinned: false,
     isOwner: false,
@@ -230,6 +244,7 @@ export default class PostHeader extends Component {
     const {
       post,
       author,
+      authorProfile,
       forwardRef,
       isPinned,
       isOwner,
@@ -244,19 +259,32 @@ export default class PostHeader extends Component {
 
     return (
       <Wrapper ref={forwardRef} className={className}>
-        <Link route="profile" params={{ userId: author.id }} passHref>
-          <UserInfoWrapper>
+        <UserInfoWrapper>
+          {authorProfile ? (
             <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
-              <PopoverBackgroundShade show={showPopover} />
-              <UserpicStyled userId={author.id} size={50} />
+              <UserpicStyled userId={author?.id} size={50} />
+              {showPopover && (
+                <>
+                  <PopoverBackgroundShade show={showPopover} />
+                  <AvatarBox popoverOffsetTop={50} userPicSize={50}>
+                    <PopoverStyled closePopover={this.closePopover} show>
+                      <PopoverBody userId={author?.id} closePopover={this.closePopover} />
+                    </PopoverStyled>
+                  </AvatarBox>
+                </>
+              )}
             </Avatar>
-            <InfoBlock>
-              <AuthorName aria-label={tt('aria_label.username')}>{author.username}</AuthorName>
-              <TimeAgoWrapper date={meta.time} />
-            </InfoBlock>
-          </UserInfoWrapper>
-        </Link>
-        {/*{!isOwner && (
+          ) : (
+            <Avatar route={`/@${author?.id}`} aria-label={tt('aria_label.avatar')}>
+              <UserpicStyled userId={author?.id} size={50} />
+            </Avatar>
+          )}
+          <InfoBlock>
+            <AuthorName aria-label={tt('aria_label.username')}>{author.username}</AuthorName>
+            <TimeAgoWrapper date={meta.time} />
+          </InfoBlock>
+        </UserInfoWrapper>
+        {/* {!isOwner && (
           <FollowButtonWrapper
             FollowComp={
               <FollowRound>
@@ -270,7 +298,7 @@ export default class PostHeader extends Component {
             }
             targetUser={author}
           />
-        )}*/}
+        )} */}
         {isPromoted && (
           <PromotedMark>
             <PromotedIcon name="best" width="34" height="37" />
@@ -295,15 +323,6 @@ export default class PostHeader extends Component {
             isOwner={isOwner}
           />
         </PostActionsWrapper>
-        {showPopover && (
-          <AvatarBox popoverOffsetTop={50} userPicSize={50}>
-            <ToggleFeature flag={POSTHEADER_POPOVERBODY}>
-              <PopoverStyled closePopover={this.closePopover} show>
-                <PopoverBody accountName={author} closePopover={this.closePopover} />
-              </PopoverStyled>
-            </ToggleFeature>
-          </AvatarBox>
-        )}
       </Wrapper>
     );
   }

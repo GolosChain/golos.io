@@ -9,11 +9,7 @@ import { setRegistrationData } from 'utils/localStorage';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 
 import { MASTER_KEY_SCREEN_ID, PHONE_SCREEN_ID } from '../constants';
-import {
-  LOCALE_USERNAME_EMPTY_ERROR,
-  LOCALE_NAME_LESS_SYMBOLS,
-  LOCALE_ONE_DOT_IN_NAME,
-} from '../locales';
+import { LOCALE_USERNAME_EMPTY_ERROR, LOCALE_ONE_DOT_IN_NAME } from '../locales';
 import { SubTitle, Input, SendButton, BackButton, ErrorText } from '../commonStyled';
 
 const UsernameInput = styled(Input)`
@@ -128,10 +124,6 @@ export default class CreateUsername extends PureComponent {
       this.setState({ usernameError: LOCALE_USERNAME_EMPTY_ERROR });
       return false;
     }
-    if (username.length > 12) {
-      this.setState({ usernameError: LOCALE_NAME_LESS_SYMBOLS });
-      return false;
-    }
     if ((username.match(/\./g) || []).length > 1) {
       this.setState({ usernameError: LOCALE_ONE_DOT_IN_NAME });
       return false;
@@ -163,7 +155,7 @@ export default class CreateUsername extends PureComponent {
         <CustomSendButton className="js-CreateUsernameSend" onClick={this.nextScreen}>
           {tt('registration.next')}
         </CustomSendButton>
-        <BackButton className="js-CreateUsernameBack" onClick={this.backToPreviousScreen}>
+        <BackButton light className="js-CreateUsernameBack" onClick={this.backToPreviousScreen}>
           {tt('g.back')}
         </BackButton>
       </>
