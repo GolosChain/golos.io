@@ -6,7 +6,7 @@ import tt from 'counterpart';
 
 import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
-import { displayError, displayMessage } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import CloseOpenButton from 'components/cards/CloseOpenButton';
 
@@ -242,7 +242,7 @@ export default class WitnessesLine extends PureComponent {
       return;
     }
 
-    displayMessage(tt('g.success_operation'));
+    displaySuccess(tt('g.success_operation'));
   };
 
   // renderFullInfo() {

@@ -10,6 +10,7 @@ import {
   SHOW_MODAL_LOGIN,
   SHOW_MODAL_SIGNUP,
   SHOW_MODAL_BECOME_LOADER,
+  SHOW_MODAL_MANAGE_COMMUNITY,
 } from 'store/constants/modalTypes';
 // import ScrollFix from 'components/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -73,6 +74,7 @@ const modalsMap = new Map([
   [SHOW_MODAL_LOGIN, dynamic(() => import('components/modals/Login'))],
   [SHOW_MODAL_SIGNUP, dynamic(() => import('components/modals/SignUp'))],
   [SHOW_MODAL_BECOME_LOADER, dynamic(() => import('components/modals/BecomeLeader'))],
+  [SHOW_MODAL_MANAGE_COMMUNITY, dynamic(() => import('components/modals/ManageCommunity'))],
 ]);
 
 export default class ModalManager extends PureComponent {

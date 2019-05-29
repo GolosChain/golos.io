@@ -22,15 +22,17 @@ export default ({ getState }) => next => async action => {
   const actionWithoutCall = { ...action };
   delete actionWithoutCall[CYBERWAY_API];
 
-  const { types, contract, method, params, options } = callApi;
-  const [requestType, successType, failureType] = types;
+  const { types, contract, method, params, options, auth } = callApi;
+  const [requestType, successType, failureType] = types || [];
 
-  next({
-    ...actionWithoutCall,
-    type: requestType,
-    payload: null,
-    error: null,
-  });
+  if (requestType) {
+    next({
+      ...actionWithoutCall,
+      type: requestType,
+      payload: null,
+      error: null,
+    });
+  }
 
   try {
     const { userId, permission, username } = currentUserSelector(getState());
@@ -57,7 +59,7 @@ export default ({ getState }) => next => async action => {
 
     // raw transaction if providebw option specified or result of transaction
     let result = await cyber[contract][method](
-      { accountName: userId, permission: currentPermission },
+      auth || { accountName: userId, permission: currentPermission },
       params,
       options
     );
@@ -82,21 +84,25 @@ export default ({ getState }) => next => async action => {
       });
     }
 
-    next({
-      ...actionWithoutCall,
-      type: successType,
-      payload: result,
-      error: null,
-    });
+    if (successType) {
+      next({
+        ...actionWithoutCall,
+        type: successType,
+        payload: result,
+        error: null,
+      });
+    }
 
     return result;
   } catch (err) {
-    next({
-      ...actionWithoutCall,
-      type: failureType,
-      payload: null,
-      error: err,
-    });
+    if (failureType) {
+      next({
+        ...actionWithoutCall,
+        type: failureType,
+        payload: null,
+        error: err,
+      });
+    }
 
     throw err;
   }
