@@ -13,7 +13,7 @@ export default connect(
       (state, props) => dataSelector(['wallet', props.userId, 'vesting'])(state),
     ],
     (balances, vesting) => {
-      let gls;
+      let gls = 0;
       let power;
       let powerDelegated;
 
@@ -30,7 +30,7 @@ export default connect(
       }
 
       return {
-        golos: gls || '0',
+        golos: parsePayoutAmount(gls) || '0',
         power: power || '0',
         powerDelegated: powerDelegated || '0',
       };
