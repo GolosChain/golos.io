@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import ToastsManager from 'toasts-manager';
 
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
+
+import { HeaderTitle } from '../common';
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,16 +20,6 @@ const Wrapper = styled.div`
 const TextBlock = styled.div`
   flex-grow: 1;
   flex-shrink: 0;
-`;
-
-const HeaderTitle = styled.h2`
-  margin-bottom: 10px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 34px;
-  font-weight: bold;
-  line-height: 1.21;
-  letter-spacing: 0.4px;
-  color: #333;
 `;
 
 const HeaderSubtitle = styled.p`

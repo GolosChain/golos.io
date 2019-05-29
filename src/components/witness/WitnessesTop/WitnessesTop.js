@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { fetchLeaders } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
 import { getScrollElement } from 'helpers/window';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
@@ -63,7 +64,7 @@ const LoaderBlock = styled.div`
   height: 60px;
 `;
 
-export default class Witnesses extends PureComponent {
+export default class WitnessesTop extends PureComponent {
   static propTypes = {
     items: PropTypes.array.isRequired,
     isEnd: PropTypes.bool.isRequired,
@@ -74,6 +75,10 @@ export default class Witnesses extends PureComponent {
   static defaultProps = {
     sequenceKey: null,
   };
+
+  static async getInitialProps({ store }) {
+    await store.dispatch(fetchLeaders());
+  }
 
   componentDidMount() {
     const { items, isEnd } = this.props;

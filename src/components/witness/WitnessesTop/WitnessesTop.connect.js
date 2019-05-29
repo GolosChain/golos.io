@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { dataSelector } from 'store/selectors/common';
 import { fetchLeaders } from 'store/actions/gate';
 
-import Witnesses from './Witnesses';
+import WitnessesTop from './WitnessesTop';
 
 export default connect(
   state => {
@@ -20,4 +20,4 @@ export default connect(
   {
     fetchLeaders,
   }
-)(Witnesses);
+)(WitnessesTop);
