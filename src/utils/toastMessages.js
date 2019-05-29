@@ -2,12 +2,12 @@ import ToastsManager from 'toasts-manager';
 
 import { normalizeCyberwayErrorMessage } from './errors';
 
-export function displayMessage(text) {
+export function displaySuccess(text) {
   ToastsManager.info(text);
 }
 
 export function displayError(title, err) {
-  if (arguments.length === 1) {
+  if (typeof title !== 'string') {
     err = title;
     title = null;
   }
@@ -18,13 +18,17 @@ export function displayError(title, err) {
     prefix = title.endsWith(':') ? title : `${title}:`;
   }
 
-  if (prefix) {
+  if (prefix && err) {
     console.error(prefix, err);
-  } else {
+  } else if (err) {
     console.error(err);
   }
 
-  const message = normalizeCyberwayErrorMessage(err);
+  let message = '';
+
+  if (err) {
+    message = normalizeCyberwayErrorMessage(err);
+  }
 
   ToastsManager.error(`${prefix ? `${prefix} ` : ''}${message}`);
 }

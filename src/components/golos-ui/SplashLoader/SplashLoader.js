@@ -12,6 +12,7 @@ const Root = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  opacity: 0;
   background: rgba(155, 155, 155, 0.3);
   animation: fade-in 0.5s forwards;
   animation-delay: 0.2s;

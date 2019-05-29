@@ -890,7 +890,7 @@
     "profile_image_url": "Вставьте ссылку на изображение или загрузите его",
     "profile_location": "Город",
     "profile_name": "Отображаемое имя",
-    "profile_username": "Юзернейм",
+    "profile_userid": "ID пользователя",
     "profile_website": "Сайт",
     "public_profile_settings": "Настройки Публичного Профиля",
     "reset": "Сбросить",

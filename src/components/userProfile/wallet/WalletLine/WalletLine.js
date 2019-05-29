@@ -239,7 +239,6 @@ export default class WalletLine extends PureComponent {
     account: PropTypes.any,
     delegationData: PropTypes.array,
     delegate: PropTypes.func.isRequired,
-    onLoadDelegationsData: PropTypes.func.isRequired,
     getContent: PropTypes.func.isRequired,
   };
 
@@ -451,12 +450,12 @@ export default class WalletLine extends PureComponent {
   };
 
   updateDelegation({ id, delegatee }, value) {
-    const { myAccountName, globalProps } = this.props;
+    const { loggedUserId, globalProps } = this.props;
 
     const vesting = value > 0 ? golosToVests(value / 1000, globalProps) : '0.000000';
 
     const operation = {
-      delegator: myAccountName,
+      delegator: loggedUserId,
       delegatee,
       vesting_shares: `${vesting} GESTS`,
     };
@@ -480,7 +479,8 @@ export default class WalletLine extends PureComponent {
           edit: false,
         });
 
-        this.props.onLoadDelegationsData();
+        // TODO:
+        // this.props.onLoadDelegationsData();
       }
     });
   }

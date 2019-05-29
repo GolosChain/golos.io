@@ -60,7 +60,9 @@ export default class WitnessHeader extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    hideLeaderActions: PropTypes.bool.isRequired,
     openBecomeLeaderDialog: PropTypes.func.isRequired,
+    openManageCommunityDialog: PropTypes.func.isRequired,
   };
 
   onBecomeLeaderClick = () => {
@@ -69,11 +71,16 @@ export default class WitnessHeader extends PureComponent {
   };
 
   onManageClick = () => {
-    ToastsManager.error('No ready yet');
+    const { openManageCommunityDialog } = this.props;
+    openManageCommunityDialog();
   };
 
   renderButtons() {
-    const { isLoading, isWitness } = this.props;
+    const { hideLeaderActions, isLoading, isWitness } = this.props;
+
+    if (hideLeaderActions) {
+      return null;
+    }
 
     if (isLoading) {
       return (
