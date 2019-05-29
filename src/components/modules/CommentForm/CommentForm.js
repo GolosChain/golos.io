@@ -410,7 +410,8 @@ export default class CommentForm extends Component {
       try {
         return callback(...args);
       } catch (err) {
-        return displayError(tt('g.error'));
+        displayError(tt('g.error'));
+        return null;
       }
     };
   }

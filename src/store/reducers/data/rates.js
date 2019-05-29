@@ -1,4 +1,4 @@
-import { FETCH_ACTUAL_RATES_SUCCESS, FETCH_ACTUAL_RATES_ERROR } from 'store/constants';
+import { FETCH_ACTUAL_RATES_SUCCESS } from 'store/constants';
 
 const initialState = {
   USD: null,
@@ -16,10 +16,6 @@ export default function(state = initialState, { type, payload }) {
         RUB: payload?.rates?.GOLOS.RUB,
       };
 
-    case FETCH_ACTUAL_RATES_ERROR:
-      return {
-        ...state,
-      };
     default:
       return state;
   }
