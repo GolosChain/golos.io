@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'next/router';
 
 import TagsCard from 'components/home/sidebar/TagsCard';
 import { CONTAINER_MOBILE_WIDTH } from 'constants/container';
@@ -13,12 +12,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// Show TagsCard only for `created`
-function checkShowTagsCard(asPath) {
-  return asPath === '/created';
-}
-
-@withRouter
 export default class HomeSidebar extends Component {
   static propTypes = {
     router: PropTypes.shape({
@@ -27,11 +20,9 @@ export default class HomeSidebar extends Component {
     selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
-  static async getInitialProps({ store, query: { tags }, asPath }) {
+  static async getInitialProps({ store, query: { tags } }) {
     try {
-      if (checkShowTagsCard(asPath)) {
-        await store.dispatch(getHashTagTop());
-      }
+      await store.dispatch(getHashTagTop());
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn(err);
@@ -44,14 +35,11 @@ export default class HomeSidebar extends Component {
   }
 
   render() {
-    const {
-      selectedTags,
-      router: { asPath },
-    } = this.props;
+    const { selectedTags } = this.props;
 
     return (
       <Wrapper>
-        {checkShowTagsCard(asPath) ? <TagsCard selectedTags={selectedTags} /> : null}
+        <TagsCard selectedTags={selectedTags} />
       </Wrapper>
     );
   }
