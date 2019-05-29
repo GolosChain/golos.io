@@ -107,7 +107,7 @@ function renderSocialField(placeholder, input, meta, icon) {
 
 const Account = ({ profile, onSubmitBlockchain }) => (
   <Form
-    initialValues={{ username: profile.username, ...profile.personal }}
+    initialValues={{ userId: profile.userId, ...profile.personal }}
     validate={validate}
     onSubmit={onSubmitBlockchain}
   >
@@ -116,10 +116,10 @@ const Account = ({ profile, onSubmitBlockchain }) => (
         {submitting && <SplashLoader />}
 
         <CardContent column>
-          <Field name="username">
+          <Field name="userId">
             {({ input }) => (
               <FormGroupRow justify="space-between">
-                <LabelRow>{tt('settings_jsx.profile_username')}</LabelRow>
+                <LabelRow>{tt('settings_jsx.profile_userid')}</LabelRow>
                 <UserName>@{input.value}</UserName>
               </FormGroupRow>
             )}
