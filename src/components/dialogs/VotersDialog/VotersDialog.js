@@ -90,7 +90,8 @@ export default class VotersDialog extends PureComponent {
           <Name>{name}</Name>
         </UserLink>
         <Percent>{Math.round(percent)}%</Percent>
-        {/* {userId !== currentUserId ? (
+        {/* TODO: uncomment when hasSubscription flag will be added
+        {userId !== currentUserId ? (
           <Follow userId={userId} collapseOnMobile isFollow={hasSubscription} />
         ) : ( */}
         <EmptyBlockLikeFollow />
