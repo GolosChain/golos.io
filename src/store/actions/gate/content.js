@@ -42,6 +42,7 @@ export const fetchLeaders = ({ sequenceKey } = {}) => {
     },
     meta: {
       ...params,
+      abortPrevious: true,
       waitAutoLogin: true,
     },
   };

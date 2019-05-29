@@ -22,9 +22,12 @@ const ToastText = styled.div`
 `;
 
 const CloseButton = styled.button.attrs({ type: 'button' })`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   width: 44px;
   height: 44px;
-  flex-shrink: 0;
   margin: -10px -12px -10px 0;
   color: #9b9fa2;
   transition: color 0.15s;
