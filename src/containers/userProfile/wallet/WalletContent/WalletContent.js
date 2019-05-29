@@ -5,21 +5,19 @@ import throttle from 'lodash.throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import Head from 'next/head';
-import { api } from 'mocks/golos-js';
 
 import Card from 'components/golos-ui/Card';
 
 import { APP_DOMAIN, DONATION_FOR } from 'constants/config';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import { vestsToGolos, vestsToGolosEasy } from 'utils/StateFunctions';
-// import { validateTransferQuery } from 'utils/ParsersAndFormatters';
+import { vestsToGolosEasy } from 'utils/StateFunctions';
+import { displayError } from 'utils/toastMessages';
 import WalletTabs from 'components/userProfile/wallet/WalletTabs';
 import WalletLine from 'components/userProfile/wallet/WalletLine';
 import PowerDownLine from 'components/wallet/PowerDownLine';
 import { visuallyHidden } from 'helpers/styles';
 
 const DEFAULT_ROWS_LIMIT = 25;
-const LOAD_LIMIT = 500;
 
 export const MAIN_TABS = {
   TRANSACTIONS: 'TRANSACTIONS',
@@ -106,17 +104,18 @@ function addValueIfNotZero(list, amount, currency) {
 export default class WalletContent extends Component {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    myAccountName: PropTypes.string,
+    username: PropTypes.string,
+    loggedUserId: PropTypes.string,
     transfers: PropTypes.arrayOf(PropTypes.shape({})),
     isOwner: PropTypes.bool,
-
     getTransfersHistory: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    myAccountName: '',
+    loggedUserId: null,
     transfers: [],
     isOwner: false,
+    username: '',
   };
 
   state = {
@@ -130,33 +129,15 @@ export default class WalletContent extends Component {
 
   contentRef = createRef();
 
-  async componentDidMount() {
-    const { getTransfersHistory, userId } = this.props;
-    // const { location, openTransferDialog } = this.props;
-    // this.loadDelegationsData();
-
-    // const transferQuery = validateTransferQuery(location);
-
-    // if (transferQuery) {
-    //   openTransferDialog(transferQuery);
-    // }
-    try {
-      await Promise.all([
-        getTransfersHistory(userId, { isIncoming: false }),
-        getTransfersHistory(userId, { isIncoming: true }),
-      ]);
-    } catch (err) {
-      // eslint-disable-next-line
-      console.warn(err);
-    }
+  componentDidMount() {
     window.addEventListener('scroll', this.onScrollLazy);
+
+    this.loadHistory();
   }
 
   componentWillUnmount() {
-    this.unmount = true;
-
-    window.removeEventListener('scroll', this.onScrollLazy);
     this.onScrollLazy.cancel();
+    window.removeEventListener('scroll', this.onScrollLazy);
   }
 
   onMainTabChange = ({ id }) => {
@@ -190,8 +171,6 @@ export default class WalletContent extends Component {
     });
   };
 
-  onLoadDelegationsData = () => this.loadDelegationsData();
-
   onScrollLazy = throttle(
     () => {
       const { limit } = this.state;
@@ -206,6 +185,19 @@ export default class WalletContent extends Component {
     100,
     { leading: false }
   );
+
+  async loadHistory() {
+    const { getTransfersHistory, userId } = this.props;
+
+    try {
+      await Promise.all([
+        getTransfersHistory(userId, { isIncoming: false }),
+        getTransfersHistory(userId, { isIncoming: true }),
+      ]);
+    } catch (err) {
+      displayError(err);
+    }
+  }
 
   makeTransferList() {
     const { pageAccount, userId, loadRewards, transfers } = this.props;
@@ -284,8 +276,11 @@ export default class WalletContent extends Component {
     return list;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   makeGolosPowerList() {
-    const { myAccountName, userId, globalProps } = this.props;
+    // TODO: Rewrite!
+    throw new Error('Not refactored from old Golos');
+    /* const { myAccountName, userId, globalProps } = this.props;
     const { delegationData, direction } = this.state;
 
     const list = [];
@@ -322,43 +317,7 @@ export default class WalletContent extends Component {
       }
     }
 
-    return list;
-  }
-
-  async loadDelegationsData() {
-    const { userId } = this.props;
-
-    try {
-      const [delegated, received] = await Promise.all([
-        api.getVestingDelegationsAsync(userId, '', LOAD_LIMIT, 'delegated'),
-        api.getVestingDelegationsAsync(userId, '', LOAD_LIMIT, 'received'),
-      ]);
-
-      const items = delegated.concat(received);
-
-      for (const item of items) {
-        item.id = `${item.delegator}%${item.delegatee}`;
-        item.timestamp = new Date(`${item.min_delegation_time}Z`);
-      }
-
-      items.sort((a, b) => a.timestamp - b.timestamp);
-
-      if (!this.unmount) {
-        this.setState({
-          delegationError: null,
-          delegationData: items,
-        });
-      }
-    } catch (err) {
-      console.error(err);
-
-      if (!this.unmount) {
-        this.setState({
-          delegationError: err,
-          delegationData: null,
-        });
-      }
-    }
+    return list; */
   }
 
   processTransactions(type, data) {
@@ -488,6 +447,7 @@ export default class WalletContent extends Component {
         color: '#f57c02',
       };
     }
+
     if (rewardType === REWARDS_TYPES.AUTHOR && type === 'author_reward') {
       const currencies = [];
 
@@ -515,6 +475,7 @@ export default class WalletContent extends Component {
         color: '#f57c02',
       };
     }
+
     if (rewardType === REWARDS_TYPES.DELEGATION && type === 'delegation_reward') {
       const amount = vestsToGolosEasy(data.vesting_shares);
 
@@ -567,12 +528,8 @@ export default class WalletContent extends Component {
   }
 
   renderList() {
-    const { pageAccount, isOwner, globalProps } = this.props;
+    const { isOwner, globalProps } = this.props;
     const { mainTab, rewardTab, rewardType } = this.state;
-
-    // if (!pageAccount) {
-    //   return this.renderLoader();
-    // }
 
     if (mainTab === MAIN_TABS.REWARDS && rewardTab === REWARDS_TABS.STATISTIC) {
       return <EmptyBlock>{tt('user_wallet.content.feature_not_implemented')}</EmptyBlock>;
@@ -586,12 +543,12 @@ export default class WalletContent extends Component {
       list = this.makeTransferList();
     }
 
-    if (list == null) {
+    if (!list) {
       return this.renderLoader();
     }
 
     if (list.length) {
-      const { myAccountName, myAccount, getContent, postsContent } = this.props;
+      const { loggedUserId, myAccount, getContent, postsContent } = this.props;
       const { delegationData } = this.state;
 
       return (
@@ -600,12 +557,11 @@ export default class WalletContent extends Component {
             <WalletLine
               key={i}
               data={item}
-              myAccountName={myAccountName}
+              loggedUserId={loggedUserId}
               myAccount={myAccount}
               delegationData={delegationData}
               globalProps={globalProps}
               delegate={this.props.delegate}
-              onLoadDelegationsData={this.onLoadDelegationsData}
               postsContent={postsContent}
               getContent={getContent}
             />
