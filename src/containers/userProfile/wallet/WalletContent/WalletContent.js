@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus, no-console, consistent-return */
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import styled from 'styled-components';
 import tt from 'counterpart';
 import Head from 'next/head';
@@ -362,12 +362,12 @@ export default class WalletContent extends Component {
   }
 
   processTransactions(type, data) {
-    const { userId } = this.props;
+    const { userId, username } = this.props;
     const { currency, direction } = this.state;
 
     const samePerson = data.to === data.from;
-    const isSent = data.from === userId;
-    const isReceive = data.to === userId && !samePerson;
+    const isSent = data.from === userId || data.from === username;
+    const isReceive = (data.to === userId || data.to === username) && !samePerson;
 
     if (
       direction === DIRECTION.ALL ||

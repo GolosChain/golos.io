@@ -26,7 +26,7 @@ export default connect(
 
       if (balances.length) {
         const [gls] = balances;
-        balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
+        balance = parseFloat(gls);
       }
 
       if (vesting && vesting.amount) {

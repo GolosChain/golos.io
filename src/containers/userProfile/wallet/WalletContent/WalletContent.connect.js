@@ -1,11 +1,10 @@
 /* eslint-disable camelcase */
 import { connect } from 'react-redux';
 
-import { dataSelector, createDeepEqualSelector } from 'store/selectors/common';
+import { dataSelector, createDeepEqualSelector, entitySelector } from 'store/selectors/common';
 import { currentUsernameSelector } from 'store/selectors/auth';
 import { isOwnerSelector } from 'store/selectors/user';
 import { getTransfersHistory } from 'store/actions/gate';
-import { calculateAmount } from 'utils/wallet';
 import { TRANSACTIONS_TYPE } from 'shared/constants';
 
 // import {
@@ -28,37 +27,30 @@ export default connect(
       currentUsernameSelector,
       (state, props) => isOwnerSelector(props.userId)(state),
       (state, props) => dataSelector(['wallet', props.userId, 'transfers'])(state),
+      (state, props) => entitySelector('users', props.userId)(state),
     ],
-    (currentUsername, isOwner, transfers) => {
+    (currentUsername, isOwner, transfers, user) => {
       let mergedTransfers;
 
       if (transfers && (transfers.sent || transfers.received)) {
         const sent = transfers.sent
           ? transfers.sent.map(({ sender, receiver, quantity, trx_id, timestamp }, index) => ({
-              // TODO: replace with real id
               id: trx_id || `${sender}to${receiver}#${index}at${new Date().toJSON()}`,
               type: TRANSACTIONS_TYPE.TRANSFER,
               from: sender,
               to: receiver,
-              amount: `${calculateAmount({
-                amount: quantity.amount,
-                decs: quantity.decs,
-              })} ${quantity.sym}`,
+              amount: quantity,
               timestamp,
             }))
           : [];
 
         const received = transfers.received
           ? transfers.received.map(({ sender, receiver, quantity, trx_id, timestamp }, index) => ({
-              // TODO: replace with real id
               id: trx_id || `${receiver}from${sender}#${index}at${new Date().toJSON()}`,
               type: TRANSACTIONS_TYPE.TRANSFER,
               from: sender,
               to: receiver,
-              amount: `${calculateAmount({
-                amount: quantity.amount,
-                decs: quantity.decs,
-              })} ${quantity.sym}`,
+              amount: quantity,
               timestamp,
             }))
           : [];
@@ -72,6 +64,7 @@ export default connect(
         myAccountName: currentUsername,
         transfers: mergedTransfers,
         isOwner,
+        username: user ? user.username : '',
       };
     }
   ),

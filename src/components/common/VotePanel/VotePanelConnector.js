@@ -20,12 +20,12 @@ export default connect(
 
       if (balances) {
         // TODO: Replace gls by vesting
-        const gls = balances.find(currency => currency.sym === 'GOLOS');
+        const [gls] = balances;
 
         let balance = 0;
 
         if (gls) {
-          balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
+          balance = parseFloat(gls);
         }
 
         isRich = balance > 10000;
