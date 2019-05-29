@@ -40,7 +40,7 @@ export default function LoginContainer({ targetUser, power }) {
 
   return (
     <Wrapper>
-      <Login>@{targetUser}</Login>
+      <Login>@{targetUser.username || targetUser.userId}</Login>
       {userStatus && (
         <StatusContainer>
           <Icon name={userStatus} width={15} height={15} />
@@ -52,6 +52,6 @@ export default function LoginContainer({ targetUser, power }) {
 }
 
 LoginContainer.propTypes = {
-  targetUser: PropTypes.string,
+  targetUser: PropTypes.shape(),
   power: PropTypes.number,
 };

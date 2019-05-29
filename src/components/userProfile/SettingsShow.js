@@ -39,6 +39,8 @@ export default class SettingsShow extends PureComponent {
       onSubmitGate,
     } = this.props;
 
+    console.log(123, profile);
+
     return (
       <CardStyled>
         {isFetching && <SplashLoader />}

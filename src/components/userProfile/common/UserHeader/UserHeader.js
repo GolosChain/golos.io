@@ -462,7 +462,7 @@ export default class UserHeader extends Component {
 
     // const isWitness = witnessInfo && witnessInfo.get('isWitness');
     // const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
-    const accountUsername = profile.personal?.name || profile.username;
+    const accountUsername = profile.personal?.name || profile.username || profile.userId;
     // const authUsername = currentUser ? currentUser.username : null;
 
     return (
@@ -521,7 +521,7 @@ export default class UserHeader extends Component {
   renderLoginContainer() {
     const { profile, power } = this.props;
 
-    return <LoginContainer targetUser={profile.userId} power={power} />;
+    return <LoginContainer targetUser={profile} power={power} />;
   }
 
   render() {
