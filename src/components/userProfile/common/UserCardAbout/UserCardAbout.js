@@ -7,6 +7,7 @@ import ToastsManager from 'toasts-manager';
 import { FormattedDate } from 'react-intl';
 
 import { Link } from 'shared/routes';
+import { profileType } from 'types/common';
 import { makeSocialLink, sanitizeUrl } from 'helpers/urls';
 
 import Icon from 'components/golos-ui/Icon';
@@ -186,7 +187,7 @@ const IconTriangle = styled(Icon).attrs({
 
 export default class UserCardAbout extends PureComponent {
   static propTypes = {
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
   };
 
   onShowFollowers = () => {

@@ -5,6 +5,7 @@ import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
 
 import { USER_GENDER } from 'constants/config';
+import { profileType } from 'types/common';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { CardContent } from 'components/golos-ui/Card';
 import {
@@ -284,7 +285,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
 );
 
 Account.propTypes = {
-  profile: PropTypes.shape({}).isRequired,
+  profile: profileType.isRequired,
   onSubmitBlockchain: PropTypes.func.isRequired,
 };
 

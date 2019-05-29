@@ -7,6 +7,7 @@ import { pick } from 'ramda';
 import tt from 'counterpart';
 
 import { displayMessage } from 'utils/toastMessages';
+import { profileType } from 'types/common';
 import { SettingsShow } from 'components/userProfile';
 
 const ErrorBlock = styled.div`
@@ -16,14 +17,19 @@ const ErrorBlock = styled.div`
 
 export default class SettingsContent extends PureComponent {
   static propTypes = {
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
     settingsData: PropTypes.shape({}).isRequired,
+    isRich: PropTypes.bool,
 
     fetchSettings: PropTypes.func.isRequired,
     fetchAccountPermissions: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
     updateProfileMeta: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isRich: false,
   };
 
   state = {

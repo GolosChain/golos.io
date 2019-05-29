@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
+import { profileType } from 'types/common';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import Avatar from 'components/common/Avatar';
@@ -43,7 +44,7 @@ export default class FollowersDialog extends PureComponent {
     ),
     isEnd: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
     getSubscriptions: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
@@ -93,7 +94,7 @@ export default class FollowersDialog extends PureComponent {
   );
 
   render() {
-    const { type, profile, items, isLoading, isEnd } = this.props;
+    const { type, profile, items, isLoading, isEnd, onClose } = this.props;
     let totalCount;
 
     if (type === 'followers') {
@@ -106,7 +107,7 @@ export default class FollowersDialog extends PureComponent {
       <DialogStyled>
         <Header>
           <Title>{tt(`user_profile.${type}_count`, { count: totalCount })}</Title>
-          <IconClose onClick={this.props.onClose} />
+          <IconClose onClick={onClose} />
         </Header>
         <Content>
           <InfinityScrollHelper

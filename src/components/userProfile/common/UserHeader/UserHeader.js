@@ -8,6 +8,7 @@ import tt from 'counterpart';
 
 import { ALLOWED_IMAGE_TYPES } from 'constants/config';
 import { proxyImage } from 'utils/images';
+import { profileType } from 'types/common';
 import { uploadImage, validateImageFile } from 'utils/uploadImages';
 import { displayError, displayMessage } from 'utils/toastMessages';
 import { repLog10 } from 'utils/ParsersAndFormatters';
@@ -335,7 +336,7 @@ const UploadingEffect = styled.div`
 
 export default class UserHeader extends Component {
   static propTypes = {
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
     currentUser: PropTypes.shape({}),
     isOwner: PropTypes.bool,
     isSettingsPage: PropTypes.bool,

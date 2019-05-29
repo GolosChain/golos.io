@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -25,10 +26,14 @@ const PenIcon = styled(Icon)`
   flex-shrink: 0;
 `;
 
-export default function EditButton({ onClick }) {
-  return (
-    <Wrapper data-tooltip={tt('g.edit_comment')} onClick={onClick}>
-      <PenIcon name="pen" size={20} />
-    </Wrapper>
-  );
-}
+const EditButton = ({ onClick }) => (
+  <Wrapper data-tooltip={tt('g.edit_comment')} onClick={onClick}>
+    <PenIcon name="pen" size={20} />
+  </Wrapper>
+);
+
+EditButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
+export default EditButton;
