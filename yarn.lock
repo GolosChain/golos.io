@@ -3714,10 +3714,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@^1.1.21:
-  version "1.1.21"
-  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.21.tgz#49e200bd6df9ce3e822a3f3fb944bf630f93baaf"
-  integrity sha512-eMIqNonOb/gBC6lo82hlblarfYTiRhbMpDUBOfwxUCHof3sPfnh+DcGOU8pPM0bfsMZC1eBtvwi0HbCGHYh5Bg==
+cyber-client@^1.1.25:
+  version "1.1.25"
+  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.25.tgz#9ecd5099f9fc3541446d888f0a707a85bcabc0d8"
+  integrity sha512-lCuLqIp60DMi8C+LOYjTPkLNhF4IGGsQS9n8XBr5Y/4fLOzc58JTRFgtW0+YRCQLSfYtSUeJGjjcCe6g0aArOQ==
   dependencies:
     "@babel/runtime" "^7.2.0"
     cyberwayjs "^20.0.0-beta4"

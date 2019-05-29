@@ -9,7 +9,7 @@ import {
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { getBalance, getTransfersHistory, waitForWalletTransaction } from 'store/actions/gate';
-import { displayError, displayMessage } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 
 const CONTRACT_NAME = 'cyberToken';
@@ -46,7 +46,7 @@ export const transferToken = (recipient, tokens, memo) => async (dispatch, getSt
         dispatch(getBalance(userId)),
         dispatch(getTransfersHistory(userId, { isIncoming: false })),
       ]);
-      displayMessage(tt('dialogs_transfer.transfer.transfer_success'));
+      displaySuccess(tt('dialogs_transfer.transfer.transfer_success'));
     }
   } catch (err) {
     displayError(tt('dialogs_transfer.transfer.transfer_failed'), err);

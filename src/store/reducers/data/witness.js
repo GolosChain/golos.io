@@ -11,11 +11,18 @@ const initialState = {
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_LEADERS:
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
+      if (meta.sequenceKey) {
+        return {
+          ...state,
+          isLoading: true,
+          isError: false,
+        };
+      } else {
+        return {
+          ...initialState,
+          isLoading: true,
+        };
+      }
 
     case FETCH_LEADERS_SUCCESS:
       // eslint-disable-next-line no-case-declarations
