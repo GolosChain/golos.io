@@ -64,10 +64,10 @@ export default class AccountPrice extends PureComponent {
     const { isAlreadyTryToLoad } = this.state;
     const sumString = formatCurrency(price, currency, 'adaptive');
 
-    return isLoading || (!price && !isAlreadyTryToLoad) ? (
-      <Loader />
-    ) : (
-      <Body fontSize={Math.floor(FONT_MULTIPLIER * (8 / sumString.length))}>{sumString}</Body>
-    );
+    if (isLoading || (!price && !isAlreadyTryToLoad)) {
+      return <Loader />;
+    }
+
+    return <Body fontSize={Math.floor(FONT_MULTIPLIER * (8 / sumString.length))}>{sumString}</Body>;
   }
 }

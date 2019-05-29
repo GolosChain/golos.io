@@ -15,6 +15,7 @@ export default function(state = initialState, { type, payload }) {
         EUR: payload?.rates?.GOLOS.EUR,
         RUB: payload?.rates?.GOLOS.RUB,
       };
+
     case FETCH_ACTUAL_RATES_ERROR:
       return {
         ...state,
