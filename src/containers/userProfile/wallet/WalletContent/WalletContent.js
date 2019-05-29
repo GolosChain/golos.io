@@ -104,6 +104,7 @@ function addValueIfNotZero(list, amount, currency) {
 export default class WalletContent extends Component {
   static propTypes = {
     userId: PropTypes.string.isRequired,
+    username: PropTypes.string,
     loggedUserId: PropTypes.string,
     transfers: PropTypes.arrayOf(PropTypes.shape({})),
     isOwner: PropTypes.bool,
@@ -114,6 +115,7 @@ export default class WalletContent extends Component {
     loggedUserId: null,
     transfers: [],
     isOwner: false,
+    username: '',
   };
 
   state = {
@@ -136,19 +138,6 @@ export default class WalletContent extends Component {
   componentWillUnmount() {
     this.onScrollLazy.cancel();
     window.removeEventListener('scroll', this.onScrollLazy);
-  }
-
-  async loadHistory() {
-    const { getTransfersHistory, userId } = this.props;
-
-    try {
-      await Promise.all([
-        getTransfersHistory(userId, { isIncoming: false }),
-        getTransfersHistory(userId, { isIncoming: true }),
-      ]);
-    } catch (err) {
-      displayError(err);
-    }
   }
 
   onMainTabChange = ({ id }) => {
@@ -196,6 +185,19 @@ export default class WalletContent extends Component {
     100,
     { leading: false }
   );
+
+  async loadHistory() {
+    const { getTransfersHistory, userId } = this.props;
+
+    try {
+      await Promise.all([
+        getTransfersHistory(userId, { isIncoming: false }),
+        getTransfersHistory(userId, { isIncoming: true }),
+      ]);
+    } catch (err) {
+      displayError(err);
+    }
+  }
 
   makeTransferList() {
     const { pageAccount, userId, loadRewards, transfers } = this.props;
@@ -274,11 +276,11 @@ export default class WalletContent extends Component {
     return list;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   makeGolosPowerList() {
     // TODO: Rewrite!
     throw new Error('Not refactored from old Golos');
-    /*
-    const { myAccountName, userId, globalProps } = this.props;
+    /* const { myAccountName, userId, globalProps } = this.props;
     const { delegationData, direction } = this.state;
 
     const list = [];
@@ -315,17 +317,16 @@ export default class WalletContent extends Component {
       }
     }
 
-    return list;
-    */
+    return list; */
   }
 
   processTransactions(type, data) {
-    const { userId } = this.props;
+    const { userId, username } = this.props;
     const { currency, direction } = this.state;
 
     const samePerson = data.to === data.from;
-    const isSent = data.from === userId;
-    const isReceive = data.to === userId && !samePerson;
+    const isSent = data.from === userId || data.from === username;
+    const isReceive = (data.to === userId || data.to === username) && !samePerson;
 
     if (
       direction === DIRECTION.ALL ||

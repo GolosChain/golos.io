@@ -2,11 +2,11 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { TRANSACTIONS_TYPE } from 'shared/constants';
-import { dataSelector } from 'store/selectors/common';
+import { dataSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { isOwnerSelector } from 'store/selectors/user';
 import { getTransfersHistory } from 'store/actions/gate';
+import { TRANSACTIONS_TYPE } from 'shared/constants';
 
 import WalletContent from './WalletContent';
 
@@ -16,8 +16,9 @@ export default connect(
       currentUserIdSelector,
       (state, props) => isOwnerSelector(props.userId)(state),
       (state, props) => dataSelector(['wallet', props.userId, 'transfers'])(state),
+      (state, props) => entitySelector('users', props.userId)(state),
     ],
-    (loggedUserId, isOwner, transfers) => {
+    (loggedUserId, isOwner, transfers, user) => {
       let mergedTransfers;
 
       if (transfers && (transfers.sent || transfers.received)) {
@@ -52,6 +53,7 @@ export default connect(
         loggedUserId,
         transfers: mergedTransfers,
         isOwner,
+        username: user ? user.username : '',
       };
     }
   ),

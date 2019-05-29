@@ -28,7 +28,7 @@ import {
   GATE_AUTHORIZE_ERROR,
 } from 'store/constants';
 import { Router } from 'shared/routes';
-import { getBalance } from './wallet';
+import { getBalance, getVestingBalance } from './wallet';
 
 export const setServerAccountName = userId => ({
   type: SET_SERVER_ACCOUNT_NAME,
@@ -115,6 +115,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
         try {
           await Promise.all([
             dispatch(getBalance(auth.user)),
+            dispatch(getVestingBalance(auth.user)),
             dispatch(fetchSettings()),
             dispatch(fetchFavorites()),
             dispatch(subscribeNotifications()),

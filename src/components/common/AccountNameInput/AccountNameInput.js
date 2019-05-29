@@ -157,6 +157,8 @@ export default class AccountNameInput extends PureComponent {
     }
 
     clearInterval(this.repositionInterval);
+    this.repositionLazy.cancel();
+    this.load.cancel();
 
     if (this.unbindBoxScroll) {
       this.unbindBoxScroll();
