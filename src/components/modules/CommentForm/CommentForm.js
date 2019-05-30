@@ -244,7 +244,7 @@ export default class CommentForm extends Component {
       const html = getRemarkable().render(body);
 
       if (!body || !body.trim()) {
-        displayError(tt('g.error'), { message: tt('post_editor.empty_body_error') });
+        displayError(`${tt('g.error')} ${tt('post_editor.empty_body_error')}`);
         return;
       }
 
@@ -252,7 +252,7 @@ export default class CommentForm extends Component {
       const error = checkPostHtml(rTags);
 
       if (error) {
-        displayError(tt('g.error'), { message: error.text });
+        displayError(`${tt('g.error')} ${error.text}`);
         return;
       }
 
