@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { overflowEllipsis } from 'utils/styles';
 import CollapsingBlock from 'components/golos-ui/CollapsingBlock';
 import PieChart from 'components/common/PieChart';
 
@@ -66,6 +67,8 @@ const LabelValue = styled.div`
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.7px;
+  max-width: 90px;
+  ${overflowEllipsis};
 `;
 
 const LabelBody = styled.div`
@@ -187,7 +190,7 @@ export default class AccountTokens extends PureComponent {
                 <Label>
                   <ColorMark style={{ backgroundColor: label.color }} />
                   <LabelTitle>{label.title}</LabelTitle>
-                  <LabelValue>{label.value}</LabelValue>
+                  <LabelValue title={label.value}>{label.value}</LabelValue>
                 </Label>
               )}
             >
@@ -197,7 +200,7 @@ export default class AccountTokens extends PureComponent {
                   <SubLabel key={index}>
                     <SubColorMark style={{ backgroundColor: label.color }} />
                     <LabelTitle>{subLabel.title}</LabelTitle>
-                    <LabelValue>{subLabel.value}</LabelValue>
+                    <LabelValue title={label.value}>{subLabel.value}</LabelValue>
                   </SubLabel>
                 ))}
               </LabelBody>
