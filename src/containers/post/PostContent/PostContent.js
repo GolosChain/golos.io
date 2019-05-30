@@ -115,9 +115,7 @@ export default class PostContent extends Component {
   static propTypes = {
     post: PropTypes.shape({}).isRequired,
     router: PropTypes.shape({}).isRequired,
-    author: PropTypes.shape({}).isRequired,
     isAuthor: PropTypes.bool,
-    permLink: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -234,14 +232,12 @@ export default class PostContent extends Component {
   }
 
   renderEditor() {
-    const { author, permLink, post } = this.props;
+    const { post } = this.props;
 
     return (
       <PostFormLoader
         post={post}
         editMode
-        author={author}
-        permLink={permLink}
         onSuccess={this.onEditFinish}
         onCancel={this.onEditFinish}
       />

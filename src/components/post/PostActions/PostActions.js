@@ -40,8 +40,8 @@ const ActionText = styled.div`
 export default function PostActions({
   className,
   isFavorite,
-  isPinned,
-  togglePin,
+  // isPinned,
+  // togglePin,
   isOwner,
   isEdit,
   showText = false,
@@ -140,10 +140,16 @@ export default function PostActions({
 PostActions.propTypes = {
   fullUrl: PropTypes.string.isRequired,
   isFavorite: PropTypes.bool.isRequired,
-  isPinned: PropTypes.bool.isRequired,
+  // isPinned: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,
-  togglePin: PropTypes.func.isRequired,
-  toggleFavorite: PropTypes.func.isRequired,
+  // togglePin: PropTypes.func.isRequired,
+  addFavorite: PropTypes.func.isRequired,
+  removeFavorite: PropTypes.func.isRequired,
   showText: PropTypes.bool,
   coloredOnHover: PropTypes.bool,
+};
+
+PostActions.defaultProps = {
+  showText: false,
+  coloredOnHover: false,
 };

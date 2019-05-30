@@ -25,25 +25,25 @@ const UserLink = styled.a`
 
 export default class UnfollowDialog extends Component {
   static propTypes = {
-    targetUser: PropTypes.string.isRequired,
+    targetUserId: PropTypes.string.isRequired,
   };
 
   render() {
-    const { targetUser } = this.props;
+    const { targetUserId } = this.props;
 
     return (
       <DialogFrame
         className="CommonDialog"
         title={tt('g.unfollow')}
         buttons={this.getButtons()}
+        username={targetUserId}
         onCloseClick={this.onCloseClick}
-        username={targetUser}
       >
         <div className="CommonDialog__body">
           <BodyWrapper>
             {tt('g.confirm_unfollow_user')}
-            <Link route="profile" params={{ userId: targetUser }} passHref>
-              <UserLink> @{targetUser} </UserLink>
+            <Link route="profile" params={{ userId: targetUserId }} passHref>
+              <UserLink> @{targetUserId} </UserLink>
             </Link>
             ?
           </BodyWrapper>

@@ -6,6 +6,9 @@ import {
   REG_WITNESS,
   REG_WITNESS_SUCCESS,
   REG_WITNESS_ERROR,
+  STOP_WITNESS,
+  STOP_WITNESS_SUCCESS,
+  STOP_WITNESS_ERROR,
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
@@ -54,6 +57,28 @@ export const registerWitness = ({ url }) => async (dispatch, getState) => {
       types: [REG_WITNESS, REG_WITNESS_SUCCESS, REG_WITNESS_ERROR],
       contract: CONTRACT_NAME,
       method: 'regwitness',
+      params: data,
+    },
+    meta: data,
+  });
+};
+
+export const stopLeader = () => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const data = {
+    witness: userId,
+  };
+
+  return dispatch({
+    [CYBERWAY_API]: {
+      types: [STOP_WITNESS, STOP_WITNESS_SUCCESS, STOP_WITNESS_ERROR],
+      contract: CONTRACT_NAME,
+      method: 'unregwitness',
       params: data,
     },
     meta: data,

@@ -149,6 +149,8 @@ export default class VotePanelAbstract extends PureComponent {
     isRich: PropTypes.bool,
     settingsVotePower: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     totalSum: PropTypes.number,
+    currency: PropTypes.string.isRequired,
+    payoutRounding: PropTypes.number,
 
     waitForTransaction: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
@@ -162,6 +164,7 @@ export default class VotePanelAbstract extends PureComponent {
     isRich: false,
     settingsVotePower: 100,
     totalSum: 0,
+    payoutRounding: 3,
   };
 
   state = {
@@ -238,7 +241,7 @@ export default class VotePanelAbstract extends PureComponent {
   getPayoutInfoComponent = () => {
     const { entity } = this.props;
 
-    return <PayoutInfo postLink={entity.id} />;
+    return <PayoutInfo entity={entity} />;
   };
 
   // getVotesTooltips() {
@@ -481,7 +484,7 @@ export default class VotePanelAbstract extends PureComponent {
   }
 
   renderPayout(add) {
-    const { totalSum } = this.props;
+    const { totalSum, currency, payoutRounding } = this.props;
     const { isVoting, isMobile } = this.state;
     // const postLink = data.get('author') + '/' + data.get('permlink');
 
@@ -498,7 +501,7 @@ export default class VotePanelAbstract extends PureComponent {
               </LoaderWrapper>
             ) : null}
             <MoneyText isInvisible={isVoting}>
-              {totalSum} GOLOS
+              {`${totalSum.toFixed(payoutRounding)} ${currency}`}
               {/* <PostPayoutStyled postLink={postLink} /> */}
               {add}
             </MoneyText>
@@ -517,7 +520,7 @@ export default class VotePanelAbstract extends PureComponent {
               </LoaderWrapper>
             ) : null}
             <MoneyText isInvisible={isVoting}>
-              {totalSum} GOLOS
+              {`${totalSum.toFixed(payoutRounding)} ${currency}`}
               {/* <PostPayoutStyled postLink={postLink} /> */}
               {add}
             </MoneyText>

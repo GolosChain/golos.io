@@ -20,7 +20,7 @@ export default class VoteWitnessButton extends Component {
     isLoading: PropTypes.bool.isRequired,
     voteWitness: PropTypes.func.isRequired,
     unvoteWitness: PropTypes.func.isRequired,
-    targetUser: PropTypes.string.isRequired,
+    targetUserId: PropTypes.string.isRequired,
     buttonClicked: PropTypes.func,
     UnvoteComp: PropTypes.element,
     VoteComp: PropTypes.element,
@@ -33,7 +33,7 @@ export default class VoteWitnessButton extends Component {
   toggleBlock = async () => {
     const {
       isVoted,
-      targetUser,
+      targetUserId,
       voteWitness,
       unvoteWitness,
       currentUsername,
@@ -51,9 +51,9 @@ export default class VoteWitnessButton extends Component {
       }
 
       if (isVoted) {
-        await unvoteWitness(targetUser);
+        await unvoteWitness(targetUserId);
       } else {
-        await voteWitness(targetUser);
+        await voteWitness(targetUserId);
       }
     } catch (err) {
       console.error(err);

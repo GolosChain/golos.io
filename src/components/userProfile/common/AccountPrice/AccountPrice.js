@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import { getAccountPrice } from 'app/redux/selectors/account/accountPrice';
 import { formatCurrency } from 'helpers/currency';
+import { displayError } from 'utils/toastMessages';
+
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 const FONT_MULTIPLIER = 48;
+
+const getFontCoefficient = length => (length <= 3 ? 5 : 8);
 
 const Body = styled.div`
   height: 103px;
@@ -20,37 +25,59 @@ const Body = styled.div`
   text-overflow: ellipsis;
 `;
 
+const Loader = styled(LoadingIndicator).attrs({ type: 'circle', center: true, size: 50 })``;
+
 export default class AccountPrice extends PureComponent {
   static propTypes = {
     price: PropTypes.number,
     currency: PropTypes.string,
     userId: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool,
+
     getBalance: PropTypes.func.isRequired,
+    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     price: 0,
-    currency: '',
+    currency: 'GOLOS',
+    isLoading: false,
+  };
+
+  state = {
+    isAlreadyTryToLoad: false,
   };
 
   async componentDidMount() {
-    const { price, getBalance, userId } = this.props;
+    const { getBalance, getVestingBalance, userId } = this.props;
 
-    if (!price) {
-      try {
-        await getBalance(userId);
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn(err);
-      }
+    try {
+      await Promise.all([getBalance(userId), getVestingBalance(userId)]);
+      this.setState({
+        isAlreadyTryToLoad: true,
+      });
+    } catch (err) {
+      displayError('Cannot load user balance', err);
     }
   }
 
   render() {
-    const { price, currency } = this.props;
-
+    const { price, currency, isLoading } = this.props;
+    const { isAlreadyTryToLoad } = this.state;
     const sumString = formatCurrency(price, currency, 'adaptive');
 
-    return <Body fontSize={Math.floor(FONT_MULTIPLIER * (8 / sumString.length))}>{sumString}</Body>;
+    if (isLoading || (!price && !isAlreadyTryToLoad)) {
+      return <Loader />;
+    }
+
+    return (
+      <Body
+        fontSize={Math.floor(
+          FONT_MULTIPLIER * (getFontCoefficient(sumString.length) / sumString.length)
+        )}
+      >
+        {sumString}
+      </Body>
+    );
   }
 }

@@ -10,7 +10,7 @@ import { ALLOWED_IMAGE_TYPES } from 'constants/config';
 import { proxyImage } from 'utils/images';
 import { profileType } from 'types/common';
 import { uploadImage, validateImageFile } from 'utils/uploadImages';
-import { displayError, displayMessage } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import Icon from 'components/golos-ui/Icon';
@@ -373,7 +373,7 @@ export default class UserHeader extends Component {
       return;
     }
 
-    displayMessage('Update done!');
+    displaySuccess('Update done!');
   };
 
   onAvatarDrop = files => {
@@ -405,7 +405,7 @@ export default class UserHeader extends Component {
         [key]: url,
       });
 
-      displayMessage('Update done!');
+      displaySuccess('Update done!');
     } catch (err) {
       displayError('Update failed', err);
     }
@@ -463,7 +463,7 @@ export default class UserHeader extends Component {
 
     // const isWitness = witnessInfo && witnessInfo.get('isWitness');
     // const witnessText = isWitness ? `/ ${tt('g.witness')}` : null;
-    const accountUsername = profile.personal?.name || profile.username;
+    const accountUsername = profile.personal?.name || profile.username || profile.userId;
     // const authUsername = currentUser ? currentUser.username : null;
 
     return (
@@ -516,13 +516,13 @@ export default class UserHeader extends Component {
       return null;
     }
 
-    return <FollowWitnessButtons targetUser={profile.userId} isOwner={isOwner} />;
+    return <FollowWitnessButtons targetUserId={profile.userId} isOwner={isOwner} />;
   }
 
   renderLoginContainer() {
     const { profile, power } = this.props;
 
-    return <LoginContainer targetUser={profile.userId} power={power} />;
+    return <LoginContainer targetUser={profile} power={power} />;
   }
 
   render() {

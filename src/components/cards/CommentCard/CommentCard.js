@@ -4,12 +4,13 @@ import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import LazyLoad from 'react-lazyload';
 
 // import { detransliterate } from 'utils/ParsersAndFormatters';
 import { isHide } from 'utils/StateFunctions';
 import { getScrollElement } from 'helpers/window';
 import CommentFormLoader from 'components/modules/CommentForm/loader';
-import { displayMessage } from 'utils/toastMessages';
+import { displaySuccess } from 'utils/toastMessages';
 import { formatContentId } from 'store/schemas/gate';
 
 import Button from 'components/golos-ui/Button';
@@ -347,7 +348,7 @@ export default class CommentCard extends PureComponent {
       showReply: false,
     });
 
-    displayMessage(tt('g.reply_has_published'));
+    displaySuccess(tt('g.reply_has_published'));
   };
 
   onReplyCancel = () => {
@@ -588,26 +589,28 @@ export default class CommentCard extends PureComponent {
         className={className}
         gray={stats && (stats.gray || stats.hide) && !isPostPage}
       >
-        {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
-        {collapsed || showAlert ? null : (
-          <>
-            {!isPostPage && this.renderTitle()}
-            {this.renderBodyText()}
-            {showReply && this.renderReplyEditor()}
-            <CommentFooter
-              comment={comment}
-              contentLink={comment.id}
-              count={childrenCount}
-              isOwner={isOwner}
-              showReply={showReply}
-              edit={edit}
-              currentUsername={username}
-              replyRef={this.replyRef}
-              commentRef={this.commentRef}
-              onReplyClick={this.onReplyClick}
-            />
-          </>
-        )}
+        <LazyLoad once resize height="100%" offset={500}>
+          {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
+          {collapsed || showAlert ? null : (
+            <>
+              {!isPostPage && this.renderTitle()}
+              {this.renderBodyText()}
+              {showReply && this.renderReplyEditor()}
+              <CommentFooter
+                comment={comment}
+                contentLink={comment.id}
+                count={childrenCount}
+                isOwner={isOwner}
+                showReply={showReply}
+                edit={edit}
+                currentUsername={username}
+                replyRef={this.replyRef}
+                commentRef={this.commentRef}
+                onReplyClick={this.onReplyClick}
+              />
+            </>
+          )}
+        </LazyLoad>
       </Wrapper>
     );
   }

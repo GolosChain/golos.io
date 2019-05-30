@@ -33,10 +33,10 @@ export default class WalletTabs extends PureComponent {
           </TabContainer>
           {/* <TabContainer id={MAIN_TABS.POWER} title={tt('user_wallet.tab_title.delegation')}>
             {this.renderTransactionsType()}
-          </TabContainer>
-          <TabContainer id={MAIN_TABS.REWARDS} title={tt('user_wallet.tab_title.rewards')}>
-            {this.renderRewardsTabs()}
           </TabContainer> */}
+          {/* <TabContainer id={MAIN_TABS.REWARDS} title={tt('user_wallet.tab_title.rewards')}>
+            {this.renderRewardsTabs()}
+          </TabContainer>  */}
         </CardContentStyled>
       </Tabs>
     );

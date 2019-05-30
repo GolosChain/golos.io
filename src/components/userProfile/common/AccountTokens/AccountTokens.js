@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { overflowEllipsis } from 'utils/styles';
 import CollapsingBlock from 'components/golos-ui/CollapsingBlock';
 import PieChart from 'components/common/PieChart';
 
@@ -66,6 +67,8 @@ const LabelValue = styled.div`
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.7px;
+  max-width: 90px;
+  ${overflowEllipsis};
 `;
 
 const LabelBody = styled.div`
@@ -91,9 +94,9 @@ const SubLabel = styled.div`
 
 export default class AccountTokens extends PureComponent {
   static propTypes = {
-    golos: PropTypes.string.isRequired,
-    power: PropTypes.string.isRequired,
-    powerDelegated: PropTypes.string.isRequired,
+    golos: PropTypes.number.isRequired,
+    power: PropTypes.number.isRequired,
+    powerDelegated: PropTypes.number.isRequired,
   };
 
   state = {
@@ -154,7 +157,7 @@ export default class AccountTokens extends PureComponent {
       let sum = 0;
 
       for (const { value } of label.values) {
-        sum += parseFloat(value);
+        sum += value;
       }
 
       label.value = sum.toFixed(3);
@@ -162,7 +165,7 @@ export default class AccountTokens extends PureComponent {
 
     return (
       <Root>
-        {parseFloat(golos) || parseFloat(power) || parseFloat(powerDelegated) ? (
+        {golos || power || powerDelegated ? (
           <ChartBlock>
             <ChartWrapper>
               <PieChart
@@ -187,7 +190,7 @@ export default class AccountTokens extends PureComponent {
                 <Label>
                   <ColorMark style={{ backgroundColor: label.color }} />
                   <LabelTitle>{label.title}</LabelTitle>
-                  <LabelValue>{label.value}</LabelValue>
+                  <LabelValue title={label.value}>{label.value}</LabelValue>
                 </Label>
               )}
             >
@@ -197,7 +200,7 @@ export default class AccountTokens extends PureComponent {
                   <SubLabel key={index}>
                     <SubColorMark style={{ backgroundColor: label.color }} />
                     <LabelTitle>{subLabel.title}</LabelTitle>
-                    <LabelValue>{subLabel.value}</LabelValue>
+                    <LabelValue title={label.value}>{subLabel.value}</LabelValue>
                   </SubLabel>
                 ))}
               </LabelBody>

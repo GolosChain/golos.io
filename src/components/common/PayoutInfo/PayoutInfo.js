@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { renderValue } from 'helpers/currency';
+// import { renderValue } from 'helpers/currency';
 import HintIcon from 'components/elements/common/HintIcon/HintIcon';
-import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+// import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 
 const Root = styled.div`
   border-radius: 8px;
@@ -39,12 +39,12 @@ const Payout = styled.div`
   font-size: 18px;
 `;
 
-const Duration = styled.div`
-  margin: -2px 0 6px;
-  text-align: center;
-  font-size: 12px;
-  color: #959595;
-`;
+// const Duration = styled.div`
+//   margin: -2px 0 6px;
+//   text-align: center;
+//   font-size: 12px;
+//   color: #959595;
+// `;
 
 const Line = styled.div`
   display: flex;
@@ -65,11 +65,11 @@ const Money = styled.span`
   margin-right: 24px;
 `;
 
-const MoneyConvert = styled.span``;
-
-const Plus = styled.span`
-  margin: 0 4px;
-`;
+// const MoneyConvert = styled.span``;
+//
+// const Plus = styled.span`
+//   margin: 0 4px;
+// `;
 
 export default class PayoutInfo extends PureComponent {
   // componentWillReceiveProps(newProps) {
@@ -153,10 +153,10 @@ export default class PayoutInfo extends PureComponent {
   }
 
   render() {
-    const { post } = this.props;
+    const { content } = this.props;
     // const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
-    const { payout } = post;
+    const { payout } = content;
     return (
       <Root>
         <Part>

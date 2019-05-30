@@ -43,6 +43,7 @@ const TabLinkStyled = styled(TabLink).attrs({
 })`
   height: 50px;
   padding: 0 ${({ compact }) => (compact ? '6px' : '12px')};
+  text-align: center;
 
   &:first-child {
     margin-left: 0;

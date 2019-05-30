@@ -27,6 +27,7 @@ const Wrapper = styled.div`
 const WrapperActivity = styled.div`
   max-height: 70vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
 `;
 
 const WrapperLoader = styled.div`

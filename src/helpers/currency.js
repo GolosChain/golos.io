@@ -21,6 +21,7 @@ const MIN_DELEGATION_AMOUNT_ERROR = 'Delegation difference is not enough';
 const queried = new Set();
 
 export function parseAmount(amount, balance, isFinal) {
+  console.log(amount, balance);
   const amountFixed = amount.trim().replace(/\s+/, '');
 
   const amountValue = parseFloat(amountFixed);

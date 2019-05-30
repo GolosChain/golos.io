@@ -43,12 +43,16 @@ export const currentUnsafeServerUserIdSelector = state => {
   return currentUsernameSelector(state);
 };
 
-export const loggedProfileSelector = state => {
+export const amIWitnessSelector = state => {
   const userId = currentUnsafeUserIdSelector(state);
 
-  if (!userId) {
-    return null;
+  if (userId) {
+    const profile = entitySelector('profiles', userId)(state);
+
+    if (profile) {
+      return profile.leaderIn.includes('gls');
+    }
   }
 
-  return entitySelector('profiles', userId)(state);
+  return false;
 };

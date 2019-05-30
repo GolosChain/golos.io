@@ -9,6 +9,9 @@ import {
   FETCH_FOLLOWERS,
   FETCH_FOLLOWERS_SUCCESS,
   FETCH_FOLLOWERS_ERROR,
+  FETCH_PROPOSALS,
+  FETCH_PROPOSALS_SUCCESS,
+  FETCH_PROPOSALS_ERROR,
 } from 'store/constants';
 
 export const waitForTransaction = transactionId => {
@@ -40,6 +43,28 @@ export const fetchLeaders = ({ sequenceKey } = {}) => {
     },
     meta: {
       ...params,
+      abortPrevious: true,
+      waitAutoLogin: true,
+    },
+  };
+};
+
+export const fetchProposals = ({ sequenceKey } = {}) => {
+  const params = {
+    communityId: 'gls',
+    limit: 20,
+    sequenceKey,
+  };
+
+  return {
+    [CALL_GATE]: {
+      method: 'content.getProposals',
+      types: [FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR],
+      params,
+    },
+    meta: {
+      ...params,
+      abortPrevious: true,
       waitAutoLogin: true,
     },
   };
