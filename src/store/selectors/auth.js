@@ -43,7 +43,7 @@ export const currentUnsafeServerUserIdSelector = state => {
   return currentUsernameSelector(state);
 };
 
-export const amIWitness = state => {
+export const amIWitnessSelector = state => {
   const userId = currentUnsafeUserIdSelector(state);
 
   if (userId) {
