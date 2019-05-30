@@ -43,36 +43,39 @@ export default connect(
 
       if (transfers && (transfers.sent || transfers.received)) {
         sent = transfers.sent
-          ? transfers.sent.map(({ sender, receiver, quantity, trx_id, timestamp }) => ({
+          ? transfers.sent.map(({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
               id: trx_id,
               type: TRANSACTIONS_TYPE.TRANSFER,
               from: sender,
               to: receiver,
               amount: quantity,
               timestamp,
+              memo,
             }))
           : [];
 
         received = transfers.received
-          ? transfers.received.map(({ sender, receiver, quantity, trx_id, timestamp }) => ({
+          ? transfers.received.map(({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
               id: trx_id,
               type: TRANSACTIONS_TYPE.TRANSFER,
               from: sender,
               to: receiver,
               amount: quantity,
               timestamp,
+              memo,
             }))
           : [];
       }
 
       if (vestingHistory && vestingHistory.length > 0) {
-        vesting = vestingHistory.map(({ who, diff, trx_id, timestamp }) => ({
+        vesting = vestingHistory.map(({ who, diff, trx_id, timestamp, memo }) => ({
           id: trx_id,
           type: TRANSACTIONS_TYPE.TRANSFER_TO_VESTING,
           from: parsePayoutAmount(diff) < 0 ? loggedUserId : who,
           to: parsePayoutAmount(diff) < 0 ? who : loggedUserId,
           amount: diff,
           timestamp,
+          memo,
         }));
       }
 
