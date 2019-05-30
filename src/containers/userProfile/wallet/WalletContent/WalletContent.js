@@ -113,6 +113,8 @@ export default class WalletContent extends Component {
 
     getTransfersHistory: PropTypes.func.isRequired,
     getVestingHistory: PropTypes.func.isRequired,
+    getBalance: PropTypes.func.isRequired,
+    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -135,10 +137,16 @@ export default class WalletContent extends Component {
 
   contentRef = createRef();
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScrollLazy);
+  async componentDidMount() {
+    const { getBalance, getVestingBalance, userId } = this.props;
+    try {
+      await Promise.all([getBalance(userId), getVestingBalance(userId)]);
+    } catch (err) {
+      displayError('Cannot load user balance', err);
+    }
 
     this.loadHistory();
+    window.addEventListener('scroll', this.onScrollLazy);
   }
 
   componentWillUnmount() {

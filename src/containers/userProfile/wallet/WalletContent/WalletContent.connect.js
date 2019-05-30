@@ -5,7 +5,12 @@ import { createSelector } from 'reselect';
 import { dataSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { isOwnerSelector } from 'store/selectors/user';
-import { getTransfersHistory, getVestingHistory } from 'store/actions/gate';
+import {
+  getTransfersHistory,
+  getVestingHistory,
+  getBalance,
+  getVestingBalance,
+} from 'store/actions/gate';
 import { TRANSACTIONS_TYPE } from 'shared/constants';
 import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
@@ -88,5 +93,7 @@ export default connect(
   {
     getTransfersHistory,
     getVestingHistory,
+    getBalance,
+    getVestingBalance,
   }
 )(WalletContent);

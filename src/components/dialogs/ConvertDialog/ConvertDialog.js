@@ -217,7 +217,7 @@ export default class ConvertDialog extends PureComponent {
     const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(
       type === TYPES.POWER ? 6 : 3
     );
-
+    console.log(tokensQuantity);
     try {
       if (type === TYPES.GOLOS) {
         await transferToken(
@@ -331,7 +331,11 @@ export default class ConvertDialog extends PureComponent {
 
     /* balanceString.match(/^[^\s]*!/)[0] */
 
-    let { value, error } = parseAmount(amount, balance, !amountInFocus);
+    let { value, error } = parseAmount(
+      amount,
+      type === TYPES.POWER ? powerBalance : balance,
+      !amountInFocus
+    );
     if (isBadActor(recipient)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }
