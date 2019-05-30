@@ -5,7 +5,7 @@ import { formatContentId } from 'store/schemas/gate';
 import { softTrim } from 'utils/text';
 import Link from 'components/common/Link';
 
-const SHORT_LIMIT = 50;
+const TEXT_LIMIT = 50;
 
 export function getPropsForInterpolation(notification) {
   const { actor, eventType, post, comment } = notification;
@@ -38,18 +38,18 @@ export function getPropsForInterpolation(notification) {
             <Link
               route={`/@${formatContentId(postContentId)}#${formatContentId(commentContentId)}`}
             >
-              {softTrim(text, SHORT_LIMIT)}
+              {softTrim(text, TEXT_LIMIT)}
             </Link>
           );
         } else {
           interProps.content = (
             <Link route="post" params={notification.post.contentId}>
-              {softTrim(text, SHORT_LIMIT)}
+              {softTrim(text, TEXT_LIMIT)}
             </Link>
           );
         }
       } else if (text) {
-        interProps.content = softTrim(text, SHORT_LIMIT);
+        interProps.content = softTrim(text, TEXT_LIMIT);
       }
       break;
     default:
