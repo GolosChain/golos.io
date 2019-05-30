@@ -11,10 +11,15 @@ function generateRandomProposalName() {
   return `pr${numbers.join('')}`;
 }
 
-export const createPropose = ({ contract, method, params, requested, expires }) => async (
-  dispatch,
-  getState
-) => {
+export const createPropose = ({
+  contract,
+  method,
+  params,
+  actor,
+  permission,
+  requested,
+  expires,
+}) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   const trx = await dispatch({
@@ -22,7 +27,7 @@ export const createPropose = ({ contract, method, params, requested, expires }) 
       contract,
       method,
       params,
-      auth: { accountName: requested.actor, permission: requested.permission },
+      auth: { accountName: actor, permission: permission },
       options: {
         msig: true,
         msigExpires: expires,
@@ -33,7 +38,7 @@ export const createPropose = ({ contract, method, params, requested, expires }) 
   const proposeParams = {
     proposer: userId,
     proposal_name: generateRandomProposalName(),
-    requested: [requested],
+    requested: requested,
     trx,
   };
 
@@ -69,9 +74,39 @@ export const setPublishParams = ({ curatorMin, curatorMax }) => async (dispatch,
     createPropose({
       contract: 'publish',
       method: 'setparams',
+      actor: 'gls',
+      permission: 'active',
       params,
-      requested: { actor: 'gls.publish', permission: 'active' },
+      requested: [
+        {
+          actor: 'gls',
+          permission: 'active',
+        },
+      ],
       expires: 36000,
     })
   );
+};
+
+export const approveProposal = ({ proposer, proposalId }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  return await dispatch({
+    [CYBERWAY_API]: {
+      contract: 'cyberMsig',
+      method: 'approve',
+      params: {
+        proposer: proposer,
+        proposal_name: proposalId,
+        level: {
+          actor: userId,
+          permission: 'active',
+        },
+      },
+    },
+  });
 };

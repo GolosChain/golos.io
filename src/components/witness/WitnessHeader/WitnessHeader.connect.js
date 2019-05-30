@@ -7,21 +7,15 @@ import { SHOW_MODAL_BECOME_LOADER, SHOW_MODAL_MANAGE_COMMUNITY } from 'store/con
 
 import WitnessHeader from './WitnessHeader';
 
-export default connect(
-  state => {
-    const userId = currentUnsafeUserIdSelector(state);
-    const profile = entitySelector('profiles', userId)(state);
+export default connect(state => {
+  const userId = currentUnsafeUserIdSelector(state);
+  const profile = entitySelector('profiles', userId)(state);
 
-    const isWitness = profile ? profile.leaderIn.includes('gls') : false;
+  const isWitness = profile ? profile.leaderIn.includes('gls') : false;
 
-    return {
-      hideLeaderActions: !userId,
-      isLoading: Boolean(userId && !profile),
-      isWitness,
-    };
-  },
-  {
-    openBecomeLeaderDialog: () => openModal(SHOW_MODAL_BECOME_LOADER),
-    openManageCommunityDialog: () => openModal(SHOW_MODAL_MANAGE_COMMUNITY),
-  }
-)(WitnessHeader);
+  return {
+    hideLeaderActions: !userId,
+    isLoading: Boolean(userId && !profile),
+    isWitness,
+  };
+})(WitnessHeader);

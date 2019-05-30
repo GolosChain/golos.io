@@ -1197,6 +1197,7 @@
       "zero": "You have no votes remaining"
     },
     "become": "Become a witness",
+    "stop": "Stop be a witness",
     "manage": "Manage",
     "register_dialog": {
       "title": "Register as witness",
