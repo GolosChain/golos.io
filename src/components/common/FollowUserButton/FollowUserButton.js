@@ -24,7 +24,7 @@ export default class FollowUserButton extends Component {
     isLoading: PropTypes.bool.isRequired,
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
-    targetUser: PropTypes.string.isRequired,
+    targetUserId: PropTypes.string.isRequired,
     buttonClicked: PropTypes.func,
     currentUserId: PropTypes.string,
     UnfollowComp: PropTypes.element.isRequired,
@@ -39,7 +39,7 @@ export default class FollowUserButton extends Component {
   toggleBlock = async () => {
     const {
       isFollowed,
-      targetUser,
+      targetUserId,
       followUser,
       unfollowUser,
       currentUserId,
@@ -57,10 +57,10 @@ export default class FollowUserButton extends Component {
       }
       if (isFollowed) {
         if (await this.showUnfollowAlert()) {
-          await unfollowUser(targetUser);
+          await unfollowUser(targetUserId);
         }
       } else {
-        await followUser(targetUser);
+        await followUser(targetUserId);
       }
     } catch (err) {
       displayError(tt('g.error'), err);
@@ -68,13 +68,13 @@ export default class FollowUserButton extends Component {
   };
 
   showUnfollowAlert() {
-    const { targetUser } = this.props;
+    const { targetUserId } = this.props;
 
     return new Promise(resolve => {
       DialogManager.showDialog({
         component: UnfollowDialog,
         props: {
-          targetUser,
+          targetUserId,
         },
         onClose: resolve,
       });

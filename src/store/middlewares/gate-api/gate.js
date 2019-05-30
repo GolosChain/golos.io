@@ -7,7 +7,7 @@ import { wait } from 'utils/time';
 import CurrentRequests from './utils/CurrentRequests';
 
 export const CALL_GATE = 'CALL_GATE';
-const SSR_TIMEOUT = 3000;
+const SSR_REQUEST_TIMEOUT = 5000;
 
 export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => next => {
   let client = null;
@@ -95,10 +95,11 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
         if (process.browser) {
           result = await client.callApi(method, params, userId);
         } else {
-          result = await Promise.race([
+          result = await addTimeout(
             client.callApi(method, params, userId),
-            timeoutError(SSR_TIMEOUT, method),
-          ]);
+            method,
+            SSR_REQUEST_TIMEOUT
+          );
         }
 
         if (requestInfo.isCanceled) {
@@ -153,10 +154,36 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
   };
 };
 
-function timeoutError(ms, apiName) {
-  return new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error(`Request timeout ${apiName}`));
-    }, ms);
+function addTimeout(promise, methodName, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const startTs = Date.now();
+
+    let isTimeouted = false;
+    let timeoutId;
+
+    promise.then(
+      result => {
+        if (isTimeouted) {
+          const time = Date.now() - startTs;
+          console.error(`Request failed: Calling ${methodName} took too long (${time}ms)`);
+        } else {
+          clearTimeout(timeoutId);
+          resolve(result);
+        }
+      },
+      err => {
+        if (isTimeouted) {
+          console.error(`Request failed: Original error in ${methodName}:`, err);
+        } else {
+          clearTimeout(timeoutId);
+          reject(err);
+        }
+      }
+    );
+
+    timeoutId = setTimeout(() => {
+      isTimeouted = true;
+      reject(new Error(`Timeout ${methodName}`));
+    }, timeoutMs);
   });
 }
