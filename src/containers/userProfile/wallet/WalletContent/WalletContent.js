@@ -120,7 +120,7 @@ export default class WalletContent extends Component {
     transfers: [],
     isOwner: false,
     vestingSequenceKey: null,
-    isVestingHistoryLoaded: true,
+    isVestingHistoryLoaded: false,
     username: '',
   };
 
@@ -192,14 +192,23 @@ export default class WalletContent extends Component {
   );
 
   async loadHistory() {
-    const { getTransfersHistory, userId, getVestingHistory, vestingSequenceKey } = this.props;
+    const {
+      getTransfersHistory,
+      userId,
+      getVestingHistory,
+      vestingSequenceKey,
+      isVestingHistoryLoaded,
+    } = this.props;
 
     try {
       await Promise.all([
         getTransfersHistory(userId, { isIncoming: false }),
         getTransfersHistory(userId, { isIncoming: true }),
-        getVestingHistory(userId, vestingSequenceKey),
       ]);
+
+      if (!isVestingHistoryLoaded) {
+        await getVestingHistory(userId, vestingSequenceKey);
+      }
     } catch (err) {
       displayError(err);
     }
@@ -360,6 +369,7 @@ export default class WalletContent extends Component {
             options.title = tt('user_wallet.content.power_up');
             options.currencies = [
               {
+                // TODO: should be replaced with VestingToGolos count
                 amount: `-${amount}`,
                 currency: CURRENCY.GOLOS,
               },

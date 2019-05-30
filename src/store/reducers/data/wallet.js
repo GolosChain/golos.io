@@ -99,7 +99,13 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
       };
     case FETCH_VESTING_HISTORY_SUCCESS:
-      if (state[meta.name] && meta.sequenceKey && payload.sequenceKey !== meta.sequenceKey) {
+      // сейчас при загрузке всех трансферов для последнего элемента на стороне сервера на каждый запрос меняется sequenceKey
+      if (
+        state[meta.name] &&
+        meta.sequenceKey &&
+        meta.sequenceKey === state[meta.name].vestingSequenceKey &&
+        payload.sequenceKey !== meta.sequenceKey
+      ) {
         return update(state, {
           [meta.name]: {
             vestingHistory: {
@@ -108,8 +114,8 @@ export default function(state = initialState, { type, payload, meta }) {
             vestingSequenceKey: {
               $set: payload?.sequenceKey || null,
             },
-            vestingHistorySize: {
-              $set: payload?.itemsSize || 0,
+            isVestingHistoryEnd: {
+              $set: payload.items.length < meta.limit,
             },
           },
         });
@@ -117,9 +123,10 @@ export default function(state = initialState, { type, payload, meta }) {
       return {
         ...state,
         [meta.name]: {
+          ...state[meta.name],
           vestingHistory: payload?.items || [],
           vestingSequenceKey: payload?.sequenceKey || null,
-          vestingHistorySize: payload?.itemsSize || 0,
+          isVestingHistoryEnd: payload.items.length < meta.limit,
         },
       };
     case FETCH_VESTING_HISTORY_ERROR:

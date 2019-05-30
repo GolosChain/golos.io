@@ -20,8 +20,17 @@ export default connect(
       (state, props) => entitySelector('users', props.userId)(state),
       (state, props) => dataSelector(['wallet', props.userId, 'vestingHistory'])(state),
       (state, props) => dataSelector(['wallet', props.userId, 'vestingSequenceKey'])(state),
+      (state, props) => dataSelector(['wallet', props.userId, 'isVestingHistoryEnd'])(state),
     ],
-    (loggedUserId, isOwner, transfers, user, vestingHistory, vestingSequenceKey) => {
+    (
+      loggedUserId,
+      isOwner,
+      transfers,
+      user,
+      vestingHistory,
+      vestingSequenceKey,
+      isVestingHistoryLoaded
+    ) => {
       let mergedTransfers = [];
       let sent = [];
       let received = [];
@@ -72,6 +81,7 @@ export default connect(
         isOwner,
         username: user ? user.username : '',
         vestingSequenceKey,
+        isVestingHistoryLoaded,
       };
     }
   ),
