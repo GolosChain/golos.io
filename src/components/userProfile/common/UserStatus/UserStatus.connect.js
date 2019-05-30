@@ -9,9 +9,15 @@ import UserStatus from './UserStatus';
 
 export default connect(
   createSelector(
-    [(state, props) => dataSelector(['wallet', props.userId, 'vesting'])(state)],
-    (vesting = 0) => {
-      const power = parsePayoutAmount(vesting);
+    [(state, props) => dataSelector(['wallet', props.profile.userId, 'vesting'])(state)],
+    vesting => {
+      let power = 0;
+
+      if (vesting && vesting.amount) {
+        const delegated = parsePayoutAmount(vesting.delegated) || 0;
+        const amount = parsePayoutAmount(vesting.amount) || 0;
+        power = amount - delegated;
+      }
 
       return {
         userStatus: getUserStatus(power),

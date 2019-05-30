@@ -392,6 +392,7 @@ export default class UserCardAbout extends PureComponent {
   render() {
     const { profile } = this.props;
     const about = profile.personal?.about;
+    console.log(profile);
 
     return (
       <CollapsingCardStyled title={tt('user_profile.account_summary.title')} saveStateKey="info">
