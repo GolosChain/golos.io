@@ -238,7 +238,7 @@ export default class VotePanelAbstract extends PureComponent {
   getPayoutInfoComponent = () => {
     const { entity } = this.props;
 
-    return <PayoutInfo postLink={entity.id} />;
+    return <PayoutInfo entity={entity} />;
   };
 
   // getVotesTooltips() {
