@@ -9,8 +9,7 @@ import { openTransferDialog } from 'components/userProfile/common/RightActions/s
 
 import VotePanel from 'components/common/VotePanel';
 import ReplyBlock from 'components/common/ReplyBlock';
-import Button from '../../elements/common/Button';
-import LoadingIndicator from '../../elements/LoadingIndicator';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 const FORCE_ONE_COLUMN_WIDTH = 550;
 
