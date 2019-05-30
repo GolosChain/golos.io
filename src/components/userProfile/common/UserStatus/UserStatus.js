@@ -137,12 +137,16 @@ export default class UserStatus extends Component {
   };
 
   render() {
-    const { userStatus, popover } = this.props;
+    const { userStatus, popover, profile } = this.props;
     const statusPosition = this.getStatusPosition(userStatuses, userStatus);
     const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
     const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
 
-    const reputation = repLog10(123);
+    let reputation = 0;
+
+    if (profile?.stats?.reputation) {
+      reputation = repLog10(profile.stats.reputation);
+    }
 
     return coloredStatuses ? (
       <Wrapper popover={Boolean(popover)}>

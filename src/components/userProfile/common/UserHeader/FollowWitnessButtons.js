@@ -50,7 +50,7 @@ const IconStyled = styled(Icon)`
   margin-right: 10px;
 `;
 
-export default function FollowWitnessButtons({ targetUser, isWitness }) {
+export default function FollowWitnessButtons({ targetUserId, isWitness }) {
   return (
     <Buttons>
       {isWitness && (
@@ -67,7 +67,7 @@ export default function FollowWitnessButtons({ targetUser, isWitness }) {
               {tt('witnesses_jsx.remove_vote')}
             </ButtonStyled>
           }
-          targetUser={targetUser}
+          targetUserId={targetUserId}
         />
       )}
       <FollowUserButton
@@ -83,14 +83,14 @@ export default function FollowWitnessButtons({ targetUser, isWitness }) {
             {tt('g.subscriptions')}
           </ButtonStyled>
         }
-        targetUser={targetUser}
+        targetUserId={targetUserId}
       />
     </Buttons>
   );
 }
 
 FollowWitnessButtons.propTypes = {
-  targetUser: PropTypes.string,
+  targetUserId: PropTypes.string,
   isWitness: PropTypes.bool,
   isVoted: PropTypes.bool,
   isFollow: PropTypes.bool,

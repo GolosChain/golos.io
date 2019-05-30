@@ -1,17 +1,28 @@
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
+import { dataSelector } from 'store/selectors/common';
 import { getUserStatus } from 'helpers/users';
-import { entitySelector } from 'store/selectors/common';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import UserStatus from './UserStatus';
 
-export default connect((state, props) => {
-  // mocked data
-  // const profile = entitySelector('profile', props);
-  const power = parseFloat('800000').toFixed(3);
+export default connect(
+  createSelector(
+    [(state, props) => dataSelector(['wallet', props.profile.userId, 'vesting'])(state)],
+    vesting => {
+      let power = 0;
 
-  return {
-    userStatus: getUserStatus(power),
-    power,
-  };
-})(UserStatus);
+      if (vesting && vesting.amount) {
+        const delegated = parsePayoutAmount(vesting.delegated) || 0;
+        const amount = parsePayoutAmount(vesting.amount) || 0;
+        power = amount - delegated;
+      }
+
+      return {
+        userStatus: getUserStatus(power),
+        power,
+      };
+    }
+  )
+)(UserStatus);

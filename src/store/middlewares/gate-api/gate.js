@@ -7,6 +7,7 @@ import { wait } from 'utils/time';
 import CurrentRequests from './utils/CurrentRequests';
 
 export const CALL_GATE = 'CALL_GATE';
+const SSR_REQUEST_TIMEOUT = 5000;
 
 export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => next => {
   let client = null;
@@ -89,7 +90,17 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
           userId = currentUnsafeServerUserIdSelector(getState());
         }
 
-        let result = await client.callApi(method, params, userId);
+        let result;
+
+        if (process.browser) {
+          result = await client.callApi(method, params, userId);
+        } else {
+          result = await addTimeout(
+            client.callApi(method, params, userId),
+            method,
+            SSR_REQUEST_TIMEOUT
+          );
+        }
 
         if (requestInfo.isCanceled) {
           return;
@@ -116,6 +127,10 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
 
         resolve(result);
       } catch (err) {
+        if (requestInfo.isCanceled) {
+          return;
+        }
+
         if (failureType) {
           next({
             ...actionWithoutCall,
@@ -138,3 +153,37 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
     return result;
   };
 };
+
+function addTimeout(promise, methodName, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const startTs = Date.now();
+
+    let isTimeouted = false;
+    let timeoutId;
+
+    promise.then(
+      result => {
+        if (isTimeouted) {
+          const time = Date.now() - startTs;
+          console.error(`Request failed: Calling ${methodName} took too long (${time}ms)`);
+        } else {
+          clearTimeout(timeoutId);
+          resolve(result);
+        }
+      },
+      err => {
+        if (isTimeouted) {
+          console.error(`Request failed: Original error in ${methodName}:`, err);
+        } else {
+          clearTimeout(timeoutId);
+          reject(err);
+        }
+      }
+    );
+
+    timeoutId = setTimeout(() => {
+      isTimeouted = true;
+      reject(new Error(`Timeout ${methodName}`));
+    }, timeoutMs);
+  });
+}

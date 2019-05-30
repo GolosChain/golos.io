@@ -9,6 +9,8 @@ import notifications from './notifications';
 import favorites from './favorites';
 import wallet from './wallet';
 import witness from './witness';
+import rates from './rates';
+import proposals from './proposals';
 import postVotes from './postVotes';
 import commentVotes from './commentVotes';
 import followers from './followers';
@@ -24,6 +26,8 @@ export default combineReducers({
   favorites,
   wallet,
   witness,
+  rates,
+  proposals,
   postVotes,
   commentVotes,
   followers,

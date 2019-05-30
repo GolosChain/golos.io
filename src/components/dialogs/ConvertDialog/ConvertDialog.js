@@ -11,6 +11,7 @@ import Shrink from 'components/golos-ui/Shrink';
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { processError } from 'helpers/dialogs';
+import { displayError } from 'utils/toastMessages';
 
 // import { MIN_VOICE_POWER } from 'constants/config';
 import { isBadActor } from 'utils/chainValidation';
@@ -111,17 +112,19 @@ export default class ConvertDialog extends PureComponent {
     withdrawn: PropTypes.string,
     balance: PropTypes.number,
     powerBalance: PropTypes.number,
-    currentUsername: PropTypes.string,
+    currentUserId: PropTypes.string,
 
     onClose: PropTypes.func.isRequired,
     withdrawTokens: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
+    getBalance: PropTypes.func.isRequired,
+    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     balance: 0,
     powerBalance: 0,
-    currentUsername: '',
+    currentUserId: '',
     myAccount: {},
     globalProps: {},
     toWithdraw: '',
@@ -137,6 +140,16 @@ export default class ConvertDialog extends PureComponent {
     loader: false,
     disabled: false,
   };
+
+  async componentDidMount() {
+    const { getBalance, getVestingBalance, currentUserId } = this.props;
+
+    try {
+      await Promise.all([getBalance(currentUserId), getVestingBalance(currentUserId)]);
+    } catch (err) {
+      displayError('Cannot load user balance', err);
+    }
+  }
 
   onSaveTypeChange = checked => {
     this.setState({
@@ -189,12 +202,7 @@ export default class ConvertDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const {
-      currentUsername,
-      /* globalProps, */ withdrawTokens,
-      transferToken,
-      onClose,
-    } = this.props;
+    const { currentUserId, /* globalProps, */ withdrawTokens, transferToken, onClose } = this.props;
     const { amount, type, loader, disabled, saveTo, recipient } = this.state;
 
     if (loader || disabled) {
@@ -215,7 +223,7 @@ export default class ConvertDialog extends PureComponent {
         await transferToken(
           'gls.vesting',
           tokensQuantity,
-          `send to: ${saveTo ? recipient : currentUsername}`
+          `send to: ${saveTo ? recipient : currentUserId}`
         );
       } else if (type === TYPES.POWER) {
         // const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), globalProps);
@@ -323,7 +331,11 @@ export default class ConvertDialog extends PureComponent {
 
     /* balanceString.match(/^[^\s]*!/)[0] */
 
-    let { value, error } = parseAmount(amount, balance, !amountInFocus);
+    let { value, error } = parseAmount(
+      amount,
+      type === TYPES.POWER ? powerBalance : balance,
+      !amountInFocus
+    );
     if (isBadActor(recipient)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }

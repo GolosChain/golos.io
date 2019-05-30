@@ -320,6 +320,7 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "retry": "Retry",
     "transaction_wait_failed": "Waiting for transaction failed",
     "APP_NAME": "Golos",
     "APP_NAME_support": "%(APP_NAME)s Support",
@@ -419,7 +420,7 @@
     "messages": "Messages",
     "more": "more",
     "mute": "Mute",
-    "new": "new",
+    "new": "Нове",
     "new_password": "New Password",
     "newer": "Newer",
     "next": "Next",
@@ -576,6 +577,7 @@
     "save_password_on_page": "Save password for this page"
   },
   "main_menu": {
+    "new": "new",
     "hot": "hot",
     "trending": "trending"
   },
@@ -886,7 +888,7 @@
     "profile_image_url": "Profile picture url",
     "profile_location": "Location",
     "profile_name": "Display Name",
-    "profile_username": "Username",
+    "profile_userid": "User ID",
     "profile_website": "Website",
     "public_profile_settings": "Public Profile Settings",
     "reset": "Reset",
@@ -1195,10 +1197,15 @@
       "zero": "You have no votes remaining"
     },
     "become": "Become a witness",
+    "stop": "Stop be a witness",
     "manage": "Manage",
     "register_dialog": {
       "title": "Register as witness",
       "url": "Witness welcome post link"
+    },
+    "tabs": {
+      "leaders": "Witness top",
+      "proposals": "Proposals list"
     }
   },
   "settings": {

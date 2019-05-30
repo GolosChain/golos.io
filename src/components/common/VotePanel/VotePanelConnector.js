@@ -5,37 +5,39 @@ import { dataSelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { vote } from 'store/actions/complex/votes';
 import { waitForTransaction, getVoters } from 'store/actions/gate';
-import { calculateAmount } from 'utils/wallet';
 import { payoutSum } from 'utils/payout';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 export default connect(
   createSelector(
     [
-      state => dataSelector(['wallet', currentUserIdSelector(state), 'balances'])(state),
+      state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
       dataSelector(['settings', 'basic', 'votePower']),
       (state, props) => payoutSum(props.entity),
+      dataSelector(['settings', 'basic', 'currency']),
+      state =>
+        dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),
+      dataSelector(['settings', 'basic', 'rounding']),
     ],
-    (balances, votePower, totalSum) => {
+    (vesting, votePower, totalSum, currency = 'GOLOS', actualRate, payoutRounding) => {
       let isRich = false;
+      let payout = totalSum;
 
-      if (balances) {
-        // TODO: Replace gls by vesting
-        const gls = balances.find(currency => currency.sym === 'GOLOS');
-
-        let balance = 0;
-
-        if (gls) {
-          balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
-        }
-
+      if (vesting && vesting.amount) {
+        const balance = parsePayoutAmount(vesting.amount);
         isRich = balance > 10000;
       }
 
+      if (actualRate) {
+        payout *= actualRate;
+      }
+
       return {
-        // TODO: Hardcoded true until wallet doesn't work correctly
-        isRich: true,
         settingsVotePower: votePower,
-        totalSum,
+        isRich,
+        totalSum: payout,
+        currency,
+        payoutRounding,
       };
     }
   ),

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
+import LazyLoad from 'react-lazyload';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
 import { Link } from 'shared/routes';
@@ -665,11 +666,13 @@ export default class PostCard extends PureComponent {
     }
 
     return (
-      <Wrapper className={className} gray={stats.gray || stats.hide}>
-        {this.renderHeader()}
-        {/* {isRepost ? this.renderRepostPart() : null} */}
-        {this.renderBody()}
-        {this.renderFooter()}
+      <Wrapper gray={stats.gray || stats.hide} className={className}>
+        <LazyLoad once resize height="100%" offset={500}>
+          {this.renderHeader()}
+          {/* {isRepost ? this.renderRepostPart() : null} */}
+          {this.renderBody()}
+          {this.renderFooter()}
+        </LazyLoad>
       </Wrapper>
     );
   }

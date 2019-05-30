@@ -1,44 +1,48 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import { fetchCurrentStateAction } from 'app/redux/actions/fetch';
-// import { showNotification } from 'app/redux/actions/ui';
-// import { powerDownSelector } from 'app/redux/selectors/wallet/powerDown';
-// import { vestsToGolos } from 'utils/StateFunctions';
-import { currentUserIdSelector, currentUsernameSelector } from 'store/selectors/auth';
+import { currentUserIdSelector } from 'store/selectors/auth';
 import { dataSelector } from 'store/selectors/common';
 import { withdrawTokens, transferToken } from 'store/actions/cyberway';
-import { calculateAmount } from 'utils/wallet';
+import { getBalance, getVestingBalance } from 'store/actions/gate';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import ConvertDialog from './ConvertDialog';
 
 export default connect(
   createSelector(
     [
-      currentUsernameSelector,
+      currentUserIdSelector,
       state => dataSelector(['wallet', currentUserIdSelector(state), 'balances'])(state),
+      state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
     ],
-    (currentUsername, balances = []) => {
-      const gls = balances.find(currency => currency.sym === 'GOLOS');
-
+    (currentUserId, balances = [], vesting) => {
       let balance = 0;
+      let powerBalance = 0;
 
-      if (gls) {
-        balance = Number(calculateAmount({ amount: gls.amount, decs: gls.decs }));
+      if (balances.length) {
+        const [gls] = balances;
+        balance = parsePayoutAmount(gls);
+      }
+
+      if (vesting && vesting.amount) {
+        powerBalance = parsePayoutAmount(vesting.amount) - parsePayoutAmount(vesting.delegated);
       }
 
       return {
         globalProps: {},
-        currentUsername,
+        currentUserId,
         myAccount: {},
         balance,
-        powerBalance: 100,
+        powerBalance,
       };
     }
   ),
   {
     transferToken,
     withdrawTokens,
+    getBalance,
+    getVestingBalance,
   },
   null,
   { forwardRef: true }

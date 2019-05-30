@@ -28,7 +28,7 @@ import {
   GATE_AUTHORIZE_ERROR,
 } from 'store/constants';
 import { Router } from 'shared/routes';
-import { getBalance } from './wallet';
+import { getBalance, getVestingBalance } from './wallet';
 
 export const setServerAccountName = userId => ({
   type: SET_SERVER_ACCOUNT_NAME,
@@ -59,7 +59,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
     meta,
   });
 
-  const { needSaveAuth = false, needGateAuthorize = true, keyRole } = meta;
+  const { needSaveAuth = false, needGateAuthorize = true, keyRole, isAutoLogging } = meta;
 
   try {
     const { actualKey } = cyber.getActualAuth(username, privateKey, keyRole);
@@ -107,12 +107,15 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       // fetchFavorites и getBalance вынесены в таймаут, чтобы отделить их от экшена авторизации.
       // В противном случае fetchFavorites вызовет авторизацию снова что приведет к рекурсии.
       setTimeout(async () => {
-        // Пушим роут для обновления страницу
-        Router.pushRoute(Router.asPath);
+        if (!isAutoLogging) {
+          // Пушим роут для обновления страницы
+          Router.pushRoute(Router.asPath);
+        }
 
         try {
           await Promise.all([
             dispatch(getBalance(auth.user)),
+            dispatch(getVestingBalance(auth.user)),
             dispatch(fetchSettings()),
             dispatch(fetchFavorites()),
             dispatch(subscribeNotifications()),

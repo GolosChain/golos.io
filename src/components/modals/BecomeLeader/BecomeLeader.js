@@ -5,9 +5,11 @@ import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
+import SplashLoader from 'components/golos-ui/SplashLoader';
 import { Input } from 'components/golos-ui/Form';
 
 const Wrapper = styled.div`
+  position: relative;
   padding: 20px 30px 28px;
   border-radius: 6px;
   background-color: #fff;
@@ -43,6 +45,7 @@ export default class BecomeLeader extends PureComponent {
   };
 
   state = {
+    isRegistering: false,
     url: '',
   };
 
@@ -56,11 +59,19 @@ export default class BecomeLeader extends PureComponent {
     const { registerWitness, close } = this.props;
     const { url } = this.state;
 
+    this.setState({
+      isRegistering: true,
+    });
+
     try {
       await registerWitness({ url });
       close();
     } catch (err) {
       displayError(err);
+
+      this.setState({
+        isRegistering: false,
+      });
     }
   };
 
@@ -70,14 +81,14 @@ export default class BecomeLeader extends PureComponent {
   };
 
   render() {
-    const { url } = this.state;
+    const { isRegistering, url } = this.state;
 
     return (
       <Wrapper>
         <HeaderTitle>{tt('witnesses_jsx.register_dialog.title')}</HeaderTitle>
         <Fields>
           <Field>
-            <FieldTitle>{tt('witnesses_jsx.register_dialog.title')}:</FieldTitle>
+            <FieldTitle>{tt('witnesses_jsx.register_dialog.url')}:</FieldTitle>
             <Input placeholder="https://" value={url} onChange={this.onUrlChange} />
           </Field>
         </Fields>
@@ -87,6 +98,7 @@ export default class BecomeLeader extends PureComponent {
             {tt('g.cancel')}
           </Button>
         </FooterButtons>
+        {isRegistering ? <SplashLoader /> : null}
       </Wrapper>
     );
   }

@@ -8,10 +8,6 @@ routes.add('hot', '/hot', 'feed');
 routes.add('home', '/', 'feed');
 routes.add('trending', '/trending', 'feed');
 // routes.add('agreement', '/agreement');
-// routes.add('communities', '/communities');
-// routes.add('community', '/c/:communityId');
-// routes.add('communitySection', '/c/:communityId/:section', 'community');
-// routes.add('messenger', '/messenger');
 // routes.add('policy', '/policies/:policy');
 routes.add('profile', '/@:userId');
 routes.add(
@@ -31,6 +27,7 @@ routes.add('login', '/login', 'login');
 // routes.add('walletSectionType', '/wallet/:section/:type', 'wallet');
 // routes.add('notifications', '/notifications');
 routes.add('market', '/market', 'market');
+routes.add('witnessesProposals', '/~witnesses/proposals', 'witnesses');
 routes.add('witnesses', '/~witnesses');
 
 module.exports = routes;

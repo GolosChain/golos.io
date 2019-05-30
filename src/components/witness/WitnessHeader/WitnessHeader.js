@@ -1,39 +1,44 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import tt from 'counterpart';
-import ToastsManager from 'toasts-manager';
 
 import Icon from 'components/golos-ui/Icon';
-import Button from 'components/golos-ui/Button';
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 30px;
+  margin-bottom: 20px;
 
-  @media (max-width: 500px) {
+  @media (max-width: 1190px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @media (max-width: 680px) {
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
   }
 `;
 
 const TextBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex-grow: 1;
   flex-shrink: 0;
 `;
 
 const HeaderTitle = styled.h2`
-  margin-bottom: 10px;
-  font-family: 'Open Sans', sans-serif;
+  line-height: 1.15;
   font-size: 34px;
   font-weight: bold;
-  line-height: 1.21;
-  letter-spacing: 0.4px;
+  letter-spacing: 1px;
   color: #333;
 `;
 
 const HeaderSubtitle = styled.p`
-  margin-bottom: 30px;
-  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   color: #393636;
@@ -41,9 +46,11 @@ const HeaderSubtitle = styled.p`
 
 const HeaderButtons = styled.div`
   flex-shrink: 0;
+  margin: 10px 0;
 `;
 
 const LoaderWrapper = styled.div`
+  height: 34px;
   margin-right: 10px;
   overflow: hidden;
   pointer-events: none;
@@ -60,20 +67,20 @@ export default class WitnessHeader extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    openBecomeLeaderDialog: PropTypes.func.isRequired,
+    hideLeaderActions: PropTypes.bool.isRequired,
+    actions: PropTypes.func,
   };
 
-  onBecomeLeaderClick = () => {
-    const { openBecomeLeaderDialog } = this.props;
-    openBecomeLeaderDialog();
-  };
-
-  onManageClick = () => {
-    ToastsManager.error('No ready yet');
+  static defaultProps = {
+    actions: null,
   };
 
   renderButtons() {
-    const { isLoading, isWitness } = this.props;
+    const { hideLeaderActions, isLoading, actions } = this.props;
+
+    if (hideLeaderActions || !actions) {
+      return null;
+    }
 
     if (isLoading) {
       return (
@@ -83,28 +90,17 @@ export default class WitnessHeader extends PureComponent {
       );
     }
 
-    if (isWitness) {
-      return <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>;
-    }
-
-    return <Button onClick={this.onBecomeLeaderClick}>{tt('witnesses_jsx.become')}</Button>;
+    return actions();
   }
 
   render() {
+    const { title, subTitle } = this.props;
+
     return (
       <Wrapper>
         <TextBlock>
-          <HeaderTitle>{tt('witnesses_jsx.top_witnesses')}</HeaderTitle>
-          <HeaderSubtitle>
-            {/*<strong>*/}
-            {/*  {tt('witnesses_jsx.you_have_votes_remaining') +*/}
-            {/*    tt('witnesses_jsx.you_have_votes_remaining_count', {*/}
-            {/*      count: '???',*/}
-            {/*    })}*/}
-            {/*  .*/}
-            {/*</strong>{' '}*/}
-            {tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}.
-          </HeaderSubtitle>
+          <HeaderTitle>{title}</HeaderTitle>
+          <HeaderSubtitle>{subTitle}</HeaderSubtitle>
         </TextBlock>
         <HeaderButtons>{this.renderButtons()}</HeaderButtons>
       </Wrapper>
