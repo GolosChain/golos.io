@@ -1,15 +1,37 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import cn from 'classnames';
 import tt from 'counterpart';
 import Button from 'components/elements/common/Button';
 import Hint from 'components/elements/common/Hint';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 import './index.scss';
+
+const LoaderWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
+const Loader = styled(LoadingIndicator)`
+  & > div {
+    border-left-color: #fff !important;
+    border-bottom-color: #fff !important;
+  }
+`;
 
 export default class CommentFooter extends React.PureComponent {
   static propTypes = {
     editMode: PropTypes.bool,
     postDisabled: PropTypes.bool,
+    isPosting: PropTypes.bool,
+
     onPostClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
   };
@@ -45,7 +67,7 @@ export default class CommentFooter extends React.PureComponent {
   }
 
   render() {
-    const { editMode, postDisabled } = this.props;
+    const { onCancelClick, onPostClick, editMode, postDisabled, isPosting } = this.props;
     const { temporaryErrorText } = this.state;
 
     return (
@@ -64,20 +86,26 @@ export default class CommentFooter extends React.PureComponent {
                 primary
                 disabled={postDisabled}
                 className="CommentFooter__button-element"
-                onClick={this.props.onPostClick}
+                onClick={onPostClick}
               >
-                {editMode ? tt('g.update') : tt('g.reply')}
+                {isPosting ? (
+                  <LoaderWrapper>
+                    <Loader type="circle" size={16} />
+                  </LoaderWrapper>
+                ) : editMode ? (
+                  tt('g.update')
+                ) : (
+                  tt('g.reply')
+                )}
               </Button>
             </div>
-            <div className="CommentFooter__button">
-              <Button
-                small
-                className="CommentFooter__button-element"
-                onClick={this.props.onCancelClick}
-              >
-                {tt('g.cancel')}
-              </Button>
-            </div>
+            {!isPosting ? (
+              <div className="CommentFooter__button">
+                <Button small className="CommentFooter__button-element" onClick={onCancelClick}>
+                  {tt('g.cancel')}
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
