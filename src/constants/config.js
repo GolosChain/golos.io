@@ -40,7 +40,7 @@ export const LANGUAGES = {
   },
 };
 // First element always is USD, it needs to be correct fetch yahoo exchange rates from server side
-export const CURRENCIES = ['USD', 'RUB', 'EUR', DEBT_TOKEN_SHORT, LIQUID_TICKER];
+export const CURRENCIES = ['USD', 'RUB', 'EUR', LIQUID_TICKER];
 export const DEFAULT_CURRENCY = 'RUB';
 
 // meta info
