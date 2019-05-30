@@ -320,6 +320,7 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "retry": "Retry",
     "transaction_wait_failed": "Waiting for transaction failed",
     "APP_NAME": "Golos",
     "APP_NAME_support": "%(APP_NAME)s Support",
@@ -1200,6 +1201,10 @@
     "register_dialog": {
       "title": "Register as witness",
       "url": "Witness welcome post link"
+    },
+    "tabs": {
+      "leaders": "Witness top",
+      "proposals": "Proposals list"
     }
   },
   "settings": {
