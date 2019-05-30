@@ -8,8 +8,8 @@ import LoadingIndicator from 'components/elements/LoadingIndicator';
 import Button from 'components/golos-ui/Button';
 import { fetchProposals } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
-import { HeaderTitle } from '../common';
-import ProposalCard from './ProposalCard';
+import WitnessHeader from '../WitnessHeader';
+import ProposalCard from '../ProposalCard';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -23,10 +23,6 @@ const Wrapper = styled.div`
   max-width: 1150px;
   padding-bottom: 24px;
   margin: 0 auto 0;
-`;
-
-const Header = styled.div`
-  padding-top: 30px;
 `;
 
 const List = styled.ul`
@@ -62,11 +58,13 @@ const LoaderBlock = styled.div`
 
 export default class WitnessProposals extends PureComponent {
   static propTypes = {
+    isWitness: PropTypes.bool.isRequired,
     items: PropTypes.array.isRequired,
     isEnd: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     sequenceKey: PropTypes.string,
     fetchProposals: PropTypes.func.isRequired,
+    openManageCommunityDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -85,6 +83,11 @@ export default class WitnessProposals extends PureComponent {
     } catch (err) {
       displayError(tt('g.error'), err);
     }
+  };
+
+  onManageClick = () => {
+    const { openManageCommunityDialog } = this.props;
+    openManageCommunityDialog();
   };
 
   renderContent() {
@@ -123,14 +126,19 @@ export default class WitnessProposals extends PureComponent {
   };
 
   render() {
-    const { isEnd, isLoading } = this.props;
+    const { isWitness, isEnd, isLoading } = this.props;
 
     return (
       <WrapperForBackground>
         <Wrapper>
-          <Header>
-            <HeaderTitle>{tt('witnesses_jsx.tabs.proposals')}</HeaderTitle>
-          </Header>
+          <WitnessHeader
+            title={tt('witnesses_jsx.tabs.proposals')}
+            actions={() =>
+              isWitness ? (
+                <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+              ) : null
+            }
+          />
           <InfinityScrollHelper disabled={isEnd || isLoading} onNeedLoadMore={this.onNeedLoadMore}>
             {this.renderContent()}
           </InfinityScrollHelper>

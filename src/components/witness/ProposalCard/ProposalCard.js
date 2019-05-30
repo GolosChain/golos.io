@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { displayError } from 'utils/toastMessages';
+import Button from 'components/golos-ui/Button';
+
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
   border-radius: 8px;
@@ -38,6 +41,10 @@ const Changes = styled.pre`
   font-size: 12px;
 `;
 
+const FooterButtons = styled.div`
+  margin-top: 12px;
+`;
+
 export default class ProposalCard extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({
@@ -57,6 +64,23 @@ export default class ProposalCard extends PureComponent {
         })
       ).isRequired,
     }).isRequired,
+    approveProposal: PropTypes.func.isRequired,
+  };
+
+  onApproveClick = async () => {
+    const {
+      approveProposal,
+      data: { proposalId, author },
+    } = this.props;
+
+    try {
+      await approveProposal({
+        proposer: author.userId,
+        proposalId,
+      });
+    } catch (err) {
+      displayError(err);
+    }
   };
 
   render() {
@@ -93,6 +117,9 @@ export default class ProposalCard extends PureComponent {
             ))}
           </ChangesList>
         </ChangesBlock>
+        <FooterButtons>
+          <Button onClick={this.onApproveClick}>Approve</Button>
+        </FooterButtons>
       </Wrapper>
     );
   }
