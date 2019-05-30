@@ -102,11 +102,9 @@ export default class WitnessProposals extends PureComponent {
       return <EmptyBlock>{tt('g.empty_list')}</EmptyBlock>;
     }
 
-    const lines = items.map(item => this.renderItem(item));
-
     return (
       <>
-        <List>{lines}</List>
+        <List>{items.map(this.renderItem)}</List>
         {isEnd ? null : (
           <LoaderBlock>
             <LoadingIndicator type="circle" size={40} />
@@ -116,13 +114,13 @@ export default class WitnessProposals extends PureComponent {
     );
   }
 
-  renderItem(item) {
+  renderItem = item => {
     return (
       <Item key={item.proposalId}>
         <ProposalCard data={item} />
       </Item>
     );
-  }
+  };
 
   render() {
     const { isEnd, isLoading } = this.props;
