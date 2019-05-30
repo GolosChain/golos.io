@@ -5,6 +5,9 @@ import {
   FETCH_TRANSFERS_HISTORY,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
   FETCH_TRANSFERS_HISTORY_ERROR,
+  FETCH_VESTING_HISTORY,
+  FETCH_VESTING_HISTORY_SUCCESS,
+  FETCH_VESTING_HISTORY_ERROR,
   FETCH_USER_VESTING_BALANCE,
   FETCH_USER_VESTING_BALANCE_SUCCESS,
   FETCH_USER_VESTING_BALANCE_ERROR,
@@ -61,6 +64,22 @@ export default function(state = initialState, { type }) {
         ...state,
         isLoading: false,
       };
+    case FETCH_VESTING_HISTORY:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FETCH_VESTING_HISTORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case FETCH_VESTING_HISTORY_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     default:
       return state;
   }

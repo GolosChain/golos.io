@@ -9,6 +9,8 @@ import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 const FONT_MULTIPLIER = 48;
 
+const getFontCoefficient = length => (length <= 3 ? 5 : 8);
+
 const Body = styled.div`
   height: 103px;
   padding: 0 14px;
@@ -68,6 +70,14 @@ export default class AccountPrice extends PureComponent {
       return <Loader />;
     }
 
-    return <Body fontSize={Math.floor(FONT_MULTIPLIER * (8 / sumString.length))}>{sumString}</Body>;
+    return (
+      <Body
+        fontSize={Math.floor(
+          FONT_MULTIPLIER * (getFontCoefficient(sumString.length) / sumString.length)
+        )}
+      >
+        {sumString}
+      </Body>
+    );
   }
 }

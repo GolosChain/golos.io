@@ -108,13 +108,21 @@ export default class WalletContent extends Component {
     loggedUserId: PropTypes.string,
     transfers: PropTypes.arrayOf(PropTypes.shape({})),
     isOwner: PropTypes.bool,
+    vestingSequenceKey: PropTypes.string,
+    isVestingHistoryLoaded: PropTypes.bool,
+
     getTransfersHistory: PropTypes.func.isRequired,
+    getVestingHistory: PropTypes.func.isRequired,
+    getBalance: PropTypes.func.isRequired,
+    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     loggedUserId: null,
     transfers: [],
     isOwner: false,
+    vestingSequenceKey: null,
+    isVestingHistoryLoaded: false,
     username: '',
   };
 
@@ -129,10 +137,16 @@ export default class WalletContent extends Component {
 
   contentRef = createRef();
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScrollLazy);
+  async componentDidMount() {
+    const { getBalance, getVestingBalance, userId } = this.props;
+    try {
+      await Promise.all([getBalance(userId), getVestingBalance(userId)]);
+    } catch (err) {
+      displayError('Cannot load user balance', err);
+    }
 
     this.loadHistory();
+    window.addEventListener('scroll', this.onScrollLazy);
   }
 
   componentWillUnmount() {
@@ -172,28 +186,37 @@ export default class WalletContent extends Component {
   };
 
   onScrollLazy = throttle(
-    () => {
-      const { limit } = this.state;
-      if (this.hasMore) {
-        if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
-          this.setState({
-            limit: limit + DEFAULT_ROWS_LIMIT,
-          });
-        }
+    async () => {
+      const { vestingSequenceKey, getVestingHistory, userId, isVestingHistoryLoaded } = this.props;
+      if (
+        this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2 &&
+        !isVestingHistoryLoaded
+      ) {
+        await getVestingHistory(userId, vestingSequenceKey);
       }
     },
-    100,
+    500,
     { leading: false }
   );
 
   async loadHistory() {
-    const { getTransfersHistory, userId } = this.props;
+    const {
+      getTransfersHistory,
+      userId,
+      getVestingHistory,
+      vestingSequenceKey,
+      isVestingHistoryLoaded,
+    } = this.props;
 
     try {
       await Promise.all([
         getTransfersHistory(userId, { isIncoming: false }),
         getTransfersHistory(userId, { isIncoming: true }),
       ]);
+
+      if (!isVestingHistoryLoaded) {
+        await getVestingHistory(userId, vestingSequenceKey);
+      }
     } catch (err) {
       displayError(err);
     }
@@ -354,6 +377,7 @@ export default class WalletContent extends Component {
             options.title = tt('user_wallet.content.power_up');
             options.currencies = [
               {
+                // TODO: should be replaced with VestingToGolos count
                 amount: `-${amount}`,
                 currency: CURRENCY.GOLOS,
               },

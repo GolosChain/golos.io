@@ -30,9 +30,9 @@ export default connect(
       }
 
       return {
-        golos: parsePayoutAmount(gls) || '0',
-        power: power || '0',
-        powerDelegated: powerDelegated || '0',
+        golos: parsePayoutAmount(gls) || 0,
+        power: power || 0,
+        powerDelegated: powerDelegated || 0,
       };
     }
   )

@@ -14,19 +14,30 @@ export default connect(
       state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
       dataSelector(['settings', 'basic', 'votePower']),
       (state, props) => payoutSum(props.entity),
+      dataSelector(['settings', 'basic', 'currency']),
+      state =>
+        dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),
+      dataSelector(['settings', 'basic', 'rounding']),
     ],
-    (vesting, votePower, totalSum) => {
+    (vesting, votePower, totalSum, currency = 'GOLOS', actualRate, payoutRounding) => {
       let isRich = false;
+      let payout = totalSum;
 
       if (vesting && vesting.amount) {
         const balance = parsePayoutAmount(vesting.amount);
         isRich = balance > 10000;
       }
 
+      if (actualRate) {
+        payout *= actualRate;
+      }
+
       return {
         settingsVotePower: votePower,
         isRich,
-        totalSum,
+        totalSum: payout,
+        currency,
+        payoutRounding,
       };
     }
   ),
