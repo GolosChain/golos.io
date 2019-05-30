@@ -11,10 +11,20 @@ import PayoutInfo from './PayoutInfo';
 export default connect(
   // getPayoutPermLink,
   createSelector(
-    [(state, props) => entitySelector('posts', props.postLink)(state)],
-    post => ({
-      post,
-      totalPayout: payoutSum(post),
+    [
+      (state, props) => {
+        const { type, id } = props.entity;
+
+        if (type === 'comment') {
+          return entitySelector('postComments', id)(state);
+        }
+
+        return entitySelector('posts', id)(state);
+      },
+    ],
+    content => ({
+      content,
+      totalPayout: payoutSum(content),
     })
   ),
   {
