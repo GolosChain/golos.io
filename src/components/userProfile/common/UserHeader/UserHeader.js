@@ -515,7 +515,7 @@ export default class UserHeader extends Component {
       return null;
     }
 
-    return <FollowWitnessButtons targetUser={profile.userId} isOwner={isOwner} />;
+    return <FollowWitnessButtons targetUserId={profile.userId} isOwner={isOwner} />;
   }
 
   renderLoginContainer() {

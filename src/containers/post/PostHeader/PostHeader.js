@@ -296,7 +296,7 @@ export default class PostHeader extends Component {
                 <FollowedIcon name="tick" width={18} height={14} />
               </FollowRound>
             }
-            targetUser={author}
+            targetUserId={author}
           />
         )} */}
         {isPromoted && (

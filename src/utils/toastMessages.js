@@ -15,7 +15,11 @@ export function displayError(title, err) {
   let prefix = null;
 
   if (title) {
-    prefix = title.endsWith(':') ? title : `${title}:`;
+    prefix = title;
+
+    if (err && !title.endsWith(':')) {
+      prefix = `${prefix}:`;
+    }
   }
 
   if (prefix && err) {
