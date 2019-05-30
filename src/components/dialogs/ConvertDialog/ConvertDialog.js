@@ -217,7 +217,7 @@ export default class ConvertDialog extends PureComponent {
     const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(
       type === TYPES.POWER ? 6 : 3
     );
-    console.log(tokensQuantity);
+
     try {
       if (type === TYPES.GOLOS) {
         await transferToken(
