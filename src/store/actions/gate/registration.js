@@ -137,7 +137,7 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
   const phoneNumber = regData.fullPhoneNumber;
 
   if (regData.isRegFinished) {
-    return;
+    return null;
   }
 
   dispatch({

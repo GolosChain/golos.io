@@ -73,7 +73,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
 
       // TODO: should be removed. Temporary fix for mobile devices
       if (!auth) {
-        return;
+        return null;
       }
 
       cyber.initProvider(actualKey);
@@ -150,7 +150,10 @@ export const logout = () => async (dispatch, getState) => {
   if (isAuth) {
     try {
       await dispatch(unsubscribeNotifications());
-    } catch {}
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn(err);
+    }
   }
 
   dispatch({ type: AUTH_LOGOUT_SUCCESS, payload: {} });

@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import {
   FETCH_HASHTAGTOP,
   FETCH_HASHTAGTOP_SUCCESS,
@@ -9,6 +7,7 @@ import { CALL_GATE } from 'store/middlewares/gate-api';
 import { tagsSchema } from 'store/schemas/gate';
 import { HASHTAGSTOP_FETCH_LIMIT } from 'shared/constants';
 
+// eslint-disable-next-line import/prefer-default-export
 export const getHashTagTop = ({ sequenceKey = null } = {}) => dispatch => {
   const newParams = {
     communityId: 'gls',

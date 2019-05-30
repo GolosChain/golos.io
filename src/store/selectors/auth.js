@@ -7,8 +7,6 @@ export const currentUserIdSelector = dataSelector(['auth', 'currentUser', 'userI
 
 export const isAuthorized = state => Boolean(currentUserSelector(state));
 
-export const isUnsafeAuthorized = state => Boolean(currentUnsafeUserSelector(state));
-
 export const currentUnsafeUserSelector = state => {
   const currentUser = currentUserSelector(state);
 
@@ -24,6 +22,8 @@ export const currentUnsafeUserSelector = state => {
 
   return null;
 };
+
+export const isUnsafeAuthorized = state => Boolean(currentUnsafeUserSelector(state));
 
 export const currentUnsafeUserIdSelector = state => {
   const user = currentUnsafeUserSelector(state);

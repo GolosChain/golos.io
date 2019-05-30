@@ -67,7 +67,10 @@ export default class SettingsContent extends PureComponent {
     try {
       await updateProfileMeta(meta);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('updateMetaData failed:', err);
+
+      // eslint-disable-next-line no-throw-literal
       throw {
         [FORM_ERROR]: err,
       };
@@ -80,7 +83,10 @@ export default class SettingsContent extends PureComponent {
     try {
       await updateSettings(options);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('updateSettings failed:', err);
+
+      // eslint-disable-next-line no-throw-literal
       throw {
         [FORM_ERROR]: err,
       };
