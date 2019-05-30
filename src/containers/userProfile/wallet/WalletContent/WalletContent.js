@@ -262,11 +262,12 @@ export default class WalletContent extends Component {
 
     for (let i = transactions.length - 1; i >= 0; --i) {
       const item = transactions[i];
-      const { type, timestamp, from, to, amount } = item;
+      const { type, timestamp, from, to, amount, memo } = item;
       const data = {
         from,
         to,
         amount,
+        memo,
       };
 
       let line = null;
