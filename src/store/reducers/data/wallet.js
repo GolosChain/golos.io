@@ -57,13 +57,26 @@ export default function(state = initialState, { type, payload, meta }) {
       };
 
     case FETCH_TRANSFERS_HISTORY_SUCCESS:
-      if (state[payload.name || meta.name]) {
+      if (
+        state[meta.name] &&
+        meta.sequenceKey &&
+        meta.sequenceKey === state[meta.name].vestingSequenceKey &&
+        payload.sequenceKey !== meta.sequenceKey
+      ) {
         return update(state, {
           [payload.name || meta.name]: {
             transfers: transfers =>
               update(transfers || {}, {
                 [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
-                  $set: payload.transfers || [],
+                  items: {
+                    $push: payload.items || [],
+                  },
+                  sequenceKey: {
+                    $set: payload.sequenceKey || null,
+                  },
+                  isHistoryEnd: {
+                    $set: payload.items.length < meta.limit,
+                  },
                 },
               }),
           },
@@ -73,8 +86,11 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
         [meta.name]: {
           transfers: {
-            [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]:
-              payload.transfers || [],
+            [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
+              items: payload.transfers || [],
+              sequenceKey: payload.sequenceKey,
+              isHistoryEnd: payload.items.length < meta.limit,
+            },
           },
         },
       };

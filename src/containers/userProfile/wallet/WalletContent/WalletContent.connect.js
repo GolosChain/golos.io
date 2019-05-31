@@ -40,10 +40,15 @@ export default connect(
       let sent = [];
       let received = [];
       let vesting = [];
+      let sentSequenceKey = null;
+      let receivedSequenceKey = null;
+      let isSentHistoryLoaded = false;
+      let isReceivedHistoryLoaded = false;
 
       if (transfers && (transfers.sent || transfers.received)) {
-        sent = transfers.sent
-          ? transfers.sent.map(({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
+        if (transfers.sent) {
+          sent =
+            transfers.sent.items.map(({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
               id: trx_id,
               type: TRANSACTIONS_TYPE.TRANSFER,
               from: sender,
@@ -51,20 +56,29 @@ export default connect(
               amount: quantity,
               timestamp,
               memo,
-            }))
-          : [];
+            })) || [];
 
-        received = transfers.received
-          ? transfers.received.map(({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
-              id: trx_id,
-              type: TRANSACTIONS_TYPE.TRANSFER,
-              from: sender,
-              to: receiver,
-              amount: quantity,
-              timestamp,
-              memo,
-            }))
-          : [];
+          sentSequenceKey = transfers.sent.sequenceKey || null;
+          isSentHistoryLoaded = transfers.sent.isHistoryEnd || false;
+        }
+
+        if (transfers.received) {
+          received =
+            transfers.received.items.map(
+              ({ sender, receiver, quantity, trx_id, timestamp, memo }) => ({
+                id: trx_id,
+                type: TRANSACTIONS_TYPE.TRANSFER,
+                from: sender,
+                to: receiver,
+                amount: quantity,
+                timestamp,
+                memo,
+              })
+            ) || [];
+
+          receivedSequenceKey = transfers.received.sequenceKey || null;
+          isReceivedHistoryLoaded = transfers.received.isHistoryEnd || false;
+        }
       }
 
       if (vestingHistory && vestingHistory.length > 0) {
@@ -90,6 +104,10 @@ export default connect(
         username: user ? user.username : '',
         vestingSequenceKey,
         isVestingHistoryLoaded,
+        sentSequenceKey,
+        receivedSequenceKey,
+        isSentHistoryLoaded,
+        isReceivedHistoryLoaded,
       };
     }
   ),

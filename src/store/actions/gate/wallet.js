@@ -60,15 +60,15 @@ export const getVestingBalance = userId => {
   };
 };
 
-export const getTransfersHistory = (username, { isIncoming }) => {
+export const getTransfersHistory = (username, { isIncoming }, sequenceKey = null) => {
   if (!username) {
     throw new Error('Username is required!');
   }
 
   const params = {
-    query: {
-      [isIncoming ? TRANSFERS_FILTER_TYPE.RECEIVER : TRANSFERS_FILTER_TYPE.SENDER]: username,
-    },
+    [isIncoming ? TRANSFERS_FILTER_TYPE.RECEIVER : TRANSFERS_FILTER_TYPE.SENDER]: username,
+    sequenceKey,
+    limit: 20,
   };
 
   return {
