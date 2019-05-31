@@ -195,7 +195,6 @@ export default class WalletContent extends Component {
 
   onScrollLazy = throttle(
     async () => {
-      const { vestingSequenceKey, getVestingHistory, userId, isVestingHistoryLoaded } = this.props;
       if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
         this.loadHistory();
       }
@@ -225,6 +224,7 @@ export default class WalletContent extends Component {
       if (!isReceivedHistoryLoaded) {
         await getTransfersHistory(userId, { isIncoming: true }, receivedSequenceKey);
       }
+
       if (!isVestingHistoryLoaded) {
         await getVestingHistory(userId, vestingSequenceKey);
       }
