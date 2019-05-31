@@ -78,7 +78,7 @@ const FooterConfirm = styled.div`
   height: 50px;
 `;
 
-const ButtonConfirm = styled.div`
+const ButtonConfirm = styled.button`
   display: flex;
   align-items: center;
   height: 100%;
@@ -143,6 +143,11 @@ export default class CommentFooter extends Component {
 
   onPostReplyClick = () => {
     const { replyRef } = this.props;
+
+    if (replyRef.current.checkIsPostDisabled()) {
+      return;
+    }
+
     replyRef.current.post();
   };
 

@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import cn from 'classnames';
 import tt from 'counterpart';
 
@@ -84,6 +84,7 @@ export default class CommentForm extends Component {
       text: reply ? `@${params.contentId.userId} ` : '',
       emptyBody: true,
       uploadingCount: 0,
+      isPosting: false,
     };
 
     let isLoaded = false;
@@ -358,7 +359,19 @@ export default class CommentForm extends Component {
         displayError(tt('g.error'), { message: err.toString().trim() });
       }
     }
+    if (!this.unmount) {
+      this.setState({
+        isPosting: false,
+      });
+    }
   };
+
+  checkIsPostDisabled() {
+    const { isPosting, uploadingCount, emptyBody } = this.state;
+
+    const allowPost = uploadingCount === 0 && !emptyBody;
+    return isPosting || !allowPost;
+  }
 
   checkBody() {
     const editor = this.editorRef.current;
@@ -452,6 +465,10 @@ export default class CommentForm extends Component {
       jsonmetadata: meta,
     };
 
+    this.setState({
+      isPosting: true,
+    });
+
     this.handleSubmit(data);
   }
 
@@ -467,9 +484,7 @@ export default class CommentForm extends Component {
   render() {
     const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
 
-    const { text, emptyBody, isPreview, uploadingCount } = this.state;
-
-    const allowPost = uploadingCount === 0 && !emptyBody;
+    const { text, isPreview, uploadingCount, isPosting } = this.state;
 
     return (
       <>
@@ -512,7 +527,7 @@ export default class CommentForm extends Component {
             <CommentFooterWrapper>
               <CommentFooter
                 editMode={editMode}
-                postDisabled={!allowPost}
+                postDisabled={!allowPost || isPosting}
                 onPostClick={this.postSafe}
                 onCancelClick={this.onCancelClick}
               />

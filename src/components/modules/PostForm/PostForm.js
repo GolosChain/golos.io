@@ -3,7 +3,7 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import Turndown from 'turndown';
 import tt from 'counterpart';
 import getSlug from 'speakingurl';
