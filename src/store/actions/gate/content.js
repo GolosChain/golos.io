@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import {
   FETCH_LEADERS,

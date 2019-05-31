@@ -6,7 +6,9 @@ import { FORM_ERROR } from 'final-form';
 import { pick } from 'ramda';
 import tt from 'counterpart';
 
+import { profileType } from 'types/common';
 import { displaySuccess } from 'utils/toastMessages';
+
 import { SettingsShow } from 'components/userProfile';
 
 const ErrorBlock = styled.div`
@@ -16,14 +18,19 @@ const ErrorBlock = styled.div`
 
 export default class SettingsContent extends PureComponent {
   static propTypes = {
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
     settingsData: PropTypes.shape({}).isRequired,
+    isRich: PropTypes.bool,
 
     fetchSettings: PropTypes.func.isRequired,
     fetchAccountPermissions: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
     updateProfileMeta: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isRich: false,
   };
 
   state = {
@@ -61,7 +68,10 @@ export default class SettingsContent extends PureComponent {
     try {
       await updateProfileMeta(meta);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('updateMetaData failed:', err);
+
+      // eslint-disable-next-line no-throw-literal
       throw {
         [FORM_ERROR]: err,
       };
@@ -74,7 +84,10 @@ export default class SettingsContent extends PureComponent {
     try {
       await updateSettings(options);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('updateSettings failed:', err);
+
+      // eslint-disable-next-line no-throw-literal
       throw {
         [FORM_ERROR]: err,
       };

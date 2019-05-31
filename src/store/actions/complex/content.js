@@ -115,6 +115,7 @@ export const fetchPagePost = contentId => async dispatch => {
     });
   } catch (err) {
     if (err.code !== 404) {
+      // eslint-disable-next-line no-console
       console.error('Post fetch failed:', err);
     }
 

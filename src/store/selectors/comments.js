@@ -5,7 +5,7 @@ import { statusSelector, entitiesSelector } from './common';
 
 const MAX_COMMENTS_DEPTH = 6;
 
-// eslint-disable-next-line
+// eslint-disable-next-line import/prefer-default-export
 export const getCommentsHierarchy = sortType =>
   createSelector(
     [statusSelector(['postComments', 'order']), entitiesSelector('postComments')],

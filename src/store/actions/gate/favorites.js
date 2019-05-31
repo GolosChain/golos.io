@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import {
   FETCH_FAVORITES,
   FETCH_FAVORITES_SUCCESS,

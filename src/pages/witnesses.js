@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 
+import tt from 'counterpart';
+
 import WitnessesTop from 'components/witness/WitnessesTop';
 import WitnessProposals from 'components/witness/WitnessProposals';
 import Navigation from '../components/common/Navigation';
-import tt from 'counterpart';
 
 const PAGES = {
   TOP: 'TOP',
@@ -23,6 +24,7 @@ export default class WitnessesPage extends PureComponent {
         await WitnessProposals.getInitialProps({ store });
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('WitnessesPage getInitialProps failed:', err);
     }
 

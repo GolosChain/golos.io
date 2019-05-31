@@ -160,10 +160,24 @@ const Links = styled.div`
   }
 `;
 
+function supportLink() {
+  const locale = tt.getLocale();
+
+  if (locale === 'en') {
+    return 'https://tlg.name/golos_eng';
+  }
+
+  return 'https://tlg.name/golos_support';
+}
+
 export default class ContentErrorBoundary extends Component {
   state = {
     hasError: false,
     error: '',
+  };
+
+  reloadPage = () => {
+    window.location.reload();
   };
 
   componentDidCatch(error) {
@@ -173,12 +187,11 @@ export default class ContentErrorBoundary extends Component {
     });
   }
 
-  reloadPage = () => {
-    window.location.reload();
-  };
-
   render() {
-    if (this.state.hasError) {
+    const { children } = this.props;
+    const { hasError } = this.state;
+
+    if (hasError) {
       return (
         <Wrapper>
           <Content>
@@ -202,18 +215,6 @@ export default class ContentErrorBoundary extends Component {
       );
     }
 
-    return this.props.children;
-  }
-}
-
-function supportLink() {
-  const locale = tt.getLocale();
-
-  switch (locale) {
-    case 'en':
-    case 'uk':
-      return 'https://tlg.name/golos_eng';
-    case 'ru':
-      return 'https://tlg.name/golos_support';
+    return children;
   }
 }

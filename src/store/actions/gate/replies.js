@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { repliesSchema } from 'store/schemas/gate';
 import { FEED_PAGE_SIZE } from 'shared/constants';
 import {
@@ -9,6 +7,7 @@ import {
 } from 'store/constants/actionTypes';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
+// eslint-disable-next-line import/prefer-default-export
 export const fetchReplies = ({ userId, sequenceKey }) => {
   const newParams = {
     type: 'replies',

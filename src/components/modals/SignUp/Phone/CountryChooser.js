@@ -5,6 +5,7 @@ import is from 'styled-is';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import debounce from 'lodash.debounce';
 import CountryFlag from 'cyber-country-flag';
+import tt from 'counterpart';
 
 import { setRegistrationData } from 'utils/localStorage';
 import { checkPressedKey } from 'utils/keyPress';
@@ -260,7 +261,7 @@ export default class CountryChooser extends Component {
         <CountryFlagWrapped code={countryCode} />
       </>
     ) : (
-      <ChooseCountryText>Choose country</ChooseCountryText>
+      <ChooseCountryText>{tt('registration.choose_country')}</ChooseCountryText>
     );
 
     return (

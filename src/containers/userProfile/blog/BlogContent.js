@@ -42,45 +42,7 @@ export default class BlogContent extends Component {
     }
   };
 
-  render() {
-    const { profile, layout } = this.props;
-
-    return (
-      <>
-        <Head>
-          <title>{tt('meta.title.profile.blog', { name: profile.username })}</title>
-        </Head>
-        <Header>{tt('g.blog')}</Header>
-        <CardsListWrapper noGaps={layout === 'compact'}>{this._render()}</CardsListWrapper>
-      </>
-    );
-  }
-
-  _render() {
-    const { profile, posts } = this.props;
-
-    if (!posts) {
-      return <Loader type="circle" center size={40} />;
-    }
-
-    if (!posts.length) {
-      return this._renderCallOut();
-    }
-
-    return (
-      <CardsList
-        isProfile
-        userId={profile.id}
-        category="blog"
-        showPinButton
-        items={posts}
-        loadMore={this.fetchPosts}
-        // showSpam TODO
-      />
-    );
-  }
-
-  _renderCallOut() {
+  renderCallOut() {
     const { isOwner } = this.props;
 
     return (
@@ -105,6 +67,44 @@ export default class BlogContent extends Component {
           </EmptySubText>
         </EmptyBlock>
       </InfoBlock>
+    );
+  }
+
+  renderCardsList() {
+    const { profile, posts } = this.props;
+
+    if (!posts) {
+      return <Loader type="circle" center size={40} />;
+    }
+
+    if (!posts.length) {
+      return this.renderCallOut();
+    }
+
+    return (
+      <CardsList
+        isProfile
+        userId={profile.id}
+        category="blog"
+        showPinButton
+        items={posts}
+        loadMore={this.fetchPosts}
+        // showSpam TODO
+      />
+    );
+  }
+
+  render() {
+    const { profile, layout } = this.props;
+
+    return (
+      <>
+        <Head>
+          <title>{tt('meta.title.profile.blog', { name: profile.username })}</title>
+        </Head>
+        <Header>{tt('g.blog')}</Header>
+        <CardsListWrapper noGaps={layout === 'compact'}>{this.renderCardsList()}</CardsListWrapper>
+      </>
     );
   }
 }
