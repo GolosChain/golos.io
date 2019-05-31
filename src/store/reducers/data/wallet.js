@@ -14,9 +14,9 @@ const initialState = {};
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_USER_BALANCE_SUCCESS:
-      if (state[payload.name || meta.name]) {
+      if (state[meta.name]) {
         return update(state, {
-          [payload.name || meta.name]: {
+          [meta.name]: {
             balances: {
               $set: payload.balances || [],
             },
@@ -26,15 +26,15 @@ export default function(state = initialState, { type, payload, meta }) {
 
       return {
         ...state,
-        [payload.name || meta.name]: {
+        [meta.name]: {
           balances: payload.balances || [],
         },
       };
 
     case FETCH_USER_VESTING_BALANCE_SUCCESS:
-      if (state[payload.account || meta.name]) {
+      if (state[meta.name]) {
         return update(state, {
-          [payload.name || meta.name]: {
+          [meta.name]: {
             vesting: {
               $set: {
                 amount: payload.vesting,
@@ -47,7 +47,7 @@ export default function(state = initialState, { type, payload, meta }) {
       }
       return {
         ...state,
-        [payload.account || meta.name]: {
+        [meta.name]: {
           vesting: {
             amount: payload.vesting,
             delegated: payload.delegated,
@@ -64,10 +64,10 @@ export default function(state = initialState, { type, payload, meta }) {
         payload.sequenceKey !== meta.sequenceKey
       ) {
         return update(state, {
-          [payload.name || meta.name]: {
+          [meta.name]: {
             transfers: transfers =>
               update(transfers || {}, {
-                [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
+                [meta.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
                   items: {
                     $push: payload.items || [],
                   },
@@ -85,8 +85,10 @@ export default function(state = initialState, { type, payload, meta }) {
       return {
         ...state,
         [meta.name]: {
+          ...state[meta.name],
           transfers: {
-            [meta.query.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
+            ...state[meta.name].transfers,
+            [meta.receiver ? TRANSFERS_TYPE.RECEIVED : TRANSFERS_TYPE.SENT]: {
               items: payload.transfers || [],
               sequenceKey: payload.sequenceKey,
               isHistoryEnd: payload.items.length < meta.limit,
