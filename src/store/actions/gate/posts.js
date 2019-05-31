@@ -7,9 +7,6 @@ import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
-  FETCH_POST_VOTES,
-  FETCH_POST_VOTES_SUCCESS,
-  FETCH_POST_VOTES_ERROR,
 } from 'store/constants/actionTypes';
 import { entitySelector } from 'store/selectors/common';
 import { currentUnsafeServerUserIdSelector } from 'store/selectors/auth';

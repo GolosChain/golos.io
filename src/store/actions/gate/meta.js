@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import {
   RECORD_POST_VIEW,
   RECORD_POST_VIEW_SUCCESS,
@@ -8,6 +6,7 @@ import {
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { formatContentId } from 'store/schemas/gate';
 
+// eslint-disable-next-line import/prefer-default-export
 export const recordPostView = contentId => {
   const contentUrl = formatContentId(contentId);
 

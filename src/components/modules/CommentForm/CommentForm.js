@@ -238,30 +238,34 @@ export default class CommentForm extends Component {
     }
   };
 
-  post = () => {
-    const body = this.editorRef.current.getValue();
-    const html = getRemarkable().render(body);
+  post = cb => {
+    try {
+      const body = this.editorRef.current.getValue();
+      const html = getRemarkable().render(body);
 
-    if (!body || !body.trim()) {
-      displayError(tt('g.error'), { message: tt('post_editor.empty_body_error') });
-      return;
+      if (!body || !body.trim()) {
+        displayError(`${tt('g.error')} ${tt('post_editor.empty_body_error')}`);
+        return;
+      }
+
+      const rTags = getTags(html);
+      const error = checkPostHtml(rTags);
+
+      if (error) {
+        displayError(`${tt('g.error')} ${error.text}`);
+        return;
+      }
+
+      // this.props.loginIfNeed(logged => {
+      //   if (!logged) {
+      //     return;
+      //   }
+
+      this.publish({ rTags, body }, cb);
+      // });
+    } catch (err) {
+      displayError(tt('g.error'));
     }
-
-    const rTags = getTags(html);
-    const error = checkPostHtml(rTags);
-
-    if (error) {
-      displayError(tt('g.error'), { message: error.text });
-      return;
-    }
-
-    // this.props.loginIfNeed(logged => {
-    //   if (!logged) {
-    //     return;
-    //   }
-
-    this.publish({ rTags, body });
-    // });
   };
 
   saveDraft = () => {
@@ -308,7 +312,7 @@ export default class CommentForm extends Component {
     // toggleCommentInputFocus(true);
   };
 
-  handleSubmit = async data => {
+  handleSubmit = async (data, cb) => {
     const {
       editMode,
       reply,
@@ -323,6 +327,10 @@ export default class CommentForm extends Component {
       onSuccess,
     } = this.props;
 
+    this.setState({ isPosting: true });
+    if (typeof cb === 'function') {
+      cb({ isPosting: true });
+    }
     try {
       localStorage.removeItem(DRAFT_KEY);
 
@@ -359,10 +367,9 @@ export default class CommentForm extends Component {
         displayError(tt('g.error'), { message: err.toString().trim() });
       }
     }
-    if (!this.unmount) {
-      this.setState({
-        isPosting: false,
-      });
+    this.setState({ isPosting: false });
+    if (typeof cb === 'function') {
+      cb({ isPosting: false });
     }
   };
 
@@ -417,19 +424,7 @@ export default class CommentForm extends Component {
     this.onCancelClick();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  safeWrapper(callback) {
-    return (...args) => {
-      try {
-        return callback(...args);
-      } catch (err) {
-        displayError(tt('g.error'));
-        return null;
-      }
-    };
-  }
-
-  publish({ rTags, body }) {
+  publish({ rTags, body }, cb) {
     const { params } = this.props;
     const metadata = params.content && params.content.metadata ? params.content.metadata : null;
 
@@ -469,11 +464,8 @@ export default class CommentForm extends Component {
       isPosting: true,
     });
 
-    this.handleSubmit(data);
+    this.handleSubmit(data, cb);
   }
-
-  // eslint-disable-next-line
-  postSafe = this.safeWrapper(this.post);
 
   saveDraftLazy = throttle(this.saveDraft, 300, {
     leading: false,
@@ -484,7 +476,9 @@ export default class CommentForm extends Component {
   render() {
     const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
 
-    const { text, isPreview, uploadingCount, isPosting } = this.state;
+    const { text, emptyBody, isPreview, uploadingCount, isPosting } = this.state;
+
+    const allowPost = uploadingCount === 0 && !emptyBody;
 
     return (
       <>
@@ -526,9 +520,10 @@ export default class CommentForm extends Component {
           {hideFooter ? null : (
             <CommentFooterWrapper>
               <CommentFooter
+                isPosting={isPosting}
                 editMode={editMode}
-                postDisabled={!allowPost || isPosting}
-                onPostClick={this.postSafe}
+                postDisabled={this.checkIsPostDisabled()}
+                onPostClick={this.post}
                 onCancelClick={this.onCancelClick}
               />
             </CommentFooterWrapper>

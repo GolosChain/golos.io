@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { commentSchema, profileCommentSchema } from 'store/schemas/gate';
 import { FEED_PAGE_SIZE, SORT_BY_NEWEST, SORT_BY_OLDEST } from 'shared/constants';
 import {
@@ -12,9 +10,6 @@ import {
   FETCH_COMMENT,
   FETCH_COMMENT_SUCCESS,
   FETCH_COMMENT_ERROR,
-  FETCH_COMMENT_VOTES,
-  FETCH_COMMENT_VOTES_SUCCESS,
-  FETCH_COMMENT_VOTES_ERROR,
 } from 'store/constants/actionTypes';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
@@ -32,6 +27,7 @@ export const fetchComment = contentId => async dispatch => {
     meta: newParams,
   });
 };
+
 export const fetchPostComments = ({
   contentId,
   sequenceKey = null,

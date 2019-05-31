@@ -7,6 +7,7 @@ import {
 import { ACTIVITIES_PER_PAGE } from 'constants/activities';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
+// eslint-disable-next-line import/prefer-default-export
 export const fetchActivities = ({ types = 'all', fromId = null } = {}, meta = {}) => {
   const params = {
     limit: ACTIVITIES_PER_PAGE,

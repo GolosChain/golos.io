@@ -9,6 +9,7 @@ import { openTransferDialog } from 'components/userProfile/common/RightActions/s
 
 import VotePanel from 'components/common/VotePanel';
 import ReplyBlock from 'components/common/ReplyBlock';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 
 const FORCE_ONE_COLUMN_WIDTH = 550;
 
@@ -116,6 +117,17 @@ const DonateButton = styled.button`
   }
 `;
 
+const LoaderWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
 export default class CommentFooter extends Component {
   static propTypes = {
     commentRef: PropTypes.shape({}),
@@ -136,6 +148,14 @@ export default class CommentFooter extends Component {
     currentUsername: '',
   };
 
+  state = {
+    isPosting: false,
+  };
+
+  handlePosting = ({ isPosting }) => {
+    this.setState({ isPosting });
+  };
+
   onCancelReplyClick = () => {
     const { replyRef } = this.props;
     replyRef.current.cancel();
@@ -143,12 +163,7 @@ export default class CommentFooter extends Component {
 
   onPostReplyClick = () => {
     const { replyRef } = this.props;
-
-    if (replyRef.current.checkIsPostDisabled()) {
-      return;
-    }
-
-    replyRef.current.post();
+    replyRef.current.post(this.handlePosting);
   };
 
   onCancelEditClick = () => {
@@ -158,7 +173,7 @@ export default class CommentFooter extends Component {
 
   onSaveEditClick = () => {
     const { commentRef } = this.props;
-    commentRef.current.post();
+    commentRef.current.post(this.handlePosting);
   };
 
   onDonateClick = async () => {
@@ -173,25 +188,47 @@ export default class CommentFooter extends Component {
 
   render() {
     const { comment, contentLink, isOwner, showReply, edit, onReplyClick, count } = this.props;
+    const { isPosting } = this.state;
 
     if (showReply) {
       return (
         <FooterConfirm>
-          <ButtonConfirm onClick={this.onCancelReplyClick}>{tt('g.cancel')}</ButtonConfirm>
-          <Splitter />
-          <ButtonConfirm main onClick={this.onPostReplyClick}>
-            {tt('g.publish')}
+          {!isPosting ? (
+            <>
+              <ButtonConfirm onClick={this.onCancelReplyClick}>{tt('g.cancel')}</ButtonConfirm>
+              <Splitter />
+            </>
+          ) : null}
+          <ButtonConfirm disabled={isPosting} main onClick={this.onPostReplyClick}>
+            {isPosting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : (
+              tt('g.publish')
+            )}
           </ButtonConfirm>
         </FooterConfirm>
       );
     }
+
     if (edit) {
       return (
         <FooterConfirm>
-          <ButtonConfirm onClick={this.onCancelEditClick}>{tt('g.cancel')}</ButtonConfirm>
-          <Splitter />
+          {!isPosting ? (
+            <>
+              <ButtonConfirm onClick={this.onCancelEditClick}>{tt('g.cancel')}</ButtonConfirm>
+              <Splitter />
+            </>
+          ) : null}
           <ButtonConfirm main onClick={this.onSaveEditClick}>
-            {tt('g.save')}
+            {isPosting ? (
+              <LoaderWrapper>
+                <LoadingIndicator type="circle" size={16} />
+              </LoaderWrapper>
+            ) : (
+              tt('g.save')
+            )}
           </ButtonConfirm>
         </FooterConfirm>
       );

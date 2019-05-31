@@ -55,7 +55,7 @@ export const profileSelector = userId => state => {
   if (!profile) {
     profile = {
       name: userId,
-      userId: userId,
+      userId,
       username: userId,
       created: null,
       reputation: null,

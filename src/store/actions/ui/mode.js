@@ -19,16 +19,6 @@ export const setScreenTypeByUserAgent = useragent => {
   return null;
 };
 
-export const setLayoutByCookies = cookies => {
-  const layout = cookies['golos.layout'];
-
-  if (layout) {
-    return setLayout(layout);
-  }
-
-  return null;
-};
-
 export const setLayout = layout => {
   if (process.browser) {
     const date = new Date();
@@ -37,4 +27,14 @@ export const setLayout = layout => {
   }
 
   return updateUIMode({ layout });
+};
+
+export const setLayoutByCookies = cookies => {
+  const layout = cookies['golos.layout'];
+
+  if (layout) {
+    return setLayout(layout);
+  }
+
+  return null;
 };

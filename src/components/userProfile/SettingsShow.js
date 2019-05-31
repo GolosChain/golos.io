@@ -7,6 +7,7 @@ import SplashLoader from 'components/golos-ui/SplashLoader';
 import Card from 'components/golos-ui/Card';
 import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
+import { profileType } from 'types/common';
 import Common from './settings/Common';
 import Account from './settings/Account';
 import Keys from './settings/Keys';
@@ -19,13 +20,18 @@ const CardStyled = styled(Card)`
 
 export default class SettingsShow extends PureComponent {
   static propTypes = {
-    profile: PropTypes.shape({}).isRequired,
+    profile: profileType.isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
     options: PropTypes.shape({}).isRequired,
     isFetching: PropTypes.bool.isRequired,
+    isRich: PropTypes.bool,
 
     onSubmitBlockchain: PropTypes.func.isRequired,
     onSubmitGate: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isRich: false,
   };
 
   render() {
