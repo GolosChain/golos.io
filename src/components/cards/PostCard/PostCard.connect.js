@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import { connect } from 'react-redux';
+import { openModal } from 'redux-modals-manager';
 
+import { SHOW_MODAL_REPOST } from '/store/constants';
 import { dataSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { nsfwTypeSelector } from 'store/selectors/settings';
-import { reblog } from 'store/actions/cyberway/publish';
+
 import { addFavorite, removeFavorite, fetchFavorites, fetchPost } from 'store/actions/gate';
 
 import PostCard from './PostCard';
@@ -43,8 +45,7 @@ export default connect(
     removeFavorite,
     fetchFavorites,
     fetchPost,
-    reblog,
     togglePin: () => () => console.error('Unhandled action'),
-    openRepostDialog: () => () => console.error('Unhandled action'),
+    openRepostDialog: params => openModal(SHOW_MODAL_REPOST, params),
   }
 )(PostCard);

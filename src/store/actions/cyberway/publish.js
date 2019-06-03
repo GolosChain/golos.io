@@ -121,7 +121,7 @@ export const vote = data => async (dispatch, getState) => {
   });
 };
 
-export const reblog = ({ contentId }) => async (dispatch, getState) => {
+export const reblog = ({ contentId, text }) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -134,6 +134,8 @@ export const reblog = ({ contentId }) => async (dispatch, getState) => {
       author: contentId.userId,
       permlink: contentId.permlink,
     },
+    headermssg: '',
+    bodymssg: text,
   };
 
   return dispatch({

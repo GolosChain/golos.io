@@ -308,7 +308,7 @@ export default class PostCard extends PureComponent {
     fetchFavorites: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
     reblog: PropTypes.func.isRequired,
-    // togglePin: PropTypes.func.isRequired,
+    openRepostDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -378,21 +378,11 @@ export default class PostCard extends PureComponent {
   };
 
   onRepostClick = async () => {
-    const { post, reblog } = this.props;
+    const { post, openRepostDialog } = this.props;
 
-    try {
-      await reblog({
-        contentId: post.contentId,
-      });
-
-      ToastsManager.info('Reblogged Successfully');
-    } catch (err) {
-      console.error(err);
-      ToastsManager.error(err.message);
-    }
-
-    // TODO: Show dialog for enter text
-    // this.props.openRepostDialog(post.contentId);
+    openRepostDialog({
+      contentId: post.contentId,
+    });
   };
 
   // onPinClick = () => {
@@ -531,22 +521,23 @@ export default class PostCard extends PureComponent {
   renderRepostButton() {
     const { allowRepost } = this.props;
 
-    if (allowRepost) {
-      return (
-        <ToolbarAction name="post-card__repost">
-          <IconWrapper
-            role="button"
-            aria-label={tt('post_card.repost')}
-            data-tooltip={tt('post_card.repost')}
-            enabled
-            onClick={this.onRepostClick}
-          >
-            <Icon name="repost" width={25} />
-          </IconWrapper>
-        </ToolbarAction>
-      );
+    if (!allowRepost) {
+      return null;
     }
-    return null;
+
+    return (
+      <ToolbarAction name="post-card__repost">
+        <IconWrapper
+          role="button"
+          aria-label={tt('post_card.repost')}
+          data-tooltip={tt('post_card.repost')}
+          enabled
+          onClick={this.onRepostClick}
+        >
+          <Icon name="repost" width={25} />
+        </IconWrapper>
+      </ToolbarAction>
+    );
   }
 
   renderFavoriteButton() {
@@ -639,8 +630,8 @@ export default class PostCard extends PureComponent {
         <FooterToolbar compact={compact}>
           <VotePanelStyled entity={post} compact />
           {this.renderEditButton()}
-          {/* {this.renderPinButton()}
-          {this.renderRepostButton()} */}
+          {/* {this.renderPinButton()} */}
+          {this.renderRepostButton()}
           {this.renderFavoriteButton()}
         </FooterToolbar>
         {compact ? null : <Filler />}

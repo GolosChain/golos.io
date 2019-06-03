@@ -1,23 +1,21 @@
 import { connect } from 'react-redux';
 
-import { repost } from 'app/redux/actions/repost';
-import { showNotification } from 'app/redux/actions/ui';
-import { currentUsernameSelector } from 'store/selectors/auth';
-import { sanitizeCardPostData } from 'app/redux/selectors/post/commonPost';
+import { formatContentId } from 'store/schemas/gate';
+import { entitySelector } from 'store/selectors/common';
+import { reblog } from 'store/actions/cyberway/publish';
+
 import RepostDialog from './RepostDialog';
 
 export default connect(
   (state, props) => {
-    const post = state.global.getIn(['content', props.postLink]);
+    const post = entitySelector('posts', formatContentId(props.contentId))(state);
 
     return {
-      myAccountName: currentUsernameSelector(state),
-      sanitizedPost: sanitizeCardPostData(post),
+      post,
     };
   },
   {
-    repost,
-    showNotification,
+    reblog,
   },
   null,
   { forwardRef: true }
