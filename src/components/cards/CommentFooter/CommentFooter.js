@@ -79,7 +79,7 @@ const FooterConfirm = styled.div`
   height: 50px;
 `;
 
-const ButtonConfirm = styled.div`
+const ButtonConfirm = styled.button`
   display: flex;
   align-items: center;
   height: 100%;
@@ -199,7 +199,7 @@ export default class CommentFooter extends Component {
               <Splitter />
             </>
           ) : null}
-          <ButtonConfirm main onClick={this.onPostReplyClick}>
+          <ButtonConfirm disabled={isPosting} main onClick={this.onPostReplyClick}>
             {isPosting ? (
               <LoaderWrapper>
                 <LoadingIndicator type="circle" size={16} />

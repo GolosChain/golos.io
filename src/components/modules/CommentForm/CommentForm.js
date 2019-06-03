@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import cn from 'classnames';
 import tt from 'counterpart';
 
@@ -373,6 +373,13 @@ export default class CommentForm extends Component {
     }
   };
 
+  checkIsPostDisabled() {
+    const { isPosting, uploadingCount, emptyBody } = this.state;
+
+    const allowPost = uploadingCount === 0 && !emptyBody;
+    return isPosting || !allowPost;
+  }
+
   checkBody() {
     const editor = this.editorRef.current;
 
@@ -453,6 +460,10 @@ export default class CommentForm extends Component {
       jsonmetadata: meta,
     };
 
+    this.setState({
+      isPosting: true,
+    });
+
     this.handleSubmit(data, cb);
   }
 
@@ -511,7 +522,7 @@ export default class CommentForm extends Component {
               <CommentFooter
                 isPosting={isPosting}
                 editMode={editMode}
-                postDisabled={!allowPost}
+                postDisabled={this.checkIsPostDisabled()}
                 onPostClick={this.post}
                 onCancelClick={this.onCancelClick}
               />
