@@ -1,13 +1,12 @@
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'mocks/react-router';
 import tt from 'counterpart';
 import styled from 'styled-components';
+import Routes, { Link } from 'shared/routes';
 
-import Routes from 'shared/routes';
 import { APP_NAME } from 'constants/config';
-import { fetchPosts } from 'store/actions/gate';
+import { fetchPosts, fetchProfile } from 'store/actions/gate';
 import { entitySelector } from 'store/selectors/common';
 
 import CardsList from 'components/common/CardsList';
@@ -82,11 +81,24 @@ export default class HomeContent extends Component {
     let username;
 
     if (userId) {
-      const state = store.getState();
+      let state = store.getState();
 
       username =
         entitySelector('profiles', userId)(state)?.username ||
         entitySelector('users', userId)(state)?.username;
+
+      if (!username) {
+        try {
+          await store.dispatch(fetchProfile(userId));
+          state = store.getState();
+          username =
+            entitySelector('profiles', userId)(state)?.username ||
+            entitySelector('users', userId)(state)?.username;
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn(err);
+        }
+      }
     }
 
     return {
@@ -150,8 +162,6 @@ export default class HomeContent extends Component {
             <br />
             <br />
             <Link to="/trending">{tt('user_profile.explore_APP_NAME', { APP_NAME })}</Link>
-            <br />
-            <Link to="/welcome">{tt('submit_a_story.welcome_to_the_blockchain')}</Link>
             <br />
             <a href="https://golos.io/ru--golos/@bitcoinfo/samyi-polnyi-f-a-q-o-golose-spisok-luchshykh-postov-raskryvayushikh-vse-aspekty-proekta-bonusy-v-vide-kreativa">
               {tt('user_profile.full_faq', { APP_NAME })}
