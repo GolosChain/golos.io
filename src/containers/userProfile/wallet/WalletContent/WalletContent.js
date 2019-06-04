@@ -110,6 +110,10 @@ export default class WalletContent extends Component {
     isOwner: PropTypes.bool,
     vestingSequenceKey: PropTypes.string,
     isVestingHistoryLoaded: PropTypes.bool,
+    sentSequenceKey: PropTypes.string,
+    receivedSequenceKey: PropTypes.string,
+    isSentHistoryLoaded: PropTypes.bool,
+    isReceivedHistoryLoaded: PropTypes.bool,
 
     getTransfersHistory: PropTypes.func.isRequired,
     getVestingHistory: PropTypes.func.isRequired,
@@ -123,6 +127,10 @@ export default class WalletContent extends Component {
     isOwner: false,
     vestingSequenceKey: null,
     isVestingHistoryLoaded: false,
+    sentSequenceKey: null,
+    receivedSequenceKey: null,
+    isSentHistoryLoaded: false,
+    isReceivedHistoryLoaded: false,
     username: '',
   };
 
@@ -187,12 +195,8 @@ export default class WalletContent extends Component {
 
   onScrollLazy = throttle(
     async () => {
-      const { vestingSequenceKey, getVestingHistory, userId, isVestingHistoryLoaded } = this.props;
-      if (
-        this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2 &&
-        !isVestingHistoryLoaded
-      ) {
-        await getVestingHistory(userId, vestingSequenceKey);
+      if (this.contentRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2) {
+        this.loadHistory();
       }
     },
     500,
@@ -205,14 +209,21 @@ export default class WalletContent extends Component {
       userId,
       getVestingHistory,
       vestingSequenceKey,
+      sentSequenceKey,
+      receivedSequenceKey,
       isVestingHistoryLoaded,
+      isSentHistoryLoaded,
+      isReceivedHistoryLoaded,
     } = this.props;
 
     try {
-      await Promise.all([
-        getTransfersHistory(userId, { isIncoming: false }),
-        getTransfersHistory(userId, { isIncoming: true }),
-      ]);
+      if (!isSentHistoryLoaded) {
+        await getTransfersHistory(userId, { isIncoming: false }, sentSequenceKey);
+      }
+
+      if (!isReceivedHistoryLoaded) {
+        await getTransfersHistory(userId, { isIncoming: true }, receivedSequenceKey);
+      }
 
       if (!isVestingHistoryLoaded) {
         await getVestingHistory(userId, vestingSequenceKey);
