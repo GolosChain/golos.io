@@ -142,7 +142,8 @@ export default class RepostDialog extends Component {
   };
 
   onCancelClick = () => {
-    this.props.onClose();
+    const { close } = this.props;
+    close();
   };
 
   onOkClick = async () => {
