@@ -41,7 +41,13 @@
     }
   },
   "header": {
-    "voice_power": "Сила голоса: %(voicePower)s%%"
+    "voice_power": "Сила голоса",
+    "chargers": {
+      "votes": "Лайк",
+      "posts": "Пост",
+      "comments": "Комментарий",
+      "postbw": "Postbw"
+    }
   },
   "aria_label": {
     "additional_menu": "Дополнительное меню",

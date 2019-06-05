@@ -8,16 +8,16 @@ import AccountInfo from './AccountInfo';
 export default connect(state => {
   const currentUser = currentUnsafeUserSelector(state);
   let username;
+  let chargers;
 
   if (currentUser) {
     const profile = profileSelector(currentUser.userId)(state);
-    username = profile.username;
+    ({ username, chargers } = profile);
   }
 
   return {
     userId: currentUser.userId,
     username,
-    // TODO: Replace by real votingPower
-    votingPower: 50,
+    chargers,
   };
 })(AccountInfo);

@@ -6,6 +6,7 @@ import tt from 'counterpart';
 
 import { Link } from 'shared/routes';
 import Userpic from 'components/common/Userpic';
+import ChargersInfo from './ChargersInfo';
 
 const AccountInfoBlock = styled.a`
   position: relative;
@@ -70,17 +71,36 @@ const AccountPowerChunk = styled.div`
   `};
 `;
 
+const ChargersInfoStyled = styled(ChargersInfo)`
+  position: absolute;
+  right: 0;
+`;
+
 export default class AccountInfo extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    votingPower: PropTypes.number.isRequired,
+    chargers: PropTypes.shape({
+      votes: PropTypes.number,
+      posts: PropTypes.number,
+      comments: PropTypes.number,
+      postbw: PropTypes.number,
+    }).isRequired,
+  };
+
+  state = {
+    isShowChargersPopup: false,
+  };
+
+  handleMouseHover = () => {
+    this.setState(state => ({ isShowChargersPopup: !state.isShowChargersPopup }));
   };
 
   render() {
-    const { votingPower, username, userId } = this.props;
+    const { chargers, username, userId } = this.props;
+    const { isShowChargersPopup } = this.state;
 
-    const powerPercent = formatPower(votingPower);
+    const votingPower = chargers?.votes || 0;
 
     return (
       <Link route="profile" params={{ userId }} passHref>
@@ -88,23 +108,23 @@ export default class AccountInfo extends PureComponent {
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>
             <AccountName>{username}</AccountName>
-            <AccountPowerBlock>
-              <AccountPowerBar title={tt('header.voice_power', { voicePower: powerPercent })}>
+            <AccountPowerBlock
+              onMouseEnter={this.handleMouseHover}
+              onMouseLeave={this.handleMouseHover}
+            >
+              <AccountPowerBar>
                 <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
                 <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
                 <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
                 <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
                 <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
               </AccountPowerBar>
-              <AccountPowerValue>{powerPercent}%</AccountPowerValue>
+              <AccountPowerValue>{votingPower}%</AccountPowerValue>
             </AccountPowerBlock>
+            {isShowChargersPopup && <ChargersInfoStyled chargers={chargers} />}
           </AccountText>
         </AccountInfoBlock>
       </Link>
     );
   }
-}
-
-function formatPower(percent) {
-  return percent.toFixed(2).replace(/\.?0+$/, '');
 }

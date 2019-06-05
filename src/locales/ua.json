@@ -40,6 +40,15 @@
       "social_placeholder": "Підписуйся на авторів і створюй цікавий контент, щоб підписувалися на тебе."
     }
   },
+  "header": {
+    "voice_power": "Сила голосу",
+    "chargers": {
+      "votes": "Лайк",
+      "posts": "Пост",
+      "comments": "Коментар",
+      "postbw": "Postbw"
+    }
+  },
   "aria_label": {
     "category": "Категорiя: %(category)s",
     "comments": "Коментарi. Кiлькicть: %(count)s",
