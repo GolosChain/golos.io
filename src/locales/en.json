@@ -20,7 +20,13 @@
     }
   },
   "header": {
-    "voice_power": "Vote power: %(voicePower)s%%"
+    "voice_power": "Vote power",
+    "chargers": {
+      "votes": "Votes",
+      "posts": "Posts",
+      "comments": "Comments",
+      "postbw": "Postbw"
+    }
   },
   "active_panel_tooltip": {
     "complain_about_post": "Complain about post",
