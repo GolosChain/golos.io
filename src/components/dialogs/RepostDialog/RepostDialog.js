@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import { safePaste } from 'helpers/browser';
 import { breakWordStyles } from 'helpers/styles';
-import DialogManager from 'components/elements/common/DialogManager';
-import { PostTitle, PostContent } from 'components/cards/common';
+import { PostTitle } from 'components/cards/common';
 import CardAuthor from 'components/cards/CardAuthor';
 import DialogButton from 'components/common/DialogButton';
 
@@ -109,11 +109,8 @@ const ErrorBlock = styled.div`
 
 export default class RepostDialog extends Component {
   static propTypes = {
-    myAccountName: PropTypes.string.isRequired,
-    postLink: PropTypes.string.isRequired,
-    sanitizedPost: PropTypes.object.isRequired,
-    onClose: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    post: PropTypes.object.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   inputRef = createRef();
@@ -124,7 +121,8 @@ export default class RepostDialog extends Component {
   };
 
   onClose = () => {
-    this.props.onClose();
+    const { close } = this.props;
+    close();
   };
 
   confirmClose = () => !this.state.text.trim();
@@ -144,38 +142,29 @@ export default class RepostDialog extends Component {
   };
 
   onCancelClick = () => {
-    this.props.onClose();
+    const { close } = this.props;
+    close();
   };
 
-  onOkClick = () => {
-    const { myAccountName, postLink } = this.props;
+  onOkClick = async () => {
+    const { contentId, reblog, close } = this.props;
     const { text } = this.state;
 
-    const trimmedText = text.trim();
+    try {
+      await reblog({
+        contentId,
+        text: text.trim(),
+      });
 
-    const [author, permLink] = postLink.split('/');
-
-    this.props.repost({
-      myAccountName,
-      author,
-      permLink,
-      comment: trimmedText,
-      onSuccess: this.onSuccess,
-      onError: this.onError,
-    });
-  };
-
-  onSuccess = () => {
-    this.props.showNotification(tt('dialogs_repost.success'));
-    this.props.onClose();
-  };
-
-  onError = err => {
-    DialogManager.alert(`${tt('g.error')}:\n${err}`);
+      close();
+      displaySuccess('Reblogged successfully');
+    } catch (err) {
+      displayError(err);
+    }
   };
 
   render() {
-    const { sanitizedPost } = this.props;
+    const { post } = this.props;
     const { text, error } = this.state;
 
     return (
@@ -201,9 +190,8 @@ export default class RepostDialog extends Component {
           {error ? <ErrorBlock>{error}</ErrorBlock> : null}
         </InputWrapper>
         <PostPreview>
-          <CardAuthorStyled noLinks author={sanitizedPost.author} created={sanitizedPost.created} />
-          <PostTitle>{sanitizedPost.title}</PostTitle>
-          <PostContent dangerouslySetInnerHTML={sanitizedPost.html} />
+          <CardAuthorStyled noLinks authorId={post.author} created={post.meta.time} />
+          <PostTitle>{post.content.title}</PostTitle>
         </PostPreview>
         <Footer>
           <DialogButton text={tt('g.cancel')} onClick={this.onCancelClick} />
