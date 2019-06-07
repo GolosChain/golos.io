@@ -188,8 +188,6 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
     phoneNumber,
   });
 
-  await dispatch(openWallet(user));
-
   const password = keys.active.privateKey;
   const auth = await dispatch(login(userId, password));
   if (auth) {
