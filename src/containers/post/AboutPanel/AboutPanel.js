@@ -148,10 +148,14 @@ export default class AboutPanel extends Component {
   };
 
   render() {
-    const { post, profile } = this.props;
+    const { post, profile, currentUsername } = this.props;
     const { about, author } = post;
 
     const registrationTime = profile.registration.time;
+
+    if (currentUsername === author) {
+      return null;
+    }
 
     return (
       <Wrapper>
