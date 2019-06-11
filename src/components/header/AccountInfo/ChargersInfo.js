@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import { isEmpty } from 'ramda';
+import { isEmpty, isNil } from 'ramda';
 
 const Wrapper = styled.div`
   padding: 12px 24px;
@@ -36,7 +36,7 @@ const Label = styled.div`
 const Percent = styled.span``;
 
 const ChargersInfo = ({ className, chargers }) => {
-  if (isEmpty(chargers)) {
+  if (isNil(chargers) || isEmpty(chargers)) {
     return null;
   }
 
