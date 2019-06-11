@@ -7,7 +7,15 @@ function prepareTags(tags) {
   return tags.map(tag => ({ tag }));
 }
 
-export const createPost = ({ permlink, title, body, tags, jsonmetadata, resources }) => {
+export const createPost = ({
+  permlink,
+  title,
+  body,
+  tags,
+  jsonmetadata,
+  resources,
+  curators_prcnt,
+}) => {
   const data = {
     message_id: {
       permlink,
@@ -18,6 +26,7 @@ export const createPost = ({ permlink, title, body, tags, jsonmetadata, resource
     jsonmetadata: JSON.stringify({
       ...jsonmetadata,
     }),
+    curators_prcnt,
   };
 
   // prepare jsonmedata with embeds by iframely data
@@ -54,7 +63,7 @@ export const updatePost = ({ contentId, title, body, tags, jsonmetadata, resourc
   return updatemssg(data);
 };
 
-export const createComment = ({ contentId, body, jsonmetadata, resources }) => {
+export const createComment = ({ contentId, body, jsonmetadata, resources, curators_prcnt }) => {
   const data = {
     message_id: {
       permlink: `re-${contentId.permlink}`,
@@ -65,6 +74,7 @@ export const createComment = ({ contentId, body, jsonmetadata, resources }) => {
     },
     bodymssg: body,
     jsonmetadata: JSON.stringify(jsonmetadata),
+    curators_prcnt,
   };
 
   // prepare jsonmetadata with embeds by iframely data

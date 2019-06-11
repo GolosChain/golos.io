@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-// import { isNil } from 'ramda';
+import { isNil } from 'ramda';
 
 import Icon from 'components/golos-ui/Icon';
 import IconWrapper from 'components/common/IconWrapper';
 import Hint from 'components/elements/common/Hint';
 import Switcher from 'components/golos-ui/Form/components/Switcher';
-// import Slider from 'components/golos-ui/Slider';
+import Slider from 'components/golos-ui/Slider';
 import RadioGroup from 'components/elements/common/RadioGroup';
 import { PAYOUT_OPTIONS } from 'components/modules/PostForm/PostForm';
 
@@ -69,24 +69,24 @@ const BubbleText = styled.p`
   color: #757575;
 `;
 
-// const CurationText = styled.p`
-//   margin: 0 0 6px;
-//   font-size: 15px;
-//   white-space: nowrap;
-//   color: #393636;
-// `;
+const CurationText = styled.p`
+  margin: 0 0 6px;
+  font-size: 15px;
+  white-space: nowrap;
+  color: #393636;
+`;
 
-// const CurationValue = styled.b`
-//   display: inline-block;
-//   width: 38px;
-//   text-align: left;
-//   font-weight: 500;
-// `;
+const CurationValue = styled.b`
+  display: inline-block;
+  width: 38px;
+  text-align: left;
+  font-weight: 500;
+`;
 
-// const MobileCurationValue = styled.b`
-//   margin-left: 8px;
-//   font-weight: bold;
-// `;
+const MobileCurationValue = styled.b`
+  margin-left: 8px;
+  font-weight: bold;
+`;
 
 const MobileWrapper = styled.div`
   display: block;
@@ -139,9 +139,9 @@ const MobileOption = styled.div`
   align-items: center;
 `;
 
-// const MobileOptionCuration = styled(MobileOption)`
-//   margin-bottom: 8px;
-// `;
+const MobileOptionCuration = styled(MobileOption)`
+  margin-bottom: 8px;
+`;
 
 const MobileOptionTitle = styled.div`
   width: 100%;
@@ -156,22 +156,22 @@ const MobileOptionTitle = styled.div`
   color: #333;
 `;
 
-// const SliderStyled = styled(Slider)`
-//   margin-top: 20px;
-// `;
+const SliderStyled = styled(Slider)`
+  margin-top: 20px;
+`;
 
-// const MobileCurationBlock = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-// `;
+const MobileCurationBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export default class PostOptions extends PureComponent {
   static propTypes = {
     nsfw: PropTypes.bool.isRequired,
     payoutType: PropTypes.number.isRequired,
-    // curationPercent: PropTypes.number.isRequired,
-    // minCurationPercent: PropTypes.number,
-    // maxCurationPercent: PropTypes.number,
+    curationPercent: PropTypes.number.isRequired,
+    minCurationPercent: PropTypes.number,
+    maxCurationPercent: PropTypes.number,
     editMode: PropTypes.bool,
     onNsfwClick: PropTypes.func.isRequired,
     onPayoutChange: PropTypes.func.isRequired,
@@ -249,56 +249,56 @@ export default class PostOptions extends PureComponent {
     return <Hint align="center">{this.renderCurationPercentSlider()}</Hint>;
   }
 
-  // renderCurationPercentSlider(isMobile) {
-  //   const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
+  renderCurationPercentSlider(isMobile) {
+    const { curationPercent, minCurationPercent, maxCurationPercent, editMode } = this.props;
 
-  //   let min;
-  //   let max;
-  //   let percent;
-  //   let showCaptions;
+    let min;
+    let max;
+    let percent;
+    let showCaptions;
 
-  //   if (editMode) {
-  //     min = 0;
-  //     max = 100;
-  //     percent = curationPercent / 100;
-  //     showCaptions = false;
-  //   } else {
-  //     const actualPercent = Math.round(curationPercent / 100);
+    if (editMode) {
+      min = 0;
+      max = 100;
+      percent = curationPercent / 100;
+      showCaptions = false;
+    } else {
+      const actualPercent = Math.round(curationPercent / 100);
 
-  //     min = Math.ceil(minCurationPercent / 100);
-  //     max = Math.floor(maxCurationPercent / 100);
-  //     percent = Math.max(Math.min(actualPercent, max), min);
-  //     showCaptions = true;
-  //   }
+      min = Math.ceil(minCurationPercent / 100);
+      max = Math.floor(maxCurationPercent / 100);
+      percent = Math.max(Math.min(actualPercent, max), min);
+      showCaptions = true;
+    }
 
-  //   return (
-  //     <>
-  //       {isMobile ? (
-  //         <MobileOptionCuration>
-  //           <Icon name="editor-k" />
-  //           <MobileOptionTitle>
-  //             <MobileCurationBlock>
-  //               {tt('post_editor.set_curator_percent')}{' '}
-  //               <MobileCurationValue>{percent}%</MobileCurationValue>
-  //             </MobileCurationBlock>
-  //           </MobileOptionTitle>
-  //         </MobileOptionCuration>
-  //       ) : (
-  //         <CurationText>
-  //           {tt('post_editor.set_curator_percent')} <CurationValue>{percent}%</CurationValue>
-  //         </CurationText>
-  //       )}
-  //       <SliderStyled
-  //         value={percent}
-  //         min={min}
-  //         max={max}
-  //         disabled={editMode}
-  //         showCaptions={showCaptions}
-  //         onChange={this.onCurationPercentChange}
-  //       />
-  //     </>
-  //   );
-  // }
+    return (
+      <>
+        {isMobile ? (
+          <MobileOptionCuration>
+            <Icon name="editor-k" />
+            <MobileOptionTitle>
+              <MobileCurationBlock>
+                {tt('post_editor.set_curator_percent')}{' '}
+                <MobileCurationValue>{percent}%</MobileCurationValue>
+              </MobileCurationBlock>
+            </MobileOptionTitle>
+          </MobileOptionCuration>
+        ) : (
+          <CurationText>
+            {tt('post_editor.set_curator_percent')} <CurationValue>{percent}%</CurationValue>
+          </CurationText>
+        )}
+        <SliderStyled
+          value={percent}
+          min={min}
+          max={max}
+          disabled={editMode}
+          showCaptions={showCaptions}
+          onChange={this.onCurationPercentChange}
+        />
+      </>
+    );
+  }
 
   renderPayoutMenu() {
     const { editMode, payoutType } = this.props;
@@ -325,19 +325,19 @@ export default class PostOptions extends PureComponent {
       editMode,
       payoutType,
       nsfw,
-      // minCurationPercent,
-      // maxCurationPercent,
+      minCurationPercent,
+      maxCurationPercent,
       onNsfwClick,
     } = this.props;
-    const { showPayoutMenu /* showCuratorMenu */ } = this.state;
+    const { showPayoutMenu, showCuratorMenu } = this.state;
 
-    // const showCurationPercent =
-    //   editMode || (!isNil(minCurationPercent) && minCurationPercent !== maxCurationPercent);
+    const showCurationPercent =
+      editMode || (!isNil(minCurationPercent) && minCurationPercent !== maxCurationPercent);
 
     return (
       <Wrapper>
         <DesktopWrapper>
-          {/* {showCurationPercent ? (
+          {showCurationPercent ? (
             <ButtonContainer ref={this.curatorContainer}>
               <IconWrapperStyled
                 isActive={showCuratorMenu}
@@ -348,17 +348,17 @@ export default class PostOptions extends PureComponent {
               </IconWrapperStyled>
               {showCuratorMenu ? this.renderCurationMenu() : null}
             </ButtonContainer>
-          ) : null} */}
-          <ButtonContainer ref={this.payoutContainer}>
-            <IconWrapperStyled
-              isActive={showPayoutMenu}
-              data-tooltip={tt('post_editor.payout_hint')}
-              onClick={this.onPayoutClick}
-            >
-              <Icon name="editor-coin" />
-            </IconWrapperStyled>
-            {showPayoutMenu ? this.renderPayoutMenu() : null}
-          </ButtonContainer>
+          ) : null}
+          {/*<ButtonContainer ref={this.payoutContainer}>*/}
+          {/*  <IconWrapperStyled*/}
+          {/*    isActive={showPayoutMenu}*/}
+          {/*    data-tooltip={tt('post_editor.payout_hint')}*/}
+          {/*    onClick={this.onPayoutClick}*/}
+          {/*  >*/}
+          {/*    <Icon name="editor-coin" />*/}
+          {/*  </IconWrapperStyled>*/}
+          {/*  {showPayoutMenu ? this.renderPayoutMenu() : null}*/}
+          {/*</ButtonContainer>*/}
           <ButtonContainer>
             <IconWrapperStyled
               isWarning={nsfw}
