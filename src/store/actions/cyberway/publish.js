@@ -11,6 +11,9 @@ import {
   REBLOG_POST,
   REBLOG_POST_SUCCESS,
   REBLOG_POST_ERROR,
+  REMOVE_REBLOG_POST,
+  REMOVE_REBLOG_POST_SUCCESS,
+  REMOVE_REBLOG_POST_ERROR,
 } from 'store/constants/actionTypes';
 import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
 import { currentUserIdSelector } from 'store/selectors/auth';
@@ -146,5 +149,34 @@ export const reblog = ({ contentId, text }) => async (dispatch, getState) => {
       params,
     },
     meta: params,
+  });
+};
+
+export const removeReblog = contentId => (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const params = {
+    rebloger: userId,
+    message_id: {
+      author: contentId.userId,
+      permlink: contentId.permlink,
+    },
+  };
+
+  return dispatch({
+    [CYBERWAY_API]: {
+      types: [REMOVE_REBLOG_POST, REMOVE_REBLOG_POST_SUCCESS, REMOVE_REBLOG_POST_ERROR],
+      contract: 'publish',
+      method: 'erasereblog',
+      params,
+    },
+    meta: {
+      userId,
+      contentId,
+    },
   });
 };

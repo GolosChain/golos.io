@@ -7,6 +7,7 @@ import { dataSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { nsfwTypeSelector } from 'store/selectors/settings';
 
+import { removeReblog } from 'store/actions/cyberway';
 import { addFavorite, removeFavorite, fetchFavorites, fetchPost } from 'store/actions/gate';
 
 import PostCard from './PostCard';
@@ -27,7 +28,7 @@ export default connect(
       warnNsfw = nsfwType === 'warn';
     }
 
-    const isOwner = userId && post && post.author === userId;
+    const isOwner = userId && post && (post.author === userId || post.repost?.userId === userId);
 
     return {
       post,
@@ -46,6 +47,7 @@ export default connect(
     fetchFavorites,
     fetchPost,
     togglePin: () => () => console.error('Unhandled action'),
+    removeReblog,
     openRepostDialog: params => openModal(SHOW_MODAL_REPOST, params),
   }
 )(PostCard);

@@ -1,8 +1,15 @@
 import { uniq } from 'ramda';
 
-import { FETCH_POSTS, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR } from 'store/constants/actionTypes';
+import {
+  FETCH_POSTS,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_ERROR,
+  REMOVE_REBLOG_POST_SUCCESS,
+} from 'store/constants/actionTypes';
+import { formatContentId } from '../../schemas/gate';
 
 const initialState = {
+  query: {},
   order: [],
   sequenceKey: null,
   isLoading: false,
@@ -30,6 +37,7 @@ export default function(state = initialState, { type, payload, error, meta }) {
 
       return {
         ...state,
+        query: meta,
         order,
         sequenceKey: payload.result.sequenceKey,
         isLoading: false,
@@ -44,6 +52,18 @@ export default function(state = initialState, { type, payload, error, meta }) {
         isLoading: false,
         error,
       };
+
+    case REMOVE_REBLOG_POST_SUCCESS:
+      const contentId = formatContentId(meta.contentId);
+
+      if (state.query.userId === meta.userId) {
+        return {
+          ...state,
+          order: state.order.filter(id => id !== contentId),
+        };
+      }
+
+      return state;
 
     default:
       return state;
