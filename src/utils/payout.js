@@ -1,3 +1,5 @@
+import BigNum from 'bignumber.js';
+
 export const payoutSum = entity =>
   ['author', 'curator', 'benefactor'].reduce(
     (parentPrev, parentKey) => {
@@ -20,10 +22,10 @@ export const payoutSum = entity =>
         }
 
         // TODO: change value of ticker `name` by currency
-        childrenPrev += value;
+        childrenPrev = childrenPrev.plus(value);
 
         return childrenPrev;
-      }, 0);
+      }, new BigNum(0));
 
       // Apply
       // if (!parentPrev.byType[parentKey]) {
@@ -31,10 +33,10 @@ export const payoutSum = entity =>
       // }
       // parentPrev.byType[parentKey] += childrenSum;
       // parentPrev.total += childrenSum;
-      parentPrev += childrenSum;
+      parentPrev = parentPrev.plus(childrenSum);
 
       return parentPrev;
     },
-    0
+    new BigNum(0)
     // { total: 0, byType: {} }
   );

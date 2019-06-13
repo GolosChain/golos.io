@@ -147,7 +147,7 @@ export default class PayoutInfo extends PureComponent {
 
     return (
       <>
-        <Money>{totalPayout} GOLOS</Money>
+        <Money>{totalPayout.toString()} GOLOS</Money>
       </>
     );
   }
@@ -175,7 +175,7 @@ export default class PayoutInfo extends PureComponent {
             <Line>
               <Label>{tt('payout_info.author')}</Label>
               <Money>
-                {payout.author.vesting.value} {payout.author.vesting.name}
+                {payout.author.vesting.value.toString()} {payout.author.vesting.name}
               </Money>
               {/*{authorGbg ? (*/}
               {/*  <>*/}
@@ -190,7 +190,7 @@ export default class PayoutInfo extends PureComponent {
             <Line>
               <Label>{tt('payout_info.curator')}</Label>
               <Money>
-                {payout.curator.vesting.value} {payout.curator.vesting.name}
+                {payout.curator.vesting.value.toString()} {payout.curator.vesting.name}
               </Money>
               <HintIcon hint={tt('payout_info.curator_hint')} />
             </Line>
@@ -199,7 +199,7 @@ export default class PayoutInfo extends PureComponent {
             <Line>
               <Label>{tt('payout_info.beneficiary')}</Label>
               <Money>
-                {payout.benefactor.vesting.value} {payout.benefactor.vesting.name}
+                {payout.benefactor.vesting.value.toString()} {payout.benefactor.vesting.name}
               </Money>
               <HintIcon hint={tt('payout_info.beneficiary_hint')} />
             </Line>

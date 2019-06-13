@@ -19,6 +19,7 @@
     "@flopflip/react-redux": "^8.0.3",
     "@sentry/browser": "^4.6.6",
     "@sentry/node": "^4.6.6",
+    "bignumber.js": "^9.0.0",
     "classnames": "^2.2.6",
     "codemirror-md": "^0.1.1",
     "cookie-parser": "^1.4.4",
