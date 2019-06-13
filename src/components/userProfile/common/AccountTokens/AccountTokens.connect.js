@@ -22,11 +22,11 @@ export default connect(
       }
 
       if (vesting && vesting.amount) {
-        power = parsePayoutAmount(vesting.amount);
+        power = parsePayoutAmount(vesting.amount.GOLOS);
       }
 
       if (vesting && vesting.deligated) {
-        powerDelegated = parsePayoutAmount(vesting.delegated);
+        powerDelegated = parsePayoutAmount(vesting.delegated.GOLOS);
       }
 
       return {

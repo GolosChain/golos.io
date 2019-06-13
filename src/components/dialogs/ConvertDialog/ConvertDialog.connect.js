@@ -26,7 +26,8 @@ export default connect(
       }
 
       if (vesting && vesting.amount) {
-        powerBalance = parsePayoutAmount(vesting.amount) - parsePayoutAmount(vesting.delegated);
+        powerBalance =
+          parsePayoutAmount(vesting.amount.GOLOS) - parsePayoutAmount(vesting.delegated.GOLOS);
       }
 
       return {
