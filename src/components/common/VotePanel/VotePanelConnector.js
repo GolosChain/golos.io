@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import BigNum from 'bignumber.js';
 
 import { dataSelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
@@ -21,7 +22,7 @@ export default connect(
     ],
     (vesting, votePower, totalSum, currency = 'GOLOS', actualRate, payoutRounding) => {
       let isRich = false;
-      let payout = totalSum;
+      let payout = new BigNum(totalSum);
 
       if (vesting && vesting.amount) {
         const balance = parsePayoutAmount(vesting.amount);
@@ -29,7 +30,7 @@ export default connect(
       }
 
       if (actualRate) {
-        payout *= actualRate;
+        payout = payout.multipliedBy(actualRate);
       }
 
       return {
