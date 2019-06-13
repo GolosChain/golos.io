@@ -12,9 +12,10 @@ import { NSFW_IMAGE_URL } from 'constants/config';
 import { Link } from 'shared/routes';
 // import { detransliterate } from 'utils/ParsersAndFormatters';
 import extractContent from 'utils/bodyProcessing/extractContent';
+import { proxyImage } from 'utils/images';
+import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import { TagLink } from 'components/golos-ui/Tag';
-import { proxyImage } from 'utils/images';
 import VotePanel from 'components/common/VotePanel';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
@@ -308,6 +309,7 @@ export default class PostCard extends PureComponent {
     fetchFavorites: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
     reblog: PropTypes.func.isRequired,
+    removeReblog: PropTypes.func.isRequired,
     openRepostDialog: PropTypes.func.isRequired,
   };
 
@@ -377,12 +379,22 @@ export default class PostCard extends PureComponent {
     }
   };
 
-  onRepostClick = async () => {
+  onRepostClick = () => {
     const { post, openRepostDialog } = this.props;
 
     openRepostDialog({
       contentId: post.contentId,
     });
+  };
+
+  onRemoveClick = async () => {
+    const { post, removeReblog } = this.props;
+
+    try {
+      await removeReblog(post.contentId);
+    } catch (err) {
+      displayError(err);
+    }
   };
 
   // onPinClick = () => {
@@ -540,6 +552,28 @@ export default class PostCard extends PureComponent {
     );
   }
 
+  renderRemoveButton() {
+    const { isOwner, post } = this.props;
+
+    if (!isOwner || !post.repost) {
+      return;
+    }
+
+    return (
+      <ToolbarAction name="post-card__repost">
+        <IconWrapper
+          role="button"
+          aria-label={tt('post_card.remove')}
+          data-tooltip={tt('post_card.remove')}
+          enabled
+          onClick={this.onRemoveClick}
+        >
+          <Icon name="mute" width={24} />
+        </IconWrapper>
+      </ToolbarAction>
+    );
+  }
+
   renderFavoriteButton() {
     const { isFavorite, currentUserId } = this.props;
 
@@ -633,6 +667,7 @@ export default class PostCard extends PureComponent {
           {/* {this.renderPinButton()} */}
           {this.renderRepostButton()}
           {this.renderFavoriteButton()}
+          {this.renderRemoveButton()}
         </FooterToolbar>
         {compact ? null : <Filler />}
         <ReplyBlock
