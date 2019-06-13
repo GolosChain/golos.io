@@ -676,26 +676,27 @@ export default class PostForm extends React.Component {
       parent_author: '',
       tags: Array.from(rtags.hashtags),
       jsonmetadata: meta,
+      curationPercent,
     };
 
-    if (!editMode) {
-      const { minCurationPercent, maxCurationPercent } = this.props;
-
-      const boundPercent = Math.min(
-        Math.max(minCurationPercent, curationPercent),
-        maxCurationPercent
-      );
-
-      const commentOptions = {
-        curator_rewards_percent: boundPercent,
-      };
-
-      if (payoutType === PAYOUT_TYPES.PAY_0) {
-        commentOptions.max_accepted_payout = `0.000 ${DEBT_TICKER}`;
-      } else if (payoutType === PAYOUT_TYPES.PAY_100) {
-        commentOptions.percent_steem_dollars = 0;
-      }
-    }
+    // if (!editMode) {
+    //   const { minCurationPercent, maxCurationPercent } = this.props;
+    //
+    //   const boundPercent = Math.min(
+    //     Math.max(minCurationPercent, curationPercent),
+    //     maxCurationPercent
+    //   );
+    //
+    //   const commentOptions = {
+    //     curator_rewards_percent: boundPercent,
+    //   };
+    //
+    //   if (payoutType === PAYOUT_TYPES.PAY_0) {
+    //     commentOptions.max_accepted_payout = `0.000 ${DEBT_TICKER}`;
+    //   } else if (payoutType === PAYOUT_TYPES.PAY_100) {
+    //     commentOptions.percent_steem_dollars = 0;
+    //   }
+    // }
 
     this.setState({
       isPosting: true,
