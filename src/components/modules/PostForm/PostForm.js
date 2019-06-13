@@ -676,7 +676,7 @@ export default class PostForm extends React.Component {
       parent_author: '',
       tags: Array.from(rtags.hashtags),
       jsonmetadata: meta,
-      curators_prcnt: curationPercent,
+      curationPercent,
     };
 
     // if (!editMode) {

@@ -14,7 +14,7 @@ export const createPost = ({
   tags,
   jsonmetadata,
   resources,
-  curators_prcnt,
+  curationPercent,
 }) => {
   const data = {
     message_id: {
@@ -26,7 +26,7 @@ export const createPost = ({
     jsonmetadata: JSON.stringify({
       ...jsonmetadata,
     }),
-    curators_prcnt,
+    curationPercent,
   };
 
   // prepare jsonmedata with embeds by iframely data
@@ -63,7 +63,7 @@ export const updatePost = ({ contentId, title, body, tags, jsonmetadata, resourc
   return updatemssg(data);
 };
 
-export const createComment = ({ contentId, body, jsonmetadata, resources, curators_prcnt }) => {
+export const createComment = ({ contentId, body, jsonmetadata, resources, curationPercent }) => {
   const data = {
     message_id: {
       permlink: `re-${contentId.permlink}`,
@@ -74,7 +74,7 @@ export const createComment = ({ contentId, body, jsonmetadata, resources, curato
     },
     bodymssg: body,
     jsonmetadata: JSON.stringify(jsonmetadata),
-    curators_prcnt,
+    curators_prcnt: curationPercent,
   };
 
   // prepare jsonmetadata with embeds by iframely data
