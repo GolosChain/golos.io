@@ -15,7 +15,7 @@ export default connect(
 
       if (vesting && vesting.amount) {
         const delegated = parsePayoutAmount(vesting.delegated) || 0;
-        const amount = parsePayoutAmount(vesting.amount) || 0;
+        const amount = parsePayoutAmount(vesting.amount.GOLOS) || 0;
         power = amount - delegated;
       }
 

@@ -23,7 +23,8 @@ export default connect(
 
       if (balance) {
         const balanceAmount = parsePayoutAmount(balance);
-        const vestingAmount = vesting && vesting.amount ? parsePayoutAmount(vesting.amount) : 0;
+        const vestingAmount =
+          vesting && vesting.amount ? parsePayoutAmount(vesting.amount.GOLOS) : 0;
         // TODO: replace vestingAmount with calculated vesting to golos value
         price = balanceAmount + vestingAmount;
       }

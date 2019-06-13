@@ -24,7 +24,7 @@ export default connect(
       let payout = totalSum;
 
       if (vesting && vesting.amount) {
-        const balance = parsePayoutAmount(vesting.amount);
+        const balance = parsePayoutAmount(vesting.amount.GOLOS);
         isRich = balance > 10000;
       }
 
