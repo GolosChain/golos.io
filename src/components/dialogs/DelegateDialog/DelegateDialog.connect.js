@@ -1,25 +1,41 @@
 import { connect } from 'react-redux';
 
-import { currentUsernameSelector } from 'store/selectors/auth';
+import { dataSelector } from 'store/selectors/common';
+import { currentUsernameSelector, currentUserIdSelector } from 'store/selectors/auth';
+import { getVestingBalance } from 'store/actions/gate';
 import { delegateTokens, stopDelegateTokens } from 'store/actions/cyberway/vesting';
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import DelegateDialog from './DelegateDialog';
 
 export default connect(
   state => {
-    /*const myAccount = myUser ? state.global.getIn(['accounts', myUser.get('username')]) : null;*/
     const currentUsername = currentUsernameSelector(state);
+    const userId = currentUserIdSelector(state);
+    const vesting = dataSelector(['wallet', userId, 'vesting'])(state);
+
+    let power;
+    let powerDelegated;
+
+    if (vesting && vesting.amount) {
+      power = parsePayoutAmount(vesting.amount.GOLOS);
+    }
+
+    if (vesting && vesting.deligated) {
+      powerDelegated = parsePayoutAmount(vesting.delegated.GOLOS);
+    }
+
     return {
+      userId,
       currentUsername,
-      globalProps: {} /*state.global.get('props')*/,
-      chainProps: {} /*state.global.get('chain_properties')*/,
+      power: power || 0,
+      powerDelegated: powerDelegated || 0,
     };
   },
   {
     delegateTokens,
     stopDelegateTokens,
-    fetchChainProperties: () => () => console.error('Unhandled action'),
-    showNotification: () => () => console.error('Unhandled action'),
+    getVestingBalance,
   },
   null,
   { forwardRef: true }

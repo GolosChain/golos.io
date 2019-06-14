@@ -75,13 +75,10 @@ const IconOff = styled(Icon).attrs({ name: 'checkbox-off' })`
 
 export default class ReceiveRewards extends Component {
   renderRewardRateSlider() {
-    const { chainProps, rewardRate, onRewardRateChange } = this.props;
+    const { rewardRate, onRewardRateChange } = this.props;
 
-    if (!chainProps) {
-      return <LoadingIndicator type="circle" size={25} />;
-    }
-
-    const maxValue = 100; /*chainProps.max_delegated_vesting_interest_rate / 100*/
+    // TODO
+    const maxValue = 100;
     return <Slider value={rewardRate} min={0} max={maxValue} onChange={onRewardRateChange} />;
   }
 
