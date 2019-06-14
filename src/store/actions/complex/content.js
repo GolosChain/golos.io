@@ -2,6 +2,7 @@
 import { FETCH_PAGE_POST, FETCH_PAGE_POST_SUCCESS, FETCH_PAGE_POST_ERROR } from 'store/constants';
 import { createmssg, updatemssg } from 'store/actions/cyberway/publish';
 import { fetchPost } from 'store/actions/gate';
+import { deletemssg } from '../cyberway';
 
 function prepareTags(tags) {
   return tags.map(tag => ({ tag }));
@@ -108,6 +109,17 @@ export const updateComment = ({ contentId, body, jsonmetadata, resources }) => {
   }
 
   return updatemssg(data);
+};
+
+export const deleteComment = contentId => {
+  const data = {
+    message_id: {
+      author: contentId.userId,
+      permlink: contentId.permlink,
+    },
+  };
+
+  return deletemssg(data);
 };
 
 export const fetchPagePost = contentId => async dispatch => {

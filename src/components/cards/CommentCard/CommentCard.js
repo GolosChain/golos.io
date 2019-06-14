@@ -246,6 +246,10 @@ export default class CommentCard extends PureComponent {
     author: PropTypes.shape({}),
 
     onClick: PropTypes.func,
+    deleteComment: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
+    fetchPost: PropTypes.func.isRequired,
+    fetchPostComments: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -373,6 +377,21 @@ export default class CommentCard extends PureComponent {
     this.setState({
       showReply: true,
     });
+  };
+
+  onDeleteClick = async cb => {
+    cb({ isLoading: true });
+    const { comment, deleteComment, waitForTransaction, fetchPost, fetchPostComments } = this.props;
+    try {
+      const result = await deleteComment(comment.contentId);
+      await waitForTransaction(result.transaction_id);
+
+      const { contentId } = comment.parent.post;
+
+      await Promise.all([fetchPost(contentId), fetchPostComments({ contentId })]);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   toggleComment = () => {
@@ -607,6 +626,7 @@ export default class CommentCard extends PureComponent {
                 replyRef={this.replyRef}
                 commentRef={this.commentRef}
                 onReplyClick={this.onReplyClick}
+                onDeleteClick={this.onDeleteClick}
               />
             </>
           )}

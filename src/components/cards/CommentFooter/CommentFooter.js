@@ -122,10 +122,21 @@ const LoaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-right: 18px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #393636;
+  cursor: pointer;
 `;
 
 export default class CommentFooter extends Component {
@@ -140,6 +151,7 @@ export default class CommentFooter extends Component {
     showReply: PropTypes.bool.isRequired,
     currentUsername: PropTypes.string,
     onReplyClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -149,11 +161,12 @@ export default class CommentFooter extends Component {
   };
 
   state = {
-    isPosting: false,
+    isLoading: false,
   };
 
-  handlePosting = ({ isPosting }) => {
-    this.setState({ isPosting });
+  handleLoading = ({ isLoading }) => {
+    console.log('handleLoading', isLoading);
+    this.setState({ isLoading });
   };
 
   onCancelReplyClick = () => {
@@ -163,7 +176,12 @@ export default class CommentFooter extends Component {
 
   onPostReplyClick = () => {
     const { replyRef } = this.props;
-    replyRef.current.post(this.handlePosting);
+    replyRef.current.post(this.handleLoading);
+  };
+
+  onPostDeleteClick = () => {
+    const { onDeleteClick } = this.props;
+    onDeleteClick(this.handleLoading);
   };
 
   onCancelEditClick = () => {
@@ -173,7 +191,7 @@ export default class CommentFooter extends Component {
 
   onSaveEditClick = () => {
     const { commentRef } = this.props;
-    commentRef.current.post(this.handlePosting);
+    commentRef.current.post(this.handleLoading);
   };
 
   onDonateClick = async () => {
@@ -188,25 +206,25 @@ export default class CommentFooter extends Component {
 
   render() {
     const { comment, contentLink, isOwner, showReply, edit, onReplyClick, count } = this.props;
-    const { isPosting } = this.state;
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <FooterConfirm>
+          <LoaderWrapper>
+            <LoadingIndicator type="circle" size={16} />
+          </LoaderWrapper>
+        </FooterConfirm>
+      );
+    }
 
     if (showReply) {
       return (
         <FooterConfirm>
-          {!isPosting ? (
-            <>
-              <ButtonConfirm onClick={this.onCancelReplyClick}>{tt('g.cancel')}</ButtonConfirm>
-              <Splitter />
-            </>
-          ) : null}
-          <ButtonConfirm disabled={isPosting} main onClick={this.onPostReplyClick}>
-            {isPosting ? (
-              <LoaderWrapper>
-                <LoadingIndicator type="circle" size={16} />
-              </LoaderWrapper>
-            ) : (
-              tt('g.publish')
-            )}
+          <ButtonConfirm onClick={this.onCancelReplyClick}>{tt('g.cancel')}</ButtonConfirm>
+          <Splitter />
+          <ButtonConfirm disabled={isLoading} main onClick={this.onPostReplyClick}>
+            {tt('g.publish')}
           </ButtonConfirm>
         </FooterConfirm>
       );
@@ -215,20 +233,10 @@ export default class CommentFooter extends Component {
     if (edit) {
       return (
         <FooterConfirm>
-          {!isPosting ? (
-            <>
-              <ButtonConfirm onClick={this.onCancelEditClick}>{tt('g.cancel')}</ButtonConfirm>
-              <Splitter />
-            </>
-          ) : null}
+          <ButtonConfirm onClick={this.onCancelEditClick}>{tt('g.cancel')}</ButtonConfirm>
+          <Splitter />
           <ButtonConfirm main onClick={this.onSaveEditClick}>
-            {isPosting ? (
-              <LoaderWrapper>
-                <LoadingIndicator type="circle" size={16} />
-              </LoaderWrapper>
-            ) : (
-              tt('g.save')
-            )}
+            {tt('g.save')}
           </ButtonConfirm>
         </FooterConfirm>
       );
@@ -252,6 +260,15 @@ export default class CommentFooter extends Component {
               <DonateSplitter />
             </>
           )}
+          <IconWrapper
+            role="button"
+            aria-label={tt('post_card.repost')}
+            data-tooltip={tt('post_card.repost')}
+            enabled
+            onClick={this.onPostDeleteClick}
+          >
+            <Icon name="mute" size="20" />
+          </IconWrapper>
           <CommentReplyBlock
             // TODO: Fix counter
             count={count}
