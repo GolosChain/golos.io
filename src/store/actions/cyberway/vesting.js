@@ -98,19 +98,20 @@ export const delegateTokens = (recipient, tokensQuantity, percents, strategy) =>
     throw new Error('Unauthorized');
   }
 
+  let interestRate = 0;
+  let payoutStrategy = 0;
+
   if (percents) {
-    percents = percents * 100;
-  } else {
-    percents = 0;
-    strategy = 0;
+    interestRate = percents * 100;
+    payoutStrategy = strategy;
   }
 
   const data = {
     from: userId,
     to: recipient,
     quantity: `${parseFloat(tokensQuantity).toFixed(6)} GOLOS`,
-    interest_rate: percents,
-    payout_strategy: strategy,
+    interest_rate: interestRate,
+    payout_strategy: payoutStrategy,
   };
 
   return dispatch({

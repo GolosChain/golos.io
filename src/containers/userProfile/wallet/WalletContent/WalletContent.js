@@ -369,7 +369,7 @@ export default class WalletContent extends Component {
       (direction === DIRECTION.SENT && isSent)
     ) {
       // eslint-disable-next-line prefer-const
-      let [amount, opCurrency] = data.amount.split(' ');
+      let [amount, opCurrency] = data.amount.GOLOS.split(' ');
 
       if (type === 'transfer_to_vesting') {
         opCurrency = CURRENCY.GOLOS_POWER;

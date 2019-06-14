@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -119,13 +120,23 @@ const LoaderWrapper = styled.div`
 `;
 
 export default class DelegateDialog extends PureComponent {
+  static propTypes = {
+    userId: PropTypes.string.isRequired,
+    currentUsername: PropTypes.string.isRequired,
+    recipientName: PropTypes.string.isRequired,
+    power: PropTypes.number.isRequired,
+    delegateTokens: PropTypes.func.isRequired,
+    getVestingBalance: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
     let target = '';
 
-    if (props.toAccountName && props.toAccountName !== props.currentUsername) {
-      target = props.toAccountName;
+    if (props.recipientName && props.recipientName !== props.currentUsername) {
+      target = props.recipientName;
     }
 
     this.state = {
@@ -143,22 +154,13 @@ export default class DelegateDialog extends PureComponent {
       rewardRate: DEFAULT_DELEGATED_VESTING_INTEREST_RATE,
       payoutStrategy: 0,
     };
-
-    this._globalProps = props.globalProps;
   }
 
   componentDidMount() {
     this.loadDelegationsData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.globalProps !== nextProps.globalProps) {
-      this._globalProps = nextProps.globalProps;
-    }
-  }
-
   renderDelegateBody({ availableBalanceString }) {
-    const { chainProps } = this.props;
     const {
       target,
       amount,
@@ -217,7 +219,6 @@ export default class DelegateDialog extends PureComponent {
         <Columns>
           {isReceiveReward && (
             <ReceiveRewards
-              chainProps={chainProps}
               rewardRate={rewardRate}
               payoutStrategy={payoutStrategy}
               onRewardRateChange={this.onRewardRateChange}
@@ -229,6 +230,7 @@ export default class DelegateDialog extends PureComponent {
     );
   }
 
+  // eslint-disable-next-line react/sort-comp
   setStrategy = strategy => () => {
     const { payoutStrategy } = this.state;
     if (payoutStrategy !== strategy) {
@@ -244,7 +246,8 @@ export default class DelegateDialog extends PureComponent {
       return String(delegationError);
     }
 
-    return 'Mocked, waiting for data about delegated vesting';
+    // TODO
+    return null;
 
     if (!delegationData) {
       return (
@@ -290,12 +293,13 @@ export default class DelegateDialog extends PureComponent {
   }
 
   confirmClose() {
+    const { onClose } = this.props;
     const { amount, target } = this.state;
 
     if (amount.trim() || target) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
-          this.props.onClose();
+          onClose();
         }
       });
 
@@ -313,9 +317,9 @@ export default class DelegateDialog extends PureComponent {
           tt('dialogs_transfer.delegate_vesting.tabs.delegate.tip_1'),
           tt('dialogs_transfer.delegate_vesting.tabs.delegate.tip_2'),
         ];
+      default:
+        return [];
     }
-
-    return [];
   }
 
   onAmountChange = e => {
@@ -343,10 +347,6 @@ export default class DelegateDialog extends PureComponent {
   };
 
   isReceiveRewardChange = checked => {
-    if (checked) {
-      this.props.fetchChainProperties();
-    }
-
     this.setState({
       isReceiveReward: checked,
     });
@@ -359,11 +359,12 @@ export default class DelegateDialog extends PureComponent {
   };
 
   onCloseClick = () => {
-    this.props.onClose();
+    const { onClose } = this.props;
+    onClose();
   };
 
   onOkClick = async () => {
-    const { delegateTokens } = this.props;
+    const { userId, delegateTokens, getVestingBalance } = this.props;
     const {
       target,
       amount,
@@ -397,6 +398,8 @@ export default class DelegateDialog extends PureComponent {
 
       DialogManager.info(tt('dialogs_transfer.operation_success'));
 
+      await getVestingBalance(userId);
+
       this.loadDelegationsData();
     } catch (err) {
       this.setState({
@@ -409,7 +412,7 @@ export default class DelegateDialog extends PureComponent {
   };
 
   updateDelegation(delegatee, value) {
-    const { currentUsername } = this.props;
+    const { currentUsername, delegate } = this.props;
 
     const vesting = value > 0 ? golosToVests(value / 1000, this._globalProps) : '0.000000';
 
@@ -424,7 +427,7 @@ export default class DelegateDialog extends PureComponent {
       loader: true,
     });
 
-    this.props.delegate(operation, false, err => {
+    delegate(operation, false, err => {
       if (err) {
         this.setState({
           disabled: false,
@@ -481,7 +484,8 @@ export default class DelegateDialog extends PureComponent {
   };
 
   onDelegationEditSave = value => {
-    this.updateDelegation(this.state.editAccountName, value);
+    const { editAccountName } = this.state;
+    this.updateDelegation(editAccountName, value);
   };
 
   onDelegationEditCancel = () => {
@@ -491,12 +495,11 @@ export default class DelegateDialog extends PureComponent {
   };
 
   render() {
+    const { power } = this.props;
     const { target, amount, loader, disabled, amountInFocus, type } = this.state;
 
-    const { golos } = 1.0007565; /*getVesting(myAccount, this._globalProps)*/
-
-    const availableBalance = Math.max(0, Math.round((parseFloat(golos) - MIN_VOICE_POWER) * 1000));
-    const availableBalanceString = '15.000'; /*(availableBalance / 1000).toFixed(3)*/
+    const availableBalance = Math.max(0, Math.round((parseFloat(power) - MIN_VOICE_POWER) * 1000));
+    const availableBalanceString = (availableBalance / 1000).toFixed(3);
 
     let { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
     if (isBadActor(target)) {
