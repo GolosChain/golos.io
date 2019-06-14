@@ -100,7 +100,7 @@ export default class AccountInfo extends PureComponent {
     const { chargers, username, userId } = this.props;
     const { isShowChargersPopup } = this.state;
 
-    const votingPower = chargers?.votes || 0;
+    const votingPower = chargers?.votes ? parseFloat(chargers.votes).toFixed(2) : 0;
 
     return (
       <Link route="profile" params={{ userId }} passHref>

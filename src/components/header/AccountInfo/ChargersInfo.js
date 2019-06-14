@@ -46,7 +46,7 @@ const ChargersInfo = ({ className, chargers }) => {
       {Object.keys(chargers).map(ch => (
         <Line key={ch}>
           <Label>{tt(`header.chargers.${ch}`)}</Label>
-          <Percent>{chargers[ch]}%</Percent>
+          <Percent>{parseFloat(chargers[ch]).toFixed(2)}%</Percent>
         </Line>
       ))}
     </Wrapper>
