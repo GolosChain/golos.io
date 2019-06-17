@@ -165,7 +165,6 @@ export default class CommentFooter extends Component {
   };
 
   handleLoading = ({ isLoading }) => {
-    console.log('handleLoading', isLoading);
     this.setState({ isLoading });
   };
 
