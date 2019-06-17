@@ -391,8 +391,8 @@ export default class CommentCard extends PureComponent {
       const { contentId } = comment.parent.post;
 
       await Promise.all([fetchPost(contentId), fetchPostComments({ contentId })]);
-    } catch (e) {
-      displayError(e);
+    } catch (err) {
+      displayError(err);
     }
   };
 
