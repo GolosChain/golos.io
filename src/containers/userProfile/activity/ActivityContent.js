@@ -143,7 +143,7 @@ export default class ActivityContent extends PureComponent {
     try {
       await fetchActivities(
         {
-          types: ACTIVITIES_FILTER_TYPES[tabId],
+          types: [ACTIVITIES_FILTER_TYPES[tabId]],
           userId: userId,
           fromId: isLoadMore ? lastId : null,
         },
