@@ -5,6 +5,9 @@ import {
   UPDATE_POST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_ERROR,
+  DELETE_POST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR,
   VOTE_POST,
   VOTE_POST_SUCCESS,
   VOTE_POST_ERROR,
@@ -79,6 +82,25 @@ export const updatemssg = data => async dispatch => {
       types: [UPDATE_POST, UPDATE_POST_SUCCESS, UPDATE_POST_ERROR],
       contract: 'publish',
       method: 'updatemssg',
+      params: fullData,
+    },
+    meta: fullData,
+  });
+};
+
+export const deletemssg = data => async dispatch => {
+  const fullData = defaults(data, {
+    message_id: {
+      author: '',
+      permlink: '',
+    },
+  });
+
+  return dispatch({
+    [CYBERWAY_API]: {
+      types: [DELETE_POST, DELETE_POST_SUCCESS, DELETE_POST_ERROR],
+      contract: 'publish',
+      method: 'deletemssg',
       params: fullData,
     },
     meta: fullData,

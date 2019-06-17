@@ -30,7 +30,7 @@ export default class CommentFooter extends React.PureComponent {
   static propTypes = {
     editMode: PropTypes.bool,
     postDisabled: PropTypes.bool,
-    isPosting: PropTypes.bool,
+    isLoading: PropTypes.bool,
 
     onPostClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
@@ -67,7 +67,7 @@ export default class CommentFooter extends React.PureComponent {
   }
 
   render() {
-    const { onCancelClick, onPostClick, editMode, postDisabled, isPosting } = this.props;
+    const { onCancelClick, onPostClick, editMode, postDisabled, isLoading } = this.props;
     const { temporaryErrorText } = this.state;
 
     return (
@@ -88,7 +88,7 @@ export default class CommentFooter extends React.PureComponent {
                 className="CommentFooter__button-element"
                 onClick={onPostClick}
               >
-                {isPosting ? (
+                {isLoading ? (
                   <LoaderWrapper>
                     <Loader type="circle" size={16} />
                   </LoaderWrapper>
@@ -99,7 +99,7 @@ export default class CommentFooter extends React.PureComponent {
                 )}
               </Button>
             </div>
-            {!isPosting ? (
+            {!isLoading ? (
               <div className="CommentFooter__button">
                 <Button small className="CommentFooter__button-element" onClick={onCancelClick}>
                   {tt('g.cancel')}

@@ -10,7 +10,7 @@ import LazyLoad from 'react-lazyload';
 import { isHide } from 'utils/StateFunctions';
 import { getScrollElement } from 'helpers/window';
 import CommentFormLoader from 'components/modules/CommentForm/loader';
-import { displaySuccess } from 'utils/toastMessages';
+import { displaySuccess, displayError } from 'utils/toastMessages';
 import { formatContentId } from 'store/schemas/gate';
 
 import Button from 'components/golos-ui/Button';
@@ -246,6 +246,10 @@ export default class CommentCard extends PureComponent {
     author: PropTypes.shape({}),
 
     onClick: PropTypes.func,
+    deleteComment: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
+    fetchPost: PropTypes.func.isRequired,
+    fetchPostComments: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -373,6 +377,23 @@ export default class CommentCard extends PureComponent {
     this.setState({
       showReply: true,
     });
+  };
+
+  onDeleteClick = async cb => {
+    const { comment, deleteComment, waitForTransaction, fetchPost, fetchPostComments } = this.props;
+
+    cb({ isLoading: true });
+
+    try {
+      const result = await deleteComment(comment.contentId);
+      await waitForTransaction(result.transaction_id);
+
+      const { contentId } = comment.parent.post;
+
+      await Promise.all([fetchPost(contentId), fetchPostComments({ contentId })]);
+    } catch (err) {
+      displayError(err);
+    }
   };
 
   toggleComment = () => {
@@ -607,6 +628,7 @@ export default class CommentCard extends PureComponent {
                 replyRef={this.replyRef}
                 commentRef={this.commentRef}
                 onReplyClick={this.onReplyClick}
+                onDeleteClick={this.onDeleteClick}
               />
             </>
           )}

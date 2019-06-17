@@ -84,7 +84,7 @@ export default class CommentForm extends Component {
       text: reply ? `@${params.contentId.userId} ` : '',
       emptyBody: true,
       uploadingCount: 0,
-      isPosting: false,
+      isLoading: false,
     };
 
     let isLoaded = false;
@@ -327,9 +327,9 @@ export default class CommentForm extends Component {
       onSuccess,
     } = this.props;
 
-    this.setState({ isPosting: true });
+    this.setState({ isLoading: true });
     if (typeof cb === 'function') {
-      cb({ isPosting: true });
+      cb({ isLoading: true });
     }
     try {
       localStorage.removeItem(DRAFT_KEY);
@@ -367,17 +367,17 @@ export default class CommentForm extends Component {
         displayError(tt('g.error'), { message: err.toString().trim() });
       }
     }
-    this.setState({ isPosting: false });
+    this.setState({ isLoading: false });
     if (typeof cb === 'function') {
-      cb({ isPosting: false });
+      cb({ isLoading: false });
     }
   };
 
   checkIsPostDisabled() {
-    const { isPosting, uploadingCount, emptyBody } = this.state;
+    const { isLoading, uploadingCount, emptyBody } = this.state;
 
     const allowPost = uploadingCount === 0 && !emptyBody;
-    return isPosting || !allowPost;
+    return isLoading || !allowPost;
   }
 
   checkBody() {
@@ -461,7 +461,7 @@ export default class CommentForm extends Component {
     };
 
     this.setState({
-      isPosting: true,
+      isLoading: true,
     });
 
     this.handleSubmit(data, cb);
@@ -476,7 +476,7 @@ export default class CommentForm extends Component {
   render() {
     const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
 
-    const { text, emptyBody, isPreview, uploadingCount, isPosting } = this.state;
+    const { text, emptyBody, isPreview, uploadingCount, isLoading } = this.state;
 
     const allowPost = uploadingCount === 0 && !emptyBody;
 
@@ -520,7 +520,7 @@ export default class CommentForm extends Component {
           {hideFooter ? null : (
             <CommentFooterWrapper>
               <CommentFooter
-                isPosting={isPosting}
+                isLoading={isLoading}
                 editMode={editMode}
                 postDisabled={this.checkIsPostDisabled()}
                 onPostClick={this.post}
