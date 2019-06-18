@@ -25,6 +25,8 @@ const DEFAULT_META_VALUES = {
   instagram: null,
   telegram: null,
   vk: null,
+  whatsapp: null,
+  wechat: null,
   website: null,
   first_name: null,
   last_name: null,
