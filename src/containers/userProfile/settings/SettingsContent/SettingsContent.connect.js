@@ -4,6 +4,7 @@ import { getAccountPermissions } from 'cyber-client/lib/auth';
 
 import { authProtection } from 'helpers/hoc';
 import { fetchSettings, updateSettings } from 'store/actions/gate/settings';
+import { fetchProfile, waitForTransaction } from 'store/actions/gate';
 
 import { fetchAccountPermissions } from 'store/actions/cyberway/permissions';
 import { updateProfileMeta } from 'store/actions/cyberway/social';
@@ -33,8 +34,10 @@ export default authProtection()(
     {
       fetchSettings,
       fetchAccountPermissions,
+      fetchProfile,
       updateSettings,
       updateProfileMeta,
+      waitForTransaction,
     }
   )(SettingsContent)
 );

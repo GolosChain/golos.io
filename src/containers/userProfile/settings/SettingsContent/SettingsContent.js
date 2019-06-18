@@ -18,6 +18,7 @@ const ErrorBlock = styled.div`
 
 export default class SettingsContent extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string.isRequired,
     profile: profileType.isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
     settingsData: PropTypes.shape({}).isRequired,
@@ -25,8 +26,10 @@ export default class SettingsContent extends PureComponent {
 
     fetchSettings: PropTypes.func.isRequired,
     fetchAccountPermissions: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
     updateProfileMeta: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -58,7 +61,7 @@ export default class SettingsContent extends PureComponent {
   }
 
   onSubmitBlockchain = async values => {
-    const { updateProfileMeta } = this.props;
+    const { userId, updateProfileMeta, fetchProfile, waitForTransaction } = this.props;
 
     const meta = pick(
       ['name', 'gender', 'email', 'location', 'about', 'website', 'facebook', 'vk', 'instagram'],
@@ -66,7 +69,9 @@ export default class SettingsContent extends PureComponent {
     );
 
     try {
-      await updateProfileMeta(meta);
+      const result = await updateProfileMeta(meta);
+      await waitForTransaction(result.transaction_id);
+      await fetchProfile(userId);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('updateMetaData failed:', err);
