@@ -83,13 +83,13 @@ export default class FollowersDialog extends PureComponent {
     this.load({ sequenceKey });
   };
 
-  renderUser = ({ userId, username, avatarUrl, hasSubscription }) => (
+  renderUser = ({ userId, username, avatarUrl, isSubscribed }) => (
     <UserItem key={userId}>
       <UserLink userId={userId} title={userId} onClick={this.props.onClose}>
         <Avatar avatarUrl={avatarUrl} />
         <Name>{username || userId}</Name>
       </UserLink>
-      <Follow userId={userId} isFollow={hasSubscription} collapseOnMobile />
+      <Follow userId={userId} isFollow={isSubscribed} collapseOnMobile />
     </UserItem>
   );
 
