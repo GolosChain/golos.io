@@ -51,7 +51,7 @@ export default function(state = initialState, { type, payload, meta }) {
           if (item.userId === meta.pinning) {
             return {
               ...item,
-              hasSubscription: type === FOLLOW_USER_SUCCESS,
+              isSubscribed: type === FOLLOW_USER_SUCCESS,
             };
           }
 

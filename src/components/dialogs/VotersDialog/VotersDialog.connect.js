@@ -28,7 +28,7 @@ export default connect(
           name: vote.username,
           avatar: vote.avatarUrl,
           userId: vote.userId,
-          hasSubscription: vote?.hasSubscription || false,
+          isSubscribed: vote?.isSubscribed || false,
         }));
       }
 
