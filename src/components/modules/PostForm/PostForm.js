@@ -520,7 +520,7 @@ export default class PostForm extends React.Component {
           const message = normalizeCyberwayErrorMessage(err);
 
           if (message.includes('This message already exists')) {
-            const permlink = slug(`${data.title}-${Date().now()}`, { lower: true });
+            const permlink = slug(`${data.title}-${Date.now()}`, { lower: true });
             await this.handleSubmit({
               ...data,
               permlink,
