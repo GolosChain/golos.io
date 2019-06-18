@@ -5,9 +5,9 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { Link } from 'shared/routes';
+import { displayError } from 'utils/toastMessages';
 import Userpic from 'components/common/Userpic';
 import ChargersInfo from './ChargersInfo';
-import { displayError } from '../../../utils/toastMessages';
 
 const AccountInfoBlock = styled.a`
   position: relative;
