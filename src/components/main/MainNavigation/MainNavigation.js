@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import { withRouter } from 'next/router';
 
 import Navigation from 'components/common/Navigation';
 import LayoutSwitcher from 'components/common/LayoutSwitcher';
@@ -12,6 +13,7 @@ const MobileWrapper = styled.div`
   border-top: 1px solid #e1e1e1;
 `;
 
+@withRouter
 export default class MainNavigation extends PureComponent {
   static propTypes = {
     loggedUserId: PropTypes.string,
@@ -23,8 +25,13 @@ export default class MainNavigation extends PureComponent {
     loggedUserId: null,
   };
 
-  render() {
-    const { loggedUserId, isMobile, className, router } = this.props;
+  computeTabLinks() {
+    const {
+      loggedUserId,
+      router: {
+        query: { tags },
+      },
+    } = this.props;
 
     const tabLinks = [];
 
@@ -38,11 +45,27 @@ export default class MainNavigation extends PureComponent {
       });
     }
 
+    const params = tags ? { tags } : undefined;
+
     tabLinks.push(
-      { text: tt('g.new'), route: 'created' },
-      { text: tt('main_menu.hot'), route: 'hot' },
-      { text: tt('main_menu.trending'), route: 'trending', includeRoute: '/', index: true }
+      { text: tt('g.new'), route: 'created', params },
+      { text: tt('main_menu.hot'), route: 'hot', params },
+      {
+        text: tt('main_menu.trending'),
+        route: 'trending',
+        params,
+        includeRoute: '/',
+        index: true,
+      }
     );
+
+    return tabLinks;
+  }
+
+  render() {
+    const { isMobile, className, router } = this.props;
+
+    const tabLinks = this.computeTabLinks();
 
     if (isMobile) {
       return (
