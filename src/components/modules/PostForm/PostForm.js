@@ -21,11 +21,11 @@ import PostTitle from 'components/elements/postEditor/PostTitle';
 import PreviewButton from 'components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer';
 import { checkPostHtml } from 'utils/validator';
-import { DEBT_TICKER } from 'constants/config';
 import { processTagsFromData, validateTags, updateFavoriteTags } from 'utils/tags';
 import { wait } from 'utils/time';
 import { DRAFT_KEY, EDIT_KEY } from 'utils/postForm';
 import { displayError } from 'utils/toastMessages';
+import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import { breakWordStyles } from 'helpers/styles';
 
 const EDITORS_TYPES = {
@@ -513,7 +513,23 @@ export default class PostForm extends React.Component {
 
         Router.pushRoute('post', post.contentId);
       } else {
-        const result = await createPost(data);
+        let result;
+        try {
+          result = await createPost(data);
+        } catch (err) {
+          const message = normalizeCyberwayErrorMessage(err);
+
+          if (message.includes('This message already exists')) {
+            const permlink = slug(`${data.title}-${Date.now()}`, { lower: true });
+            await this.handleSubmit({
+              ...data,
+              permlink,
+            });
+            return;
+          }
+
+          throw err;
+        }
 
         localStorage.removeItem(DRAFT_KEY);
 
