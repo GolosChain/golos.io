@@ -67,7 +67,7 @@ export const updatePost = ({ contentId, title, body, tags, jsonmetadata, resourc
 export const createComment = ({ contentId, body, jsonmetadata, resources, curationPercent }) => {
   const data = {
     message_id: {
-      permlink: `re-${contentId.permlink}-${new Date().getTime()}`,
+      permlink: `re-${contentId.permlink}-${Date().now()}`,
     },
     parent_id: {
       author: contentId.userId,
