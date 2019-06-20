@@ -7,6 +7,7 @@ import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
 
 import { breakWordStyles } from 'helpers/styles';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import Userpic from 'components/common/Userpic';
 import { ClosePopoverButton } from 'components/post/PopoverAdditionalStyles';
@@ -180,20 +181,19 @@ export default class PopoverBody extends Component {
   }
 
   render() {
-    const {
-      profile,
-      pinnedPosts,
-      showFollowBlock,
-      reputation,
-      closePopover,
-      className,
-    } = this.props;
+    const { profile, pinnedPosts, showFollowBlock, closePopover, className } = this.props;
 
     if (!profile) {
       return null;
     }
 
-    const { userId, personal, subscribers } = profile;
+    const { userId, personal, subscribers, stats } = profile;
+
+    let reputation = 0;
+
+    if (stats?.reputation) {
+      reputation = repLog10(stats.reputation);
+    }
 
     return (
       <Wrapper className={className}>

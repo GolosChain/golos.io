@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { repLog10 } from 'utils/ParsersAndFormatters';
 import { entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
@@ -16,7 +15,6 @@ export default connect(
         pinnedPosts: [],
         pinnedPostsUrls: [],
         showFollowBlock: profile?.userId !== currentUserId,
-        reputation: repLog10(123),
       };
     }
   ),
