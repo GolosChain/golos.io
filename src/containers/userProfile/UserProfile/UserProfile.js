@@ -78,10 +78,19 @@ const SmallUserNavigation = styled(UserNavigation)`
 @listenLazy('resize')
 export default class UserProfile extends Component {
   static propTypes = {
+    fetching: PropTypes.bool,
     isOwner: PropTypes.bool,
-    content: PropTypes.any,
-    currentUser: PropTypes.object,
-    profile: PropTypes.object,
+    content: PropTypes.shape(),
+    currentUser: PropTypes.shape(),
+    profile: PropTypes.shape(),
+  };
+
+  static defaultProps = {
+    fetching: false,
+    isOwner: false,
+    content: null,
+    currentUser: null,
+    profile: null,
   };
 
   state = {
@@ -92,7 +101,19 @@ export default class UserProfile extends Component {
     this.onResize();
   }
 
-  getNavBarType() {
+  // calling by @listenLazy('resize')
+  onResize() {
+    const { navBarType: navBarTypeState } = this.state;
+    const navBarType = UserProfile.getNavBarType();
+
+    if (navBarTypeState !== navBarType) {
+      this.setState({
+        navBarType,
+      });
+    }
+  }
+
+  static getNavBarType() {
     const width = window.innerWidth;
 
     if (width <= 500) {
@@ -102,17 +123,6 @@ export default class UserProfile extends Component {
       return NAV_BAR_TYPES.SMALL;
     }
     return NAV_BAR_TYPES.BIG;
-  }
-
-  // calling by @listenLazy('resize')
-  onResize() {
-    const navBarType = this.getNavBarType();
-
-    if (this.state.navBarType !== navBarType) {
-      this.setState({
-        navBarType,
-      });
-    }
   }
 
   renderInner() {
@@ -130,7 +140,6 @@ export default class UserProfile extends Component {
       sidebar,
       content,
     } = this.props;
-
     const { navBarType } = this.state;
 
     if (!profile) {
@@ -213,7 +222,11 @@ export default class UserProfile extends Component {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.default', { name: profile.username })}</title>
+          <title>
+            {profile
+              ? tt('meta.title.profile.default', { name: profile.username })
+              : tt('user_profile.unknown_account')}
+          </title>
         </Head>
         {this.renderInner()}
       </>

@@ -52,22 +52,23 @@ export const dataSelector = path => state => ramdaPath(toArray(path))(state.data
 export const profileSelector = userId => state => {
   let profile = entitySelector('profiles', userId)(state);
 
-  if (!profile) {
-    profile = {
-      name: userId,
-      userId,
-      username: userId,
-      created: null,
-      reputation: null,
-      leaderIn: [],
-      stats: {
-        postCounts: 0,
-        commentsCount: 0,
-      },
-      personal: {},
-      registration: {},
-    };
-  }
+  /// Used for show empty profile, doesn't need currently
+  // if (!profile) {
+  //   profile = {
+  //     name: userId,
+  //     userId,
+  //     username: userId,
+  //     created: null,
+  //     reputation: null,
+  //     leaderIn: [],
+  //     stats: {
+  //       postCounts: 0,
+  //       commentsCount: 0,
+  //     },
+  //     personal: {},
+  //     registration: {},
+  //   };
+  // }
 
   return profile;
 };
