@@ -73,7 +73,14 @@ const Tag = styled.span`
 `;
 
 export default function NoPostsPlaceholder({ feedType, tagsStr, userId }) {
-  const link = feedType === 'feed' ? `/@${userId}/${feedType}` : `/${feedType}`;
+  let link = '/';
+  if (feedType === 'feed') {
+    link = `/@${userId}/${feedType}`;
+  } else if (feedType === 'home') {
+    link = '/';
+  } else {
+    link = `/${feedType}`;
+  }
 
   return (
     <Wrapper>
@@ -87,7 +94,7 @@ export default function NoPostsPlaceholder({ feedType, tagsStr, userId }) {
         )}
       </Header>
       {tagsStr ? (
-        <RemoveTagsButton to={link}>{tt('aria_label.reset_tags')}</RemoveTagsButton>
+        <RemoveTagsButton href={link}>{tt('aria_label.reset_tags')}</RemoveTagsButton>
       ) : null}
       <Image src="/images/post/no_content.svg" alt="" />
     </Wrapper>
