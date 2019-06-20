@@ -85,6 +85,7 @@ const Loader = styled(Icon).attrs({ name: 'refresh2' })`
 export default class Follow extends Component {
   static propTypes = {
     userId: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
     collapseOnMobile: PropTypes.bool,
     collapse: PropTypes.bool,
     isFollow: PropTypes.bool,
@@ -92,6 +93,7 @@ export default class Follow extends Component {
   };
 
   static defaultProps = {
+    currentUserId: null,
     collapseOnMobile: false,
     collapse: false,
     onClick: null,
@@ -128,8 +130,12 @@ export default class Follow extends Component {
   };
 
   render() {
-    const { collapseOnMobile, collapse, isFollow, className } = this.props;
+    const { userId, currentUserId, collapseOnMobile, collapse, isFollow, className } = this.props;
     const { inProcess } = this.state;
+
+    if (userId === currentUserId) {
+      return null;
+    }
 
     return (
       <Wrapper
