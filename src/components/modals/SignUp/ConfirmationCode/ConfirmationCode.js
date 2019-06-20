@@ -32,9 +32,15 @@ const DividedInput = styled.input`
   ${({ error, theme }) => (error ? `box-shadow: 0 0 0 1px ${theme.colors.errorTextRed}` : ``)};
 `;
 
+const TempHint = styled.div`
+  margin-top: 40px;
+  text-align: center;
+`;
+
 const InputsWrapper = styled.div`
   display: flex;
-  margin-top: 40px;
+  /*margin-top: 40px; // Before TempHint*/
+  margin-top: 5px;
 
   & ${DividedInput}:not(:first-child) {
     margin-left: 8px;
@@ -270,6 +276,9 @@ export default class ConfirmationCode extends PureComponent {
       <>
         {isLoadingVerify && <SplashLoader />}
         <SubTitle>{tt('registration.enter_verification_code_from_sms')}</SubTitle>
+        <TempHint>
+          Функционал временно недоступен - введите <strong>9999</strong>
+        </TempHint>
         <InputsWrapper>{this.renderInputs()}</InputsWrapper>
         <ResendWrapper>
           <ResendCode
