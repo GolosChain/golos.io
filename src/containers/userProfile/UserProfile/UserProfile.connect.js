@@ -8,7 +8,7 @@ import UserProfile from './UserProfile';
 export default connect(
   (state, props) => {
     const user = currentUnsafeUserSelector(state);
-    const profile = profileSelector(props.userId)(state);
+    const profile = profileSelector(props.userId, false)(state);
     const currentUser = currentUserSelector(state);
 
     return {

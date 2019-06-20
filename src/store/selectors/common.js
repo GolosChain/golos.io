@@ -49,26 +49,25 @@ export const uiSelector = path => state => ramdaPath(toArray(path))(state.ui);
 
 export const dataSelector = path => state => ramdaPath(toArray(path))(state.data);
 
-export const profileSelector = userId => state => {
+export const profileSelector = (userId, mock = true) => state => {
   let profile = entitySelector('profiles', userId)(state);
 
-  /// Used for show empty profile, doesn't need currently
-  // if (!profile) {
-  //   profile = {
-  //     name: userId,
-  //     userId,
-  //     username: userId,
-  //     created: null,
-  //     reputation: null,
-  //     leaderIn: [],
-  //     stats: {
-  //       postCounts: 0,
-  //       commentsCount: 0,
-  //     },
-  //     personal: {},
-  //     registration: {},
-  //   };
-  // }
+  if (!profile && mock) {
+    profile = {
+      name: userId,
+      userId,
+      username: userId,
+      created: null,
+      reputation: null,
+      leaderIn: [],
+      stats: {
+        postCounts: 0,
+        commentsCount: 0,
+      },
+      personal: {},
+      registration: {},
+    };
+  }
 
   return profile;
 };
