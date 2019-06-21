@@ -274,6 +274,7 @@ export default class CountryChooser extends Component {
         >
           <Input
             ref={this.inputRef}
+            autocomplete="off"
             maxLength="40"
             tabIndex="0"
             onKeyDown={this.escKeyDown}
