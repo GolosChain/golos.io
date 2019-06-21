@@ -280,13 +280,11 @@ export default class PostCard extends PureComponent {
     // // connect
     // data: PropTypes.object,
     // postLink: PropTypes.string.isRequired,
-    // isRepost: PropTypes.bool,
-    // repostHtml: PropTypes.object,
     // pinDisabled: PropTypes.bool,
     author: PropTypes.shape({}).isRequired,
+    repostAuthor: PropTypes.shape({}).isRequired,
     currentUserId: PropTypes.string,
     isPinned: PropTypes.bool,
-    repostHtml: PropTypes.string,
     id: PropTypes.string.isRequired,
     hideNsfw: PropTypes.bool,
     warnNsfw: PropTypes.bool,
@@ -301,7 +299,6 @@ export default class PostCard extends PureComponent {
     pinDisabled: PropTypes.bool,
     allowRepost: PropTypes.bool,
     router: PropTypes.shape({}).isRequired,
-    // reblogData: PropTypes.instanceOf(Map),
 
     onClick: PropTypes.func,
     addFavorite: PropTypes.func.isRequired,
@@ -318,7 +315,6 @@ export default class PostCard extends PureComponent {
     stats: {},
     params: {},
     onClick: null,
-    // isRepost: false,
     hideNsfw: false,
     warnNsfw: false,
     isHidden: false,
@@ -404,21 +400,18 @@ export default class PostCard extends PureComponent {
   // };
 
   renderHeader() {
-    const { compact, /* reblogData, */ post, author, postInFeed /* permLink */ } = this.props;
+    const { compact, post, repostAuthor, postInFeed /* permLink */ } = this.props;
+    let { author } = this.props;
 
     // const category = detransliterate(data.get('category'));
     let created;
 
-    // if (isRepost) {
-    //   author = reblogData.get('repostAuthor');
-    //   created = reblogData.get('date');
-    // } else {
-    //   author = data.get('author');
-    //   created = data.get('created');
-    // }
-
-    // eslint-disable-next-line prefer-const
-    created = post.meta.time;
+    if (post?.repost?.isRepost) {
+      author = repostAuthor;
+      created = post.repost?.time;
+    } else {
+      created = post.meta.time;
+    }
 
     return (
       <Header>
@@ -595,21 +588,16 @@ export default class PostCard extends PureComponent {
   }
 
   renderRepostPart() {
-    const { repostHtml, post, postInFeed } = this.props;
+    const { author, post, postInFeed } = this.props;
 
-    // const author = data.get('author');
-    // const created = data.get('created');
-    const author = {
-      id: 'pepo',
-      username: 'pepo',
-    };
-    const created = '2019-03-13T15:35:51.749Z';
+    const created = post.meta.time;
+    const repostHtml = post?.repost?.body?.raw;
 
     return (
       <RepostBlock>
         {repostHtml ? (
           <RepostBody>
-            <PostContent dangerouslySetInnerHTML={repostHtml} />
+            <PostContent>{repostHtml}</PostContent>
           </RepostBody>
         ) : null}
         <HeaderRepost postInFeed={postInFeed}>
@@ -684,7 +672,7 @@ export default class PostCard extends PureComponent {
   render() {
     // return <Wrapper>{JSON.stringify(this.props.post)}</Wrapper>;
 
-    const { /* isRepost, */ hideNsfw, stats, isHidden, post, className } = this.props;
+    const { hideNsfw, stats, isHidden, post, className } = this.props;
 
     // user wishes to hide these posts entirely
     if (hideNsfw || isHidden || !post) {
@@ -695,7 +683,7 @@ export default class PostCard extends PureComponent {
       <Wrapper gray={stats.gray || stats.hide} className={className}>
         <LazyLoad once resize height="100%" offset={500}>
           {this.renderHeader()}
-          {/* {isRepost ? this.renderRepostPart() : null} */}
+          {post?.repost?.isRepost ? this.renderRepostPart() : null}
           {this.renderBody()}
           {this.renderFooter()}
         </LazyLoad>
