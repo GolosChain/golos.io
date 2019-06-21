@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
-import { omit } from 'ramda';
 
 import { USER_GENDER } from 'constants/config';
 import { profileType } from 'types/common';
