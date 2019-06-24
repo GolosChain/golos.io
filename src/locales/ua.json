@@ -198,6 +198,7 @@
     },
     "delegate_vesting": {
       "delegate_button": "Делегувати",
+      "min_amount": "Мiнімальная сума: %(amount)s",
       "tabs": {
         "delegate": {
           "interest_rate": "Відсоток відрахувань",

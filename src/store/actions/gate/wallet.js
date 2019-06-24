@@ -11,6 +11,9 @@ import {
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
+  FETCH_VESTING_PARAMS,
+  FETCH_VESTING_PARAMS_SUCCESS,
+  FETCH_VESTING_PARAMS_ERROR,
 } from 'store/constants';
 import { TRANSFERS_FILTER_TYPE } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
@@ -128,5 +131,19 @@ export const getVestingHistory = (userId, sequenceKey = null) => {
       ...params,
       name: userId,
     },
+  };
+};
+
+// TODO
+export const getVestingParams = () => {
+  const params = {};
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_VESTING_PARAMS, FETCH_VESTING_PARAMS_SUCCESS, FETCH_VESTING_PARAMS_ERROR],
+      method: 'wallet.getVestingParams',
+      params,
+    },
+    meta: {},
   };
 };

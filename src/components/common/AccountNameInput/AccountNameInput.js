@@ -146,7 +146,7 @@ export default class AccountNameInput extends PureComponent {
         autocompleteList: buildAccountNameAutocomplete(transferHistory, following),
       });
     } else {
-      this.props.fetchTransferHistory();
+      // this.props.fetchTransferHistory();
     }
   }
 

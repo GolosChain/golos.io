@@ -9,12 +9,12 @@ export default connect(
     [currentUserSelector],
     user => {
       return {
-        following: '' /*follow.getIn(['getFollowingAsync', currentUsername, 'blog_result'])*/,
-        transferHistory: '' /*user.get('transfer_history')*/,
+        following: '' /* follow.getIn(['getFollowingAsync', currentUsername, 'blog_result']) */,
+        transferHistory: '' /* user.get('transfer_history') */,
       };
     }
   ),
   {
-    fetchTransferHistory: () => () => console.error('Unhandled action'),
+    // fetchTransferHistory: () => () => console.error('Unhandled action'),
   }
 )(AccountNameInput);
