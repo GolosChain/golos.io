@@ -224,8 +224,10 @@ export default class ActivePanel extends Component {
   };
 
   repost = () => {
-    const { account, permLink, openRepostDialog } = this.props;
-    openRepostDialog(`${account}/${permLink}`);
+    const { post, openRepostDialog } = this.props;
+    openRepostDialog({
+      contentId: post.contentId,
+    });
   };
 
   render() {
@@ -240,14 +242,14 @@ export default class ActivePanel extends Component {
         <VotePanelWrapper entity={post} />
         <Divider />
         <RepostSharingWrapper>
-          {/* {isOwner ? null : (
+          {isOwner ? null : (
             <>
               <Repost role="button" data-tooltip={tt('g.repost')} aria-label={tt('g.repost')}>
                 <Icon width="30" height="27" name="repost" onClick={this.repost} />
               </Repost>
               <Divider />
             </>
-          )} */}
+          )}
           <SharingTriangle
             as="button"
             type="button"

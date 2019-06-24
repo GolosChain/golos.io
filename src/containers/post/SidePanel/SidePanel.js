@@ -297,7 +297,7 @@ export default class SidePanel extends Component {
       >
         <PanelWrapper ref={this.panelRef} isVisible={showPanel}>
           <VotePanelStyled entity={post} vertical />
-          {/*<Repost post={post} />*/}
+          <Repost post={post} />
           <ShareWrapper
             role="button"
             data-tooltip={shareTooltip}

@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { openModal } from 'redux-modals-manager';
 
+import { SHOW_MODAL_REPOST } from 'store/constants';
 import { currentUsernameSelector } from 'store/selectors/auth';
 import { dataSelector } from 'store/selectors/common';
-// import { openPromoteDialog, openRepostDialog } from 'app/redux/actions/dialogs';
+// import { openPromoteDialog } from 'app/redux/actions/dialogs';
 // import {
 //   authorSelector,
 //   currentPostSelector,
@@ -43,6 +45,6 @@ export default connect(
   ),
   {
     openPromoteDialog: () => () => console.error('Unhandled action'),
-    openRepostDialog: () => () => console.error('Unhandled action'),
+    openRepostDialog: params => openModal(SHOW_MODAL_REPOST, params),
   }
 )(ActivePanel);
