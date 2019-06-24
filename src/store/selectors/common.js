@@ -49,10 +49,10 @@ export const uiSelector = path => state => ramdaPath(toArray(path))(state.ui);
 
 export const dataSelector = path => state => ramdaPath(toArray(path))(state.data);
 
-export const profileSelector = userId => state => {
+export const profileSelector = (userId, mock = true) => state => {
   let profile = entitySelector('profiles', userId)(state);
 
-  if (!profile) {
+  if (!profile && mock) {
     profile = {
       name: userId,
       userId,
