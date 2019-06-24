@@ -86,9 +86,9 @@ export const updateProfileMeta = meta => async (dispatch, getState) => {
         location: current.location,
         about: current.about,
         website: current.website,
-        facebook: current.facebook,
-        vk: current.vk,
-        instagram: current.instagram,
+        facebook: current?.contacts?.facebook,
+        vk: current?.contacts.vkontakte,
+        instagram: current?.contacts?.instagram,
       },
       DEFAULT_META_VALUES
     )

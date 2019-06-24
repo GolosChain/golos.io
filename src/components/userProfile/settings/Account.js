@@ -108,14 +108,16 @@ function renderSocialField(placeholder, input, meta, icon) {
 
 const Account = ({ profile, onSubmitBlockchain }) => (
   <Form
-    initialValues={{ userId: profile.userId, ...profile.personal }}
+    initialValues={{
+      userId: profile.userId,
+      ...profile.personal,
+    }}
     validate={validate}
     onSubmit={onSubmitBlockchain}
   >
     {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
       <form onSubmit={handleSubmit}>
         {submitting && <SplashLoader />}
-
         <CardContent column>
           <Field name="userId">
             {({ input }) => (
@@ -205,7 +207,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
           </Field>
           <FormGroup>
             <Label>{tt('settings_jsx.social_networks')}</Label>
-            <Field name="facebook">
+            <Field name="contacts.facebook">
               {({ input, meta }) =>
                 renderSocialField(
                   tt('settings_jsx.account.placeholders.social_facebook'),
@@ -219,7 +221,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
                 )
               }
             </Field>
-            <Field name="vk">
+            <Field name="contacts.vkontakte">
               {({ input, meta }) =>
                 renderSocialField(
                   tt('settings_jsx.account.placeholders.social_vkontakte'),
@@ -233,7 +235,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
                 )
               }
             </Field>
-            <Field name="instagram">
+            <Field name="contacts.instagram">
               {({ input, meta }) =>
                 renderSocialField(
                   tt('settings_jsx.account.placeholders.social_instagram'),
