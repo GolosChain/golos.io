@@ -35,7 +35,7 @@ export const postSchema = new schema.Entity(
   },
   {
     idAttribute: post =>
-      post.repost.isRepost ? formatContentIdRepost(post) : formatContentId(post.contentId),
+      post?.repost?.isRepost ? formatContentIdRepost(post) : formatContentId(post.contentId),
   }
 );
 
