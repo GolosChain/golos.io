@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'mocks/react-router';
+import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon';
-import { vestsToGolos } from 'utils/StateFunctions';
 
 const Root = styled.div``;
 
@@ -84,14 +83,13 @@ const EmptyList = styled.div`
 
 export default class DelegationsList extends PureComponent {
   static propTypes = {
-    globalProps: PropTypes.object.isRequired,
     data: PropTypes.array.isRequired,
     onEditClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { data, globalProps } = this.props;
+    const { data, onEditClick, onCancelClick } = this.props;
 
     return (
       <Root>
@@ -106,25 +104,22 @@ export default class DelegationsList extends PureComponent {
               {data.map(info => (
                 <DelegationLine key={info.id}>
                   <Delegatee>
-                    <Link to={`@${info.delegatee}`} onClick={this._onLinkClick}>
-                      {info.delegatee}
+                    <Link route="profile" params={{ userId: info.delegatee }}>
+                      <a>{info.delegatee}</a>
                     </Link>
                   </Delegatee>
-                  <Value>
-                    {vestsToGolos(info.vesting_shares, globalProps)}
-                    {' GOLOS'}
-                  </Value>
+                  <Value>{info.vesting_shares}</Value>
                   <Action>
                     <ActionButton
                       data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.edit')}
-                      onClick={() => this.props.onEditClick(info.delegatee)}
+                      onClick={() => onEditClick(info.delegatee)}
                     >
                       <Icon name="pen" size={14} />
                     </ActionButton>
                     <ActionButton
                       red
                       data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.cancel')}
-                      onClick={() => this.props.onCancelClick(info.delegatee)}
+                      onClick={() => onCancelClick(info.delegatee, info.vesting_shares)}
                     >
                       <Icon name="cross" size={12} />
                     </ActionButton>
@@ -139,8 +134,4 @@ export default class DelegationsList extends PureComponent {
       </Root>
     );
   }
-
-  _onLinkClick = () => {
-    this.props.onClose();
-  };
 }

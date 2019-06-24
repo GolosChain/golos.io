@@ -228,6 +228,7 @@
     "delegate_vesting": {
       "delegate_button": "Delegate",
       "first_strategy": "Payout to delegater",
+      "min_amount": "Minimal amount: %(amount)s",
       "second_strategy": "Payout is added to delegated vesting",
       "tabs": {
         "delegate": {

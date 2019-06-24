@@ -229,6 +229,7 @@
     "delegate_vesting": {
       "delegate_button": "Делегировать",
       "first_strategy": "Выплаты идут делегатору",
+      "min_amount": "Минимальная сумма: %(amount)s",
       "second_strategy": "Выплаты идут в делегированый вестинг",
       "tabs": {
         "delegate": {

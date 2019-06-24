@@ -46,7 +46,7 @@ export default class DelegationEdit extends PureComponent {
 
     return (
       <Root>
-        <Overlay onClick={this.props.onCancel} />
+        <Overlay onClick={onCancel} />
         <EditGolosPowerStyled value={value} max={max} onSave={onSave} onCancel={onCancel} />
       </Root>
     );

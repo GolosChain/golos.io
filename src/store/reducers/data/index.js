@@ -15,6 +15,7 @@ import postVotes from './postVotes';
 import commentVotes from './commentVotes';
 import followers from './followers';
 import following from './following';
+import contractParams from './contractParams';
 
 export default combineReducers({
   auth,
@@ -32,4 +33,5 @@ export default combineReducers({
   commentVotes,
   followers,
   following,
+  contractParams,
 });

@@ -29,6 +29,7 @@ const TYPES = {
 };
 
 const DEFAULT_DELEGATED_VESTING_INTEREST_RATE = 25;
+const MULTIPLIER = 1000;
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 580px;
@@ -125,8 +126,11 @@ export default class DelegateDialog extends PureComponent {
     currentUsername: PropTypes.string.isRequired,
     recipientName: PropTypes.string.isRequired,
     power: PropTypes.number.isRequired,
+    vestingParams: PropTypes.shape({}).isRequired,
     delegateTokens: PropTypes.func.isRequired,
+    stopDelegateTokens: PropTypes.func.isRequired,
     getVestingBalance: PropTypes.func.isRequired,
+    getVestingParams: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
@@ -157,80 +161,14 @@ export default class DelegateDialog extends PureComponent {
   }
 
   componentDidMount() {
+    const { getVestingParams } = this.props;
+
+    // TODO
+    // getVestingParams();
+
     this.loadDelegationsData();
   }
 
-  renderDelegateBody({ availableBalanceString }) {
-    const {
-      target,
-      amount,
-      autoFocusValue,
-      isReceiveReward,
-      rewardRate,
-      payoutStrategy,
-    } = this.state;
-
-    return (
-      <>
-        <Columns>
-          <Column>
-            <Section>
-              <Label>{tt('dialogs_transfer.to')}</Label>
-              <AccountNameInput
-                name="account"
-                block
-                placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
-                autoFocus={!autoFocusValue}
-                value={target}
-                onChange={this.onTargetChange}
-              />
-            </Section>
-          </Column>
-          <Column>
-            <Section>
-              <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
-              <ComplexInput
-                placeholder={tt('dialogs_transfer.amount_placeholder', {
-                  amount: availableBalanceString,
-                })}
-                spellCheck="false"
-                value={amount}
-                activeId="power"
-                buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
-                autoFocus={autoFocusValue}
-                onChange={this.onAmountChange}
-                onFocus={this.onAmountFocus}
-                onBlur={this.onAmountBlur}
-              />
-            </Section>
-          </Column>
-        </Columns>
-        <Columns>
-          <Column>
-            <Section>
-              <CheckboxInput
-                value={isReceiveReward}
-                title={tt('dialogs_transfer.delegate_vesting.tabs.delegate.receive_rewards')}
-                onChange={this.isReceiveRewardChange}
-              />
-            </Section>
-          </Column>
-        </Columns>
-        <Columns>
-          {isReceiveReward && (
-            <ReceiveRewards
-              rewardRate={rewardRate}
-              payoutStrategy={payoutStrategy}
-              onRewardRateChange={this.onRewardRateChange}
-              setStrategy={this.setStrategy}
-            />
-          )}
-        </Columns>
-      </>
-    );
-  }
-
-  // eslint-disable-next-line react/sort-comp
   setStrategy = strategy => () => {
     const { payoutStrategy } = this.state;
     if (payoutStrategy !== strategy) {
@@ -238,75 +176,36 @@ export default class DelegateDialog extends PureComponent {
     }
   };
 
-  renderCancelBody({ availableBalance }) {
-    const { currentUsername } = this.props;
-    const { delegationError, delegationData, editAccountName } = this.state;
-
-    if (delegationError) {
-      return String(delegationError);
+  onDelegationCancel = async (to, quantity) => {
+    const { stopDelegateTokens } = this.props;
+    if (await DialogManager.confirm()) {
+      await stopDelegateTokens(to, quantity, 0);
     }
+  };
 
-    // TODO
-    return null;
+  onDelegationEditSave = value => {
+    const { editAccountName } = this.state;
+    this.updateDelegation(editAccountName, value);
+  };
 
-    if (!delegationData) {
-      return (
-        <LoaderWrapper>
-          <LoadingIndicator type="circle" size={60} />
-        </LoaderWrapper>
-      );
-    }
+  onDelegationEditCancel = () => {
+    this.setState({
+      editAccountName: null,
+    });
+  };
 
-    let delegation = null;
-    let vestingShares = null;
+  onDelegationEdit = accountName => {
+    this.setState({
+      editAccountName: accountName,
+    });
+  };
 
-    if (editAccountName) {
-      const data = delegationData.find(data => data.delegatee === editAccountName);
-
-      if (data) {
-        delegation = data;
-        vestingShares = Math.round(
-          parseFloat(vestsToGolos(data.vesting_shares, this._globalProps)) * 1000
-        );
-      }
-    }
-
-    return (
-      <>
-        <DelegationsList
-          myAccountName={currentUsername}
-          globalProps={this._globalProps}
-          data={delegationData}
-          onEditClick={this.onDelegationEdit}
-          onCancelClick={this.onDelegationCancel}
-        />
-        {delegation ? (
-          <DelegationEdit
-            value={vestingShares}
-            max={availableBalance + vestingShares}
-            onSave={this.onDelegationEditSave}
-            onCancel={this.onDelegationEditCancel}
-          />
-        ) : null}
-      </>
-    );
-  }
-
-  confirmClose() {
-    const { onClose } = this.props;
-    const { amount, target } = this.state;
-
-    if (amount.trim() || target) {
-      DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
-        if (y) {
-          onClose();
-        }
-      });
-
-      return false;
-    }
-    return true;
-  }
+  onTypeClick = type => {
+    this.setState({
+      type,
+      amount: '',
+    });
+  };
 
   getHintText() {
     const { type } = this.state;
@@ -411,53 +310,33 @@ export default class DelegateDialog extends PureComponent {
     }
   };
 
-  updateDelegation(delegatee, value) {
-    const { currentUsername, delegate } = this.props;
+  confirmClose() {
+    const { onClose } = this.props;
+    const { amount, target } = this.state;
 
-    const vesting = value > 0 ? golosToVests(value / 1000, this._globalProps) : '0.000000';
+    if (amount.trim() || target) {
+      DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
+        if (y) {
+          onClose();
+        }
+      });
 
-    const operation = {
-      delegator: currentUsername,
-      delegatee,
-      vesting_shares: `${vesting} GESTS`,
-    };
-
-    this.setState({
-      disabled: true,
-      loader: true,
-    });
-
-    delegate(operation, false, err => {
-      if (err) {
-        this.setState({
-          disabled: false,
-          loader: false,
-        });
-
-        processError(err);
-      } else {
-        this.setState({
-          disabled: false,
-          loader: false,
-          editAccountName: null,
-        });
-
-        this.loadDelegationsData();
-      }
-    });
+      return false;
+    }
+    return true;
   }
-
-  onTypeClick = type => {
-    this.setState({
-      type,
-      amount: '',
-      saveTo: false,
-    });
-  };
 
   async loadDelegationsData() {
     try {
-      const result = ''; //= await api.getVestingDelegationsAsync(currentUsername, '', 1000, 'delegated');
+      // TODO
+      const result = [
+        {
+          id: 0,
+          delegator: 'test1',
+          delegatee: 'test2',
+          vesting_shares: '90.000000 GOLOS',
+        },
+      ];
 
       this.setState({
         delegationError: null,
@@ -471,47 +350,190 @@ export default class DelegateDialog extends PureComponent {
     }
   }
 
-  onDelegationEdit = accountName => {
-    this.setState({
-      editAccountName: accountName,
-    });
-  };
+  async updateDelegation(delegatee, value) {
+    const { delegateTokens, stopDelegateTokens } = this.props;
 
-  onDelegationCancel = async accountName => {
-    if (await DialogManager.confirm()) {
-      this.updateDelegation(accountName, 0);
+    const delegationAction = value > 0 ? delegateTokens : stopDelegateTokens;
+
+    this.setState({
+      disabled: true,
+      loader: true,
+    });
+
+    try {
+      await delegationAction(delegatee, value);
+
+      this.setState({
+        disabled: false,
+        loader: false,
+        editAccountName: null,
+      });
+
+      this.loadDelegationsData();
+    } catch (err) {
+      this.setState({
+        disabled: false,
+        loader: false,
+      });
+      processError(err);
     }
-  };
+  }
 
-  onDelegationEditSave = value => {
-    const { editAccountName } = this.state;
-    this.updateDelegation(editAccountName, value);
-  };
+  renderDelegateBody({ availableBalanceString }) {
+    const { vestingParams } = this.props;
+    const {
+      target,
+      amount,
+      autoFocusValue,
+      isReceiveReward,
+      rewardRate,
+      payoutStrategy,
+    } = this.state;
 
-  onDelegationEditCancel = () => {
-    this.setState({
-      editAccountName: null,
-    });
-  };
+    const isReceiveRewardAvailable = vestingParams.maxInterest !== 0;
+
+    return (
+      <>
+        <Columns>
+          <Column>
+            <Section>
+              <Label>{tt('dialogs_transfer.to')}</Label>
+              <AccountNameInput
+                name="account"
+                block
+                placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
+                autoFocus={!autoFocusValue}
+                value={target}
+                onChange={this.onTargetChange}
+              />
+            </Section>
+          </Column>
+          <Column>
+            <Section>
+              <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
+              <ComplexInput
+                placeholder={tt('dialogs_transfer.amount_placeholder', {
+                  amount: availableBalanceString,
+                })}
+                spellCheck="false"
+                value={amount}
+                activeId="power"
+                buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
+                autoFocus={autoFocusValue}
+                onChange={this.onAmountChange}
+                onFocus={this.onAmountFocus}
+                onBlur={this.onAmountBlur}
+              />
+            </Section>
+          </Column>
+        </Columns>
+        <Columns>
+          {isReceiveRewardAvailable && (
+            <Column>
+              <Section>
+                <CheckboxInput
+                  value={isReceiveReward}
+                  title={tt('dialogs_transfer.delegate_vesting.tabs.delegate.receive_rewards')}
+                  onChange={this.isReceiveRewardChange}
+                />
+              </Section>
+            </Column>
+          )}
+        </Columns>
+        <Columns>
+          {isReceiveReward && (
+            <ReceiveRewards
+              rewardRate={rewardRate}
+              payoutStrategy={payoutStrategy}
+              onRewardRateChange={this.onRewardRateChange}
+              setStrategy={this.setStrategy}
+            />
+          )}
+        </Columns>
+      </>
+    );
+  }
+
+  renderCancelBody({ availableBalance }) {
+    const { currentUsername } = this.props;
+    const { delegationError, delegationData, editAccountName } = this.state;
+
+    if (delegationError) {
+      return String(delegationError);
+    }
+
+    if (!delegationData) {
+      return (
+        <LoaderWrapper>
+          <LoadingIndicator type="circle" size={60} />
+        </LoaderWrapper>
+      );
+    }
+
+    let delegation = null;
+    let vestingShares = null;
+
+    if (editAccountName) {
+      const data = delegationData.find(d => d.delegatee === editAccountName);
+
+      if (data) {
+        delegation = data;
+        vestingShares = Math.round(parseFloat(data.vesting_shares) * 1000);
+      }
+    }
+
+    return (
+      <>
+        <DelegationsList
+          myAccountName={currentUsername}
+          data={delegationData}
+          onEditClick={this.onDelegationEdit}
+          onCancelClick={this.onDelegationCancel}
+        />
+        {delegation ? (
+          <DelegationEdit
+            value={vestingShares}
+            max={availableBalance + vestingShares}
+            onSave={this.onDelegationEditSave}
+            onCancel={this.onDelegationEditCancel}
+          />
+        ) : null}
+      </>
+    );
+  }
 
   render() {
-    const { power } = this.props;
+    const { power, vestingParams } = this.props;
     const { target, amount, loader, disabled, amountInFocus, type } = this.state;
 
-    const availableBalance = Math.max(0, Math.round((parseFloat(power) - MIN_VOICE_POWER) * 1000));
-    const availableBalanceString = (availableBalance / 1000).toFixed(3);
+    const availableBalance = Math.max(
+      0,
+      Math.round((parseFloat(power) - MIN_VOICE_POWER) * MULTIPLIER)
+    );
+    const availableBalanceString = (availableBalance / MULTIPLIER).toFixed(3);
 
-    let { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, 1000);
-    if (isBadActor(target)) {
-      error = tt('chainvalidation_js.use_caution_sending_to_this_account');
+    const { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, MULTIPLIER);
+
+    let errorMsg = error;
+
+    const minDelegationAmount = vestingParams.minAmount / 1000000;
+
+    if (value < minDelegationAmount * MULTIPLIER) {
+      errorMsg = tt('dialogs_transfer.delegate_vesting.min_amount', {
+        amount: minDelegationAmount,
+      });
     }
 
-    const allow = target && value > 0 && !error && !loader && !disabled;
+    if (isBadActor(target)) {
+      errorMsg = tt('chainvalidation_js.use_caution_sending_to_this_account');
+    }
+
+    const allow = target && value > 0 && !errorMsg && !loader && !disabled;
 
     const hint = null;
 
     const params = {
-      availableBalance,
+      availableBalance: power,
       availableBalanceString,
     };
 
@@ -566,19 +588,16 @@ export default class DelegateDialog extends PureComponent {
             <>
               <SubHeader>
                 <Shrink height={72}>
-                  {this.getHintText().map((line, i) => (
-                    <SubHeaderLine key={i}>{line}</SubHeaderLine>
+                  {this.getHintText().map(line => (
+                    <SubHeaderLine key={line}>{line}</SubHeaderLine>
                   ))}
                 </Shrink>
               </SubHeader>
               <Content>
                 <Body style={{ height: 'auto' }}>{this.renderDelegateBody(params)}</Body>
                 <Footer>
-                  {error ? (
-                    <ErrorLine>{error}</ErrorLine>
-                  ) : hint ? (
-                    <HintLine>{hint}</HintLine>
-                  ) : null}
+                  {errorMsg && <ErrorLine>{errorMsg}</ErrorLine>}
+                  {hint && <HintLine>{hint}</HintLine>}
                 </Footer>
               </Content>
             </>
