@@ -19,12 +19,16 @@ const ActionIcon = styled(Icon)`
 
 export default class Repost extends Component {
   static propTypes = {
-    post: PropTypes.object.isRequired,
+    isOwner: PropTypes.bool.isRequired,
+    post: PropTypes.shape().isRequired,
+    openRepostDialog: PropTypes.func.isRequired,
   };
 
   repost = () => {
-    // const { contentLink, openRepostDialog } = this.props;
-    // openRepostDialog(contentLink);
+    const { post, openRepostDialog } = this.props;
+    openRepostDialog({
+      contentId: post.contentId,
+    });
   };
 
   render() {
