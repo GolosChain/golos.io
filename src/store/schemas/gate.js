@@ -25,6 +25,8 @@ export const userProfileSchema = new schema.Entity(
 );
 
 export const formatContentId = contentId => `${contentId.userId}/${contentId.permlink}`;
+export const formatContentIdRepost = ({ repost, contentId }) =>
+  `${repost.userId}/${contentId.userId}-${contentId.permlink}-${repost.time}`;
 
 export const postSchema = new schema.Entity(
   'posts',
@@ -32,7 +34,8 @@ export const postSchema = new schema.Entity(
     author: userSchema,
   },
   {
-    idAttribute: post => formatContentId(post.contentId),
+    idAttribute: post =>
+      post.repost.isRepost ? formatContentIdRepost(post) : formatContentId(post.contentId),
   }
 );
 
