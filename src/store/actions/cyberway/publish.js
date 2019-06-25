@@ -42,7 +42,7 @@ export const createmssg = data => async (dispatch, getState) => {
     parent_recid: 0,
     beneficiaries: [],
     curators_prcnt: 2500,
-    max_payout: undefined,
+    max_payout: null,
     tokenprop: 5000,
     vestpayment: true,
     headermssg: '',
