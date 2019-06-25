@@ -251,7 +251,7 @@ export default class ConfirmationCode extends PureComponent {
         ref={this.inputs[index]}
         name={`sign-up__confirmation-code-input-${index + 1}`}
         type="text"
-        pattern="[0-9]*"
+        pattern="[0-9]{1}"
         autocomplete="off"
         autoFocus={index === 0}
         value={inputs[index]}

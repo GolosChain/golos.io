@@ -241,8 +241,7 @@ export default class Phone extends PureComponent {
               placeholder={tt('registration.enter_phone_number')}
               name="sign-up__phone-input"
               ref={this.phoneInputRef}
-              type="text"
-              pattern="[0-9]*"
+              type="tel"
               value={phoneNumber}
               isCode={code ? 1 : 0}
               onFocus={this.phoneInputFocused}
