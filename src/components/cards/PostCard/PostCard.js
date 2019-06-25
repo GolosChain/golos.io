@@ -297,7 +297,6 @@ export default class PostCard extends PureComponent {
     isFavorite: PropTypes.bool,
     showPinButton: PropTypes.bool,
     pinDisabled: PropTypes.bool,
-    allowRepost: PropTypes.bool,
     router: PropTypes.shape({}).isRequired,
 
     onClick: PropTypes.func,
@@ -325,7 +324,6 @@ export default class PostCard extends PureComponent {
     isPinned: false,
     showPinButton: false,
     pinDisabled: false,
-    allowRepost: false,
     repostHtml: '',
     currentUserId: '',
   };
@@ -524,9 +522,9 @@ export default class PostCard extends PureComponent {
   }
 
   renderRepostButton() {
-    const { allowRepost } = this.props;
+    const { isOwner } = this.props;
 
-    if (!allowRepost) {
+    if (!isOwner) {
       return null;
     }
 
@@ -548,7 +546,7 @@ export default class PostCard extends PureComponent {
   renderRemoveButton() {
     const { isOwner, post } = this.props;
 
-    if (!isOwner || !post.repost) {
+    if (!isOwner || !post.repost?.isRepost) {
       return;
     }
 

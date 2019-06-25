@@ -36,7 +36,6 @@ export default connect(
       author,
       repostAuthor,
       isOwner,
-      allowRepost: !isOwner,
       isFavorite,
       hideNsfw,
       warnNsfw,
