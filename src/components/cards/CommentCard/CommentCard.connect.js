@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 
 import { createDeepEqualSelector, entitySelector } from 'store/selectors/common';
-import { currentUsernameSelector } from 'store/selectors/auth';
+import { currentUserSelector } from 'store/selectors/auth';
 
 // import extractContent from 'utils/extractContent';
 // import { currentUsernameSelector } from 'store/selectors/auth';
@@ -23,13 +23,13 @@ export default connect(
         const author = entitySelector('users', comment.author)(state);
         return { comment, author };
       },
-      currentUsernameSelector,
+      currentUserSelector,
     ],
-    ({ comment, author }, username) => ({
+    ({ comment, author }, currentUser) => ({
       comment,
       author,
-      username,
-      isOwner: username === comment.contentId.userId,
+      username: currentUser.username,
+      isOwner: currentUser.userId === author.id,
     })
   ),
   // createSelector(
