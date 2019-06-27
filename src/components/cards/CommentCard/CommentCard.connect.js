@@ -28,8 +28,8 @@ export default connect(
     ({ comment, author }, currentUser) => ({
       comment,
       author,
-      username: currentUser.username,
-      isOwner: currentUser.userId === author.id,
+      username: currentUser?.username,
+      isOwner: Boolean(currentUser && currentUser.userId === author.id),
     })
   ),
   // createSelector(
