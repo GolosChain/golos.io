@@ -587,11 +587,9 @@ export default class DelegateDialog extends PureComponent {
           {type === TYPES.DELEGATE ? (
             <>
               <SubHeader>
-                <Shrink height={72}>
-                  {this.getHintText().map(line => (
-                    <SubHeaderLine key={line}>{line}</SubHeaderLine>
-                  ))}
-                </Shrink>
+                {this.getHintText().map(line => (
+                  <SubHeaderLine key={line}>{line}</SubHeaderLine>
+                ))}
               </SubHeader>
               <Content>
                 <Body style={{ height: 'auto' }}>{this.renderDelegateBody(params)}</Body>

@@ -397,9 +397,7 @@ export default class ConvertDialog extends PureComponent {
             ]}
             onClick={this.onClickType}
           />
-          <SubHeader>
-            <Shrink height={72}>{this.renderSubHeader()}</Shrink>
-          </SubHeader>
+          <SubHeader>{this.renderSubHeader()}</SubHeader>
           <Content>
             {toWithdraw && type === TYPES.POWER ? (
               <PowerDownText>
