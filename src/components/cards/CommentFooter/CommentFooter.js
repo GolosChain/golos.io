@@ -259,15 +259,17 @@ export default class CommentFooter extends Component {
               <DonateSplitter />
             </>
           )}
-          <IconWrapper
-            role="button"
-            aria-label={tt('post_card.repost')}
-            data-tooltip={tt('post_card.repost')}
-            enabled
-            onClick={this.onPostDeleteClick}
-          >
-            <Icon name="mute" size="20" />
-          </IconWrapper>
+          {isOwner ? (
+            <IconWrapper
+              role="button"
+              aria-label={tt('post_card.remove')}
+              data-tooltip={tt('post_card.remove')}
+              enabled
+              onClick={this.onPostDeleteClick}
+            >
+              <Icon name="mute" size="20" />
+            </IconWrapper>
+          ) : null}
           <CommentReplyBlock
             // TODO: Fix counter
             count={count}
