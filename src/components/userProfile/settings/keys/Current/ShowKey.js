@@ -121,14 +121,16 @@ export default class ShowKey extends Component {
   };
 
   handleShowQr = () => {
-    const { authType, pubkey, privateKey } = this.props;
+    const { authType, pubkey, privateKey, username } = this.props;
     const { showPrivate } = this.state;
+
+    const key = showPrivate ? privateKey : pubkey;
 
     DialogManager.showDialog({
       component: QrKeyView,
       props: {
         type: authType,
-        text: showPrivate ? privateKey : pubkey,
+        text: `${username} ${key}`,
         isPrivate: showPrivate,
       },
     });
@@ -195,7 +197,7 @@ export default class ShowKey extends Component {
         </Flex>
         <ButtonsWrapper>
           {this.renderButton()}
-          {this.renderQRButton()}
+          {showPrivate || postingPrivateKey ? this.renderQRButton() : null}
         </ButtonsWrapper>
       </Wrapper>
     );
