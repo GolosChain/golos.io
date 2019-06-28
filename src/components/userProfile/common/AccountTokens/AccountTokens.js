@@ -122,7 +122,7 @@ export default class AccountTokens extends PureComponent {
   render() {
     const { golos, power, powerDelegated } = this.props;
 
-    const { hoverIndex } = this.state;
+    // const { hoverIndex } = this.state;
 
     const labels = [
       {
@@ -165,19 +165,20 @@ export default class AccountTokens extends PureComponent {
 
     return (
       <Root>
-        {golos || power || powerDelegated ? (
-          <ChartBlock>
-            <ChartWrapper>
-              <PieChart
-                parts={labels.map((label, i) => ({
-                  isBig: i === hoverIndex,
-                  value: parseFloat(label.value) / (label.rate || 1),
-                  color: label.color,
-                }))}
-              />
-            </ChartWrapper>
-          </ChartBlock>
-        ) : null}
+        {/*TODO: we can't sum this */}
+        {/*{golos || power || powerDelegated ? (*/}
+        {/*  <ChartBlock>*/}
+        {/*    <ChartWrapper>*/}
+        {/*      <PieChart*/}
+        {/*        parts={labels.map((label, i) => ({*/}
+        {/*          isBig: i === hoverIndex,*/}
+        {/*          value: parseFloat(label.value) / (label.rate || 1),*/}
+        {/*          color: label.color,*/}
+        {/*        }))}*/}
+        {/*      />*/}
+        {/*    </ChartWrapper>*/}
+        {/*  </ChartBlock>*/}
+        {/*) : null}*/}
         <Labels>
           {labels.map((label, i) => (
             <CollapsingBlockStyled
