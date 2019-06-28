@@ -441,7 +441,8 @@ export default class PostCard extends PureComponent {
       return null;
     }
 
-    const currentFeed = !['/hot', '/trending'].includes(router.asPath) ? router.asPath : '/created';
+    const asPath = router.asPath.replace(/\?.*$/, '');
+    const currentFeed = !['/hot', '/trending'].includes(asPath) ? asPath : '/created';
     const categoryUri = `${currentFeed}?tags=${category}`;
 
     return (
