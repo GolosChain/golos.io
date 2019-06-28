@@ -187,7 +187,7 @@ export default class PopoverBody extends Component {
       return null;
     }
 
-    const { userId, personal, subscribers, stats } = profile;
+    const { userId, username, personal, subscribers, stats } = profile;
 
     let reputation = 0;
 
@@ -204,7 +204,7 @@ export default class PopoverBody extends Component {
           <AuthorTitle>
             <Link route="profile" params={{ userId }} passHref>
               <AuthorInfoBlock>
-                <AuthorName>{personal.name || userId}</AuthorName>
+                <AuthorName>{personal.name || username || userId}</AuthorName>
                 <AuthorAccount aria-label={tt('aria_label.username')}>@{userId}</AuthorAccount>
               </AuthorInfoBlock>
             </Link>
