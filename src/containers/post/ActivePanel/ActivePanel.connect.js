@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { openModal } from 'redux-modals-manager';
 
 import { SHOW_MODAL_REPOST } from 'store/constants';
-import { currentUsernameSelector } from 'store/selectors/auth';
+import { currentUserSelector } from 'store/selectors/auth';
 import { dataSelector } from 'store/selectors/common';
 // import { openPromoteDialog } from 'app/redux/actions/dialogs';
 // import {
@@ -28,16 +28,12 @@ export default connect(
   //   })
   // ),
   createSelector(
-    [
-      currentUsernameSelector,
-      (state, props) => props.post,
-      dataSelector(['favorites', 'postsList']),
-    ],
-    (currentUsername, post, favoritePosts = []) => {
-      const isOwner = currentUsername === post.author;
+    [currentUserSelector, (state, props) => props.post, dataSelector(['favorites', 'postsList'])],
+    (currentUser, post, favoritePosts = []) => {
+      const isOwner = Boolean(currentUser && currentUser.userId === post.author);
       const isFavorite = favoritePosts.some(favoritePost => favoritePost === post.id);
       return {
-        username: currentUsername,
+        username: currentUser?.username,
         isOwner,
         isFavorite,
       };

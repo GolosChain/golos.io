@@ -524,7 +524,7 @@ export default class PostCard extends PureComponent {
   renderRepostButton() {
     const { isOwner } = this.props;
 
-    if (!isOwner) {
+    if (isOwner) {
       return null;
     }
 
@@ -551,7 +551,7 @@ export default class PostCard extends PureComponent {
     }
 
     return (
-      <ToolbarAction name="post-card__repost">
+      <ToolbarAction name="post-card__remove">
         <IconWrapper
           role="button"
           aria-label={tt('post_card.remove')}
