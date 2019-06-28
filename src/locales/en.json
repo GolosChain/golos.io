@@ -659,6 +659,7 @@
     "empty": "List is empty",
     "activity": {
       "curatorReward": "Curation reward of entry \"%(content)s\" %(amount)s",
+      "benefeciaryReward": "Benefeciary reward of entry \"%(content)s\" %(amount)s",
       "downvote": "Disliked your post \"%(content)s\"",
       "downvote_comment": "Disliked your comment \"%(content)s\"",
       "mention": "Mentioned you in entry \"%(content)s\"",
@@ -675,6 +676,7 @@
     },
     "online": {
       "curatorReward": "Curation reward of entry %(content)s %(amount)s 💸",
+      "benefeciaryReward": "Benefeciary reward of entry \"%(content)s\" %(amount)s",
       "downvote": "%(user)s disliked your entry %(content)s 😵",
       "mention": "%(user)s mentioned you in entry %(content)s 🤔",
       "reply": "%(user)s repliend your entry %(content)s  ✌️",
