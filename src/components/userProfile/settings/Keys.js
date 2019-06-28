@@ -7,13 +7,13 @@ import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 import Current from './keys/Current';
 import ResetKey from './keys/ResetKey';
 
-const Keys = ({ username, publicKeys }) => (
+const Keys = ({ profile, publicKeys }) => (
   <Tabs activeTab={{ id: 'currentKeysTab' }}>
     <TabContainer id="currentKeysTab" title={tt('settings_jsx.keys.tabs.keys')}>
-      <Current username={username} publicKeys={publicKeys} />
+      <Current profile={profile} publicKeys={publicKeys} />
     </TabContainer>
     <TabContainer id="newKeyTab" title={tt('settings_jsx.keys.tabs.new')}>
-      <ResetKey username={username} publicKeys={publicKeys} />
+      <ResetKey username={profile.username} publicKeys={publicKeys} />
     </TabContainer>
   </Tabs>
 );

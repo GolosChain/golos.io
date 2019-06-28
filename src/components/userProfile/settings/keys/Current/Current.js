@@ -36,12 +36,12 @@ const authTypes = ['posting', 'active', 'owner'];
 
 export default class Current extends Component {
   static propTypes = {
-    username: PropTypes.string.isRequired,
+    profile: PropTypes.shape().isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
   };
 
   renderKeys = () => {
-    const { publicKeys, username } = this.props;
+    const { publicKeys, profile } = this.props;
 
     const { privateKey } = getAuth();
     const keyPair = getKeyPair(privateKey);
@@ -61,7 +61,7 @@ export default class Current extends Component {
       return (
         <KeysBlock key={authType}>
           <Title>{tt(`g.${authType}`)}</Title>
-          <ShowKey authType={authType} pubkey={pubKey} privateKey={privKey} username={username} />
+          <ShowKey authType={authType} pubkey={pubKey} privateKey={privKey} profile={profile} />
         </KeysBlock>
       );
     });
