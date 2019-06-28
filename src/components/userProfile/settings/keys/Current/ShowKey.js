@@ -85,7 +85,7 @@ const ButtonsWrapper = styled.div`
 
 export default class ShowKey extends Component {
   static propTypes = {
-    username: PropTypes.string,
+    profile: PropTypes.shape(),
     pubkey: PropTypes.string.isRequired,
     privateKey: PropTypes.string,
     authType: PropTypes.string.isRequired,
@@ -93,7 +93,7 @@ export default class ShowKey extends Component {
   };
 
   static defaultProps = {
-    username: null,
+    profile: null,
     privateKey: undefined,
   };
 
@@ -107,12 +107,12 @@ export default class ShowKey extends Component {
   };
 
   handleShowLogin = async () => {
-    const { openModal, authType, username } = this.props;
+    const { openModal, authType, profile } = this.props;
     const { auth } = await openModal(SHOW_MODAL_LOGIN, {
       isConfirm: true,
       keyRole: authType,
       lockUsername: true,
-      username,
+      username: profile?.username,
     });
 
     if (auth) {
@@ -121,7 +121,7 @@ export default class ShowKey extends Component {
   };
 
   handleShowQr = () => {
-    const { authType, pubkey, privateKey, username } = this.props;
+    const { authType, pubkey, privateKey, profile } = this.props;
     const { showPrivate } = this.state;
 
     const key = showPrivate ? privateKey : pubkey;
@@ -130,7 +130,7 @@ export default class ShowKey extends Component {
       component: QrKeyView,
       props: {
         type: authType,
-        text: `${username} ${key}`,
+        text: `${profile.userId} ${key}`,
         isPrivate: showPrivate,
       },
     });

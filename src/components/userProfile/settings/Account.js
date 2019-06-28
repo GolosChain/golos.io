@@ -110,6 +110,7 @@ const Account = ({ profile, onSubmitBlockchain }) => (
   <Form
     initialValues={{
       userId: profile.userId,
+      contacts: {},
       ...profile.personal,
     }}
     validate={validate}
