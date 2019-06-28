@@ -199,7 +199,7 @@ export default class UserProfile extends Component {
             ) : null}
             {tabId === 'settings' ? null : (
               <SidebarLeft>
-                {tabId === 'transfers' ? null : (
+                {tabId === 'wallet' ? null : (
                   <UserCardAbout
                     profile={profile}
                     followerCount={followerCount}
