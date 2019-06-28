@@ -10,6 +10,7 @@ import PostCardCompact from './PostCardCompact';
 export default connect(
   (state, props) => {
     const post = entitySelector('posts', props.id)(state);
+    const author = entitySelector('users', post.author)(state);
     const favoritePosts = dataSelector(['favorites', 'postsList'])(state) || [];
     const isFavorite = favoritePosts.some(favoritePost => favoritePost === props.id);
 
@@ -23,6 +24,7 @@ export default connect(
 
     return {
       post,
+      author,
       stats: {}, // TODO: Fix
       isMobile: UIModeSelector('screenType')(state) === 'mobile',
       isFavorite,

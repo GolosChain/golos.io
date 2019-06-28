@@ -324,6 +324,7 @@ export default class PostCardCompact extends PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    author: PropTypes.shape().isRequired,
   };
 
   state = {
@@ -462,7 +463,7 @@ export default class PostCardCompact extends PureComponent {
   }
 
   renderDetails() {
-    const { post, isRepost, reblogData } = this.props;
+    const { post, author, isRepost, reblogData } = this.props;
 
     const category = detransliterate(post.tag || 'test');
     const categoryTooltip = tt('aria_label.category', { category });
@@ -486,7 +487,7 @@ export default class PostCardCompact extends PureComponent {
         ) : null}
         <Link route="profile" params={{ userId: post.author || 'unknown' }} passHref>
           <AuthorLink>
-            <AuthorName>{post.author}</AuthorName>
+            <AuthorName>{author?.username || post.author}</AuthorName>
             {/* TODO: fix user rating */}
             <AuthorRating>{repLog10(123)}</AuthorRating>
           </AuthorLink>
