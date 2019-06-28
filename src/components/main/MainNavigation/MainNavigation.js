@@ -35,17 +35,18 @@ export default class MainNavigation extends PureComponent {
 
     const tabLinks = [];
 
+    const params = tags ? { tags } : {};
+
     if (loggedUserId) {
       tabLinks.push({
         text: tt('header_jsx.home'),
         route: 'feed',
         params: {
           userId: loggedUserId,
+          ...params,
         },
       });
     }
-
-    const params = tags ? { tags } : undefined;
 
     tabLinks.push(
       { text: tt('g.new'), route: 'created', params },
