@@ -74,7 +74,7 @@ export default class SettingsShow extends PureComponent {
             /> */}
           </TabContainer>
           <TabContainer id="keysTab" title={tt('settings_jsx.tabs.keys')}>
-            <Keys username={profile.username} publicKeys={publicKeys} />
+            <Keys profile={profile} publicKeys={publicKeys} />
           </TabContainer>
         </Tabs>
       </CardStyled>

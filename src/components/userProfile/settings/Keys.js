@@ -19,7 +19,7 @@ const Keys = ({ profile, publicKeys }) => (
 );
 
 Keys.propTypes = {
-  username: PropTypes.string.isRequired,
+  profile: PropTypes.shape({}).isRequired,
   publicKeys: PropTypes.shape({}).isRequired,
 };
 
