@@ -129,7 +129,6 @@ export default class DelegateDialog extends PureComponent {
     vestingParams: PropTypes.shape({}).isRequired,
     delegateTokens: PropTypes.func.isRequired,
     stopDelegateTokens: PropTypes.func.isRequired,
-    getVestingBalance: PropTypes.func.isRequired,
     getVestingParams: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
@@ -263,7 +262,7 @@ export default class DelegateDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const { userId, delegateTokens, getVestingBalance } = this.props;
+    const { userId, delegateTokens } = this.props;
     const {
       target,
       amount,
@@ -296,8 +295,6 @@ export default class DelegateDialog extends PureComponent {
       });
 
       DialogManager.info(tt('dialogs_transfer.operation_success'));
-
-      await getVestingBalance(userId);
 
       this.loadDelegationsData();
     } catch (err) {

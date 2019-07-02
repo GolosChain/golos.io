@@ -118,7 +118,6 @@ export default class WalletContent extends Component {
     getTransfersHistory: PropTypes.func.isRequired,
     getVestingHistory: PropTypes.func.isRequired,
     getBalance: PropTypes.func.isRequired,
-    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -146,9 +145,9 @@ export default class WalletContent extends Component {
   contentRef = createRef();
 
   async componentDidMount() {
-    const { getBalance, getVestingBalance, userId } = this.props;
+    const { getBalance, userId } = this.props;
     try {
-      await Promise.all([getBalance(userId), getVestingBalance(userId)]);
+      await getBalance(userId);
     } catch (err) {
       displayError('Cannot load user balance', err);
     }

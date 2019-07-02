@@ -8,9 +8,6 @@ import {
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
-  FETCH_USER_VESTING_BALANCE,
-  FETCH_USER_VESTING_BALANCE_SUCCESS,
-  FETCH_USER_VESTING_BALANCE_ERROR,
 } from 'store/constants';
 
 const initialState = {
@@ -30,21 +27,6 @@ export default function(state = initialState, { type }) {
         isLoading: false,
       };
     case FETCH_USER_BALANCE_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case FETCH_USER_VESTING_BALANCE:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_USER_VESTING_BALANCE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case FETCH_USER_VESTING_BALANCE_ERROR:
       return {
         ...state,
         isLoading: false,

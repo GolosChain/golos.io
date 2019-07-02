@@ -118,7 +118,6 @@ export default class ConvertDialog extends PureComponent {
     withdrawTokens: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
     getBalance: PropTypes.func.isRequired,
-    getVestingBalance: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -142,10 +141,10 @@ export default class ConvertDialog extends PureComponent {
   };
 
   async componentDidMount() {
-    const { getBalance, getVestingBalance, currentUserId } = this.props;
+    const { getBalance, currentUserId } = this.props;
 
     try {
-      await Promise.all([getBalance(currentUserId), getVestingBalance(currentUserId)]);
+      await getBalance(currentUserId);
     } catch (err) {
       displayError('Cannot load user balance', err);
     }
