@@ -33,7 +33,7 @@ class RouteListener extends Component {
     let { url } = this.state;
 
     if (!exact) {
-      url = url.replace(/[?#].*$/, '');
+      url = url.replace(/[#].*$/, '');
     }
 
     let isActive = url === href ? 1 : 0;
