@@ -176,7 +176,7 @@ export function toggleTag(tag) {
     selectedTags.push(tag);
   }
 
-  const tagsStr = selectedTags.join(',');
+  const tagsStr = encodeURIComponent(selectedTags.join(','));
 
   const pathname = getPathnameFromPath(Router.router.asPath);
   let route = pathname;
