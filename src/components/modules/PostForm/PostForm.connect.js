@@ -12,10 +12,11 @@ import PostForm from './PostForm';
 
 export default connect(
   createDeepEqualSelector(
-    [currentUnsafeUserSelector, selfVoteSelector],
-    (currentUser, selfVote) => ({
+    [currentUnsafeUserSelector, selfVoteSelector, (_, props) => props.post],
+    (currentUser, selfVote, post) => ({
       currentUser,
       selfVote,
+      curationPercent: Number(post.payout.meta.curatorsPercent),
     })
   ),
   {

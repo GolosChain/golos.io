@@ -27,7 +27,7 @@ export const createPost = ({
     jsonmetadata: JSON.stringify({
       ...jsonmetadata,
     }),
-    curationPercent,
+    curators_prcnt: curationPercent,
   };
 
   // prepare jsonmedata with embeds by iframely data
