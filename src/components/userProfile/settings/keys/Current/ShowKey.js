@@ -15,13 +15,13 @@ const QR_MARGIN = 18;
 
 const Wrapper = styled.div``;
 
-const ImageQR = styled.img`
-  flex: 0;
-  width: ${QR_SIZES}px;
-  height: ${QR_SIZES}px;
-  cursor: pointer;
-  margin-right: ${QR_MARGIN}px;
-`;
+// const ImageQR = styled.img`
+//   flex: 0;
+//   width: ${QR_SIZES}px;
+//   height: ${QR_SIZES}px;
+//   cursor: pointer;
+//   margin-right: ${QR_MARGIN}px;
+// `;
 
 const KeyInfo = styled.div`
   flex: 1 0;

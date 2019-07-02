@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Head from 'next/head';
 import { FORM_ERROR } from 'final-form';
-import { pick } from 'ramda';
+import { merge, pick } from 'ramda';
 import tt from 'counterpart';
 
 import { profileType } from 'types/common';
 import { displaySuccess } from 'utils/toastMessages';
+import { transformContacts } from 'utils/transforms';
 
 import { SettingsShow } from 'components/userProfile';
 
@@ -63,9 +64,9 @@ export default class SettingsContent extends PureComponent {
   onSubmitBlockchain = async values => {
     const { userId, updateProfileMeta, fetchProfile, waitForTransaction } = this.props;
 
-    const meta = pick(
-      ['name', 'gender', 'email', 'location', 'about', 'website', 'facebook', 'vk', 'instagram'],
-      values
+    const meta = merge(
+      pick(['name', 'gender', 'email', 'location', 'about', 'website'], values),
+      transformContacts(values.contacts)
     );
 
     try {
