@@ -12,6 +12,7 @@ import {
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { entitySelector } from 'store/selectors/common';
 import { defaults } from 'utils/common';
+import { transformContacts } from 'utils/transforms';
 
 const CONTRACT_NAME = 'social';
 
@@ -86,9 +87,7 @@ export const updateProfileMeta = meta => async (dispatch, getState) => {
         location: current.location,
         about: current.about,
         website: current.website,
-        facebook: current?.contacts?.facebook,
-        vk: current?.contacts.vkontakte,
-        instagram: current?.contacts?.instagram,
+        ...transformContacts(current.contacts),
       },
       DEFAULT_META_VALUES
     )
