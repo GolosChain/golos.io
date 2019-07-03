@@ -24,7 +24,7 @@ export default connect(
     const nsfwType = nsfwTypeSelector(state);
     let hideNsfw;
     let warnNsfw;
-    if (post?.content?.tags?.includes('nsfw')) {
+    if (post?.content?.metadata?.tags?.includes('nsfw')) {
       hideNsfw = nsfwType === 'hide';
       warnNsfw = nsfwType === 'warn';
     }
