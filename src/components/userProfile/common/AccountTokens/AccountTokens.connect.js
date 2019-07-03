@@ -1,39 +1,20 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { dataSelector } from 'store/selectors/common';
-import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
+import { userLiquidBalanceSelector, userVestingBalanceSelector } from 'store/selectors/wallet';
 
 import AccountTokens from './AccountTokens';
 
 export default connect(
   createSelector(
     [
-      (state, props) => dataSelector(['wallet', props.userId, 'balances'])(state),
-      (state, props) => dataSelector(['wallet', props.userId, 'vesting'])(state),
+      (state, props) => userLiquidBalanceSelector(props.userId)(state),
+      (state, props) => userVestingBalanceSelector(props.userId)(state),
     ],
-    (balances, vesting) => {
-      let gls = 0;
-      let power;
-      let powerDelegated;
-
-      if (balances && balances.length) {
-        [gls] = balances;
-      }
-
-      if (vesting && vesting.amount) {
-        power = parsePayoutAmount(vesting.amount.GOLOS);
-      }
-
-      if (vesting && vesting.deligated) {
-        powerDelegated = parsePayoutAmount(vesting.delegated.GOLOS);
-      }
-
-      return {
-        golos: parsePayoutAmount(gls) || 0,
-        power: power || 0,
-        powerDelegated: powerDelegated || 0,
-      };
-    }
+    (liquid, vesting) => ({
+      golos: liquid,
+      power: vesting.total,
+      powerDelegated: vesting.inDelegated,
+    })
   )
 )(AccountTokens);

@@ -985,7 +985,7 @@
       "title": "Account Summary"
     },
     "account_tokens": {
-      "title": "Account Value",
+      "title": "Account balance",
       "tokens": {
         "delegated": "Delegated",
         "savings": "Savings",

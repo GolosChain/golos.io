@@ -4,15 +4,15 @@ import BigNum from 'bignumber.js';
 
 import { dataSelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
+import { userVestingBalanceSelector } from 'store/selectors/wallet';
 import { vote } from 'store/actions/complex/votes';
 import { waitForTransaction, getVoters } from 'store/actions/gate';
 import { payoutSum } from 'utils/payout';
-import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 export default connect(
   createSelector(
     [
-      state => dataSelector(['wallet', currentUserIdSelector(state), 'vesting'])(state),
+      state => userVestingBalanceSelector(currentUserIdSelector(state))(state),
       dataSelector(['settings', 'basic', 'votePower']),
       (state, props) => payoutSum(props.entity),
       dataSelector(['settings', 'basic', 'currency']),
@@ -21,13 +21,7 @@ export default connect(
       dataSelector(['settings', 'basic', 'rounding']),
     ],
     (vesting, votePower, totalSum, currency = 'GOLOS', actualRate, payoutRounding) => {
-      let isRich = false;
       let payout = new BigNum(totalSum);
-
-      if (vesting && vesting.amount) {
-        const balance = parsePayoutAmount(vesting.amount.GOLOS);
-        isRich = balance > 10000;
-      }
 
       if (actualRate) {
         payout = payout.multipliedBy(actualRate);
@@ -35,7 +29,7 @@ export default connect(
 
       return {
         settingsVotePower: votePower,
-        isRich,
+        isRich: vesting.total > 10000,
         totalSum: payout,
         currency,
         payoutRounding,

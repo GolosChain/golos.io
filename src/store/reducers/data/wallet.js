@@ -4,7 +4,6 @@ import {
   FETCH_USER_BALANCE_SUCCESS,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_SUCCESS,
-  FETCH_USER_VESTING_BALANCE_SUCCESS,
 } from 'store/constants';
 
 import { TRANSFERS_TYPE } from 'shared/constants';
@@ -14,11 +13,14 @@ const initialState = {};
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_USER_BALANCE_SUCCESS:
-      if (state[meta.name]) {
+      // eslint-disable-next-line no-param-reassign
+      delete payload.userId;
+
+      if (state[meta.userId]) {
         return update(state, {
-          [meta.name]: {
+          [meta.userId]: {
             balances: {
-              $set: payload.balances || [],
+              $set: payload || {},
             },
           },
         });
@@ -26,33 +28,8 @@ export default function(state = initialState, { type, payload, meta }) {
 
       return {
         ...state,
-        [meta.name]: {
-          balances: payload.balances || [],
-        },
-      };
-
-    case FETCH_USER_VESTING_BALANCE_SUCCESS:
-      if (state[meta.name]) {
-        return update(state, {
-          [meta.name]: {
-            vesting: {
-              $set: {
-                amount: payload.vesting,
-                delegated: payload.delegated,
-                received: payload.received,
-              },
-            },
-          },
-        });
-      }
-      return {
-        ...state,
-        [meta.name]: {
-          vesting: {
-            amount: payload.vesting,
-            delegated: payload.delegated,
-            received: payload.received,
-          },
+        [meta.userId]: {
+          balances: payload || {},
         },
       };
 
