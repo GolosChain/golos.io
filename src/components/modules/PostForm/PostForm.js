@@ -213,9 +213,9 @@ export default class PostForm extends React.Component {
   static defaultProps = {
     editMode: false,
     permLink: '',
-    payoutType: 0,
+    payoutType: PAYOUT_TYPES.PAY_50,
     post: null,
-    curationPercent: 50,
+    curationPercent: DEFAULT_CURATION_PERCENT,
     mobileButtonsWrapperRef: {},
     minCurationPercent: 0,
     maxCurationPercent: 95,
@@ -237,7 +237,7 @@ export default class PostForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const { editMode } = this.props;
+    const { editMode, payoutType, curationPercent } = props;
 
     this.state = {
       isPreview: false,
@@ -247,8 +247,8 @@ export default class PostForm extends React.Component {
       emptyBody: true,
       rteState: null,
       tags: [],
-      payoutType: PAYOUT_TYPES.PAY_50,
-      curationPercent: DEFAULT_CURATION_PERCENT,
+      payoutType,
+      curationPercent,
       isPosting: false,
       uploadingCount: 0,
       isPreviewButtonVisible: true,
