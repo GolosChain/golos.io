@@ -16,7 +16,7 @@ export default connect(
     (currentUser, selfVote, post) => ({
       currentUser,
       selfVote,
-      curationPercent: Number(post.payout.meta.curatorsPercent),
+      curationPercent: post ? Number(post.payout.meta.curatorsPercent) : null,
     })
   ),
   {
