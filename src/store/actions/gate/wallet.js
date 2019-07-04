@@ -11,8 +11,14 @@ import {
   FETCH_VESTING_PARAMS,
   FETCH_VESTING_PARAMS_SUCCESS,
   FETCH_VESTING_PARAMS_ERROR,
+  CONVERT_VESTING_TO_TOKEN,
+  CONVERT_VESTING_TO_TOKEN_SUCCESS,
+  CONVERT_VESTING_TO_TOKEN_ERROR,
+  CONVERT_TOKENS_TO_VESTING,
+  CONVERT_TOKENS_TO_VESTING_SUCCESS,
+  CONVERT_TOKENS_TO_VESTING_ERROR,
 } from 'store/constants';
-import { TRANSFERS_FILTER_TYPE } from 'shared/constants';
+import { TRANSFERS_FILTER_TYPE, GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
 export const getBalance = userId => {
@@ -117,5 +123,39 @@ export const getVestingParams = () => {
       params,
     },
     meta: {},
+  };
+};
+
+export const convertVestingToToken = vesting => {
+  const params = { vesting: `${vesting} ${GOLOS_CURRENCY_ID}` };
+
+  return {
+    [CALL_GATE]: {
+      types: [
+        CONVERT_VESTING_TO_TOKEN,
+        CONVERT_VESTING_TO_TOKEN_SUCCESS,
+        CONVERT_VESTING_TO_TOKEN_ERROR,
+      ],
+      method: 'wallet.convertVestingToToken',
+      params,
+    },
+    meta: { ...params },
+  };
+};
+
+export const convertTokensToVesting = tokens => {
+  const params = { tokens: `${tokens} ${GOLOS_CURRENCY_ID}` };
+
+  return {
+    [CALL_GATE]: {
+      types: [
+        CONVERT_TOKENS_TO_VESTING,
+        CONVERT_TOKENS_TO_VESTING_SUCCESS,
+        CONVERT_TOKENS_TO_VESTING_ERROR,
+      ],
+      method: 'wallet.convertTokensToVesting',
+      params,
+    },
+    meta: { ...params },
   };
 };

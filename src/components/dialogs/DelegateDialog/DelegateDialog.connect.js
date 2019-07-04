@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { dataSelector } from 'store/selectors/common';
 import { currentUsernameSelector, currentUserIdSelector } from 'store/selectors/auth';
 import { userVestingBalanceSelector } from 'store/selectors/wallet';
-import { getVestingParams } from 'store/actions/gate';
+import { getVestingParams, convertTokensToVesting } from 'store/actions/gate';
 import { delegateTokens, stopDelegateTokens } from 'store/actions/cyberway/vesting';
 
 import DelegateDialog from './DelegateDialog';
@@ -27,6 +27,7 @@ export default connect(
     delegateTokens,
     stopDelegateTokens,
     getVestingParams,
+    convertTokensToVesting,
   },
   null,
   { forwardRef: true }

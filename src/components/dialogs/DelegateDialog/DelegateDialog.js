@@ -7,7 +7,6 @@ import tt from 'counterpart';
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { CheckboxInput } from 'components/golos-ui/Form';
-import Shrink from 'components/golos-ui/Shrink';
 import { processError } from 'helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'constants/config';
@@ -16,7 +15,6 @@ import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 import { parseAmount2 } from 'helpers/currency';
-import { vestsToGolos, golosToVests } from 'utils/StateFunctions';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import AccountNameInput from 'components/common/AccountNameInput';
 import DelegationEdit from './DelegationEdit';
@@ -122,7 +120,6 @@ const LoaderWrapper = styled.div`
 
 export default class DelegateDialog extends PureComponent {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
     currentUsername: PropTypes.string.isRequired,
     recipientName: PropTypes.string.isRequired,
     power: PropTypes.number.isRequired,
@@ -130,6 +127,7 @@ export default class DelegateDialog extends PureComponent {
     delegateTokens: PropTypes.func.isRequired,
     stopDelegateTokens: PropTypes.func.isRequired,
     getVestingParams: PropTypes.func.isRequired,
+    convertTokensToVesting: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
@@ -262,7 +260,7 @@ export default class DelegateDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const { userId, delegateTokens } = this.props;
+    const { delegateTokens, convertTokensToVesting } = this.props;
     const {
       target,
       amount,
@@ -288,7 +286,9 @@ export default class DelegateDialog extends PureComponent {
     }
 
     try {
-      await delegateTokens(target, amount, percent, payoutStrategy);
+      const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
+      const convertedAmount = await convertTokensToVesting(tokensQuantity);
+      await delegateTokens(target, convertedAmount.split(' ')[0], percent, payoutStrategy);
 
       this.setState({
         loader: false,
