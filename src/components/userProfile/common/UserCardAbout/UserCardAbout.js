@@ -351,38 +351,41 @@ export default class UserCardAbout extends PureComponent {
 
   renderSocialBlock() {
     const { profile } = this.props;
-    const { social } = profile;
+    const { contacts } = profile.personal;
 
-    if (!social || Object.keys(social).length === 0) {
+    if (!contacts || Object.keys(contacts).length === 0) {
       return null;
     }
 
     return (
       <SocialBlock justify="space-between">
-        {social.facebook && (
+        {contacts.facebook && (
           <SocialLink
-            href={makeSocialLink(social.facebook, 'https://facebook.com/')}
+            href={makeSocialLink(contacts.facebook, 'https://facebook.com/')}
             fb={1}
             target="_blank"
           >
             <IconStyled name="facebook" width="13" height="24" />
           </SocialLink>
         )}
-        {social.vkontakte && (
-          <SocialLink href={makeSocialLink(social.vkontakte, 'https://vk.com/')} target="_blank">
+        {contacts.vkontakte && (
+          <SocialLink href={makeSocialLink(contacts.vkontakte, 'https://vk.com/')} target="_blank">
             <IconStyled name="vk" width="28" height="18" />
           </SocialLink>
         )}
-        {social.instagram && (
+        {contacts.instagram && (
           <SocialLink
-            href={makeSocialLink(social.instagram, 'https://instagram.com/')}
+            href={makeSocialLink(contacts.instagram, 'https://instagram.com/')}
             target="_blank"
           >
             <IconStyled name="instagram" size="23" />
           </SocialLink>
         )}
-        {social.twitter && (
-          <SocialLink href={makeSocialLink(social.twitter, 'https://twitter.com/')} target="_blank">
+        {contacts.twitter && (
+          <SocialLink
+            href={makeSocialLink(contacts.twitter, 'https://twitter.com/')}
+            target="_blank"
+          >
             <IconStyled name="twitter" width="26" height="22" />
           </SocialLink>
         )}
