@@ -367,7 +367,9 @@ export default class CommentForm extends Component {
         displayError(tt('g.error'), { message: err.toString().trim() });
       }
     }
+
     this.setState({ isLoading: false });
+
     if (typeof cb === 'function') {
       cb({ isLoading: false });
     }
