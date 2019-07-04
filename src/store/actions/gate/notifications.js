@@ -24,7 +24,9 @@ export const getNotificationsCount = () => ({
       FETCH_NOTIFICATIONS_COUNT_ERROR,
     ],
     method: 'onlineNotify.historyFresh',
-    params: {},
+    params: {
+      app: 'gls',
+    },
   },
   meta: {
     waitAutoLogin: true,
@@ -36,6 +38,7 @@ export const fetchNotifications = ({ fromId } = {}) => dispatch => {
     limit: NOTIFICATIONS_PER_PAGE,
     markAsViewed: false,
     fromId,
+    app: 'gls',
   };
 
   return dispatch({
@@ -60,7 +63,9 @@ export const markAllViewed = () => ({
       MARK_ALL_NOTIFICATIONS_VIEWED_ERROR,
     ],
     method: 'notify.markAllAsViewed',
-    params: {},
+    params: {
+      app: 'gls',
+    },
   },
   meta: {
     waitAutoLogin: true,
@@ -78,6 +83,7 @@ export const markAsViewed = id => {
 
   const params = {
     ids,
+    app: 'gls',
   };
 
   return {
@@ -100,7 +106,9 @@ export const markAsViewed = id => {
 export const subscribeNotifications = () => ({
   [CALL_GATE]: {
     method: 'onlineNotify.on',
-    params: {},
+    params: {
+      app: 'gls',
+    },
   },
   meta: {
     waitAutoLogin: true,
@@ -110,7 +118,9 @@ export const subscribeNotifications = () => ({
 export const unsubscribeNotifications = () => ({
   [CALL_GATE]: {
     method: 'onlineNotify.off',
-    params: {},
+    params: {
+      app: 'gls',
+    },
   },
   meta: {
     waitAutoLogin: true,

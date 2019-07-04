@@ -14,6 +14,7 @@ export const fetchActivities = ({ types = ['all'], fromId = null } = {}, meta = 
     types,
     markAsViewed: false,
     fromId,
+    app: 'gls',
   };
 
   return {
