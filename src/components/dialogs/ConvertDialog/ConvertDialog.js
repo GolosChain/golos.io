@@ -19,7 +19,6 @@ import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
 import { parseAmount } from 'helpers/currency';
 import { boldify } from 'helpers/text';
-// import { vestsToGolos, golosToVests } from 'utils/StateFunctions';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 
 import AdditionalSection from './AdditionalSection';
@@ -118,6 +117,7 @@ export default class ConvertDialog extends PureComponent {
     withdrawTokens: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
     getBalance: PropTypes.func.isRequired,
+    convertTokensToVesting: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -201,7 +201,13 @@ export default class ConvertDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const { currentUserId, /* globalProps, */ withdrawTokens, transferToken, onClose } = this.props;
+    const {
+      currentUserId,
+      withdrawTokens,
+      transferToken,
+      convertTokensToVesting,
+      onClose,
+    } = this.props;
     const { amount, type, loader, disabled, saveTo, recipient } = this.state;
 
     if (loader || disabled) {
@@ -213,9 +219,7 @@ export default class ConvertDialog extends PureComponent {
       disabled: true,
     });
 
-    const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(
-      type === TYPES.POWER ? 6 : 3
-    );
+    const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
 
     try {
       if (type === TYPES.GOLOS) {
@@ -225,8 +229,9 @@ export default class ConvertDialog extends PureComponent {
           `send to: ${saveTo ? recipient : currentUserId}`
         );
       } else if (type === TYPES.POWER) {
-        // const vesting = golosToVests(parseFloat(amount.replace(/\s+/, '')), globalProps);
-        await withdrawTokens(tokensQuantity);
+        const convertedAmount = await convertTokensToVesting(tokensQuantity);
+        await withdrawTokens(convertedAmount.split(' ')[0]);
+
         ToastsManager.info(tt('dialogs_transfer.operation_started'));
       }
       this.setState({
@@ -303,32 +308,13 @@ export default class ConvertDialog extends PureComponent {
   }
 
   render() {
-    const {
-      /* myAccount, globalProps, */ balance,
-      powerBalance,
-      toWithdraw,
-      withdrawn,
-    } = this.props;
+    const { balance, powerBalance, toWithdraw, withdrawn } = this.props;
     const { recipient, amount, loader, disabled, amountInFocus, type, saveTo } = this.state;
 
     const TYPES_TRANSLATE = {
       GOLOS: tt('token_names.LIQUID_TOKEN'),
       POWER: tt('token_names.VESTING_TOKEN'),
     };
-
-    // let balanceString = null;
-
-    /* if (type === TYPES.GOLOS) {
-      balanceString = myAccount.balance;
-      balance = parseFloat(balanceString);
-    } else if (type === TYPES.POWER) {
-      const { golos } = getVesting(myAccount, globalProps);
-
-      balance = Math.max(0, parseFloat(golos) - MIN_VOICE_POWER);
-      balanceString = balance.toFixed(3);
-    } */
-
-    /* balanceString.match(/^[^\s]*!/)[0] */
 
     let { value, error } = parseAmount(
       amount,
@@ -444,14 +430,3 @@ export default class ConvertDialog extends PureComponent {
     );
   }
 }
-
-/* function getVesting(account, props) {
-  const vesting = parseFloat(account.vesting_shares);
-  const delegated = parseFloat(account.delegated_vesting_shares);
-
-  const availableVesting = vesting - delegated;
-
-  return {
-    golos: vestsToGolos(`${availableVesting.toFixed(6)} GESTS`, props),
-  };
-} */
