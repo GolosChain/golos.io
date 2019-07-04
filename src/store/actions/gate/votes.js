@@ -12,6 +12,7 @@ export const fetchEntityVotes = (methodName, actionName) => (
     type,
     sequenceKey,
     limit,
+    app: 'gls',
   };
   return {
     [CALL_GATE]: {
@@ -24,6 +25,7 @@ export const fetchEntityVotes = (methodName, actionName) => (
       type,
       sequenceKey,
       limit,
+      app: 'gls',
     },
   };
 };
