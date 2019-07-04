@@ -24,6 +24,8 @@ export default class FollowUserButton extends Component {
     isLoading: PropTypes.bool.isRequired,
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
     targetUserId: PropTypes.string.isRequired,
     buttonClicked: PropTypes.func,
     currentUserId: PropTypes.string,
@@ -42,6 +44,8 @@ export default class FollowUserButton extends Component {
       targetUserId,
       followUser,
       unfollowUser,
+      waitForTransaction,
+      fetchProfile,
       currentUserId,
       buttonClicked,
     } = this.props;
@@ -55,13 +59,19 @@ export default class FollowUserButton extends Component {
           return;
         }
       }
+
+      let result;
       if (isFollowed) {
         if (await this.showUnfollowAlert()) {
-          await unfollowUser(targetUserId);
+          result = await unfollowUser(targetUserId);
         }
       } else {
-        await followUser(targetUserId);
+        result = await followUser(targetUserId);
       }
+
+      await waitForTransaction(result.transaction_id);
+
+      await fetchProfile(targetUserId);
     } catch (err) {
       displayError(tt('g.error'), err);
     }
