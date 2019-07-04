@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { pin, unpin } from 'store/actions/cyberway/social';
+import { waitForTransaction } from 'store/actions/gate';
+import { fetchProfile } from 'store/actions/gate/user';
 import { statusSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
@@ -23,5 +25,7 @@ export default connect(
   {
     followUser: pin,
     unfollowUser: unpin,
+    fetchProfile,
+    waitForTransaction,
   }
 )(FollowUserButton);
