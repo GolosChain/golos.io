@@ -3722,13 +3722,13 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@^1.1.28:
-  version "1.1.28"
-  resolved "http://159.69.117.25:4873/cyber-client/-/cyber-client-1.1.28.tgz#dd1cfa49ff441f499b0a4a82b80a4608b97dbc5e"
-  integrity sha512-00QZ8XyUdMxXyQIx9g/j2g0bk1qZBD1/5bfaf4IWmV19cYvT/7tbEtxgSx6++MjMnWIgmCYM4DIEIDj1djawTQ==
+cyber-client@^1.1.29:
+  version "1.1.29"
+  resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.1.29.tgz#cec0bc6525602c57cecb35d4056b712efef06e00"
+  integrity sha512-G4h0IYN8pGMpyVHsk9fIxL8qDMm+ccPSe+Eiaw4PHKKkG05ZDgZ33iBgc7sxNDQ+SL1igwziHnvjg9PxQPZ1Tw==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    cyberwayjs "^20.0.0-beta6"
+    cyberwayjs "^20.0.0-beta7"
     idb "^3.0.2"
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
@@ -3738,14 +3738,14 @@ cyber-country-flag@^0.0.3:
   resolved "http://159.69.117.25:4873/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
   integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
 
-cyberwayjs@^20.0.0-beta6:
-  version "20.0.0-beta6"
-  resolved "http://159.69.117.25:4873/cyberwayjs/-/cyberwayjs-20.0.0-beta6.tgz#8555c7b829d600d0bc829ec2f20c36b8c0fcc453"
-  integrity sha512-imC44QZUs07C6ZoKFjkPANAX7jdxuRmemKDS8OJEdHtv3PVseP7QfiLdP0zMAnopcXps2+APsn/BDhf93xrdXA==
+cyberwayjs@^20.0.0-beta7:
+  version "20.0.0-beta7"
+  resolved "https://npm.golos.io/cyberwayjs/-/cyberwayjs-20.0.0-beta7.tgz#39c97bb921c5ca143e34db9e29375399c23c3298"
+  integrity sha512-MVdWq4ScqW/Pu/D5BQDc9P7TEl27uhajmqMkB2hEgrfh5OAUF/e7C7hpaJVFHfFJjJh3PLhKo6h9shcvZfal2w==
   dependencies:
     babel-polyfill "^6.26.0"
     eosjs-ecc "^4.0.1"
-    text-encoding "^0.6.4"
+    text-encoding "^0.7.0"
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -11531,11 +11531,6 @@ test-exclude@^5.2.3:
     minimatch "^3.0.4"
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
-
-text-encoding@^0.6.4:
-  version "0.6.4"
-  resolved "http://159.69.117.25:4873/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
-  integrity sha1-45mpgiV6J22uQou5KEXLcb3CbRk=
 
 text-encoding@^0.7.0:
   version "0.7.0"
