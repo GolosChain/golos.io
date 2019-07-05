@@ -6,7 +6,7 @@ import {
   FETCH_POSTS_ERROR,
   REMOVE_REBLOG_POST_SUCCESS,
 } from 'store/constants/actionTypes';
-import { formatContentId } from '../../schemas/gate';
+import { formatContentIdRepost } from '../../schemas/gate';
 
 const initialState = {
   query: {},
@@ -54,7 +54,7 @@ export default function(state = initialState, { type, payload, error, meta }) {
       };
 
     case REMOVE_REBLOG_POST_SUCCESS:
-      const contentId = formatContentId(meta.contentId);
+      const contentId = formatContentIdRepost(meta.post);
 
       if (state.query.userId === meta.userId) {
         return {
