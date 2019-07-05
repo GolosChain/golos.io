@@ -49,7 +49,7 @@ class RouteListener extends Component {
       }
 
       if (includeRoute) {
-        isActive = url === includeRoute ? 1 : 0;
+        isActive = url.replace(/\?.*$/, '') === includeRoute ? 1 : 0;
       }
     }
 
