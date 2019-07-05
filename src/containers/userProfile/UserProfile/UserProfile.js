@@ -167,7 +167,7 @@ export default class UserProfile extends Component {
       return <BlockedContent reason={tt('g.blocked_user_content')} />;
     }
 
-    const showLayoutSwitcher = tabId === 'blog' || tabId === 'favorites';
+    const showLayoutSwitcher = tabId === 'feed' || tabId === 'favorites';
 
     return (
       <>
