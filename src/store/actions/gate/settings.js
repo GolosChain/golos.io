@@ -22,6 +22,7 @@ export const fetchSettings = () => async (dispatch, getState) => {
         method: 'options.get',
         params: {
           profile: 'web',
+          app: 'gls',
         },
       },
       meta: {
@@ -46,6 +47,7 @@ export const updateSettings = options => async (dispatch, getState) => {
         params: {
           ...options,
           profile: 'web',
+          app: 'gls',
         },
       },
       meta: {
