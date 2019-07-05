@@ -394,6 +394,8 @@ export default class CommentCard extends PureComponent {
     } catch (err) {
       displayError(err);
     }
+
+    cb({ isLoading: false });
   };
 
   toggleComment = () => {
