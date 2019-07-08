@@ -13,7 +13,7 @@ import Icon from 'components/golos-ui/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Link from 'components/common/Link';
 import Avatar from 'components/common/Avatar';
-import Follow from 'components/common/Follow';
+// import Follow from 'components/common/Follow';
 
 const Wrapper = styled.div`
   padding: 10px 15px;
@@ -114,13 +114,13 @@ const LeftSide = styled.div`
   color: #2879ff;
 `;
 
-const FollowWrapper = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  margin-top: 15px;
-  margin-left: 10px;
-`;
+// const FollowWrapper = styled.div`
+//   display: flex;
+//   flex-shrink: 0;
+//   align-items: center;
+//   margin-top: 15px;
+//   margin-left: 10px;
+// `;
 
 const AvatarLink = styled(Link)`
   padding: 0 3px;
@@ -194,7 +194,7 @@ export default class ActivityItem extends Component {
     const { notification, isCompact } = this.props;
     let leftSide = null;
     let nameLink = null;
-    let followBlock = null;
+    // let followBlock = null;
     let isRewards = false;
 
     const type = notification.eventType;
@@ -225,13 +225,13 @@ export default class ActivityItem extends Component {
         );
       }
 
-      if (type === 'subscribe') {
-        followBlock = (
-          <FollowWrapper isCompact={isCompact}>
-            <Follow userId={userId} collapseOnMobile collapse={isCompact} />
-          </FollowWrapper>
-        );
-      }
+      // if (type === 'subscribe') {
+      //   followBlock = (
+      //     <FollowWrapper isCompact={isCompact}>
+      //       <Follow userId={userId} collapseOnMobile collapse={isCompact} />
+      //     </FollowWrapper>
+      //   );
+      // }
     }
 
     let translateId;
@@ -264,7 +264,7 @@ export default class ActivityItem extends Component {
                 </Interpolate>
               </ActivityText>
             </ActivityLeft>
-            {followBlock}
+            {/*{followBlock}*/}
             <ActivityDate>
               <TimeAgoWrapper date={notification.timestamp} />
             </ActivityDate>
