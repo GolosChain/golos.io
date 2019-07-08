@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import { currentUnsafeUserSelector } from 'store/selectors/auth';
 import { profileSelector, dataSelector } from 'store/selectors/common';
-import { fetchChargers } from 'store/actions/gate';
 
 import AccountInfo from './AccountInfo';
 
@@ -23,7 +22,5 @@ export default connect(
       chargers,
     };
   },
-  {
-    fetchChargers,
-  }
+  null
 )(AccountInfo);

@@ -87,24 +87,11 @@ export default class AccountInfo extends PureComponent {
       comments: PropTypes.number,
       postbw: PropTypes.number,
     }).isRequired,
-    fetchChargers: PropTypes.func.isRequired,
   };
 
   state = {
     isShowChargersPopup: false,
   };
-
-  async componentDidMount() {
-    const { userId, fetchChargers } = this.props;
-
-    if (userId) {
-      try {
-        await fetchChargers(userId);
-      } catch (err) {
-        displayError(err);
-      }
-    }
-  }
 
   handleMouseHover = () => {
     this.setState(state => ({ isShowChargersPopup: !state.isShowChargersPopup }));
