@@ -175,7 +175,7 @@ export const reblog = ({ contentId, text }) => async (dispatch, getState) => {
   });
 };
 
-export const removeReblog = contentId => (dispatch, getState) => {
+export const removeReblog = post => (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -185,8 +185,8 @@ export const removeReblog = contentId => (dispatch, getState) => {
   const params = {
     rebloger: userId,
     message_id: {
-      author: contentId.userId,
-      permlink: contentId.permlink,
+      author: post.contentId.userId,
+      permlink: post.contentId.permlink,
     },
   };
 
@@ -199,7 +199,7 @@ export const removeReblog = contentId => (dispatch, getState) => {
     },
     meta: {
       userId,
-      contentId,
+      post,
     },
   });
 };

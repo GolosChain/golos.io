@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import ToastsManager from 'toasts-manager';
 import LazyLoad from 'react-lazyload';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
@@ -19,7 +18,9 @@ import { TagLink } from 'components/golos-ui/Tag';
 import VotePanel from 'components/common/VotePanel';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
 // import CurationPercent from 'components/common/CurationPercent';
+
 import CardAuthor from '../CardAuthor';
 import { EntryWrapper, PostTitle, PostContent } from '../common';
 
@@ -328,6 +329,10 @@ export default class PostCard extends PureComponent {
     currentUserId: '',
   };
 
+  state = {
+    isReblogRemoving: false,
+  };
+
   async componentDidMount() {
     const { post, fetchPost, id } = this.props;
     window.addEventListener('resize', this.onResize);
@@ -384,11 +389,15 @@ export default class PostCard extends PureComponent {
   onRemoveClick = async () => {
     const { post, removeReblog } = this.props;
 
+    this.setState({ isReblogRemoving: true });
+
     try {
-      await removeReblog(post.contentId);
+      await removeReblog(post);
     } catch (err) {
       displayError(err);
     }
+
+    this.setState({ isReblogRemoving: false });
   };
 
   // onPinClick = () => {
@@ -546,6 +555,7 @@ export default class PostCard extends PureComponent {
 
   renderRemoveButton() {
     const { isOwner, post } = this.props;
+    const { isReblogRemoving } = this.state;
 
     if (!isOwner || !post.repost?.isRepost) {
       return;
@@ -553,15 +563,19 @@ export default class PostCard extends PureComponent {
 
     return (
       <ToolbarAction name="post-card__remove">
-        <IconWrapper
-          role="button"
-          aria-label={tt('post_card.remove')}
-          data-tooltip={tt('post_card.remove')}
-          enabled
-          onClick={this.onRemoveClick}
-        >
-          <Icon name="mute" width={24} />
-        </IconWrapper>
+        {isReblogRemoving ? (
+          <LoadingIndicator type="circle" size={24} />
+        ) : (
+          <IconWrapper
+            role="button"
+            aria-label={tt('post_card.remove')}
+            data-tooltip={tt('post_card.remove')}
+            enabled
+            onClick={this.onRemoveClick}
+          >
+            <Icon name="mute" width={24} />
+          </IconWrapper>
+        )}
       </ToolbarAction>
     );
   }
