@@ -4,7 +4,7 @@ import { sign } from 'cyber-client/lib/auth';
 
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { saveAuth, removeAuth } from 'utils/localStorage';
-import { fetchProfile } from 'store/actions/gate/user';
+import { fetchProfile, fetchChargers } from 'store/actions/gate/user';
 import { fetchSettings } from 'store/actions/gate/settings';
 import { fetchFavorites } from 'store/actions/gate/favorites';
 import {
@@ -97,7 +97,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       document.cookie = `golos.userId=${auth.user}; path=/; expires=${date.toGMTString()}`;
 
       try {
-        await dispatch(fetchProfile(auth.user));
+        await Promise.all([dispatch(fetchProfile(auth.user)), dispatch(fetchChargers(auth.user))]);
       } catch (err) {
         // replace with action if needed
         // eslint-disable-next-line no-console

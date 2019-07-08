@@ -59,7 +59,11 @@ ChargersInfo.propTypes = {
     posts: PropTypes.number,
     comments: PropTypes.number,
     postbw: PropTypes.number,
-  }).isRequired,
+  }),
+};
+
+ChargersInfo.defaultProps = {
+  chargers: null,
 };
 
 export default ChargersInfo;
