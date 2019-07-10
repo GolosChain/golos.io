@@ -488,8 +488,7 @@ export default class PostCardCompact extends PureComponent {
         <Link route="profile" params={{ userId: post.author || 'unknown' }} passHref>
           <AuthorLink>
             <AuthorName>{author?.username || post.author}</AuthorName>
-            {/* TODO: fix user rating */}
-            <AuthorRating>{repLog10(123)}</AuthorRating>
+            <AuthorRating>{repLog10(author?.stats?.reputation)}</AuthorRating>
           </AuthorLink>
         </Link>
         <Link route="home" passHref>
