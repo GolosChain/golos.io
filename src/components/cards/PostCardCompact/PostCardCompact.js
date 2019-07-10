@@ -468,8 +468,6 @@ export default class PostCardCompact extends PureComponent {
     const category = detransliterate(post.tag || 'test');
     const categoryTooltip = tt('aria_label.category', { category });
 
-    console.log(author);
-
     return (
       <DetailsBlock>
         {isRepost ? (
