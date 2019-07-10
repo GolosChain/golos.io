@@ -69,7 +69,7 @@ export const fetchRegFirstStep = phoneNumber => async dispatch => {
       },
     });
   } catch ({ originalMessage, currentState }) {
-    if (originalMessage === PHONE_ALREADY_REGISTERED) {
+    if (originalMessage === PHONE_ALREADY_REGISTERED || currentState === 'registered') {
       dispatch(setFirstStepError('Phone has been already registered'));
       throw originalMessage;
     }
