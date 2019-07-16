@@ -633,6 +633,11 @@ export default class PostCard extends PureComponent {
   renderBody() {
     const { compact, stats, post, warnNsfw, onClick } = this.props;
 
+    if (!post.content.body?.raw) {
+      console.error('Repost without body:', post);
+      return null;
+    }
+
     const content = extractContent(post.content.body);
     let imageLink;
 
