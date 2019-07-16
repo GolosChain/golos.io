@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 import LoadingIndicator from 'components/elements/LoadingIndicator';
+import EmptyBlock from 'components/common/EmptyBlock';
 import VestingLine from '../VestingLine';
-import tt from 'counterpart';
 
 const LoaderWrapper = styled.div`
   display: flex;
