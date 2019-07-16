@@ -44,7 +44,7 @@ export const transferToken = (recipient, tokens, memo) => async (dispatch, getSt
       await waitForWalletTransaction(processed.id);
       await Promise.all([
         dispatch(getBalance(userId)),
-        dispatch(getTransfersHistory(userId, { isIncoming: false })),
+        dispatch(getTransfersHistory({ userId, direction: 'out' })),
       ]);
       displaySuccess(tt('dialogs_transfer.transfer.transfer_success'));
     }

@@ -516,6 +516,7 @@
     "to": " to ",
     "topics": "Topics",
     "transaction_history": "Transaction History",
+    "vesting_history": "Vesting History",
     "transfer": "Transfer ",
     "trending": "Trending",
     "trending_topics": "Trending Topics",
@@ -1052,6 +1053,7 @@
       "from": "From",
       "nothing_here_yet": "Nothing here yet",
       "power_up": "Power Up",
+      "power_down": "Power Down",
       "tip": {
         "cancel_delegation": "Cancel delegation",
         "edit_delegation": "Edit delegation",
@@ -1079,7 +1081,8 @@
       "rewards": "Rewards",
       "savings": "Savings",
       "sent": "Sent",
-      "transaction_history": "Transaction History"
+      "transaction_history": "Transaction History",
+      "vesting_history": "Vesting History"
     }
   },
   "userkeys_jsx": {
