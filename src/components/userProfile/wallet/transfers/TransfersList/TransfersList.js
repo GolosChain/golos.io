@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-
-import LoadingIndicator from 'components/elements/LoadingIndicator';
-import TransferLine from '../TransferLine';
-import { displayError } from '../../../../../utils/toastMessages';
 import throttle from 'lodash.throttle';
 import tt from 'counterpart';
+
+import { displayError } from 'utils/toastMessages';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+import TransferLine from '../TransferLine';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -67,6 +67,7 @@ export default function TransfersList({
     window.addEventListener('scroll', onScrollLazy);
 
     return () => {
+      onScrollLazy.cancel();
       window.removeEventListener('scroll', onScrollLazy);
     };
   }, []);

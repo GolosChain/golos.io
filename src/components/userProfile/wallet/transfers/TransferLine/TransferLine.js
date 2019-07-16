@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { breakWordStyles } from 'helpers/styles';
-import Icon from 'components/golos-ui/Icon/Icon';
+import Icon from 'components/golos-ui/Icon';
 import TextCut from 'components/common/TextCut';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Linkify from 'components/common/Linkify';
