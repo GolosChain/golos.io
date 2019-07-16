@@ -122,7 +122,8 @@ export default class AccountInfo extends PureComponent {
               </AccountPowerBar>
               <AccountPowerValue>{votingPower}%</AccountPowerValue>
             </AccountPowerBlock>
-            {isShowChargersPopup && <ChargersInfoStyled chargers={chargers} />}
+            {/* TODO: Временно отключена панелька с детализацией батарейки */}
+            {/*{isShowChargersPopup && <ChargersInfoStyled chargers={chargers} />}*/}
           </AccountText>
         </AccountInfoBlock>
       </Link>
