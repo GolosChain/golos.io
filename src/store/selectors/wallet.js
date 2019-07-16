@@ -9,7 +9,13 @@ export const userBalanceSelector = userId => dataSelector(['wallet', userId, 'ba
 export const userLiquidBalanceSelector = userId =>
   createSelector(
     [userBalanceSelector(userId)],
-    balances => parsePayoutAmount(balances?.liquid?.GOLOS) || 0
+    balances => parsePayoutAmount(balances?.liquid?.balances?.GOLOS) || 0
+  );
+
+export const userLiquidPaymentsSelector = userId =>
+  createSelector(
+    [userBalanceSelector(userId)],
+    balances => parsePayoutAmount(balances?.liquid?.payments?.GOLOS) || 0
   );
 
 export const userVestingBalanceSelector = userId =>
