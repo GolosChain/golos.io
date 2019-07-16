@@ -461,6 +461,7 @@
     "to": " до ",
     "topics": "Топіки",
     "transaction_history": "Історія транзакцій",
+    "vesting_history": "Історія Вестінга",
     "transfer": "Передати ",
     "trending_topics": "Популярні",
     "turn_back": "Повернутися назад",
@@ -946,6 +947,7 @@
       "from": "Від",
       "nothing_here_yet": "Тут поки порожньо",
       "power_up": "Збільшення Сили Голосу",
+      "power_down": "Зниження Сили Голосу",
       "tip": {
         "cancel_delegation": "Скасувати делегування",
         "edit_delegation": "Редагувати делегування",
@@ -973,7 +975,8 @@
       "rewards": "Винагороди",
       "savings": "Сейф",
       "sent": "Відправлені",
-      "transaction_history": "Исторія транзакцій"
+      "transaction_history": "Исторія транзакцій",
+      "vesting_history": "Исторія Вестінга"
     }
   },
   "userkeys_jsx": {

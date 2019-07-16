@@ -519,6 +519,7 @@
     "to": " к ",
     "topics": "Топики",
     "transaction_history": "История транзакций",
+    "vesting_history": "История вестинга",
     "transfer": "Передать ",
     "trending": "Популярное",
     "trending_topics": "Популярное",
@@ -1064,6 +1065,7 @@
       "from": "От",
       "nothing_here_yet": "Тут пока пусто",
       "power_up": "Увеличение Силы Голоса",
+      "power_down": "Понижение Силы Голоса",
       "tip": {
         "cancel_delegation": "Отменить делегирование",
         "edit_delegation": "Редактировать делегирование",
@@ -1091,7 +1093,8 @@
       "rewards": "Награды",
       "savings": "Сейф",
       "sent": "Отправленные",
-      "transaction_history": "История транзакций"
+      "transaction_history": "История транзакций",
+      "vesting_history": "История вестинга"
     }
   },
   "userkeys_jsx": {

@@ -18,7 +18,7 @@ import {
   CONVERT_TOKENS_TO_VESTING_SUCCESS,
   CONVERT_TOKENS_TO_VESTING_ERROR,
 } from 'store/constants';
-import { TRANSFERS_FILTER_TYPE, GOLOS_CURRENCY_ID } from 'shared/constants';
+import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
 export const getBalance = userId => {
@@ -41,13 +41,20 @@ export const getBalance = userId => {
   };
 };
 
-export const getTransfersHistory = (username, { isIncoming }, sequenceKey = null) => {
-  if (!username) {
-    throw new Error('Username is required!');
+export const getTransfersHistory = ({
+  userId,
+  currencies = ['all'],
+  direction = 'all',
+  sequenceKey = null,
+} = {}) => {
+  if (!userId) {
+    throw new Error('userId is required!');
   }
 
   const params = {
-    [isIncoming ? TRANSFERS_FILTER_TYPE.RECEIVER : TRANSFERS_FILTER_TYPE.SENDER]: username,
+    userId,
+    currencies,
+    direction,
     sequenceKey,
     limit: 20,
   };
@@ -59,12 +66,12 @@ export const getTransfersHistory = (username, { isIncoming }, sequenceKey = null
         FETCH_TRANSFERS_HISTORY_SUCCESS,
         FETCH_TRANSFERS_HISTORY_ERROR,
       ],
-      method: 'wallet.getHistory',
+      method: 'wallet.getTransferHistory',
       params,
     },
     meta: {
       ...params,
-      name: username,
+      name: userId,
     },
   };
 };
@@ -88,13 +95,13 @@ export const waitForWalletTransaction = transactionId => {
   };
 };
 
-export const getVestingHistory = (userId, sequenceKey = null) => {
+export const getVestingHistory = ({ userId, sequenceKey = null }) => {
   if (!userId) {
-    throw new Error('Username is required!');
+    throw new Error('userId is required!');
   }
 
   const params = {
-    account: userId,
+    userId,
     limit: 20,
     sequenceKey,
   };
