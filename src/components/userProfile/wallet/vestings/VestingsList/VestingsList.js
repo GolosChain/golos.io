@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import throttle from 'lodash.throttle';
 
+import { displayError } from 'utils/toastMessages';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import EmptyBlock from 'components/common/EmptyBlock';
 import VestingLine from '../VestingLine';
-import { displayError } from '../../../../../utils/toastMessages';
-import throttle from 'lodash.throttle';
 
 const LoaderWrapper = styled.div`
   display: flex;
