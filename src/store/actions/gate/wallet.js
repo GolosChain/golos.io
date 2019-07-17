@@ -56,7 +56,7 @@ export const getTransfersHistory = ({
     currencies: [currency],
     direction,
     sequenceKey,
-    limit: 2,
+    limit: 20,
   };
 
   return {
