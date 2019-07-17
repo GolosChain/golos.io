@@ -18,13 +18,14 @@ export default compose(
             router: {
               query: { userId },
             },
+            currency,
             direction,
           }
-        ) => dataSelector(['wallet', userId, 'transfers', direction])(state),
+        ) => dataSelector(['wallet', userId, 'transfers', currency, direction])(state),
       ],
       transfers => {
         return {
-          transfers: transfers?.items,
+          items: transfers?.items,
           sequenceKey: transfers?.sequenceKey,
           isHistoryEnd: transfers?.isHistoryEnd,
         };

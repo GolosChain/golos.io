@@ -43,7 +43,7 @@ export const getBalance = userId => {
 
 export const getTransfersHistory = ({
   userId,
-  currencies = ['all'],
+  currency = 'all',
   direction = 'all',
   sequenceKey = null,
 } = {}) => {
@@ -53,10 +53,10 @@ export const getTransfersHistory = ({
 
   const params = {
     userId,
-    currencies,
+    currencies: [currency],
     direction,
     sequenceKey,
-    limit: 20,
+    limit: 2,
   };
 
   return {
@@ -71,6 +71,7 @@ export const getTransfersHistory = ({
     },
     meta: {
       ...params,
+      currency,
       name: userId,
     },
   };

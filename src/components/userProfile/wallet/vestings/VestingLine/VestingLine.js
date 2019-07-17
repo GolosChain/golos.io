@@ -123,8 +123,8 @@ function VestingLine({
           </TimeStamp>
         </Who>
         <Value>
-          <Amount color={color}>{diff.GESTS}</Amount>
-          <Currency>{tt('token_names.VESTING_TOKEN')}</Currency>
+          <Amount color={color}>{diff.GOLOS}</Amount>
+          <Currency>{tt('token_names.LIQUID_TOKEN')}</Currency>
         </Value>
       </Line>
       {/*{this.renderEditDelegation()}*/}

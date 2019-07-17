@@ -50,22 +50,24 @@ export default function(state = initialState, { type, payload, meta }) {
       if (
         state[meta.name] &&
         meta.sequenceKey &&
-        meta.sequenceKey === state[meta.name].transfers[meta.direction].sequenceKey &&
-        meta.sequenceKey !== payload.sequenceKey
+        meta.sequenceKey !== payload.sequenceKey &&
+        meta.sequenceKey === state[meta.name].transfers[meta.currency][meta.direction].sequenceKey
       ) {
         return update(state, {
           [meta.name]: {
             transfers: transfers =>
               update(transfers || {}, {
-                [meta.direction]: {
-                  items: {
-                    $push: payload.items || [],
-                  },
-                  sequenceKey: {
-                    $set: payload.sequenceKey || null,
-                  },
-                  isHistoryEnd: {
-                    $set: payload.items.length < meta.limit,
+                [meta.currency]: {
+                  [meta.direction]: {
+                    items: {
+                      $push: payload.items || [],
+                    },
+                    sequenceKey: {
+                      $set: payload.sequenceKey || null,
+                    },
+                    isHistoryEnd: {
+                      $set: payload.items.length < meta.limit,
+                    },
                   },
                 },
               }),
@@ -79,10 +81,12 @@ export default function(state = initialState, { type, payload, meta }) {
           ...state[meta.name],
           transfers: {
             ...state[meta.name].transfers,
-            [meta.direction]: {
-              items: payload.items || [],
-              sequenceKey: payload.sequenceKey,
-              isHistoryEnd: payload.items.length < meta.limit,
+            [meta.currency]: {
+              [meta.direction]: {
+                items: payload.items || [],
+                sequenceKey: payload.sequenceKey,
+                isHistoryEnd: payload.items.length < meta.limit,
+              },
             },
           },
         },
@@ -106,8 +110,8 @@ export default function(state = initialState, { type, payload, meta }) {
       if (
         state[meta.name] &&
         meta.sequenceKey &&
-        meta.sequenceKey === state[meta.name].vestings.sequenceKey &&
-        payload.sequenceKey !== meta.sequenceKey
+        meta.sequenceKey !== payload.sequenceKey &&
+        meta.sequenceKey === state[meta.name].vestings.sequenceKey
       ) {
         return update(state, {
           [meta.name]: {

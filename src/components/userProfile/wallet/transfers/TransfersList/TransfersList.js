@@ -30,7 +30,7 @@ export default function TransfersList({
   router: {
     query: { userId },
   },
-  transfers,
+  items,
   currency,
   direction,
   sequenceKey,
@@ -42,12 +42,12 @@ export default function TransfersList({
   const loadHistory = useCallback(async () => {
     try {
       if (!isHistoryEnd) {
-        await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
+        await getTransfersHistory({ userId, currency, direction, sequenceKey });
       }
     } catch (err) {
       displayError(err);
     }
-  });
+  }, [isHistoryEnd, userId, currency, direction, sequenceKey]);
 
   useEffect(() => {
     const onScrollLazy = throttle(
@@ -70,9 +70,9 @@ export default function TransfersList({
       onScrollLazy.cancel();
       window.removeEventListener('scroll', onScrollLazy);
     };
-  }, []);
+  }, [listRef.current, sequenceKey]);
 
-  if (!transfers) {
+  if (!items) {
     return (
       <LoaderWrapper>
         <LoadingIndicator type="circle" size={40} />
@@ -80,14 +80,14 @@ export default function TransfersList({
     );
   }
 
-  if (!transfers.length) {
+  if (!items.length) {
     return <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>;
   }
 
   return (
     <Lines ref={listRef}>
-      {transfers.map(transfer => (
-        <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
+      {items.map(transfer => (
+        <TransferLine key={transfer.id} transfer={transfer} />
       ))}
     </Lines>
   );

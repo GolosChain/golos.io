@@ -23,7 +23,7 @@ export default compose(
       ],
       vestings => {
         return {
-          vestings: vestings?.items,
+          items: vestings?.items,
           sequenceKey: vestings?.sequenceKey,
           isHistoryEnd: vestings?.isHistoryEnd,
         };

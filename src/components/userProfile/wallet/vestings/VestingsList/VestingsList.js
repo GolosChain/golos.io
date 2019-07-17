@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import EmptyBlock from 'components/common/EmptyBlock';
 import VestingLine from '../VestingLine';
+import { displayError } from '../../../../../utils/toastMessages';
+import throttle from 'lodash.throttle';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -22,15 +24,47 @@ export default function VestingsList({
   router: {
     query: { userId },
   },
-  vestings,
+  items,
   sequenceKey,
+  isHistoryEnd,
   getVestingHistory,
 }) {
-  useEffect(() => {
-    getVestingHistory({ userId, sequenceKey });
-  }, []);
+  const listRef = useRef();
 
-  if (!vestings) {
+  const loadHistory = useCallback(async () => {
+    try {
+      if (!isHistoryEnd) {
+        await getVestingHistory({ userId, sequenceKey });
+      }
+    } catch (err) {
+      displayError(err);
+    }
+  });
+
+  useEffect(() => {
+    const onScrollLazy = throttle(
+      () => {
+        if (
+          listRef.current &&
+          listRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2
+        ) {
+          loadHistory();
+        }
+      },
+      500,
+      { leading: false }
+    );
+
+    loadHistory();
+    window.addEventListener('scroll', onScrollLazy);
+
+    return () => {
+      onScrollLazy.cancel();
+      window.removeEventListener('scroll', onScrollLazy);
+    };
+  }, [listRef.current, items]);
+
+  if (!items) {
     return (
       <LoaderWrapper>
         <LoadingIndicator type="circle" size={40} />
@@ -38,13 +72,13 @@ export default function VestingsList({
     );
   }
 
-  if (!vestings.length) {
+  if (!items.length) {
     return <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>;
   }
 
   return (
-    <Lines>
-      {vestings.map(vesting => (
+    <Lines ref={listRef}>
+      {items.map(vesting => (
         <VestingLine key={vesting.id} vesting={vesting} />
       ))}
     </Lines>
