@@ -122,7 +122,7 @@ export default class AccountTokens extends PureComponent {
     const { getBalance, userId } = this.props;
 
     try {
-      await Promise.all([getBalance(userId)]);
+      await getBalance(userId);
       this.setState({
         isAlreadyTryToLoad: true,
       });
