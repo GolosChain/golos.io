@@ -3,23 +3,25 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { displayError } from 'utils/toastMessages';
 import { overflowEllipsis } from 'utils/styles';
 import CollapsingBlock from 'components/golos-ui/CollapsingBlock';
-import PieChart from 'components/common/PieChart';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+// import PieChart from 'components/common/PieChart';
 
 const Root = styled.div``;
 
-const ChartBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #e9e9e9;
-`;
-
-const ChartWrapper = styled.div`
-  width: 170px;
-  height: 170px;
-`;
+// const ChartBlock = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   padding: 20px 0;
+//   border-bottom: 1px solid #e9e9e9;
+// `;
+//
+// const ChartWrapper = styled.div`
+//   width: 170px;
+//   height: 170px;
+// `;
 
 const Labels = styled.div``;
 
@@ -92,17 +94,42 @@ const SubLabel = styled.div`
   }
 `;
 
+const Loader = styled(LoadingIndicator).attrs({ type: 'circle', center: true, size: 50 })`
+  margin-bottom: 10px;
+`;
+
 export default class AccountTokens extends PureComponent {
   static propTypes = {
+    userId: PropTypes.number.isRequired,
     golos: PropTypes.number.isRequired,
     power: PropTypes.number.isRequired,
     powerDelegated: PropTypes.number.isRequired,
+    isLoading: PropTypes.bool,
+    getBalance: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
   };
 
   state = {
     hoverIndex: null,
+    isAlreadyTryToLoad: false,
     // collapsed: false,
   };
+
+  async componentDidMount() {
+    const { getBalance, userId } = this.props;
+
+    try {
+      await getBalance(userId);
+      this.setState({
+        isAlreadyTryToLoad: true,
+      });
+    } catch (err) {
+      displayError('Cannot load user balance', err);
+    }
+  }
 
   onHover = idx => {
     this.setState({
@@ -120,7 +147,8 @@ export default class AccountTokens extends PureComponent {
   };
 
   render() {
-    const { golos, power, powerDelegated } = this.props;
+    const { golos, power, powerDelegated, isLoading } = this.props;
+    const { isAlreadyTryToLoad } = this.state;
 
     // const { hoverIndex } = this.state;
 
@@ -161,6 +189,10 @@ export default class AccountTokens extends PureComponent {
       }
 
       label.value = sum.toFixed(3);
+    }
+
+    if (isLoading || !isAlreadyTryToLoad) {
+      return <Loader />;
     }
 
     return (
