@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import throttle from 'lodash.throttle';
 import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import TransferLine from '../TransferLine';
+import InfinityScrollHelper from '../../../../common/InfinityScrollHelper';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -16,8 +16,6 @@ const LoaderWrapper = styled.div`
   animation: fade-in 0.25s forwards;
   animation-delay: 0.25s;
 `;
-
-const Lines = styled.div``;
 
 const EmptyBlock = styled.div`
   padding: 28px 20px 30px;
@@ -30,65 +28,35 @@ export default function TransfersList({
   router: {
     query: { userId },
   },
-  transfers,
+  isLoading,
+  items = [],
   currency,
   direction,
   sequenceKey,
   isHistoryEnd,
   getTransfersHistory,
 }) {
-  const listRef = useRef();
-
-  const loadHistory = useCallback(async () => {
+  const onNeedLoadMore = useCallback(async () => {
     try {
-      if (!isHistoryEnd) {
-        await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
-      }
+      await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
     } catch (err) {
       displayError(err);
     }
-  });
-
-  useEffect(() => {
-    const onScrollLazy = throttle(
-      () => {
-        if (
-          listRef.current &&
-          listRef.current.getBoundingClientRect().bottom < window.innerHeight * 1.2
-        ) {
-          loadHistory();
-        }
-      },
-      500,
-      { leading: false }
-    );
-
-    loadHistory();
-    window.addEventListener('scroll', onScrollLazy);
-
-    return () => {
-      onScrollLazy.cancel();
-      window.removeEventListener('scroll', onScrollLazy);
-    };
-  }, []);
-
-  if (!transfers) {
-    return (
-      <LoaderWrapper>
-        <LoadingIndicator type="circle" size={40} />
-      </LoaderWrapper>
-    );
-  }
-
-  if (!transfers.length) {
-    return <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>;
-  }
+  }, [getTransfersHistory, sequenceKey]);
 
   return (
-    <Lines ref={listRef}>
-      {transfers.map(transfer => (
+    <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
+      {items.map(transfer => (
         <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
       ))}
-    </Lines>
+      {!isLoading && !items.length ? (
+        <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>
+      ) : null}
+      {isLoading ? (
+        <LoaderWrapper>
+          <LoadingIndicator type="circle" size={40} />
+        </LoaderWrapper>
+      ) : null}
+    </InfinityScrollHelper>
   );
 }

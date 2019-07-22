@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import { displayError } from 'utils/toastMessages';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import VestingLine from '../VestingLine';
+import RewardLine from '../RewardLine';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -24,28 +24,29 @@ const EmptyBlock = styled.div`
   color: #c5c5c5;
 `;
 
-export default function VestingsList({
+export default function RewardsList({
   router: {
     query: { userId },
   },
+  type,
   isLoading,
   items = [],
   sequenceKey,
   isHistoryEnd,
-  getVestingHistory,
+  getRewardsHistory,
 }) {
   const onNeedLoadMore = useCallback(async () => {
     try {
-      await getVestingHistory({ userId, sequenceKey });
+      await getRewardsHistory({ userId, types: [type], sequenceKey });
     } catch (err) {
       displayError(err);
     }
-  }, [getVestingHistory, sequenceKey]);
+  }, [getRewardsHistory, sequenceKey]);
 
   return (
     <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
-      {items.map(vesting => (
-        <VestingLine key={vesting.id} vesting={vesting} />
+      {items.map(reward => (
+        <RewardLine key={reward.id} reward={reward} />
       ))}
       {!isLoading && !items.length ? (
         <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>

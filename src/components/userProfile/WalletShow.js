@@ -8,6 +8,7 @@ import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
 
 import Transfers from './wallet/Transfers';
 import Vestings from './wallet/Vestings';
+import Rewards from './wallet/Rewards';
 
 const CardContentStyled = styled(CardContent)`
   display: block;
@@ -31,8 +32,9 @@ export default class WalletShow extends PureComponent {
           </TabContainer>
           {/*<TabContainer id={TABS.DELEGATIONS} title="getDelegationState">*/}
           {/*</TabContainer>*/}
-          {/*<TabContainer id={TABS.REWARDS} title="getRewards">*/}
-          {/*</TabContainer>*/}
+          <TabContainer id={TABS.REWARDS} title={tt('user_wallet.tab_title.rewards')}>
+            <Rewards />
+          </TabContainer>
           <TabContainer id={TABS.VESTINGS} title={tt('user_wallet.tab_title.vesting_history')}>
             <Vestings />
           </TabContainer>

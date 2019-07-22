@@ -4,8 +4,8 @@ import { withRouter } from 'next/router';
 import { createSelector } from 'reselect';
 
 import { dataSelector } from 'store/selectors/common';
-import { getTransfersHistory } from 'store/actions/gate';
-import TransfersList from './TransfersList';
+import { getRewardsHistory } from 'store/actions/gate';
+import RewardsList from './RewardsList';
 
 export default compose(
   withRouter,
@@ -18,22 +18,21 @@ export default compose(
             router: {
               query: { userId },
             },
-            currency,
-            direction,
+            type,
           }
-        ) => dataSelector(['wallet', userId, 'transfers', currency, direction])(state),
+        ) => dataSelector(['wallet', userId, 'rewards', type])(state),
       ],
-      transfers => {
+      rewards => {
         return {
-          isLoading: transfers?.isLoading,
-          items: transfers?.items,
-          sequenceKey: transfers?.sequenceKey,
-          isHistoryEnd: transfers?.isHistoryEnd,
+          isLoading: rewards?.isLoading,
+          items: rewards?.items,
+          sequenceKey: rewards?.sequenceKey,
+          isHistoryEnd: rewards?.isHistoryEnd,
         };
       }
     ),
     {
-      getTransfersHistory,
+      getRewardsHistory,
     }
   )
-)(TransfersList);
+)(RewardsList);
