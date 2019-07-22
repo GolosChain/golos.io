@@ -37,6 +37,7 @@ const UpVoteIcon = styled(Icon)`
 
 const Money = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   padding-left: 5px;
   padding-right: 10px;
