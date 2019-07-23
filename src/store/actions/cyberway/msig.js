@@ -51,24 +51,22 @@ export const createPropose = ({
   });
 };
 
-export const setPublishParams = ({ curatorMin, curatorMax }) => async (dispatch, getState) => {
+export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
     throw new Error('Unauthorized');
   }
 
-  const params = {
-    params: [
-      [
-        'st_curators_prcnt',
-        {
-          min_curators_prcnt: curatorMin,
-          max_curators_prcnt: curatorMax,
-        },
-      ],
-    ],
-  };
+  const structures = [];
+
+  for (const structureName of Object.keys(updates)) {
+    structures.push([structureName, updates[structureName]]);
+  }
+
+  if (structures.length === 0) {
+    throw new Error('No changes');
+  }
 
   return dispatch(
     createPropose({
@@ -76,7 +74,9 @@ export const setPublishParams = ({ curatorMin, curatorMax }) => async (dispatch,
       method: 'setparams',
       actor: 'gls',
       permission: 'active',
-      params,
+      params: {
+        params: structures,
+      },
       requested: [
         {
           actor: 'gls',
