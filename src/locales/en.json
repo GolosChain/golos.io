@@ -1072,6 +1072,7 @@
       "all": "All",
       "author_rewards": "Author Rewards",
       "curation_rewards": "Curation Rewards",
+      "beneficiary_rewards": "Beneficiary Rewards",
       "delegation": "Delegation",
       "delegation_rewards": "Delegated GP",
       "gbg": "GBG",

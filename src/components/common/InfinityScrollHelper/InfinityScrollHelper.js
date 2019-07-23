@@ -53,6 +53,10 @@ export default class InfinityScrollHelper extends PureComponent {
     }, 0);
   }
 
+  componentDidUpdate() {
+    this.checkLoadMore();
+  }
+
   componentWillUnmount() {
     const { isDialog } = this.props;
 

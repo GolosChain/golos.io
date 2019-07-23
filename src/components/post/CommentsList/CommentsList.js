@@ -26,10 +26,11 @@ export default class CommentsList extends Component {
 
     return (
       <Wrapper>
-        <InfinityScrollHelper disabled={!allowFetch} onNeedLoadMore={this.onNeedLoadMore} />
-        {list.map(node => (
-          <NestedComments key={node.commentId} commentNode={node} />
-        ))}
+        <InfinityScrollHelper disabled={!allowFetch} onNeedLoadMore={this.onNeedLoadMore}>
+          {list.map(node => (
+            <NestedComments key={node.commentId} commentNode={node} />
+          ))}
+        </InfinityScrollHelper>
       </Wrapper>
     );
   }

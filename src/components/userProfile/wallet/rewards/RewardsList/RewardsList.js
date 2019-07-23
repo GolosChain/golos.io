@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import { displayError } from 'utils/toastMessages';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import TransferLine from '../TransferLine';
+import RewardLine from '../RewardLine';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -24,35 +24,34 @@ const EmptyBlock = styled.div`
   color: #c5c5c5;
 `;
 
-export default function TransfersList({
+export default function RewardsList({
   router: {
     query: { userId },
   },
+  type,
   isLoading,
   items,
-  currency,
-  direction,
   sequenceKey,
   isHistoryEnd,
-  getTransfersHistory,
+  getRewardsHistory,
 }) {
   useEffect(() => {
-    getTransfersHistory({ userId, currencies: [currency], direction });
+    getRewardsHistory({ userId, types: [type], sequenceKey });
   }, []);
 
   const onNeedLoadMore = useCallback(async () => {
     try {
-      await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
+      await getRewardsHistory({ userId, types: [type], sequenceKey });
     } catch (err) {
       displayError(err);
     }
-  }, [getTransfersHistory, sequenceKey]);
+  }, [getRewardsHistory, sequenceKey]);
 
   return (
     <>
       <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
-        {items.map(transfer => (
-          <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
+        {items.map(reward => (
+          <RewardLine key={reward.id} reward={reward} />
         ))}
       </InfinityScrollHelper>
       {!isLoading && !items.length ? (

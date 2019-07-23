@@ -5,6 +5,9 @@ import {
   FETCH_TRANSFERS_HISTORY,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
   FETCH_TRANSFERS_HISTORY_ERROR,
+  FETCH_REWARDS_HISTORY,
+  FETCH_REWARDS_HISTORY_SUCCESS,
+  FETCH_REWARDS_HISTORY_ERROR,
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
@@ -67,6 +70,31 @@ export const getTransfersHistory = ({
         FETCH_TRANSFERS_HISTORY_ERROR,
       ],
       method: 'wallet.getTransferHistory',
+      params,
+    },
+    meta: {
+      ...params,
+      name: userId,
+    },
+  };
+};
+
+export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null } = {}) => {
+  if (!userId) {
+    throw new Error('userId is required!');
+  }
+
+  const params = {
+    userId,
+    types,
+    sequenceKey,
+    limit: 2,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_REWARDS_HISTORY, FETCH_REWARDS_HISTORY_SUCCESS, FETCH_REWARDS_HISTORY_ERROR],
+      method: 'wallet.getRewardsHistory',
       params,
     },
     meta: {

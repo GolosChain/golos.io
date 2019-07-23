@@ -1,144 +1,152 @@
-import update from 'immutability-helper';
+import u from 'updeep';
 
 import {
   FETCH_USER_BALANCE_SUCCESS,
   FETCH_TRANSFERS_HISTORY,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
+  FETCH_TRANSFERS_HISTORY_ERROR,
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
+  FETCH_VESTING_HISTORY_ERROR,
+  FETCH_REWARDS_HISTORY,
+  FETCH_REWARDS_HISTORY_SUCCESS,
+  FETCH_REWARDS_HISTORY_ERROR,
 } from 'store/constants';
 
 const initialState = {};
 
-export default function(state = initialState, { type, payload, meta }) {
+export default function(state = initialState, { type, payload, meta, error }) {
   switch (type) {
     case FETCH_USER_BALANCE_SUCCESS:
       // eslint-disable-next-line no-param-reassign
       delete payload.userId;
 
-      if (state[meta.userId]) {
-        return update(state, {
-          [meta.userId]: {
-            balances: {
-              $set: payload || {},
-            },
-          },
-        });
+      return u.updateIn([meta.userId, 'balances'], payload, state);
+
+    // Transfers
+
+    case FETCH_TRANSFERS_HISTORY: {
+      const currency = meta.currencies.sort().join('/');
+
+      if (meta.sequenceKey) {
+        return u.updateIn(
+          [meta.name, 'transfers', currency, meta.direction],
+          { isLoading: true },
+          state
+        );
       }
 
-      return {
-        ...state,
-        [meta.userId]: {
-          balances: payload || {},
+      return u.updateIn(
+        [meta.name, 'transfers', currency, meta.direction],
+        {
+          isLoading: true,
+          items: [],
+          sequenceKey: null,
+          isHistoryEnd: false,
         },
-      };
+        state
+      );
+    }
 
-    case FETCH_TRANSFERS_HISTORY:
-      if (!state[meta.name] || !state[meta.name].transfers) {
-        return {
-          ...state,
-          [meta.name]: {
-            transfers: {},
-            ...state[meta.name],
-          },
-        };
-      }
+    case FETCH_TRANSFERS_HISTORY_SUCCESS: {
+      const currency = meta.currencies.sort().join('/');
 
-      return state;
-
-    case FETCH_TRANSFERS_HISTORY_SUCCESS:
-      if (
-        state[meta.name] &&
-        meta.sequenceKey &&
-        meta.sequenceKey === state[meta.name].transfers[meta.direction].sequenceKey &&
-        meta.sequenceKey !== payload.sequenceKey
-      ) {
-        return update(state, {
-          [meta.name]: {
-            transfers: transfers =>
-              update(transfers || {}, {
-                [meta.direction]: {
-                  items: {
-                    $push: payload.items || [],
-                  },
-                  sequenceKey: {
-                    $set: payload.sequenceKey || null,
-                  },
-                  isHistoryEnd: {
-                    $set: payload.items.length < meta.limit,
-                  },
-                },
-              }),
-          },
-        });
-      }
-
-      return {
-        ...state,
-        [meta.name]: {
-          ...state[meta.name],
-          transfers: {
-            ...state[meta.name].transfers,
-            [meta.direction]: {
-              items: payload.items || [],
-              sequenceKey: payload.sequenceKey,
-              isHistoryEnd: payload.items.length < meta.limit,
-            },
-          },
+      return u.updateIn(
+        [meta.name, 'transfers', currency, meta.direction],
+        {
+          isLoading: false,
+          items: items => [...items, ...payload.items],
+          sequenceKey: payload.sequenceKey || null,
+          isHistoryEnd: payload.items.length < meta.limit,
         },
-      };
+        state
+      );
+    }
+
+    case FETCH_TRANSFERS_HISTORY_ERROR: {
+      const currency = meta.currencies.sort().join('/');
+
+      return u.updateIn(
+        [meta.name, 'transfers', currency, meta.direction],
+        { isLoading: false },
+        state
+      );
+    }
+
+    // Vestings
 
     case FETCH_VESTING_HISTORY:
-      if (!state[meta.name] || !state[meta.name].vestings) {
-        return {
-          ...state,
-          [meta.name]: {
-            vestings: {},
-            ...state[meta.name],
-          },
-        };
+      if (meta.sequenceKey) {
+        return u.updateIn([meta.name, 'vestings'], { isLoading: true }, state);
       }
 
-      return state;
+      return u.updateIn(
+        [meta.name, 'vestings'],
+        {
+          isLoading: true,
+          items: [],
+          sequenceKey: null,
+          isHistoryEnd: false,
+        },
+        state
+      );
 
     case FETCH_VESTING_HISTORY_SUCCESS:
-      // сейчас при загрузке всех трансферов для последнего элемента на стороне сервера на каждый запрос меняется sequenceKey
-      if (
-        state[meta.name] &&
-        meta.sequenceKey &&
-        meta.sequenceKey === state[meta.name].vestings.sequenceKey &&
-        payload.sequenceKey !== meta.sequenceKey
-      ) {
-        return update(state, {
-          [meta.name]: {
-            vestings: transfers =>
-              update(transfers || {}, {
-                items: {
-                  $push: payload.items || [],
-                },
-                sequenceKey: {
-                  $set: payload.sequenceKey || null,
-                },
-                isHistoryEnd: {
-                  $set: payload.items.length < meta.limit,
-                },
-              }),
-          },
-        });
+      return u.updateIn(
+        [meta.name, 'vestings'],
+        {
+          isLoading: false,
+          items: items => [...items, ...payload.items],
+          sequenceKey: payload.sequenceKey || null,
+          isHistoryEnd: payload.items.length < meta.limit,
+        },
+        state
+      );
+
+    case FETCH_VESTING_HISTORY_ERROR:
+      return u.updateIn([meta.name, 'vestings'], { isLoading: false }, state);
+
+    // Rewards
+
+    case FETCH_REWARDS_HISTORY: {
+      const types = meta.types.sort().join('/');
+
+      if (meta.sequenceKey) {
+        return u.updateIn([meta.name, 'rewards', types], { isLoading: true }, state);
       }
 
-      return {
-        ...state,
-        [meta.name]: {
-          ...state[meta.name],
-          vestings: {
-            ...state[meta.name].vestings,
-            items: payload.items || [],
-            sequenceKey: payload.sequenceKey,
-            isHistoryEnd: payload.items.length < meta.limit,
-          },
+      return u.updateIn(
+        [meta.name, 'rewards', types],
+        {
+          isLoading: true,
+          items: [],
+          sequenceKey: null,
+          isHistoryEnd: false,
         },
-      };
+        state
+      );
+    }
+
+    case FETCH_REWARDS_HISTORY_SUCCESS: {
+      const types = meta.types.sort().join('/');
+
+      return u.updateIn(
+        [meta.name, 'rewards', types],
+        {
+          isLoading: false,
+          items: items => [...items, ...payload.items],
+          sequenceKey: payload.sequenceKey || null,
+          isHistoryEnd: payload.items.length < meta.limit,
+        },
+        state
+      );
+    }
+
+    case FETCH_REWARDS_HISTORY_ERROR: {
+      const types = meta.types.sort().join('/');
+
+      return u.updateIn([meta.name, 'rewards', types], { isLoading: false }, state);
+    }
 
     default:
       return state;
