@@ -36,17 +36,21 @@ export default class StructureWrapper extends PureComponent {
       }),
       () => {
         if (!this.state.isCollapsed) {
-          const el = this.wrapperRef.current;
-
-          if (el.scrollIntoViewIfNeeded) {
-            el.scrollIntoViewIfNeeded();
-          } else if (el.scrollIntoView) {
-            el.scrollIntoView();
-          }
+          this.scrollIntoView();
         }
       }
     );
   };
+
+  scrollIntoView() {
+    const el = this.wrapperRef.current;
+
+    if (el.scrollIntoViewIfNeeded) {
+      el.scrollIntoViewIfNeeded();
+    } else if (el.scrollIntoView) {
+      el.scrollIntoView();
+    }
+  }
 
   render() {
     const { title, hasChanges, children } = this.props;
