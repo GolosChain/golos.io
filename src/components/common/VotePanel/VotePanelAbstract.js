@@ -109,7 +109,9 @@ const SliderStyled = styled(Slider)`
 //   user-select: none;
 // `;
 
-const Money = styled.div``;
+const Money = styled.div`
+  position: relative;
+`;
 
 const MoneyWrapper = styled.div`
   display: flex;
