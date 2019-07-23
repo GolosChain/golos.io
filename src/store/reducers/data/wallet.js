@@ -25,14 +25,13 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     // Transfers
 
-    case FETCH_TRANSFERS_HISTORY:
-    case FETCH_TRANSFERS_HISTORY_ERROR: {
+    case FETCH_TRANSFERS_HISTORY: {
       const currency = meta.currencies.sort().join('/');
 
       if (meta.sequenceKey) {
         return u.updateIn(
           [meta.name, 'transfers', currency, meta.direction],
-          { isLoading: !Boolean(error) },
+          { isLoading: true },
           state
         );
       }
@@ -40,7 +39,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       return u.updateIn(
         [meta.name, 'transfers', currency, meta.direction],
         {
-          isLoading: !Boolean(error),
+          isLoading: true,
           items: [],
           sequenceKey: null,
           isHistoryEnd: false,
@@ -64,18 +63,27 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
     }
 
+    case FETCH_TRANSFERS_HISTORY_ERROR: {
+      const currency = meta.currencies.sort().join('/');
+
+      return u.updateIn(
+        [meta.name, 'transfers', currency, meta.direction],
+        { isLoading: false },
+        state
+      );
+    }
+
     // Vestings
 
     case FETCH_VESTING_HISTORY:
-    case FETCH_VESTING_HISTORY_ERROR:
       if (meta.sequenceKey) {
-        return u.updateIn([meta.name, 'vestings'], { isLoading: !Boolean(error) }, state);
+        return u.updateIn([meta.name, 'vestings'], { isLoading: true }, state);
       }
 
       return u.updateIn(
         [meta.name, 'vestings'],
         {
-          isLoading: !Boolean(error),
+          isLoading: true,
           items: [],
           sequenceKey: null,
           isHistoryEnd: false,
@@ -95,20 +103,22 @@ export default function(state = initialState, { type, payload, meta, error }) {
         state
       );
 
+    case FETCH_VESTING_HISTORY_ERROR:
+      return u.updateIn([meta.name, 'vestings'], { isLoading: false }, state);
+
     // Rewards
 
-    case FETCH_REWARDS_HISTORY:
-    case FETCH_REWARDS_HISTORY_ERROR: {
+    case FETCH_REWARDS_HISTORY: {
       const types = meta.types.sort().join('/');
 
       if (meta.sequenceKey) {
-        return u.updateIn([meta.name, 'rewards', types], { isLoading: !Boolean(error) }, state);
+        return u.updateIn([meta.name, 'rewards', types], { isLoading: true }, state);
       }
 
       return u.updateIn(
         [meta.name, 'rewards', types],
         {
-          isLoading: !Boolean(error),
+          isLoading: true,
           items: [],
           sequenceKey: null,
           isHistoryEnd: false,
@@ -130,6 +140,12 @@ export default function(state = initialState, { type, payload, meta, error }) {
         },
         state
       );
+    }
+
+    case FETCH_REWARDS_HISTORY_ERROR: {
+      const types = meta.types.sort().join('/');
+
+      return u.updateIn([meta.name, 'rewards', types], { isLoading: false }, state);
     }
 
     default:
