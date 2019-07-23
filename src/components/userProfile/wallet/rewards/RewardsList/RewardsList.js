@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -35,6 +35,10 @@ export default function RewardsList({
   isHistoryEnd,
   getRewardsHistory,
 }) {
+  useEffect(() => {
+    getRewardsHistory({ userId, types: [type], sequenceKey });
+  }, []);
+
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getRewardsHistory({ userId, types: [type], sequenceKey });
@@ -44,10 +48,12 @@ export default function RewardsList({
   }, [getRewardsHistory, sequenceKey]);
 
   return (
-    <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
-      {items.map(reward => (
-        <RewardLine key={reward.id} reward={reward} />
-      ))}
+    <>
+      <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
+        {items.map(reward => (
+          <RewardLine key={reward.id} reward={reward} />
+        ))}
+      </InfinityScrollHelper>
       {!isLoading && !items.length ? (
         <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>
       ) : null}
@@ -56,6 +62,6 @@ export default function RewardsList({
           <LoadingIndicator type="circle" size={40} />
         </LoaderWrapper>
       ) : null}
-    </InfinityScrollHelper>
+    </>
   );
 }

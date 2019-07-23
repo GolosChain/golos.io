@@ -88,7 +88,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
     userId,
     types,
     sequenceKey,
-    limit: 20,
+    limit: 2,
   };
 
   return {
@@ -130,7 +130,7 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
 
   const params = {
     userId,
-    limit: 20,
+    limit: 2,
     sequenceKey,
   };
 

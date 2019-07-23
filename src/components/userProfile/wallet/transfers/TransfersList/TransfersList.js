@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
+import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import TransferLine from '../TransferLine';
-import InfinityScrollHelper from '../../../../common/InfinityScrollHelper';
 
 const LoaderWrapper = styled.div`
   display: flex;
@@ -36,6 +36,10 @@ export default function TransfersList({
   isHistoryEnd,
   getTransfersHistory,
 }) {
+  useEffect(() => {
+    getTransfersHistory({ userId, currencies: [currency], direction });
+  }, []);
+
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
@@ -45,10 +49,12 @@ export default function TransfersList({
   }, [getTransfersHistory, sequenceKey]);
 
   return (
-    <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
-      {items.map(transfer => (
-        <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
-      ))}
+    <>
+      <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
+        {items.map(transfer => (
+          <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
+        ))}
+      </InfinityScrollHelper>
       {!isLoading && !items.length ? (
         <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>
       ) : null}
@@ -57,6 +63,6 @@ export default function TransfersList({
           <LoadingIndicator type="circle" size={40} />
         </LoaderWrapper>
       ) : null}
-    </InfinityScrollHelper>
+    </>
   );
 }

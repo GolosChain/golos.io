@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -34,6 +34,10 @@ export default function VestingsList({
   isHistoryEnd,
   getVestingHistory,
 }) {
+  useEffect(() => {
+    getVestingHistory({ userId, sequenceKey });
+  }, []);
+
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getVestingHistory({ userId, sequenceKey });
@@ -43,10 +47,12 @@ export default function VestingsList({
   }, [getVestingHistory, sequenceKey]);
 
   return (
-    <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
-      {items.map(vesting => (
-        <VestingLine key={vesting.id} vesting={vesting} />
-      ))}
+    <>
+      <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
+        {items.map(vesting => (
+          <VestingLine key={vesting.id} vesting={vesting} />
+        ))}
+      </InfinityScrollHelper>
       {!isLoading && !items.length ? (
         <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>
       ) : null}
@@ -55,6 +61,6 @@ export default function VestingsList({
           <LoadingIndicator type="circle" size={40} />
         </LoaderWrapper>
       ) : null}
-    </InfinityScrollHelper>
+    </>
   );
 }
