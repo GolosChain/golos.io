@@ -2,12 +2,9 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import tt from 'counterpart';
-// import is from 'styled-is';
 
-// import { breakWordStyles } from 'helpers/styles';
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-// import TextCut from 'components/common/TextCut';
 import RewardPostLink from '../RewardPostLink';
 
 const Root = styled.div`
@@ -38,12 +35,6 @@ const Who = styled.div`
   padding: 0 16px;
   height: 80px;
   overflow: hidden;
-`;
-
-const WhoTitle = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const TimeStamp = styled.div`
@@ -85,39 +76,13 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-const CURRENCY_COLOR = {
-  GOLOS: '#2879ff',
-};
-
 function RewardLine({
   router: {
     query: { userId },
   },
   reward,
 }) {
-  const {
-    id,
-    // userId,
-    block,
-    trxid,
-    timestamp,
-    tokenType,
-    type,
-    contentType,
-    contentId,
-    quantity,
-    sym,
-  } = reward;
-  //
-  // const samePerson = receiver.userId === sender.userId;
-  // const isSent = sender.userId === userId;
-  // const isReceive = receiver.userId === userId && !samePerson;
-  //
-  // const icon = sym === CURRENCY.GOLOS ? 'logo' : 'brilliant';
-  // const color = CURRENCY_COLOR[sym] : null;
-  //
-  // const memoIconText = null; // TODO
-
+  const { timestamp, tokenType, type, contentType, contentId, quantity } = reward;
   const color = '#f57c02';
 
   let icon = 'logo';
@@ -140,7 +105,6 @@ function RewardLine({
       <Line>
         <LineIcon name={icon} color={color} />
         <Who>
-          {/*<WhoTitle>{title} </WhoTitle>*/}
           {contentType === 'post' ? <RewardPostLink contentId={contentId} /> : null}
           <TimeStamp>
             <TimeAgoWrapper date={timestamp} />
@@ -151,8 +115,6 @@ function RewardLine({
           <Currency>{CURRENCY_TRANSLATE[tokenType]}</Currency>
         </Value>
       </Line>
-      {/*{this.renderEditDelegation()}*/}
-      {/*{loader ? <SplashLoader light /> : null}*/}
     </Root>
   );
 }

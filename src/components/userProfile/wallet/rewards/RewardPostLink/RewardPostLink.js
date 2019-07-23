@@ -42,7 +42,7 @@ export default class PostLink extends Component {
         }
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.warn(`Unable to load post: `, contentId);
+        console.warn(`Unable to load post:`, contentId);
       }
     }
   }
@@ -58,14 +58,3 @@ export default class PostLink extends Component {
     );
   }
 }
-
-// function renderRewardTrxTitle(fullPost) {
-//   let title = fullPost.get('title');
-//   if (!title) {
-//     title = extractContent(fullPost).desc;
-//   }
-//   if (!title) {
-//     title = tt('g.mediafile');
-//   }
-//   return title;
-// }
