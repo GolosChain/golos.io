@@ -59,7 +59,7 @@ export const getTransfersHistory = ({
     currencies,
     direction,
     sequenceKey,
-    limit: 2,
+    limit: 20,
   };
 
   return {
@@ -130,7 +130,7 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
 
   const params = {
     userId,
-    limit: 2,
+    limit: 20,
     sequenceKey,
   };
 

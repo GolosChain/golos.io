@@ -12,10 +12,10 @@ export default compose(
     (state, { router, type }) => {
       const rewards = dataSelector(['wallet', router.query.userId, 'rewards', type])(state);
       return {
-        isLoading: rewards?.isLoading,
-        items: rewards?.items,
+        isLoading: Boolean(rewards?.isLoading),
+        items: rewards?.items || [],
         sequenceKey: rewards?.sequenceKey,
-        isHistoryEnd: rewards?.isHistoryEnd,
+        isHistoryEnd: Boolean(rewards?.isHistoryEnd),
       };
     },
     {

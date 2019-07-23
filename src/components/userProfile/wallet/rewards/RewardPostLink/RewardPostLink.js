@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Link } from 'shared/routes';
 import { formatContentId } from 'store/schemas/gate';
 
-const WhoPostLink = styled(Link)`
+const PostTitleLink = styled(Link)`
   display: block;
   color: #333;
   white-space: nowrap;
@@ -36,13 +36,13 @@ export default class PostLink extends Component {
     const { post, fetchPostIfNeeded, contentId } = this.props;
 
     if (!post) {
-      try {
-        if (contentId) {
+      if (contentId) {
+        try {
           await fetchPostIfNeeded(contentId);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn(`Unable to load post:`, contentId);
         }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn(`Unable to load post:`, contentId);
       }
     }
   }
@@ -50,7 +50,9 @@ export default class PostLink extends Component {
   render() {
     const { post, contentId } = this.props;
     return post ? (
-      <WhoPostLink to={`/@${formatContentId(post.contentId)}`}>{post.content.title}</WhoPostLink>
+      <PostTitleLink to={`/@${formatContentId(post.contentId)}`}>
+        {post.content.title}
+      </PostTitleLink>
     ) : (
       <div>
         Награда за <Link to={`@${formatContentId(contentId)}`}>публикацию</Link>

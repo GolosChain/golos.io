@@ -29,7 +29,7 @@ export default function TransfersList({
     query: { userId },
   },
   isLoading,
-  items = [],
+  items,
   currency,
   direction,
   sequenceKey,

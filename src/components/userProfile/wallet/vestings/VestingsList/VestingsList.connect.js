@@ -12,10 +12,10 @@ export default compose(
     (state, { router }) => {
       const vestings = dataSelector(['wallet', router.query.userId, 'vestings'])(state);
       return {
-        isLoading: vestings?.isLoading,
-        items: vestings?.items,
+        isLoading: Boolean(vestings?.isLoading),
+        items: vestings?.items || [],
         sequenceKey: vestings?.sequenceKey,
-        isHistoryEnd: vestings?.isHistoryEnd,
+        isHistoryEnd: Boolean(vestings?.isHistoryEnd),
       };
     },
     {

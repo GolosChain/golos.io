@@ -13,10 +13,10 @@ export default compose(
       const { userId } = router.query;
       const transfers = dataSelector(['wallet', userId, 'transfers', currency, direction])(state);
       return {
-        isLoading: transfers?.isLoading,
-        items: transfers?.items,
+        isLoading: Boolean(transfers?.isLoading),
+        items: transfers?.items || [],
         sequenceKey: transfers?.sequenceKey,
-        isHistoryEnd: transfers?.isHistoryEnd,
+        isHistoryEnd: Boolean(transfers?.isHistoryEnd),
       };
     },
     {

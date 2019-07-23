@@ -29,7 +29,7 @@ export default function VestingsList({
     query: { userId },
   },
   isLoading,
-  items = [],
+  items,
   sequenceKey,
   isHistoryEnd,
   getVestingHistory,

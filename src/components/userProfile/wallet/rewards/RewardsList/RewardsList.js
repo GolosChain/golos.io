@@ -30,7 +30,7 @@ export default function RewardsList({
   },
   type,
   isLoading,
-  items = [],
+  items,
   sequenceKey,
   isHistoryEnd,
   getRewardsHistory,
