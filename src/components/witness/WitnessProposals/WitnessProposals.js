@@ -45,6 +45,7 @@ const ErrorBlock = styled.div`
 const EmptyBlock = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
   font-size: 18px;
   color: #8a8a8a;
 `;
