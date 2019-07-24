@@ -1066,7 +1066,13 @@
       "transfer_to_savings": {
         "from": "Withdraw from savings",
         "to": "Transfer to savings"
-      }
+      },
+      "post": "post",
+      "comment": "comment",
+      "publication": "publication",
+      "reward_for": "Reward for",
+      "reward_post_with_text": "Reward for post \"%(text)s\"",
+      "reward_comment_with_text": "Reward for comment \"%(text)s\""
     },
     "tab_title": {
       "all": "All",

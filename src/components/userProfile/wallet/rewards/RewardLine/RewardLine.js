@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-import RewardPostLink from '../RewardPostLink';
+import RewardContentLink from '../RewardContentLink';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -82,7 +82,7 @@ function RewardLine({
   },
   reward,
 }) {
-  const { timestamp, tokenType, type, contentType, contentId, quantity } = reward;
+  const { timestamp, tokenType, type, contentId, quantity } = reward;
   const color = '#f57c02';
 
   let icon = 'logo';
@@ -105,7 +105,7 @@ function RewardLine({
       <Line>
         <LineIcon name={icon} color={color} />
         <Who>
-          {contentType === 'post' ? <RewardPostLink contentId={contentId} /> : null}
+          <RewardContentLink contentId={contentId} />
           <TimeStamp>
             <TimeAgoWrapper date={timestamp} />
           </TimeStamp>

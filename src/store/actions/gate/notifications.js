@@ -36,6 +36,7 @@ export const getNotificationsCount = () => ({
 export const fetchNotifications = ({ fromId } = {}) => dispatch => {
   const params = {
     limit: NOTIFICATIONS_PER_PAGE,
+    types: ['all'],
     markAsViewed: false,
     fromId,
     app: 'gls',
