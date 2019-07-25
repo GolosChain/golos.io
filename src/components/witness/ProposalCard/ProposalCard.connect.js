@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
 
-import { approveProposal } from 'store/actions/cyberway';
+import { currentUserIdSelector } from 'store/selectors/auth';
+import { approveProposal, execProposal } from 'store/actions/cyberway';
 
 import ProposalCard from './ProposalCard';
 
 export default connect(
-  null,
+  state => ({
+    userId: currentUserIdSelector(state),
+  }),
   {
     approveProposal,
+    execProposal,
   }
 )(ProposalCard);

@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const List = styled.ul`
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
 const Item = styled.li`

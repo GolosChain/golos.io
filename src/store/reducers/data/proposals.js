@@ -1,4 +1,9 @@
-import { FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR } from 'store/constants';
+import {
+  FETCH_PROPOSALS,
+  FETCH_PROPOSALS_SUCCESS,
+  FETCH_PROPOSALS_ERROR,
+  APPROVE_PROPOSAL_SUCCESS,
+} from 'store/constants';
 
 const initialState = {
   items: [],
@@ -41,6 +46,30 @@ export default function(state = initialState, { type, payload, meta }) {
         ...state,
         isLoading: false,
         isError: true,
+      };
+
+    case APPROVE_PROPOSAL_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(proposal => {
+          if (proposal.proposalId === meta.proposalId) {
+            return {
+              ...proposal,
+              approves: proposal.approves.map(approve => {
+                if (approve.userId === meta.userId && !approve.isSigned) {
+                  return {
+                    ...approve,
+                    isSigned: true,
+                  };
+                }
+
+                return approve;
+              }),
+            };
+          }
+
+          return proposal;
+        }),
       };
 
     default:

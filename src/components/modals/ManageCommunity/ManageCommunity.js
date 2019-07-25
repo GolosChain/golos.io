@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { Router } from 'shared/routes';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import SplashLoader from 'components/golos-ui/SplashLoader';
@@ -88,6 +89,7 @@ export default class ManageCommunity extends PureComponent {
   static propTypes = {
     close: PropTypes.func.isRequired,
     setPublishParams: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
   };
 
   state = {
@@ -96,7 +98,7 @@ export default class ManageCommunity extends PureComponent {
   };
 
   onSaveClick = async () => {
-    const { setPublishParams, close } = this.props;
+    const { setPublishParams, waitForTransaction, close } = this.props;
     const { updates } = this.state;
 
     this.setState({
@@ -104,9 +106,11 @@ export default class ManageCommunity extends PureComponent {
     });
 
     try {
-      await setPublishParams({ updates });
+      const { transaction_id } = await setPublishParams({ updates });
       displaySuccess('Success');
       close();
+      await waitForTransaction(transaction_id);
+      Router.replaceRoute(Router.asPath);
       return;
     } catch (err) {
       displayError(err);

@@ -1,5 +1,14 @@
 import { toPairs } from 'ramda';
 import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
+import { CALL_GATE } from 'store/middlewares/gate-api';
+import {
+  APPROVE_PROPOSAL,
+  APPROVE_PROPOSAL_SUCCESS,
+  APPROVE_PROPOSAL_ERROR,
+  EXEC_PROPOSAL,
+  EXEC_PROPOSAL_SUCCESS,
+  EXEC_PROPOSAL_ERROR,
+} from 'store/constants';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
 function generateRandomProposalName() {
@@ -59,28 +68,39 @@ export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
     throw new Error('Unauthorized');
   }
 
+  const results = await dispatch({
+    [CALL_GATE]: {
+      method: 'content.getLeadersTop',
+      params: {
+        communityId: 'gls',
+        limit: 21,
+        sequenceKey: null,
+      },
+    },
+  });
+
+  const requestedAuth = results.items.map(({ userId }) => ({
+    actor: userId,
+    permission: 'active',
+  }));
+
   const structures = toPairs(updates);
 
   if (structures.length === 0) {
     throw new Error('No changes');
   }
 
-  return dispatch(
+  return await dispatch(
     createPropose({
       contract: 'publish',
       method: 'setparams',
-      actor: 'gls',
+      actor: 'gls.publish',
       permission: 'active',
       params: {
         params: structures,
       },
-      requested: [
-        {
-          actor: 'gls',
-          permission: 'active',
-        },
-      ],
-      expires: 36000,
+      requested: requestedAuth,
+      expires: 2592000, // в секундах (2592000 = 30 суток)
     })
   );
 };
@@ -96,6 +116,7 @@ export const approveProposal = ({ proposer, proposalId }) => async (dispatch, ge
     [CYBERWAY_API]: {
       contract: 'cyberMsig',
       method: 'approve',
+      types: [APPROVE_PROPOSAL, APPROVE_PROPOSAL_SUCCESS, APPROVE_PROPOSAL_ERROR],
       params: {
         proposer: proposer,
         proposal_name: proposalId,
@@ -103,6 +124,31 @@ export const approveProposal = ({ proposer, proposalId }) => async (dispatch, ge
           actor: userId,
           permission: 'active',
         },
+      },
+    },
+    meta: {
+      proposalId,
+      userId,
+    },
+  });
+};
+
+export const execProposal = ({ proposer, proposalId }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  return await dispatch({
+    [CYBERWAY_API]: {
+      contract: 'cyberMsig',
+      method: 'exec',
+      types: [EXEC_PROPOSAL, EXEC_PROPOSAL_SUCCESS, EXEC_PROPOSAL_ERROR],
+      params: {
+        proposer: proposer,
+        proposal_name: proposalId,
+        executer: userId,
       },
     },
   });

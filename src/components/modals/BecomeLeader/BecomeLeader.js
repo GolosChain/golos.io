@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { displayError } from 'utils/toastMessages';
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { Input } from 'components/golos-ui/Form';
@@ -40,8 +40,11 @@ const FooterButtons = styled.div`
 
 export default class BecomeLeader extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string.isRequired,
     close: PropTypes.func.isRequired,
     registerWitness: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
   };
 
   state = {
@@ -56,23 +59,38 @@ export default class BecomeLeader extends PureComponent {
   };
 
   onRegisterClick = async () => {
-    const { registerWitness, close } = this.props;
+    const { userId, registerWitness, fetchProfile, waitForTransaction, close } = this.props;
     const { url } = this.state;
 
     this.setState({
       isRegistering: true,
     });
 
+    let result;
+
     try {
-      await registerWitness({ url });
-      close();
+      result = await registerWitness({ url: url.trim() });
     } catch (err) {
       displayError(err);
-
       this.setState({
         isRegistering: false,
       });
+      return;
     }
+
+    try {
+      await waitForTransaction(result.transaction_id);
+    } catch {}
+
+    try {
+      await fetchProfile(userId);
+    } catch (err) {
+      console.warn('Profile fetching failed:', err);
+    }
+
+    displaySuccess('Success');
+
+    close();
   };
 
   onCancelClick = () => {
