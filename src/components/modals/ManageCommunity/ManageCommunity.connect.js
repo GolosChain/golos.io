@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { setPublishParams, execProposal } from 'store/actions/cyberway';
-import { waitForTransaction } from 'store/actions/gate';
+import { waitForTransaction, getCommunitySettings } from 'store/actions/gate';
 
 import ManageCommunity from './ManageCommunity';
 
@@ -11,5 +11,6 @@ export default connect(
     setPublishParams,
     execProposal,
     waitForTransaction,
+    getCommunitySettings,
   }
 )(ManageCommunity);

@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
+import { defaults } from 'utils/common';
 import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
+
+const DEFAULT = {
+  value: '',
+};
 
 const Fields = styled.label`
   text-transform: none;
@@ -20,11 +25,8 @@ const Buttons = styled.div`
 
 const SaveButton = styled(Button)``;
 
-export default class CuratorPercent extends PureComponent {
-  state = {
-    isCollapsed: true,
-    value: '',
-  };
+export default class ReferralAcc extends PureComponent {
+  state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
     this.setState({
@@ -34,7 +36,7 @@ export default class CuratorPercent extends PureComponent {
 
   onSaveClick = () => {
     const { onChange } = this.props;
-    const { value } = this.state;
+    const value = this.state.value.trim();
 
     if (!value) {
       displayError('Введены некорректные значения');
@@ -53,7 +55,7 @@ export default class CuratorPercent extends PureComponent {
       <Fields>
         <InputSmall value={value} onChange={this.onChange} />
         <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
+          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
         </Buttons>
       </Fields>
     );

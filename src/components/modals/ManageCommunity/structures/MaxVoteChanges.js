@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
+import { defaults } from 'utils/common';
 import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
+
+const DEFAULT = {
+  value: 3,
+};
 
 const Fields = styled.label`
   text-transform: none;
@@ -20,11 +25,8 @@ const Buttons = styled.div`
 
 const SaveButton = styled(Button)``;
 
-export default class CuratorPercent extends PureComponent {
-  state = {
-    isCollapsed: true,
-    value: '3',
-  };
+export default class MaxVoteChanges extends PureComponent {
+  state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
     this.setState({
@@ -54,7 +56,7 @@ export default class CuratorPercent extends PureComponent {
       <Fields>
         <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
         <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
+          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
         </Buttons>
       </Fields>
     );

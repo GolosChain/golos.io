@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
+import { defaults } from 'utils/common';
 import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
+
+const DEFAULT = {
+  min_curators_prcnt: 2500,
+  max_curators_prcnt: 7500,
+};
 
 const Fields = styled.label`
   text-transform: none;
@@ -28,29 +34,34 @@ const Buttons = styled.div`
 const SaveButton = styled(Button)``;
 
 export default class CuratorPercent extends PureComponent {
-  state = {
-    cashoutWindow: 25,
-    lockout: 75,
-  };
+  constructor(props) {
+    super(props);
+
+    const initial = defaults(props.initialValues, DEFAULT);
+
+    this.state = {
+      min: String(initial.min_curators_prcnt / 100),
+      max: String(initial.max_curators_prcnt / 100),
+    };
+  }
 
   onCurationMinChange = e => {
     this.setState({
-      cashoutWindow: e.target.value,
+      min: e.target.value,
     });
   };
 
   onCurationMaxChange = e => {
     this.setState({
-      lockout: e.target.value,
+      max: e.target.value,
     });
   };
 
   onSaveClick = () => {
     const { onChange } = this.props;
-    const { curatorMin, curatorMax } = this.state;
 
-    const min = parseInt(curatorMin, 10);
-    const max = parseInt(curatorMax, 10);
+    const min = parseInt(this.state.min, 10);
+    const max = parseInt(this.state.max, 10);
 
     if (Number.isNaN(min) || Number.isNaN(max) || min > max || min < 0 || max > 100) {
       displayError('Введены некорректные значения');
@@ -64,14 +75,14 @@ export default class CuratorPercent extends PureComponent {
   };
 
   render() {
-    const { curatorMin, curatorMax } = this.state;
+    const { min, max } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>Минимум (%)</FieldSubTitle>
         <InputSmall
           type="number"
-          value={curatorMin}
+          value={min}
           min="0"
           max="100"
           onChange={this.onCurationMinChange}
@@ -79,13 +90,13 @@ export default class CuratorPercent extends PureComponent {
         <FieldSubTitle>Максимум (%)</FieldSubTitle>
         <InputSmall
           type="number"
-          value={curatorMax}
+          value={max}
           min="0"
           max="100"
           onChange={this.onCurationMaxChange}
         />
         <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
+          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
         </Buttons>
       </Fields>
     );

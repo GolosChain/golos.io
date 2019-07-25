@@ -2,8 +2,14 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import { displayError } from 'utils/toastMessages';
+import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
+
+const DEFAULT = {
+  actor: '',
+  permission: 'active',
+};
 
 const Fields = styled.label`
   text-transform: none;
@@ -27,11 +33,8 @@ const Buttons = styled.div`
 
 const SaveButton = styled(Button)``;
 
-export default class CuratorPercent extends PureComponent {
-  state = {
-    actor: '',
-    permission: '',
-  };
+export default class BwProvider extends PureComponent {
+  state = defaults(this.props.initialValues, DEFAULT);
 
   onActorChange = e => {
     this.setState({
@@ -71,7 +74,7 @@ export default class CuratorPercent extends PureComponent {
         <FieldSubTitle>Уровень разрешений:</FieldSubTitle>
         <InputSmall value={permission} onChange={this.onPermissionChange} />
         <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
+          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
         </Buttons>
       </Fields>
     );
