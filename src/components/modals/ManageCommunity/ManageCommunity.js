@@ -80,7 +80,6 @@ export default class ManageCommunity extends PureComponent {
   state = {
     isSaving: false,
     updates: {},
-    hasChanges: false,
   };
 
   onSaveClick = async () => {
@@ -120,40 +119,40 @@ export default class ManageCommunity extends PureComponent {
       },
       hasChanges: true,
     });
-
-    console.log('UPDATE:', name, struct);
   };
 
+  renderStructure = ({ name, Component }) => {
+    const { updates } = this.state;
+
+    if (!Component) {
+      console.warn(`No component for type ${name}`);
+      return;
+    }
+
+    return (
+      <Component
+        key={name}
+        structureName={name}
+        hasChanges={Boolean(updates[name])}
+        onChange={data => this.onChange(name, data)}
+      />
+    );
+  };
+
+  renderContract = ({ name, structures }) => (
+    <ContractGroup key={name}>
+      <ContractName>Contract: {name}</ContractName>
+      <Structures>{structures.map(this.renderStructure)}</Structures>
+    </ContractGroup>
+  );
+
   render() {
-    const { isSaving, updates } = this.state;
+    const { isSaving } = this.state;
 
     return (
       <Wrapper>
         <HeaderTitle>Параметры сообщества</HeaderTitle>
-        <Content>
-          {CONTRACTS.map(({ name, structures }) => (
-            <ContractGroup key={name}>
-              <ContractName>Contract: {name}</ContractName>
-              <Structures>
-                {structures.map(({ name, Component }) => {
-                  if (!Component) {
-                    console.warn(`No component for type ${name}`);
-                    return;
-                  }
-
-                  return (
-                    <Component
-                      key={name}
-                      structureName={name}
-                      hasChanges={Boolean(updates[name])}
-                      onChange={data => this.onChange(name, data)}
-                    />
-                  );
-                })}
-              </Structures>
-            </ContractGroup>
-          ))}
-        </Content>
+        <Content>{CONTRACTS.map(this.renderContract)}</Content>
         <FooterButtons>
           <Button disabled={isSaving} onClick={this.onSaveClick}>
             Сохранить

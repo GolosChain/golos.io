@@ -1,3 +1,4 @@
+import { toPairs } from 'ramda';
 import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
@@ -58,11 +59,7 @@ export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
     throw new Error('Unauthorized');
   }
 
-  const structures = [];
-
-  for (const structureName of Object.keys(updates)) {
-    structures.push([structureName, updates[structureName]]);
-  }
+  const structures = toPairs(updates);
 
   if (structures.length === 0) {
     throw new Error('No changes');
