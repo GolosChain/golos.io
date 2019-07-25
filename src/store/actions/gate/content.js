@@ -123,8 +123,6 @@ export const getNotifyMeta = ({ contentId } = {}) => {
       params,
       schema: contentMetaSchema,
     },
-    meta: {
-      ...params,
-    },
+    meta: params,
   };
 };
