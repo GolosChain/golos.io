@@ -74,7 +74,6 @@ export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
       params: {
         communityId: 'gls',
         limit: 21,
-        sequenceKey: null,
       },
     },
   });
