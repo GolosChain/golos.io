@@ -51,17 +51,17 @@ export default class CashoutWindow extends PureComponent {
   onSaveClick = () => {
     const { onChange } = this.props;
 
-    const window = parseInt(this.state.window, 10);
-    const upvote_lockout = parseInt(this.state.upvote_lockout, 10);
+    const cashoutWindow = parseInt(this.state.window, 10);
+    const lockout = parseInt(this.state.upvote_lockout, 10);
 
-    if (Number.isNaN(window) || Number.isNaN(upvote_lockout) || window < 0 || upvote_lockout < 0) {
+    if (Number.isNaN(cashoutWindow) || Number.isNaN(lockout) || cashoutWindow < 0 || lockout < 0) {
       displayError('Введены некорректные значения');
       return;
     }
 
     onChange({
-      window,
-      upvote_lockout,
+      window: cashoutWindow,
+      upvote_lockout: lockout,
     });
   };
 

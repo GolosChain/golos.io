@@ -182,7 +182,7 @@ export default class ProposalCard extends PureComponent {
       }
     }
 
-    return a.userId.localeCompare(b.userId);
+    return a.username.localeCompare(b.username);
   };
 
   renderApproveState() {
@@ -230,16 +230,16 @@ export default class ProposalCard extends PureComponent {
     const { userId, data } = this.props;
     const { showRequestedSigns } = this.state;
 
-    let approveState = APPROVE_STATES.NONE;
+    let myApproveState = APPROVE_STATES.NONE;
 
     if (userId) {
-      const approve = data.approves.find(approve => approve.userId === userId);
+      const myApprove = data.approves.find(approve => approve.userId === userId);
 
-      if (approve) {
-        if (approve.isSigned) {
-          approveState = APPROVE_STATES.APPROVED;
+      if (myApprove) {
+        if (myApprove.isSigned) {
+          myApproveState = APPROVE_STATES.APPROVED;
         } else if (!data.isExecuted) {
-          approveState = APPROVE_STATES.WAIT_FOR_APPROVE;
+          myApproveState = APPROVE_STATES.WAIT_FOR_APPROVE;
         }
       }
     }
@@ -295,10 +295,10 @@ export default class ProposalCard extends PureComponent {
         {this.renderApproveState()}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
         <FooterButtons>
-          {approveState === APPROVE_STATES.NONE ? null : approveState ===
+          {myApproveState === APPROVE_STATES.NONE ? null : myApproveState ===
             APPROVE_STATES.APPROVED ? (
             <Approved>You have approved already</Approved>
-          ) : approveState === APPROVE_STATES.WAIT_FOR_APPROVE ? (
+          ) : myApproveState === APPROVE_STATES.WAIT_FOR_APPROVE ? (
             <Button onClick={this.onApproveClick}>Approve</Button>
           ) : null}
           {data.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
