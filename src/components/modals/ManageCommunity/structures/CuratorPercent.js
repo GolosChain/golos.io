@@ -5,8 +5,6 @@ import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
-import StructureWrapper from '../StructureWrapper';
-
 const Fields = styled.label`
   text-transform: none;
 `;
@@ -65,7 +63,7 @@ export default class CuratorPercent extends PureComponent {
     });
   };
 
-  renderBody() {
+  render() {
     const { curatorMin, curatorMax } = this.state;
 
     return (
@@ -90,16 +88,6 @@ export default class CuratorPercent extends PureComponent {
           <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
         </Buttons>
       </Fields>
-    );
-  }
-
-  render() {
-    const { hasChanges } = this.props;
-
-    return (
-      <StructureWrapper title="Кураторские выплаты" hasChanges={hasChanges}>
-        {this.renderBody()}
-      </StructureWrapper>
     );
   }
 }

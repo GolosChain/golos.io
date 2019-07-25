@@ -5,8 +5,6 @@ import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
-import StructureWrapper from '../StructureWrapper';
-
 const Fields = styled.label`
   text-transform: none;
 `;
@@ -50,7 +48,7 @@ export default class CuratorPercent extends PureComponent {
     });
   };
 
-  renderBody() {
+  render() {
     const { value } = this.state;
 
     return (
@@ -60,16 +58,6 @@ export default class CuratorPercent extends PureComponent {
           <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
         </Buttons>
       </Fields>
-    );
-  }
-
-  render() {
-    const { hasChanges } = this.props;
-
-    return (
-      <StructureWrapper title="Максимальная вложенность комментариев" hasChanges={hasChanges}>
-        {this.renderBody()}
-      </StructureWrapper>
     );
   }
 }

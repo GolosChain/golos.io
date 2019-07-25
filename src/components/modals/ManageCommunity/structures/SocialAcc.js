@@ -47,7 +47,7 @@ export default class CuratorPercent extends PureComponent {
     });
   };
 
-  renderBody() {
+  render() {
     const { value } = this.state;
 
     return (
@@ -57,16 +57,6 @@ export default class CuratorPercent extends PureComponent {
           <SaveButton onClick={this.onSaveClick}>Save</SaveButton>
         </Buttons>
       </Fields>
-    );
-  }
-
-  render() {
-    const { hasChanges } = this.props;
-
-    return (
-      <StructureWrapper title="Социальный аккаунт" hasChanges={hasChanges}>
-        {this.renderBody()}
-      </StructureWrapper>
     );
   }
 }

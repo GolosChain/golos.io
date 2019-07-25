@@ -14,19 +14,32 @@ import SocialAcc from './structures/SocialAcc';
 import ReferralAcc from './structures/ReferralAcc';
 import CuratorPercent from './structures/CuratorPercent';
 import BwProvider from './structures/BwProvider';
+import StructureWrapper from './StructureWrapper';
 
 const CONTRACTS = [
   {
     name: 'publish',
     structures: [
-      { name: 'st_max_vote_changes', Component: MaxVoteChanges },
-      { name: 'st_cashout_window', Component: CashoutWindow },
-      { name: 'st_max_beneficiaries', Component: MaxBeneficiaries },
-      { name: 'st_max_comment_depth', Component: MaxCommentDepth },
-      { name: 'st_social_acc', Component: SocialAcc },
-      { name: 'st_referral_acc', Component: ReferralAcc },
-      { name: 'st_curators_prcnt', Component: CuratorPercent },
-      { name: 'st_bwprovider', Component: BwProvider },
+      {
+        name: 'st_max_vote_changes',
+        title: 'Максимальное количество смен голоса',
+        Component: MaxVoteChanges,
+      },
+      { name: 'st_cashout_window', title: 'Окно выплат', Component: CashoutWindow },
+      { name: 'st_max_beneficiaries', title: 'Максимум бенефициаров', Component: MaxBeneficiaries },
+      {
+        name: 'st_max_comment_depth',
+        title: 'Вложенность комментариев',
+        Component: MaxCommentDepth,
+      },
+      { name: 'st_social_acc', title: 'Социальный аккаунт', Component: SocialAcc },
+      { name: 'st_referral_acc', title: 'Реферальный аккаунт', Component: ReferralAcc },
+      {
+        name: 'st_curators_prcnt',
+        title: 'Проценты кураторской выплаты',
+        Component: CuratorPercent,
+      },
+      { name: 'st_bwprovider', title: 'Предоставление bandwidth', Component: BwProvider },
     ],
   },
 ];
@@ -121,7 +134,7 @@ export default class ManageCommunity extends PureComponent {
     });
   };
 
-  renderStructure = ({ name, Component }) => {
+  renderStructure = ({ name, title, Component }) => {
     const { updates } = this.state;
 
     if (!Component) {
@@ -130,12 +143,9 @@ export default class ManageCommunity extends PureComponent {
     }
 
     return (
-      <Component
-        key={name}
-        structureName={name}
-        hasChanges={Boolean(updates[name])}
-        onChange={data => this.onChange(name, data)}
-      />
+      <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
+        <Component structureName={name} onChange={data => this.onChange(name, data)} />
+      </StructureWrapper>
     );
   };
 
