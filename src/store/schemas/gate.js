@@ -85,3 +85,11 @@ export const tagsSchema = new schema.Entity(
     idAttribute: tag => tag.name,
   }
 );
+
+export const contentMetaSchema = new schema.Entity(
+  'contentMetas',
+  {},
+  {
+    idAttribute: ({ post, comment }) => formatContentId((comment || post).contentId),
+  }
+);

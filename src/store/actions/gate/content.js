@@ -12,7 +12,11 @@ import {
   FETCH_PROPOSALS,
   FETCH_PROPOSALS_SUCCESS,
   FETCH_PROPOSALS_ERROR,
+  FETCH_NOTIFY_META,
+  FETCH_NOTIFY_META_SUCCESS,
+  FETCH_NOTIFY_META_ERROR,
 } from 'store/constants';
+import { contentMetaSchema } from 'store/schemas/gate';
 
 export const waitForTransaction = transactionId => {
   const params = {
@@ -104,5 +108,21 @@ export const getSubscribers = ({ userId, sequenceKey } = {}) => {
       ...params,
       waitAutoLogin: true,
     },
+  };
+};
+
+export const getNotifyMeta = ({ contentId }) => {
+  const params = {
+    contentId,
+  };
+
+  return {
+    [CALL_GATE]: {
+      method: 'content.getNotifyMeta',
+      types: [FETCH_NOTIFY_META, FETCH_NOTIFY_META_SUCCESS, FETCH_NOTIFY_META_ERROR],
+      params,
+      schema: contentMetaSchema,
+    },
+    meta: params,
   };
 };

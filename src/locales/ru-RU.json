@@ -1078,7 +1078,13 @@
       "transfer_to_savings": {
         "from": "Возврат из сейфа",
         "to": "Перевод в сейф"
-      }
+      },
+      "post": "пост",
+      "comment": "комментарий",
+      "publication": "публикацию",
+      "reward_for": "Награда за",
+      "reward_post_with_text": "Награда за пост \"%(text)s\"",
+      "reward_comment_with_text": "Награда за комментарий \"%(text)s\""
     },
     "tab_title": {
       "all": "Все",

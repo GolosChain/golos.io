@@ -1,4 +1,4 @@
-import { commentSchema, profileCommentSchema } from 'store/schemas/gate';
+import { commentSchema, formatContentId, profileCommentSchema } from 'store/schemas/gate';
 import { FEED_PAGE_SIZE, SORT_BY_NEWEST, SORT_BY_OLDEST } from 'shared/constants';
 import {
   FETCH_POST_COMMENTS,
@@ -12,6 +12,7 @@ import {
   FETCH_COMMENT_ERROR,
 } from 'store/constants/actionTypes';
 import { CALL_GATE } from 'store/middlewares/gate-api';
+import { entitySelector } from 'store/selectors/common';
 
 export const fetchComment = contentId => async dispatch => {
   const newParams = {
@@ -23,9 +24,19 @@ export const fetchComment = contentId => async dispatch => {
       types: [FETCH_COMMENT, FETCH_COMMENT_SUCCESS, FETCH_COMMENT_ERROR],
       method: 'content.getComment',
       params: newParams,
+      schema: {
+        items: [commentSchema],
+      },
     },
     meta: newParams,
   });
+};
+
+export const fetchCommentIfNeeded = contentId => (dispatch, getState) => {
+  if (!entitySelector('postComments', formatContentId(contentId))(getState())) {
+    return dispatch(fetchComment(contentId));
+  }
+  return null;
 };
 
 export const fetchPostComments = ({

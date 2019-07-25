@@ -181,7 +181,6 @@ export default class ActivityItem extends Component {
     isCompact: PropTypes.bool,
 
     markAsViewed: PropTypes.func.isRequired,
-    fetchComment: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

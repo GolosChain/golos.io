@@ -9,6 +9,7 @@ import notifications from './notifications';
 import activities from './activities';
 import replies from './replies';
 import tags from './tags';
+import contentMetas from './contentMetas';
 
 export default combineReducers({
   posts,
@@ -20,4 +21,5 @@ export default combineReducers({
   activities,
   replies,
   tags,
+  contentMetas,
 });
