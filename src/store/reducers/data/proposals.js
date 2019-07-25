@@ -57,7 +57,7 @@ export default function(state = initialState, { type, payload, meta }) {
             return {
               ...proposal,
               approves: proposal.approves.map(approve => {
-                if (approve.userId === meta.userId && !approve.isSigned) {
+                if (approve.userId === meta.userId) {
                   return {
                     ...approve,
                     isSigned: true,
