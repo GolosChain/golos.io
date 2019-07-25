@@ -2,53 +2,86 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import ToastsManager from 'toasts-manager';
 
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
-import { Input } from 'components/golos-ui/Form';
 import SplashLoader from 'components/golos-ui/SplashLoader';
+import MaxVoteChanges from './structures/MaxVoteChanges';
+import CashoutWindow from './structures/CashoutWindow';
+import MaxBeneficiaries from './structures/MaxBeneficiaries';
+import MaxCommentDepth from './structures/MaxCommentDepth';
+import SocialAcc from './structures/SocialAcc';
+import ReferralAcc from './structures/ReferralAcc';
+import CuratorPercent from './structures/CuratorPercent';
+import BwProvider from './structures/BwProvider';
+import StructureWrapper from './StructureWrapper';
+
+const CONTRACTS = [
+  {
+    name: 'publish',
+    structures: [
+      {
+        name: 'st_max_vote_changes',
+        title: 'Максимальное количество смен голоса',
+        Component: MaxVoteChanges,
+      },
+      { name: 'st_cashout_window', title: 'Окно выплат', Component: CashoutWindow },
+      { name: 'st_max_beneficiaries', title: 'Максимум бенефициаров', Component: MaxBeneficiaries },
+      {
+        name: 'st_max_comment_depth',
+        title: 'Вложенность комментариев',
+        Component: MaxCommentDepth,
+      },
+      { name: 'st_social_acc', title: 'Социальный аккаунт', Component: SocialAcc },
+      { name: 'st_referral_acc', title: 'Реферальный аккаунт', Component: ReferralAcc },
+      {
+        name: 'st_curators_prcnt',
+        title: 'Проценты кураторской выплаты',
+        Component: CuratorPercent,
+      },
+      { name: 'st_bwprovider', title: 'Предоставление bandwidth', Component: BwProvider },
+    ],
+  },
+];
 
 const Wrapper = styled.div`
   position: relative;
-  padding: 20px 30px 28px;
+  min-width: 600px;
+  padding: 20px 0 28px;
   border-radius: 6px;
   background-color: #fff;
 `;
 
 const HeaderTitle = styled.h1`
-  margin: 0 0 20px 0;
+  padding: 0 30px 0;
+  margin: 0 0 10px 0;
 `;
 
-const Fields = styled.div`
-  margin-bottom: 20px;
+const Content = styled.div`
+  padding: 10px 30px 0;
+  height: 60vh;
+  min-height: 400px;
+  overflow: auto;
 `;
 
-const Field = styled.label`
-  text-transform: none;
+const ContractGroup = styled.div`
+  margin: 0 0 8px;
 `;
 
-const FieldTitle = styled.h2`
-  display: block;
-  margin-bottom: 6px;
-  font-weight: normal;
+const ContractName = styled.h2`
+  border-bottom: 1px solid #000;
 `;
 
-const FieldSubTitle = styled.h3`
-  display: block;
-  font-size: 15px;
-  font-weight: normal;
+const Structures = styled.ul`
+  margin: 8px 0;
 `;
 
 const FooterButtons = styled.div`
+  padding: 8px 30px 0;
+
   & > :not(:last-child) {
     margin-right: 12px;
   }
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
 `;
 
 export default class ManageCommunity extends PureComponent {
@@ -59,42 +92,22 @@ export default class ManageCommunity extends PureComponent {
 
   state = {
     isSaving: false,
-    curatorMin: 25,
-    curatorMax: 75,
+    updates: {},
   };
 
-  onCurationMinChange = e => {
-    this.setState({
-      curatorMin: e.target.value,
-    });
-  };
-
-  onCurationMaxChange = e => {
-    this.setState({
-      curatorMax: e.target.value,
-    });
-  };
-
-  onUpdateClick = async () => {
+  onSaveClick = async () => {
     const { setPublishParams, close } = this.props;
-    const { curatorMin, curatorMax } = this.state;
-
-    const min = parseInt(curatorMin, 10);
-    const max = parseInt(curatorMax, 10);
-
-    if (Number.isNaN(min) || Number.isNaN(max) || min > max || min < 0 || max > 100) {
-      displayError('Введены некорректные значения');
-      return;
-    }
+    const { updates } = this.state;
 
     this.setState({
       isSaving: true,
     });
 
     try {
-      await setPublishParams({ curatorMin: min * 100, curatorMax: max * 100 });
+      await setPublishParams({ updates });
       displaySuccess('Success');
       close();
+      return;
     } catch (err) {
       displayError(err);
     }
@@ -109,35 +122,49 @@ export default class ManageCommunity extends PureComponent {
     close();
   };
 
+  onChange = (name, struct) => {
+    const { updates } = this.state;
+
+    this.setState({
+      updates: {
+        ...updates,
+        [name]: struct,
+      },
+      hasChanges: true,
+    });
+  };
+
+  renderStructure = ({ name, title, Component }) => {
+    const { updates } = this.state;
+
+    if (!Component) {
+      console.warn(`No component for type ${name}`);
+      return;
+    }
+
+    return (
+      <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
+        <Component structureName={name} onChange={data => this.onChange(name, data)} />
+      </StructureWrapper>
+    );
+  };
+
+  renderContract = ({ name, structures }) => (
+    <ContractGroup key={name}>
+      <ContractName>Contract: {name}</ContractName>
+      <Structures>{structures.map(this.renderStructure)}</Structures>
+    </ContractGroup>
+  );
+
   render() {
-    const { isSaving, curatorMin, curatorMax } = this.state;
+    const { isSaving } = this.state;
 
     return (
       <Wrapper>
         <HeaderTitle>Параметры сообщества</HeaderTitle>
-        <Fields>
-          <Field>
-            <FieldTitle>Кураторские выплаты:</FieldTitle>
-            <FieldSubTitle>Минимум (%)</FieldSubTitle>
-            <InputSmall
-              type="number"
-              value={curatorMin}
-              min="0"
-              max="100"
-              onChange={this.onCurationMinChange}
-            />
-            <FieldSubTitle>Максимум (%)</FieldSubTitle>
-            <InputSmall
-              type="number"
-              value={curatorMax}
-              min="0"
-              max="100"
-              onChange={this.onCurationMaxChange}
-            />
-          </Field>
-        </Fields>
+        <Content>{CONTRACTS.map(this.renderContract)}</Content>
         <FooterButtons>
-          <Button disabled={isSaving} onClick={this.onUpdateClick}>
+          <Button disabled={isSaving} onClick={this.onSaveClick}>
             Сохранить
           </Button>
           <Button light onClick={this.onCancelClick}>
