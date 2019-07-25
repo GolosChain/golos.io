@@ -238,7 +238,7 @@ export default class ProposalCard extends PureComponent {
       if (approve) {
         if (approve.isSigned) {
           approveState = APPROVE_STATES.APPROVED;
-        } else {
+        } else if (!data.isExecuted) {
           approveState = APPROVE_STATES.WAIT_FOR_APPROVE;
         }
       }
@@ -267,7 +267,7 @@ export default class ProposalCard extends PureComponent {
           <FieldTitle>Status:</FieldTitle>{' '}
           <FieldValue>{data.isExecuted ? 'executed' : 'waiting'}</FieldValue>
         </Field>
-        {data.isExecuted ? (
+        {data.executedBlockTime ? (
           <Field>
             <FieldTitle>Execution date:</FieldTitle>{' '}
             <FieldValue>{new Date(data.executedBlockTime).toLocaleString()}</FieldValue>
@@ -301,7 +301,7 @@ export default class ProposalCard extends PureComponent {
           ) : approveState === APPROVE_STATES.WAIT_FOR_APPROVE ? (
             <Button onClick={this.onApproveClick}>Approve</Button>
           ) : null}
-          <Button onClick={this.tryToExec}>Try to exec</Button>
+          {data.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
         </FooterButtons>
       </Wrapper>
     );

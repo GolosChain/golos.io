@@ -127,6 +127,7 @@ export const approveProposal = ({ proposer, proposalId }) => async (dispatch, ge
       },
     },
     meta: {
+      proposer,
       proposalId,
       userId,
     },
@@ -150,6 +151,10 @@ export const execProposal = ({ proposer, proposalId }) => async (dispatch, getSt
         proposal_name: proposalId,
         executer: userId,
       },
+    },
+    meta: {
+      proposer: proposer,
+      proposalId: proposalId,
     },
   });
 };

@@ -3,6 +3,7 @@ import {
   FETCH_PROPOSALS_SUCCESS,
   FETCH_PROPOSALS_ERROR,
   APPROVE_PROPOSAL_SUCCESS,
+  EXEC_PROPOSAL_SUCCESS,
 } from 'store/constants';
 
 const initialState = {
@@ -52,7 +53,7 @@ export default function(state = initialState, { type, payload, meta }) {
       return {
         ...state,
         items: state.items.map(proposal => {
-          if (proposal.proposalId === meta.proposalId) {
+          if (proposal.author.userId === meta.proposer && proposal.proposalId === meta.proposalId) {
             return {
               ...proposal,
               approves: proposal.approves.map(approve => {
@@ -65,6 +66,21 @@ export default function(state = initialState, { type, payload, meta }) {
 
                 return approve;
               }),
+            };
+          }
+
+          return proposal;
+        }),
+      };
+
+    case EXEC_PROPOSAL_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(proposal => {
+          if (proposal.author.userId === meta.proposer && proposal.proposalId === meta.proposalId) {
+            return {
+              ...proposal,
+              isExecuted: true,
             };
           }
 
