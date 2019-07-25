@@ -6,12 +6,6 @@ import is from 'styled-is';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 
-const APPROVE_STATES = {
-  NONE: 'none',
-  APPROVED: 'approved',
-  WAIT_FOR_APPROVE: 'wait-for-approve',
-};
-
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
   border-radius: 8px;
@@ -226,23 +220,33 @@ export default class ProposalCard extends PureComponent {
     );
   }
 
-  render() {
+  renderFooter() {
     const { userId, data } = this.props;
-    const { showRequestedSigns } = this.state;
-
-    let myApproveState = APPROVE_STATES.NONE;
+    let approveSlot = null;
 
     if (userId) {
       const myApprove = data.approves.find(approve => approve.userId === userId);
 
       if (myApprove) {
         if (myApprove.isSigned) {
-          myApproveState = APPROVE_STATES.APPROVED;
+          approveSlot = <Approved>You have approved already</Approved>;
         } else if (!data.isExecuted) {
-          myApproveState = APPROVE_STATES.WAIT_FOR_APPROVE;
+          approveSlot = <Button onClick={this.onApproveClick}>Approve</Button>;
         }
       }
     }
+
+    return (
+      <FooterButtons>
+        {approveSlot}
+        {data.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
+      </FooterButtons>
+    );
+  }
+
+  render() {
+    const { data } = this.props;
+    const { showRequestedSigns } = this.state;
 
     return (
       <Wrapper>
@@ -294,15 +298,7 @@ export default class ProposalCard extends PureComponent {
         </ChangesBlock>
         {this.renderApproveState()}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
-        <FooterButtons>
-          {myApproveState === APPROVE_STATES.NONE ? null : myApproveState ===
-            APPROVE_STATES.APPROVED ? (
-            <Approved>You have approved already</Approved>
-          ) : myApproveState === APPROVE_STATES.WAIT_FOR_APPROVE ? (
-            <Button onClick={this.onApproveClick}>Approve</Button>
-          ) : null}
-          {data.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
-        </FooterButtons>
+        {this.renderFooter()}
       </Wrapper>
     );
   }
