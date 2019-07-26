@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { path } from 'ramda';
 
 import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
@@ -6,10 +7,10 @@ import { dataSelector } from './common';
 
 export const userBalanceSelector = userId => dataSelector(['wallet', userId, 'balances']);
 
-export const userLiquidBalanceSelector = userId =>
+export const userLiquidBalanceSelector = (userId, symbol = 'GOLOS') =>
   createSelector(
     [userBalanceSelector(userId)],
-    balances => parsePayoutAmount(balances?.liquid?.balances?.GOLOS) || 0
+    balances => parsePayoutAmount(path(['liquid', 'balances', symbol], balances)) || 0
   );
 
 export const userLiquidPaymentsSelector = userId =>

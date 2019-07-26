@@ -12,3 +12,14 @@ export const TRANSACTIONS_TYPE = {
 };
 
 export const GOLOS_CURRENCY_ID = 'GOLOS';
+
+export const CURRENCIES = {
+  GOLOS: {
+    id: 'GOLOS',
+    decs: 3,
+  },
+  CYBER: {
+    id: 'CYBER',
+    decs: 4,
+  },
+};

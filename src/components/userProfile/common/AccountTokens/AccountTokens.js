@@ -102,6 +102,7 @@ export default class AccountTokens extends PureComponent {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     golos: PropTypes.number.isRequired,
+    cyber: PropTypes.number.isRequired,
     power: PropTypes.number.isRequired,
     powerDelegated: PropTypes.number.isRequired,
     isLoading: PropTypes.bool,
@@ -147,7 +148,7 @@ export default class AccountTokens extends PureComponent {
   };
 
   render() {
-    const { golos, power, powerDelegated, isLoading } = this.props;
+    const { golos, cyber, power, powerDelegated, isLoading } = this.props;
     const { isAlreadyTryToLoad } = this.state;
 
     // const { hoverIndex } = this.state;
@@ -176,6 +177,17 @@ export default class AccountTokens extends PureComponent {
           {
             title: tt('user_profile.account_tokens.tokens.delegated'),
             value: powerDelegated,
+          },
+        ],
+      },
+      {
+        id: 'cyber',
+        title: 'CYBER',
+        color: 'rgb(255, 184, 57)',
+        values: [
+          {
+            title: tt('user_profile.account_tokens.tokens.wallet'),
+            value: cyber,
           },
         ],
       },
