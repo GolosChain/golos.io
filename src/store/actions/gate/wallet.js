@@ -31,7 +31,6 @@ export const getBalance = userId => {
 
   const params = {
     userId,
-    currencies: ['GOLOS'],
   };
 
   return {

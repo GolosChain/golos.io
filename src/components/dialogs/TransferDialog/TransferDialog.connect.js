@@ -11,10 +11,12 @@ export default connect(
     const currentUsername = currentUsernameSelector(state);
     const userId = currentUserIdSelector(state);
     const balance = userLiquidBalanceSelector(userId)(state);
+    const cyberBalance = userLiquidBalanceSelector(userId, 'CYBER')(state);
 
     return {
       currentUsername,
       balance,
+      cyberBalance,
     };
   },
   {

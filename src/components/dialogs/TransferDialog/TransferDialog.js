@@ -16,7 +16,7 @@ import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
 import AccountNameInput from 'components/common/AccountNameInput';
 
-import { GOLOS_CURRENCY_ID } from 'shared/constants';
+import { CURRENCIES } from 'shared/constants';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
@@ -102,10 +102,15 @@ export default class TransferDialog extends PureComponent {
     type: PropTypes.oneOf(['donate', 'query']),
     recipientName: PropTypes.string.isRequired,
     donatePostUrl: PropTypes.string,
-    onClose: PropTypes.func.isRequired,
     amount: PropTypes.string,
     token: PropTypes.string,
     memo: PropTypes.string,
+
+    balance: PropTypes.string.isRequired,
+    cyberBalance: PropTypes.string.isRequired,
+
+    onClose: PropTypes.func.isRequired,
+    transferToken: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -139,26 +144,12 @@ export default class TransferDialog extends PureComponent {
       target,
       initialTarget: Boolean(target),
       amount,
+      currency: CURRENCIES.GOLOS.id,
       note,
       amountInFocus: false,
       loader: false,
       disabled: false,
     };
-  }
-
-  confirmClose() {
-    const { target, note, amount } = this.state;
-
-    if (target || note.trim() || amount.trim()) {
-      DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
-        if (y) {
-          this.props.onClose();
-        }
-      });
-
-      return false;
-    }
-    return true;
   }
 
   onNoteChange = e => {
@@ -191,13 +182,20 @@ export default class TransferDialog extends PureComponent {
     });
   };
 
+  onCurrencyChange = currency => {
+    this.setState({
+      currency,
+    });
+  };
+
   onCloseClick = () => {
-    this.props.onClose();
+    const { onClose } = this.props;
+    onClose();
   };
 
   onOkClick = async () => {
     const { type, donatePostUrl, transferToken, onClose } = this.props;
-    const { target, amount, note, loader, disabled } = this.state;
+    const { target, amount, currency, note, loader, disabled } = this.state;
 
     if (loader || disabled) {
       return;
@@ -218,14 +216,14 @@ export default class TransferDialog extends PureComponent {
       }
     }
 
-    const tokensAmount = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
+    const tokensAmount = parseFloat(amount.replace(/\s+/, '')).toFixed(CURRENCIES[currency].decs);
 
     this.setState({
       loader: true,
     });
 
     try {
-      await transferToken(target, tokensAmount, memo);
+      await transferToken(target, tokensAmount, currency, memo);
       this.unblockDialog();
       onClose();
     } catch (err) {
@@ -233,6 +231,22 @@ export default class TransferDialog extends PureComponent {
       processError(err);
     }
   };
+
+  confirmClose() {
+    const { onClose } = this.props;
+    const { target, note, amount } = this.state;
+
+    if (target || note.trim() || amount.trim()) {
+      DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
+        if (y) {
+          onClose();
+        }
+      });
+
+      return false;
+    }
+    return true;
+  }
 
   unblockDialog() {
     this.setState({
@@ -242,17 +256,37 @@ export default class TransferDialog extends PureComponent {
   }
 
   render() {
-    const { type, recipientName, balance } = this.props;
-    const { target, initialTarget, amount, note, loader, disabled, amountInFocus } = this.state;
+    const { type, recipientName, balance, cyberBalance } = this.props;
+    const {
+      target,
+      initialTarget,
+      amount,
+      currency,
+      note,
+      loader,
+      disabled,
+      amountInFocus,
+    } = this.state;
 
-    const button = [
+    const buttons = [
       {
-        id: GOLOS_CURRENCY_ID,
+        id: CURRENCIES.GOLOS.id,
         title: tt('token_names.LIQUID_TOKEN'),
+      },
+      {
+        id: CURRENCIES.CYBER.id,
+        title: 'CYBER',
       },
     ];
 
-    let { value, error } = parseAmount(amount, balance, !amountInFocus);
+    let availableBalance;
+    if (currency === CURRENCIES.GOLOS.id) {
+      availableBalance = balance;
+    } else if (currency === CURRENCIES.CYBER.id) {
+      availableBalance = cyberBalance;
+    }
+
+    let { value, error } = parseAmount(amount, availableBalance, !amountInFocus);
     if (isBadActor(target)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }
@@ -301,15 +335,17 @@ export default class TransferDialog extends PureComponent {
                 <Label>{tt('dialogs_transfer.amount')}</Label>
                 <ComplexInput
                   placeholder={tt('dialogs_transfer.amount_placeholder', {
-                    amount: balance.toFixed(3),
+                    amount: availableBalance.toFixed(CURRENCIES[currency].decs),
                   })}
                   spellCheck="false"
                   value={amount}
                   autoFocus={!focusTarget}
-                  buttons={button}
+                  activeId={currency}
+                  buttons={buttons}
                   onChange={this.onAmountChange}
                   onFocus={this.onAmountFocus}
                   onBlur={this.onAmountBlur}
+                  onActiveChange={this.onCurrencyChange}
                 />
               </Section>
             </Column>

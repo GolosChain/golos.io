@@ -11,11 +11,13 @@ export default connect(
   createSelector(
     [
       (state, props) => userLiquidBalanceSelector(props.userId)(state),
+      (state, props) => userLiquidBalanceSelector(props.userId, 'CYBER')(state),
       (state, props) => userVestingBalanceSelector(props.userId)(state),
       statusSelector(['wallet', 'isLoading']),
     ],
-    (liquid, vesting, isLoading) => ({
+    (liquid, cyber, vesting, isLoading) => ({
       golos: liquid,
+      cyber,
       power: vesting.total,
       powerDelegated: vesting.inDelegated,
       isLoading,

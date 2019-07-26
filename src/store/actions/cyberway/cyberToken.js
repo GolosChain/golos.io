@@ -10,12 +10,11 @@ import {
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { getBalance, getTransfersHistory, waitForWalletTransaction } from 'store/actions/gate';
 import { displayError, displaySuccess } from 'utils/toastMessages';
-import { GOLOS_CURRENCY_ID } from 'shared/constants';
 
 const CONTRACT_NAME = 'cyberToken';
 
 // eslint-disable-next-line
-export const transferToken = (recipient, tokens, memo) => async (dispatch, getState) => {
+export const transferToken = (recipient, amount, symbol, memo) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -25,7 +24,7 @@ export const transferToken = (recipient, tokens, memo) => async (dispatch, getSt
   const data = {
     from: userId,
     to: recipient,
-    quantity: `${tokens} ${GOLOS_CURRENCY_ID}`,
+    quantity: `${amount} ${symbol}`,
     memo: memo || '',
   };
 
