@@ -16,7 +16,7 @@ import {
   FETCH_NOTIFY_META_SUCCESS,
   FETCH_NOTIFY_META_ERROR,
 } from 'store/constants';
-import { contentMetaSchema } from 'store/schemas/gate';
+import { contentMetaSchema, proposalSchema } from 'store/schemas/gate';
 
 export const waitForTransaction = transactionId => {
   const params = {
@@ -65,6 +65,7 @@ export const fetchProposals = ({ sequenceKey } = {}) => {
       method: 'content.getProposals',
       types: [FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR],
       params,
+      schema: { items: [proposalSchema] },
     },
     meta: {
       ...params,

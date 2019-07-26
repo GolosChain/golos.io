@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { Router } from 'shared/routes';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import SplashLoader from 'components/golos-ui/SplashLoader';
@@ -18,7 +19,7 @@ import StructureWrapper from './StructureWrapper';
 
 const CONTRACTS = [
   {
-    name: 'publish',
+    contractName: 'publish',
     structures: [
       {
         name: 'st_max_vote_changes',
@@ -88,15 +89,32 @@ export default class ManageCommunity extends PureComponent {
   static propTypes = {
     close: PropTypes.func.isRequired,
     setPublishParams: PropTypes.func.isRequired,
+    waitForTransaction: PropTypes.func.isRequired,
+    getCommunitySettings: PropTypes.func.isRequired,
   };
 
   state = {
     isSaving: false,
     updates: {},
+    currentSettings: null,
   };
 
+  componentDidMount() {
+    this.loadCurrentSettings();
+  }
+
+  async loadCurrentSettings() {
+    const { getCommunitySettings } = this.props;
+
+    const { contracts } = await getCommunitySettings();
+
+    this.setState({
+      currentSettings: contracts,
+    });
+  }
+
   onSaveClick = async () => {
-    const { setPublishParams, close } = this.props;
+    const { setPublishParams, waitForTransaction, close } = this.props;
     const { updates } = this.state;
 
     this.setState({
@@ -104,9 +122,11 @@ export default class ManageCommunity extends PureComponent {
     });
 
     try {
-      await setPublishParams({ updates });
+      const { transaction_id } = await setPublishParams({ updates });
       displaySuccess('Success');
       close();
+      await waitForTransaction(transaction_id);
+      Router.replaceRoute(Router.asPath);
       return;
     } catch (err) {
       displayError(err);
@@ -122,42 +142,52 @@ export default class ManageCommunity extends PureComponent {
     close();
   };
 
-  onChange = (name, struct) => {
+  onChange = (contractName, struct) => {
     const { updates } = this.state;
 
     this.setState({
       updates: {
         ...updates,
-        [name]: struct,
+        [contractName]: struct,
       },
       hasChanges: true,
     });
   };
 
-  renderStructure = ({ name, title, Component }) => {
-    const { updates } = this.state;
+  renderStructure = (contractName, { name, title, Component }) => {
+    const { updates, currentSettings } = this.state;
 
     if (!Component) {
       console.warn(`No component for type ${name}`);
       return;
     }
 
+    const values = currentSettings?.[contractName]?.[name] || {};
+
     return (
       <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
-        <Component structureName={name} onChange={data => this.onChange(name, data)} />
+        {currentSettings ? (
+          <Component
+            structureName={name}
+            initialValues={values}
+            onChange={data => this.onChange(name, data)}
+          />
+        ) : null}
       </StructureWrapper>
     );
   };
 
-  renderContract = ({ name, structures }) => (
-    <ContractGroup key={name}>
-      <ContractName>Contract: {name}</ContractName>
-      <Structures>{structures.map(this.renderStructure)}</Structures>
+  renderContract = ({ contractName, structures }) => (
+    <ContractGroup key={contractName}>
+      <ContractName>Contract: {contractName}</ContractName>
+      <Structures>
+        {structures.map(structure => this.renderStructure(contractName, structure))}
+      </Structures>
     </ContractGroup>
   );
 
   render() {
-    const { isSaving } = this.state;
+    const { isSaving, currentSettings } = this.state;
 
     return (
       <Wrapper>
@@ -165,13 +195,13 @@ export default class ManageCommunity extends PureComponent {
         <Content>{CONTRACTS.map(this.renderContract)}</Content>
         <FooterButtons>
           <Button disabled={isSaving} onClick={this.onSaveClick}>
-            Сохранить
+            Создать предложение
           </Button>
           <Button light onClick={this.onCancelClick}>
             {tt('g.cancel')}
           </Button>
         </FooterButtons>
-        {isSaving ? <SplashLoader /> : null}
+        {isSaving || !currentSettings ? <SplashLoader /> : null}
       </Wrapper>
     );
   }

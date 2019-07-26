@@ -1,5 +1,12 @@
 import { schema } from 'normalizr';
 
+export const formatContentId = contentId => `${contentId.userId}/${contentId.permlink}`;
+
+export const formatContentIdRepost = ({ repost, contentId }) =>
+  `${repost.userId}/${contentId.userId}-${contentId.permlink}-${repost.time}`;
+
+export const formatProposalId = (userId, proposalId) => `${userId}/${proposalId}`;
+
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
 // JSON objects are replaced with their IDs. This is very convenient for
@@ -23,10 +30,6 @@ export const userProfileSchema = new schema.Entity(
     idAttribute: profile => profile.userId,
   }
 );
-
-export const formatContentId = contentId => `${contentId.userId}/${contentId.permlink}`;
-export const formatContentIdRepost = ({ repost, contentId }) =>
-  `${repost.userId}/${contentId.userId}-${contentId.permlink}-${repost.time}`;
 
 export const postSchema = new schema.Entity(
   'posts',
@@ -91,5 +94,13 @@ export const contentMetaSchema = new schema.Entity(
   {},
   {
     idAttribute: ({ post, comment }) => formatContentId((comment || post).contentId),
+  }
+);
+
+export const proposalSchema = new schema.Entity(
+  'proposals',
+  {},
+  {
+    idAttribute: proposal => formatProposalId(proposal.author.userId, proposal.proposalId),
   }
 );

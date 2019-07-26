@@ -18,7 +18,8 @@ const HasChanges = styled.span`
 `;
 
 const ToggleButton = styled.button.attrs({ type: 'button' })`
-  margin-left: 16px;
+  margin-left: 6px;
+  padding: 5px 8px;
   cursor: pointer;
 `;
 
@@ -62,7 +63,7 @@ export default class StructureWrapper extends PureComponent {
           <StructureName>{title}</StructureName>
           {hasChanges ? <HasChanges>(has changes)</HasChanges> : null}
           <ToggleButton onClick={this.onCollapseClick}>
-            {isCollapsed ? 'Open' : 'Hide'}
+            {isCollapsed ? 'Раскрыть' : 'Скрыть'}
           </ToggleButton>
         </StructureLine>
         {isCollapsed ? null : children}

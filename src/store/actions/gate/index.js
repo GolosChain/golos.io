@@ -11,3 +11,4 @@ export * from './content';
 export * from './notifications';
 export * from './rates';
 export * from './votes';
+export * from './communitySettings';

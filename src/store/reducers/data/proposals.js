@@ -1,4 +1,10 @@
-import { FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR } from 'store/constants';
+import {
+  FETCH_PROPOSALS,
+  FETCH_PROPOSALS_SUCCESS,
+  FETCH_PROPOSALS_ERROR,
+  APPROVE_PROPOSAL_SUCCESS,
+  EXEC_PROPOSAL_SUCCESS,
+} from 'store/constants';
 
 const initialState = {
   items: [],
@@ -25,15 +31,16 @@ export default function(state = initialState, { type, payload, meta }) {
       }
 
     case FETCH_PROPOSALS_SUCCESS:
-      const items = meta.sequenceKey ? state.items.concat(payload.items) : payload.items;
+      const { result } = payload;
+      const items = meta.sequenceKey ? state.items.concat(result.items) : result.items;
 
       return {
         ...state,
         items,
-        isEnd: payload.items.length < meta.limit,
+        isEnd: result.items.length < meta.limit,
         isLoading: false,
         isError: false,
-        sequenceKey: payload.sequenceKey,
+        sequenceKey: result.sequenceKey,
       };
 
     case FETCH_PROPOSALS_ERROR:

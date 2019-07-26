@@ -14,7 +14,7 @@ export default function(state = initialState, { type, payload, meta }) {
   const entities = path(['entities', 'profiles'], payload);
 
   if (entities) {
-    return mergeEntities(state, entities, {
+    state = mergeEntities(state, entities, {
       transform: profile => {
         const transferFromSteemToGolosDate = '2016-09-29T12:00:00Z';
         const updatedProfile = { ...profile };

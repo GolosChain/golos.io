@@ -15,17 +15,8 @@ export default function(state = initialState, { type, payload, meta }) {
   const entities = path(['entities', 'notifications'], payload);
 
   if (entities) {
-    return mergeEntities(state, entities, {
-      transform: notification => {
-        const data = {
-          ...notification,
-          id: notification._id,
-        };
-
-        delete data._id;
-
-        return data;
-      },
+    state = mergeEntities(state, entities, {
+      injectId: true,
     });
   }
 

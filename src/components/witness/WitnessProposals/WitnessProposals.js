@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const List = styled.ul`
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
 const Item = styled.li`
@@ -60,7 +60,7 @@ const LoaderBlock = styled.div`
 export default class WitnessProposals extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
     isEnd: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     sequenceKey: PropTypes.string,
@@ -118,10 +118,10 @@ export default class WitnessProposals extends PureComponent {
     );
   }
 
-  renderItem = item => {
+  renderItem = id => {
     return (
-      <Item key={item.proposalId}>
-        <ProposalCard data={item} />
+      <Item key={id}>
+        <ProposalCard proposalId={id} />
       </Item>
     );
   };
