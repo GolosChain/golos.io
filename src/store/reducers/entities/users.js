@@ -35,6 +35,7 @@ export default function(state = initialState, { type, payload, meta }) {
           id: profile.userId,
           username: (profile.username || profile.userId).replace(/@golos$/, ''),
           avatarUrl: profile.personal?.avatarUrl || null,
+          stats: profile.stats,
         }),
         profiles
       ),
