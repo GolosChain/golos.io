@@ -6,11 +6,8 @@ export default function(state = initialState, { type, payload }) {
   const entities = path(['entities', 'tags'], payload);
 
   if (entities) {
-    return { ...state, ...entities };
+    state = { ...state, ...entities };
   }
 
-  switch (type) {
-    default:
-      return state;
-  }
+  return state;
 }

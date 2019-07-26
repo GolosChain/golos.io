@@ -1,11 +1,25 @@
 /* eslint-disable import/prefer-default-export,no-continue */
-import { map, mapObjIndexed } from 'ramda';
+import { mapObjIndexed } from 'ramda';
 
-export function mergeEntities(baseEntities, newEntities, { transform, merge } = {}) {
+export function mergeEntities(baseEntities, newEntities, { injectId, transform, merge } = {}) {
   let newItems = newEntities;
 
+  if (injectId) {
+    newItems = mapObjIndexed((obj, id) => {
+      const cloned = { ...obj };
+
+      delete cloned.id;
+      delete cloned._id;
+
+      return {
+        id,
+        ...cloned,
+      };
+    }, newItems);
+  }
+
   if (transform) {
-    newItems = map(transform, newItems);
+    newItems = mapObjIndexed(transform, newItems);
   }
 
   if (merge) {

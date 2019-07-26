@@ -16,16 +16,7 @@ export default function(state = initialState, { type, payload, meta }) {
 
   if (entities) {
     return mergeEntities(state, entities, {
-      transform: notification => {
-        const data = {
-          ...notification,
-          id: notification._id,
-        };
-
-        delete data._id;
-
-        return data;
-      },
+      injectId: true,
     });
   }
 

@@ -2,7 +2,6 @@ import { path } from 'ramda';
 import update from 'immutability-helper';
 
 import { SET_POST_VOTE, RECORD_POST_VIEW_SUCCESS, AUTH_LOGOUT } from 'store/constants';
-import { formatContentId } from 'store/schemas/gate';
 import { mergeEntities } from 'utils/store';
 import { applyVotesChanges } from 'utils/votes';
 import { unsetVoteStatus } from 'store/utils/reducers';
@@ -29,11 +28,11 @@ export default function(state = initialState, { type, payload, meta }) {
      * }
      * и нужно сохранить оба поля в сторе.
      */
-    return mergeEntities(state, entities, {
+    state = mergeEntities(state, entities, {
+      injectId: true,
       transform: post => ({
         ...post,
         type: 'post',
-        id: formatContentId(post.contentId),
       }),
       merge: (cachedPost, newPost) =>
         update(newPost, {

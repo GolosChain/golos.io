@@ -86,7 +86,8 @@ const Approved = styled.span`
 export default class ProposalCard extends PureComponent {
   static propTypes = {
     userId: PropTypes.string,
-    data: PropTypes.shape({
+    proposal: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       proposalId: PropTypes.string.isRequired,
       author: PropTypes.shape({
         userId: PropTypes.string.isRequired,
@@ -117,7 +118,7 @@ export default class ProposalCard extends PureComponent {
   onApproveClick = async () => {
     const {
       approveProposal,
-      data: { proposalId, author },
+      proposal: { proposalId, author },
     } = this.props;
 
     try {
@@ -136,7 +137,7 @@ export default class ProposalCard extends PureComponent {
   tryToExec = async () => {
     const {
       execProposal,
-      data: { proposalId, author },
+      proposal: { proposalId, author },
     } = this.props;
 
     try {
@@ -180,12 +181,12 @@ export default class ProposalCard extends PureComponent {
   };
 
   renderApproveState() {
-    const { data } = this.props;
+    const { proposal } = this.props;
     const { showRequestedSigns } = this.state;
 
     let approvedCount = 0;
 
-    for (const { isSigned } of data.approves) {
+    for (const { isSigned } of proposal.approves) {
       if (isSigned) {
         approvedCount++;
       }
@@ -193,7 +194,7 @@ export default class ProposalCard extends PureComponent {
 
     return (
       <ApproveState>
-        Approves: {approvedCount}/{data.approves.length}{' '}
+        Approves: {approvedCount}/{proposal.approves.length}{' '}
         <ShowAllButton onClick={this.toggleRequestedSigns}>
           {showRequestedSigns ? 'Hide' : 'Show'} all requested signs
         </ShowAllButton>
@@ -202,9 +203,9 @@ export default class ProposalCard extends PureComponent {
   }
 
   renderRequestedSigns() {
-    const { userId, data } = this.props;
+    const { userId, proposal } = this.props;
 
-    const items = data.approves.sort(this._sortApproves);
+    const items = proposal.approves.sort(this._sortApproves);
 
     return (
       <SignsList>
@@ -221,16 +222,16 @@ export default class ProposalCard extends PureComponent {
   }
 
   renderFooter() {
-    const { userId, data } = this.props;
+    const { userId, proposal } = this.props;
     let approveSlot = null;
 
     if (userId) {
-      const myApprove = data.approves.find(approve => approve.userId === userId);
+      const myApprove = proposal.approves.find(approve => approve.userId === userId);
 
       if (myApprove) {
         if (myApprove.isSigned) {
           approveSlot = <Approved>You have approved already</Approved>;
-        } else if (!data.isExecuted) {
+        } else if (!proposal.isExecuted) {
           approveSlot = <Button onClick={this.onApproveClick}>Approve</Button>;
         }
       }
@@ -239,13 +240,13 @@ export default class ProposalCard extends PureComponent {
     return (
       <FooterButtons>
         {approveSlot}
-        {data.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
+        {proposal.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
       </FooterButtons>
     );
   }
 
   render() {
-    const { data } = this.props;
+    const { proposal } = this.props;
     const { showRequestedSigns } = this.state;
 
     return (
@@ -253,40 +254,40 @@ export default class ProposalCard extends PureComponent {
         <Field>
           <FieldTitle>Author:</FieldTitle>{' '}
           <FieldValue>
-            {data.author.username} ({data.author.userId})
+            {proposal.author.username} ({proposal.author.userId})
           </FieldValue>
         </Field>
         <Field>
-          <FieldTitle>Proposal id:</FieldTitle> <FieldValue>{data.proposalId}</FieldValue>
+          <FieldTitle>Proposal id:</FieldTitle> <FieldValue>{proposal.proposalId}</FieldValue>
         </Field>
         <Field>
           <FieldTitle>Creation date:</FieldTitle>{' '}
-          <FieldValue>{new Date(data.blockTime).toLocaleString()}</FieldValue>
+          <FieldValue>{new Date(proposal.blockTime).toLocaleString()}</FieldValue>
         </Field>
         <Field>
           <FieldTitle>Expiration date:</FieldTitle>{' '}
-          <FieldValue>{new Date(data.expiration).toLocaleString()}</FieldValue>
+          <FieldValue>{new Date(proposal.expiration).toLocaleString()}</FieldValue>
         </Field>
         <Field>
           <FieldTitle>Status:</FieldTitle>{' '}
-          <FieldValue>{data.isExecuted ? 'executed' : 'waiting'}</FieldValue>
+          <FieldValue>{proposal.isExecuted ? 'executed' : 'waiting'}</FieldValue>
         </Field>
-        {data.executedBlockTime ? (
+        {proposal.executedBlockTime ? (
           <Field>
             <FieldTitle>Execution date:</FieldTitle>{' '}
-            <FieldValue>{new Date(data.executedBlockTime).toLocaleString()}</FieldValue>
+            <FieldValue>{new Date(proposal.executedBlockTime).toLocaleString()}</FieldValue>
           </Field>
         ) : null}
         <Field>
-          <FieldTitle>Code:</FieldTitle> <FieldValue>{data.code}</FieldValue>
+          <FieldTitle>Code:</FieldTitle> <FieldValue>{proposal.code}</FieldValue>
         </Field>
         <Field>
-          <FieldTitle>Action:</FieldTitle> <FieldValue>{data.action}</FieldValue>
+          <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
         </Field>
         <ChangesBlock>
           <FieldTitle>Changes:</FieldTitle>
           <ChangesList>
-            {data.changes.map(({ structureName, values }, i) => (
+            {proposal.changes.map(({ structureName, values }, i) => (
               <ChangesLine key={i}>
                 <ChangeStructureName>
                   <FieldTitle>Structure:</FieldTitle> {structureName}

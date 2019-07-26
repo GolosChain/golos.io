@@ -10,6 +10,7 @@ import activities from './activities';
 import replies from './replies';
 import tags from './tags';
 import contentMetas from './contentMetas';
+import proposals from './proposals';
 
 export default combineReducers({
   posts,
@@ -22,4 +23,5 @@ export default combineReducers({
   replies,
   tags,
   contentMetas,
+  proposals,
 });
