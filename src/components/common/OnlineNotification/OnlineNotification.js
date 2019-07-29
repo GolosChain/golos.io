@@ -41,8 +41,6 @@ export default class OnlineNotification extends PureComponent {
     const { notification } = this.props;
     const { actor, eventType } = notification;
 
-    debugger;
-
     let leftSide = null;
 
     if (['reward', 'curatorReward'].includes(eventType)) {
