@@ -7,8 +7,8 @@ import { Input } from 'components/golos-ui/Form';
 import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  min_curators_prcnt: 2500,
-  max_curators_prcnt: 7500,
+  intervals: 13,
+  interval_seconds: 259200,
 };
 
 const Fields = styled.label`
@@ -27,22 +27,22 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class CuratorPercent extends PureComponent {
+export default class VestingWithdraw extends PureComponent {
   state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
 
-  onCurationMinChange = e => {
+  onIntervalsChange = e => {
     this.setState(
       {
-        min_curators_prcnt: e.target.value,
+        intervals: e.target.value,
       },
       this.triggerChange
     );
   };
 
-  onCurationMaxChange = e => {
+  onSecondsChange = e => {
     this.setState(
       {
-        max_curators_prcnt: e.target.value,
+        interval_seconds: e.target.value,
       },
       this.triggerChange
     );
@@ -51,19 +51,19 @@ export default class CuratorPercent extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const min_curators_prcnt = this.state.min_curators_prcnt.trim();
-    const max_curators_prcnt = this.state.max_curators_prcnt.trim();
-
-    if (!isPositiveInteger(min_curators_prcnt) || !isPositiveInteger(max_curators_prcnt)) {
+    if (
+      !isPositiveInteger(this.state.intervals.trim()) ||
+      !isPositiveInteger(this.state.interval_seconds.trim())
+    ) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
     }
 
-    const min = Number(min_curators_prcnt);
-    const max = Number(max_curators_prcnt);
+    const intervals = Number(this.state.intervals);
+    const interval_seconds = Number(this.state.interval_seconds);
 
-    if (min < 0 || max > 10000 || max < min) {
+    if (intervals < 1 || interval_seconds < 3) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -71,31 +71,30 @@ export default class CuratorPercent extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      min_curators_prcnt,
-      max_curators_prcnt,
+      intervals,
+      interval_seconds,
     });
   };
 
   render() {
-    const { min_curators_prcnt, max_curators_prcnt, isInvalid } = this.state;
+    const { intervals, interval_seconds, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Минимум (%)</FieldSubTitle>
+        <FieldSubTitle>Количество интервалов</FieldSubTitle>
         <InputSmall
           type="number"
-          value={min_curators_prcnt}
-          min="0"
-          max="10000"
-          onChange={this.onCurationMinChange}
+          min="1"
+          max="255"
+          value={intervals}
+          onChange={this.onIntervalsChange}
         />
-        <FieldSubTitle>Максимум (%)</FieldSubTitle>
+        <FieldSubTitle>Время интервала (сек)</FieldSubTitle>
         <InputSmall
           type="number"
-          value={max_curators_prcnt}
-          min="0"
-          max="10000"
-          onChange={this.onCurationMaxChange}
+          min="3"
+          value={interval_seconds}
+          onChange={this.onSecondsChange}
         />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

@@ -23,6 +23,10 @@ import RewardsPool from './structures/emit/RewardsPool';
 import EmitToken from './structures/emit/EmitToken';
 import EmitInterval from './structures/emit/EmitInterval';
 
+import VestingWithdraw from './structures/vesting/VestingWithdraw';
+import VestingAmount from './structures/vesting/VestingAmount';
+import VestingDelegation from './structures/vesting/VestingDelegation';
+
 export const CONTRACTS = [
   {
     contractName: 'publish',
@@ -130,6 +134,31 @@ export const CONTRACTS = [
       {
         name: 'bwprovider',
         title: 'Bandwidth provider',
+        Component: BwProvider,
+      },
+    ],
+  },
+  {
+    contractName: 'vesting',
+    structures: [
+      {
+        name: 'vesting_withdraw',
+        title: 'vesting_withdraw',
+        Component: VestingWithdraw,
+      },
+      {
+        name: 'vesting_amount',
+        title: 'vesting_amount',
+        Component: VestingAmount,
+      },
+      {
+        name: 'vesting_delegation',
+        title: 'vesting_delegation',
+        Component: VestingDelegation,
+      },
+      {
+        name: 'vesting_bwprovider',
+        title: 'vesting_bwprovider',
         Component: BwProvider,
       },
     ],

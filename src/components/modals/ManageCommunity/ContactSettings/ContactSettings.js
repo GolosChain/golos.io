@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
+import { Input } from 'components/golos-ui/Form';
 import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
 import { Router } from 'shared/routes';
@@ -17,6 +18,10 @@ const Wrapper = styled.div`
   height: 60vh;
   min-height: 400px;
   overflow: auto;
+`;
+
+const VestingParams = styled.div`
+  padding: 0 30px 5px;
 `;
 
 const ContractGroup = styled.div`
@@ -47,6 +52,7 @@ export default class ContactSettings extends PureComponent {
   };
 
   state = {
+    symbol: '',
     isSaving: false,
     hasChanges: false,
     updates: {},
@@ -54,7 +60,7 @@ export default class ContactSettings extends PureComponent {
 
   onSaveClick = async () => {
     const { data, setParams, waitForTransaction, onClose } = this.props;
-    const { updates } = this.state;
+    const { updates, symbol } = this.state;
 
     this.setState({
       isSaving: true,
@@ -63,7 +69,13 @@ export default class ContactSettings extends PureComponent {
     const { contractName } = data;
 
     try {
-      const { transaction_id } = await setParams({ contractName, updates });
+      let params = null;
+
+      if (contractName === 'vesting') {
+        params = { symbol };
+      }
+
+      const { transaction_id } = await setParams({ contractName, updates, params });
       displaySuccess('Success');
       onClose();
       await waitForTransaction(transaction_id);
@@ -108,6 +120,12 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
+  onSymbolChange = e => {
+    this.setState({
+      symbol: e.target.value,
+    });
+  };
+
   renderStructure = (contractName, { name, title, Component }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
@@ -143,7 +161,7 @@ export default class ContactSettings extends PureComponent {
 
   render() {
     const { data } = this.props;
-    const { isSaving, updates, hasChanges } = this.state;
+    const { symbol, isSaving, updates, hasChanges } = this.state;
 
     const isInvalid = [...Object.values(updates)].some(data => data === 'INVALID');
 
@@ -151,6 +169,11 @@ export default class ContactSettings extends PureComponent {
 
     return (
       <>
+        {data.contractName === 'vesting' ? (
+          <VestingParams>
+            Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
+          </VestingParams>
+        ) : null}
         <Wrapper>{this.renderContract(contract)}</Wrapper>
         <FooterButtons>
           {hasChanges ? (
