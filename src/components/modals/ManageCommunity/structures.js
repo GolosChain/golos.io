@@ -18,6 +18,11 @@ import BreakoutParams from './structures/referral/BreakoutParams';
 import ExpireParams from './structures/referral/ExpireParams';
 import PercentParams from './structures/referral/PercentParams';
 
+import InflationRate from './structures/emit/InflationRate';
+import RewardsPool from './structures/emit/RewardsPool';
+import EmitToken from './structures/emit/EmitToken';
+import EmitInterval from './structures/emit/EmitInterval';
+
 export const CONTRACTS = [
   {
     contractName: 'publish',
@@ -96,6 +101,36 @@ export const CONTRACTS = [
         name: 'percent_parametrs',
         title: 'Percent',
         Component: PercentParams,
+      },
+    ],
+  },
+  {
+    contractName: 'emit',
+    structures: [
+      {
+        name: 'inflation_rate',
+        title: 'Инфляция',
+        Component: InflationRate,
+      },
+      {
+        name: 'reward_pools',
+        title: 'Пул наград',
+        Component: RewardsPool,
+      },
+      {
+        name: 'emit_token',
+        title: 'Токен эмиссии',
+        Component: EmitToken,
+      },
+      {
+        name: 'emit_interval',
+        title: 'Интервал эмиссии',
+        Component: EmitInterval,
+      },
+      {
+        name: 'bwprovider',
+        title: 'Bandwidth provider',
+        Component: BwProvider,
       },
     ],
   },
