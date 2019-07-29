@@ -14,6 +14,10 @@ import MaxWitnesses from './structures/ctrl/MaxWitnesses';
 import MaxWitnessesVotes from './structures/ctrl/MaxWitnessesVotes';
 import UpdateAuth from './structures/ctrl/UpdateAuth';
 
+import BreakoutParams from './structures/referral/BreakoutParams';
+import ExpireParams from './structures/referral/ExpireParams';
+import PercentParams from './structures/referral/PercentParams';
+
 export const CONTRACTS = [
   {
     contractName: 'publish',
@@ -72,6 +76,26 @@ export const CONTRACTS = [
         name: 'update_auth',
         title: 'Период обновления авторизации',
         Component: UpdateAuth,
+      },
+    ],
+  },
+  {
+    contractName: 'referral',
+    structures: [
+      {
+        name: 'breakout_parametrs',
+        title: 'Breakout',
+        Component: BreakoutParams,
+      },
+      {
+        name: 'expire_parametrs',
+        title: 'Expire',
+        Component: ExpireParams,
+      },
+      {
+        name: 'percent_parametrs',
+        title: 'Percent',
+        Component: PercentParams,
       },
     ],
   },
