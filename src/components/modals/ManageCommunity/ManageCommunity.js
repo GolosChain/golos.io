@@ -30,7 +30,7 @@ const HeaderTitle = styled.h1`
 export default class ManageCommunity extends PureComponent {
   static propTypes = {
     close: PropTypes.func.isRequired,
-    setPublishParams: PropTypes.func.isRequired,
+    setParams: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     getCommunitySettings: PropTypes.func.isRequired,
   };

@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../ErrorLine';
+import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  value: 100,
+  max: 21,
 };
 
 const Fields = styled.label`
@@ -19,13 +19,13 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class MaxBeneficiaries extends PureComponent {
+export default class MaxWitnesses extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
     this.setState(
       {
-        value: e.target.value,
+        max: e.target.value,
       },
       this.triggerChange
     );
@@ -33,11 +33,9 @@ export default class MaxBeneficiaries extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
-    const { value } = this.state;
+    const max = parseInt(this.state.max, 10);
 
-    const valueNumber = parseInt(value, 10);
-
-    if (Number.isNaN(valueNumber) || valueNumber < 0 || valueNumber > 255) {
+    if (!max || Number.isNaN(max)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -45,16 +43,16 @@ export default class MaxBeneficiaries extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      value: valueNumber,
+      max,
     });
   };
 
   render() {
-    const { value, isInvalid } = this.state;
+    const { max, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+        <InputSmall value={max} onChange={this.onChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

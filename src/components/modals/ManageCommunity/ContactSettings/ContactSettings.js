@@ -39,9 +39,9 @@ const FooterButtons = styled.div`
   }
 `;
 
-export default class Step2 extends PureComponent {
+export default class ContactSettings extends PureComponent {
   static propTypes = {
-    setPublishParams: PropTypes.func.isRequired,
+    setParams: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
@@ -53,15 +53,17 @@ export default class Step2 extends PureComponent {
   };
 
   onSaveClick = async () => {
-    const { setPublishParams, waitForTransaction, onClose } = this.props;
+    const { data, setParams, waitForTransaction, onClose } = this.props;
     const { updates } = this.state;
 
     this.setState({
       isSaving: true,
     });
 
+    const { contractName } = data;
+
     try {
-      const { transaction_id } = await setPublishParams({ updates });
+      const { transaction_id } = await setParams({ contractName, updates });
       displaySuccess('Success');
       onClose();
       await waitForTransaction(transaction_id);
@@ -140,13 +142,16 @@ export default class Step2 extends PureComponent {
   );
 
   render() {
+    const { data } = this.props;
     const { isSaving, updates, hasChanges } = this.state;
 
     const isInvalid = [...Object.values(updates)].some(data => data === 'INVALID');
 
+    const contract = CONTRACTS.find(contact => contact.contractName === data.contractName);
+
     return (
       <>
-        <Wrapper>{this.renderContract(CONTRACTS[0])}</Wrapper>
+        <Wrapper>{this.renderContract(contract)}</Wrapper>
         <FooterButtons>
           {hasChanges ? (
             <Button disabled={isSaving || isInvalid} onClick={this.onSaveClick}>

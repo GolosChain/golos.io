@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../ErrorLine';
+import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
   value: '',
@@ -19,7 +19,7 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class ReferralAcc extends PureComponent {
+export default class SocialAcc extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
