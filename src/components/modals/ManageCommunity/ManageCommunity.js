@@ -75,9 +75,7 @@ export default class ManageCommunity extends PureComponent {
   };
 
   canClose() {
-    debugger;
     if (this.settingsRef.current) {
-      console.log('calling canClose');
       return this.settingsRef.current.canClose();
     }
 
