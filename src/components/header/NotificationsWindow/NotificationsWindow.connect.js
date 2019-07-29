@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 
 import { statusSelector } from 'store/selectors/common';
-import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
+import { currentUnsafeUserSelector } from 'store/selectors/auth';
 import { fetchNotifications, markAllViewed } from 'store/actions/gate/notifications';
 
 import NotificationsWindow from './NotificationsWindow';
 
 export default connect(
   state => {
+    const currentUser = currentUnsafeUserSelector(state);
     const status = statusSelector('notifications')(state);
 
     return {
@@ -15,7 +16,7 @@ export default connect(
       isFetching: status.isFetching,
       canLoadMore: !status.isFetching && !status.isEnd,
       lastId: status.lastId,
-      userId: currentUnsafeUserIdSelector(state),
+      username: currentUser?.username,
     };
   },
   {

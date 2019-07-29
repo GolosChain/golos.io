@@ -71,7 +71,7 @@ export default class FollowUserButton extends Component {
 
       await waitForTransaction(result.transaction_id);
 
-      await fetchProfile(targetUserId);
+      await fetchProfile({ userId: targetUserId });
     } catch (err) {
       displayError(tt('g.error'), err);
     }

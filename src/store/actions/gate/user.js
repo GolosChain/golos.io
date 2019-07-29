@@ -10,11 +10,16 @@ import { CALL_GATE } from 'store/middlewares/gate-api';
 import { userProfileSchema } from 'store/schemas/gate';
 
 // eslint-disable-next-line import/prefer-default-export
-export const fetchProfile = userId => dispatch => {
+export const fetchProfile = ({ userId, username }) => dispatch => {
   const params = {
-    userId,
     app: 'gls',
   };
+
+  if (userId) {
+    params.userId = userId;
+  } else if (username) {
+    params.username = username;
+  }
 
   return dispatch({
     [CALL_GATE]: {

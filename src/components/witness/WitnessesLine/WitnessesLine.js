@@ -277,7 +277,7 @@ export default class WitnessesLine extends PureComponent {
         <Wrapper title={title} isDeactive={!item.active} collapsed={isCollapsed}>
           <WitnessNumberAndName>
             <div>{index}</div>
-            <Link route="profile" params={{ userId: item.userId }}>
+            <Link route="profile" params={{ username: item.username }}>
               <a>{item.username || item.userId || 'hello'}</a>
             </Link>
           </WitnessNumberAndName>

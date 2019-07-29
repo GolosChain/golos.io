@@ -91,6 +91,8 @@ export default class DelegationsList extends PureComponent {
   render() {
     const { data, onEditClick, onCancelClick } = this.props;
 
+    debugger;
+
     return (
       <Root>
         {data.length ? (

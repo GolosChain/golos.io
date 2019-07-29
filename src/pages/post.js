@@ -14,7 +14,7 @@ export default class Post extends Component {
     };
 
     await store.dispatch(fetchPagePost(contentId));
-    await store.dispatch(fetchProfile(query.userId)).catch(() => {
+    await store.dispatch(fetchProfile({ userId: query.userId })).catch(() => {
       // TODO: Temporary catch!
       // eslint-disable-next-line no-console
       console.error(`Profile [${query.userId}] not found`);

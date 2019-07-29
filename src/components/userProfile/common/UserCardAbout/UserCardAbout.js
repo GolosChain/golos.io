@@ -256,7 +256,7 @@ export default class UserCardAbout extends PureComponent {
     return (
       <SizedRow>
         <Column>
-          <Link route="profile" params={{ userId: profile.userId }} passHref>
+          <Link route="profile" params={{ username: profile.username }} passHref>
             <ColumnLink>
               <Bold>{postsCount}</Bold>
               <Title>
@@ -270,7 +270,7 @@ export default class UserCardAbout extends PureComponent {
         <Column>
           <Link
             route="profileSection"
-            params={{ userId: profile.userId, section: 'comments' }}
+            params={{ username: profile.username, section: 'comments' }}
             passHref
           >
             <ColumnLink>

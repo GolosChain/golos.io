@@ -32,29 +32,29 @@ const GearIcon = styled(Icon).attrs({ name: 'gear' })`
 @withRouter
 export default class UserNavigation extends PureComponent {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     isOwner: PropTypes.bool,
     isMobile: PropTypes.bool,
     showLayout: PropTypes.bool,
   };
 
   render() {
-    const { userId, router, isOwner, isMobile, showLayout, className } = this.props;
+    const { username, router, isOwner, isMobile, showLayout, className } = this.props;
 
     const tabLinks = [];
     const rightItems = [];
 
     tabLinks.push(
-      { text: tt('g.blog'), route: 'profile', params: { userId } },
+      { text: tt('g.blog'), route: 'profile', params: { username } },
       {
         text: tt('g.comments'),
         route: 'profileSection',
-        params: { userId, section: 'comments' },
+        params: { username, section: 'comments' },
       },
       {
         text: tt('g.replies'),
         route: 'profileSection',
-        params: { userId, section: 'replies' },
+        params: { username, section: 'replies' },
       }
     );
 
@@ -62,21 +62,21 @@ export default class UserNavigation extends PureComponent {
       tabLinks.push({
         text: tt('g.favorites'),
         route: 'profileSection',
-        params: { userId, section: 'favorites' },
+        params: { username, section: 'favorites' },
       });
     }
 
     tabLinks.push({
       text: tt('g.wallet'),
       route: 'profileSection',
-      params: { userId, section: 'wallet' },
+      params: { username, section: 'wallet' },
     });
 
     if (isOwner) {
       tabLinks.push({
         text: tt('g.activity'),
         route: 'profileSection',
-        params: { userId, section: 'activity' },
+        params: { username, section: 'activity' },
       });
 
       if (isMobile) {
@@ -84,7 +84,7 @@ export default class UserNavigation extends PureComponent {
           <Link
             key="settings"
             route="profileSection"
-            params={{ userId, section: 'settings' }}
+            params={{ username, section: 'settings' }}
             passHref
           >
             <SettingsLink>
@@ -96,7 +96,7 @@ export default class UserNavigation extends PureComponent {
         tabLinks.push({
           text: tt('g.settings'),
           route: 'profileSection',
-          params: { userId, section: 'settings' },
+          params: { username, section: 'settings' },
         });
       }
     }

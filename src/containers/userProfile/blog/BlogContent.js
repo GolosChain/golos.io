@@ -11,6 +11,7 @@ import CardsList from 'components/common/CardsList';
 import InfoBlock from 'components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'components/common/EmptyBlock';
 import CardsListWrapper from 'components/common/CardsListWrapper';
+import { dataSelector } from '../../../store/selectors/common';
 
 const Loader = styled(LoadingIndicator)`
   margin-top: 30px;
@@ -22,16 +23,22 @@ const Header = styled.h1`
 
 export default class BlogContent extends Component {
   static async getInitialProps({ store, query }) {
-    await store.dispatch(
-      fetchPosts({
-        type: 'user',
-        id: query.userId,
-      })
-    );
+    const userId = dataSelector(['usernames', query.username])(store.getState());
+
+    console.log(store.getState());
+
+    if (userId) {
+      await store.dispatch(
+        fetchPosts({
+          type: 'user',
+          id: userId,
+        })
+      );
+    }
   }
 
   fetchPosts = () => {
-    const { isFetching, isEnd, userId, sequenceKey, fetchComments } = this.props;
+    const { isFetching, isEnd, userId, sequenceKey } = this.props;
 
     if (!isFetching && !isEnd) {
       fetchPosts({

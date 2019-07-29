@@ -76,12 +76,7 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-function RewardLine({
-  router: {
-    query: { userId },
-  },
-  reward,
-}) {
+function RewardLine({ reward }) {
   const { timestamp, tokenType, type, contentId, quantity } = reward;
   const color = '#f57c02';
 

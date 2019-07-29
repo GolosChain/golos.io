@@ -25,9 +25,7 @@ const EmptyBlock = styled.div`
 `;
 
 export default function TransfersList({
-  router: {
-    query: { userId },
-  },
+  userId,
   isLoading,
   items,
   currency,
@@ -52,7 +50,12 @@ export default function TransfersList({
     <>
       <InfinityScrollHelper disabled={isHistoryEnd || isLoading} onNeedLoadMore={onNeedLoadMore}>
         {items.map(transfer => (
-          <TransferLine key={transfer.id} transfer={transfer} direction={direction} />
+          <TransferLine
+            key={transfer.id}
+            transfer={transfer}
+            direction={direction}
+            userId={userId}
+          />
         ))}
       </InfinityScrollHelper>
       {!isLoading && !items.length ? (

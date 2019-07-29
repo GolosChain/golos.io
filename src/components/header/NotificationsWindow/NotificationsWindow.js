@@ -56,6 +56,7 @@ export default class NotificationsWindow extends PureComponent {
   static propTypes = {
     order: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    username: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     fetchNotifications: PropTypes.func.isRequired,
     markAllViewed: PropTypes.func.isRequired,
@@ -137,7 +138,7 @@ export default class NotificationsWindow extends PureComponent {
   onScrollLazy = throttle(this.onScroll, 200, { leading: false });
 
   renderFooter() {
-    const { userId } = this.props;
+    const { username } = this.props;
 
     const clearTooltip = `<div style="text-align: center">${tt(
       'notifications_menu.clear_notifications_history'
@@ -154,7 +155,7 @@ export default class NotificationsWindow extends PureComponent {
         >
           {tt('dialog.clear')}
         </FormFooterButton>
-        <Link route="profileSection" params={{ userId, section: 'activity' }} passHref>
+        <Link route="profileSection" params={{ username, section: 'activity' }} passHref>
           <FormFooterButton aria-label={tt('dialog.show_all')} primary={1}>
             {tt('dialog.show_all')}
           </FormFooterButton>

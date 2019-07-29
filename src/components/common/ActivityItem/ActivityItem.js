@@ -211,14 +211,14 @@ export default class ActivityItem extends Component {
       const { userId, username, avatarUrl } = notification.actor;
 
       leftSide = (
-        <AvatarLink route="profile" params={{ userId }}>
+        <AvatarLink route="profile" params={{ username }}>
           <Avatar avatarUrl={avatarUrl} size={40} icon={icons[type]} />
         </AvatarLink>
       );
 
       if (!isRewards) {
         nameLink = (
-          <AuthorName route="profile" params={{ userId }}>
+          <AuthorName route="profile" params={{ username }}>
             {username || userId}
           </AuthorName>
         );

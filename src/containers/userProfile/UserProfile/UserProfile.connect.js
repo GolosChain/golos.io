@@ -15,7 +15,7 @@ export default connect(
       currentUser,
       profile,
       fetching: null,
-      isOwner: user ? user.userId === props.userId : false,
+      isOwner: user ? user?.userId === props.userId : false,
       followerCount: 0,
       followingCount: 0,
     };

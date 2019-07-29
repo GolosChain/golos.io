@@ -9,6 +9,7 @@ import ToastsManager from 'toasts-manager';
 import { ACTIVITIES_FILTER_TYPES } from 'constants/activities';
 
 import { fetchActivities } from 'store/actions/gate/activities';
+import { dataSelector } from 'store/selectors/common';
 import Card from 'components/golos-ui/Card';
 import Flex from 'components/golos-ui/Flex';
 import Navigation from 'components/common/Navigation';
@@ -79,11 +80,14 @@ export default class ActivityContent extends PureComponent {
     subSection: PropTypes.string.isRequired,
     order: PropTypes.array.isRequired,
     userId: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     getNotificationsHistory: PropTypes.func.isRequired,
   };
 
   static async getInitialProps({ store, query }) {
     const tabId = query.subSection || 'all';
+
+    const userId = dataSelector(['usernames', query.username])(store.getState());
 
     if (process.browser) {
       try {
@@ -91,7 +95,7 @@ export default class ActivityContent extends PureComponent {
           fetchActivities(
             {
               types: ACTIVITIES_FILTER_TYPES[tabId],
-              userId: query.userId,
+              userId,
             },
             {
               tabId,
@@ -104,7 +108,7 @@ export default class ActivityContent extends PureComponent {
     }
 
     return {
-      userId: query.userId,
+      userId,
       tabId,
     };
   }
@@ -144,7 +148,7 @@ export default class ActivityContent extends PureComponent {
       await fetchActivities(
         {
           types: ACTIVITIES_FILTER_TYPES[tabId],
-          userId: userId,
+          userId,
           fromId: isLoadMore ? lastId : null,
         },
         {
@@ -174,13 +178,13 @@ export default class ActivityContent extends PureComponent {
   }
 
   render() {
-    const { userId, isLoading, tabLoading, tabId } = this.props;
+    const { username, isLoading, tabLoading, tabId } = this.props;
 
     const tabLinks = TABS.map(({ id, title }) => ({
       text: tt(title),
       route: 'profileSection',
       params: {
-        userId,
+        username,
         section: 'activity',
         subSection: id === 'all' ? undefined : id,
       },
@@ -189,7 +193,7 @@ export default class ActivityContent extends PureComponent {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.activity', { name: userId })}</title>
+          <title>{tt('meta.title.profile.activity', { name: username })}</title>
         </Head>
         <Header>{tt('g.activity')}</Header>
         <Card auto ref={this.rootRef}>

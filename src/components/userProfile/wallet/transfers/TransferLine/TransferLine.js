@@ -152,28 +152,8 @@ const CURRENCY_COLOR = {
   GOLOS: '#2879ff',
 };
 
-function TransferLine({
-  router: {
-    query: { userId },
-  },
-  transfer,
-}) {
+function TransferLine({ userId, transfer }) {
   const { id, memo, quantity, sym, receiver, sender, timestamp, trxId } = transfer;
-
-  // const {
-  //   timestamp,
-  //   icon,
-  //   color,
-  //   name,
-  //   type,
-  //   title,
-  //   post,
-  //   memo,
-  //   memoIconText,
-  //   currencies,
-  //   amount,
-  //   currency,
-  // } = transfer;
 
   const samePerson = receiver.userId === sender.userId;
   const isSent = sender.userId === userId;

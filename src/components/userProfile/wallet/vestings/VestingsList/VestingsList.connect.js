@@ -10,8 +10,11 @@ export default compose(
   withRouter,
   connect(
     (state, { router }) => {
-      const vestings = dataSelector(['wallet', router.query.userId, 'vestings'])(state);
+      const { username } = router.query;
+      const userId = dataSelector(['usernames', username])(state);
+      const vestings = dataSelector(['wallet', userId, 'vestings'])(state);
       return {
+        userId,
         isLoading: Boolean(vestings?.isLoading),
         items: vestings?.items || [],
         sequenceKey: vestings?.sequenceKey,

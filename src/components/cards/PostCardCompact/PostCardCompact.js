@@ -490,7 +490,7 @@ export default class PostCardCompact extends PureComponent {
             <RepostArrowIcon />
           </>
         ) : null}
-        <Link route="profile" params={{ userId: post.author || 'unknown' }} passHref>
+        <Link route="profile" params={{ username: post.username || 'unknown' }} passHref>
           <AuthorLink>
             <AuthorName>{author?.username || post.author}</AuthorName>
             <AuthorRating>{repLog10(author?.stats?.reputation)}</AuthorRating>

@@ -202,13 +202,13 @@ export default class PopoverBody extends Component {
         </ClosePopoverButton>
         <Block>
           <AuthorTitle>
-            <Link route="profile" params={{ userId }} passHref>
+            <Link route="profile" params={{ username }} passHref>
               <AuthorInfoBlock>
                 <AuthorName>{personal.name || username || userId}</AuthorName>
                 <AuthorAccount aria-label={tt('aria_label.username')}>@{userId}</AuthorAccount>
               </AuthorInfoBlock>
             </Link>
-            <Link route="profile" params={{ userId }} passHref>
+            <Link route="profile" params={{ username }} passHref>
               <AvatarLink aria-label={tt('aria_label.avatar')} rating={reputation}>
                 <Userpic userId={userId} size={USER_ICON_SIZE} />
               </AvatarLink>

@@ -9,7 +9,6 @@ import BlogContent from 'containers/userProfile/blog';
 import CommentsContent from 'containers/userProfile/comments';
 import ActivityContent from 'containers/userProfile/activity';
 import SidebarRight from 'components/userProfile/common/RightPanel';
-// dynamic(() => import('containers/userProfile/settings/SettingsContent'))
 import SettingsContent from 'containers/userProfile/settings/SettingsContent';
 import RepliesContent from 'containers/userProfile/replies';
 import FavoritesContent from 'containers/userProfile/favorites/index'; // doesn't work without index
@@ -63,16 +62,22 @@ const TABS = {
 @withTabs(TABS, 'feed')
 export default class Profile extends PureComponent {
   static async getInitialProps(ctx) {
-    const { store, query } = ctx;
+    const {
+      store,
+      query: { username },
+    } = ctx;
 
-    await store.dispatch(fetchProfile(query.userId)).catch(() => {
-      // TODO: Temporary catch!
+    let profile;
+
+    try {
+      profile = await store.dispatch(fetchProfile({ username }));
+    } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(`Profile [${query.userId}] not found`);
-    });
+      console.error(`Profile [${username}] not found`);
+    }
 
     return {
-      userId: query.userId,
+      userId: profile.result,
     };
   }
 

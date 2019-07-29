@@ -8,7 +8,7 @@ export default connect(state => {
   const currentUser = currentUnsafeUserSelector(state);
 
   return {
-    userId: currentUser.userId,
+    userId: currentUser?.userId,
     // TODO: Replace by real votingPower
     votingPower: 50,
   };

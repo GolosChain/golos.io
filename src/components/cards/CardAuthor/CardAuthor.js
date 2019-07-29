@@ -196,7 +196,7 @@ export default class CardAuthor extends Component {
       profileLinkProps = {
         route: 'profile',
         params: {
-          userId: author?.id,
+          username: author?.username,
         },
       };
     }

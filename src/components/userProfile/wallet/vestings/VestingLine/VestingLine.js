@@ -2,12 +2,9 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import is from 'styled-is';
 
-import { breakWordStyles } from 'helpers/styles';
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-import TextCut from 'components/common/TextCut';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -84,26 +81,8 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-const CURRENCY_COLOR = {
-  GOLOS: '#2879ff',
-};
-
-function VestingLine({
-  router: {
-    query: { userId },
-  },
-  vesting,
-}) {
+function VestingLine({ vesting }) {
   const { id, who, diff, block, trxId, timestamp } = vesting;
-  //
-  // const samePerson = receiver.userId === sender.userId;
-  // const isSent = sender.userId === userId;
-  // const isReceive = receiver.userId === userId && !samePerson;
-  //
-  // const icon = sym === CURRENCY.GOLOS ? 'logo' : 'brilliant';
-  // const color = CURRENCY_COLOR[sym] : null;
-  //
-  // const memoIconText = null; // TODO
 
   const isPowerUp = !diff.GESTS.startsWith('-');
 

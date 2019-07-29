@@ -182,7 +182,7 @@ export default class UserProfile extends Component {
         />
         {navBarType === NAV_BAR_TYPES.BIG ? (
           <UserNavigation
-            userId={profile.userId}
+            username={profile.username}
             isOwner={isOwner}
             showLayout={showLayoutSwitcher}
           />
@@ -191,7 +191,7 @@ export default class UserProfile extends Component {
           <Main>
             {navBarType !== NAV_BAR_TYPES.BIG ? (
               <SmallUserNavigation
-                userId={profile.userId}
+                username={profile.username}
                 isOwner={isOwner}
                 isMobile={navBarType === NAV_BAR_TYPES.MOBILE}
                 showLayout={showLayoutSwitcher}

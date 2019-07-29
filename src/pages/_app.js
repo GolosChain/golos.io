@@ -22,7 +22,7 @@ import {
   updateUIMode,
   changeLocale,
 } from 'store/actions/ui';
-import { setServerAccountName } from 'store/actions/gate/auth';
+import { setServerAccount } from 'store/actions/gate/auth';
 import { getActualRates } from 'store/actions/gate';
 import defaultTheme from 'themes';
 import ModalManager from 'components/modals/ModalManager';
@@ -68,9 +68,10 @@ export default class GolosApp extends App {
       }
 
       const userId = ctx.req.cookies['golos.userId'];
+      const username = ctx.req.cookies['golos.username'];
 
-      if (userId) {
-        ctx.store.dispatch(setServerAccountName(userId));
+      if (userId || username) {
+        ctx.store.dispatch(setServerAccount({ userId, username }));
       }
 
       const locale = ctx.req.cookies[LOCALE_COOKIE_KEY];
@@ -80,7 +81,7 @@ export default class GolosApp extends App {
     }
 
     try {
-      await ctx.store.dispatch(getActualRates());
+      // await ctx.store.dispatch(getActualRates());
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn(err);

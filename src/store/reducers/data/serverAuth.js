@@ -1,5 +1,5 @@
 import {
-  SET_SERVER_ACCOUNT_NAME,
+  SET_SERVER_ACCOUNT,
   GATE_AUTHORIZE_SUCCESS,
   GATE_AUTHORIZE_ERROR,
   AUTH_LOGOUT_SUCCESS,
@@ -7,15 +7,17 @@ import {
 
 const initialState = {
   userId: null,
+  username: null,
   unsafe: true,
 };
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
-    case SET_SERVER_ACCOUNT_NAME:
+    case SET_SERVER_ACCOUNT:
       return {
         ...initialState,
         userId: payload.userId,
+        username: payload.username,
       };
 
     case GATE_AUTHORIZE_SUCCESS:

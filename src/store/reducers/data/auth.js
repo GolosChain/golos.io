@@ -3,7 +3,7 @@ import {
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_ERROR,
   AUTH_LOGOUT_SUCCESS,
-  SET_SERVER_ACCOUNT_NAME,
+  SET_SERVER_ACCOUNT,
   FETCH_CHARGERS,
   FETCH_CHARGERS_ERROR,
   FETCH_CHARGERS_SUCCESS,
@@ -52,7 +52,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
         currentUser: null,
       };
 
-    case SET_SERVER_ACCOUNT_NAME:
+    case SET_SERVER_ACCOUNT:
       return {
         ...state,
         isAutoLogging: true,

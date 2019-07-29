@@ -25,9 +25,7 @@ const EmptyBlock = styled.div`
 `;
 
 export default function VestingsList({
-  router: {
-    query: { userId },
-  },
+  userId,
   isLoading,
   items,
   sequenceKey,

@@ -72,10 +72,10 @@ const Tag = styled.span`
   color: #2879ff;
 `;
 
-export default function NoPostsPlaceholder({ feedType, tagsStr, userId }) {
+export default function NoPostsPlaceholder({ feedType, tagsStr, username }) {
   let link = '/';
   if (feedType === 'feed') {
-    link = `/@${userId}/${feedType}`;
+    link = `/@${username}/${feedType}`;
   } else if (feedType === 'home') {
     link = '/';
   } else {
@@ -103,7 +103,7 @@ export default function NoPostsPlaceholder({ feedType, tagsStr, userId }) {
 
 NoPostsPlaceholder.propTypes = {
   feedType: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   tagsStr: PropTypes.string,
 };
 

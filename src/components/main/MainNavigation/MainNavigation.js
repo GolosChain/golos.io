@@ -16,18 +16,18 @@ const MobileWrapper = styled.div`
 @withRouter
 export default class MainNavigation extends PureComponent {
   static propTypes = {
-    loggedUserId: PropTypes.string,
+    loggedUsername: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
     router: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
-    loggedUserId: null,
+    loggedUsername: null,
   };
 
   computeTabLinks() {
     const {
-      loggedUserId,
+      loggedUsername,
       router: {
         query: { tags },
       },
@@ -37,12 +37,12 @@ export default class MainNavigation extends PureComponent {
 
     const params = tags ? { tags } : {};
 
-    if (loggedUserId) {
+    if (loggedUsername) {
       tabLinks.push({
         text: tt('header_jsx.home'),
         route: 'feed',
         params: {
-          userId: loggedUserId,
+          username: loggedUsername,
           ...params,
         },
       });

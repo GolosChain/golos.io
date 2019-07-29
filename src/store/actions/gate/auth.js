@@ -19,7 +19,7 @@ import {
   AUTH_LOGIN_ERROR,
   AUTH_LOGOUT,
   AUTH_LOGOUT_SUCCESS,
-  SET_SERVER_ACCOUNT_NAME,
+  SET_SERVER_ACCOUNT,
   GATE_AUTHORIZE_SECRET,
   GATE_AUTHORIZE_SECRET_SUCCESS,
   GATE_AUTHORIZE_SECRET_ERROR,
@@ -30,10 +30,11 @@ import {
 import { Router } from 'shared/routes';
 import { getBalance } from './wallet';
 
-export const setServerAccountName = userId => ({
-  type: SET_SERVER_ACCOUNT_NAME,
+export const setServerAccount = ({ userId, username }) => ({
+  type: SET_SERVER_ACCOUNT,
   payload: {
     userId,
+    username,
   },
 });
 
@@ -95,9 +96,13 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       date.setFullYear(date.getFullYear() + 1);
 
       document.cookie = `golos.userId=${auth.user}; path=/; expires=${date.toGMTString()}`;
+      document.cookie = `golos.username=${auth.displayName}; path=/; expires=${date.toGMTString()}`;
 
       try {
-        await Promise.all([dispatch(fetchProfile(auth.user)), dispatch(fetchChargers(auth.user))]);
+        await Promise.all([
+          dispatch(fetchProfile({ userId: auth.user })),
+          dispatch(fetchChargers(auth.user)),
+        ]);
       } catch (err) {
         // replace with action if needed
         // eslint-disable-next-line no-console

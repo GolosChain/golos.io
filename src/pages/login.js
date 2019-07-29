@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { Router } from 'shared/routes';
-import {
-  currentUnsafeServerUserIdSelector,
-  currentUnsafeUserIdSelector,
-} from 'store/selectors/auth';
+import { currentUnsafeUserSelector } from 'store/selectors/auth';
 
 import Container from 'components/common/Container';
 import LoginPanel from 'components/common/LoginPanel';
@@ -79,35 +76,36 @@ const LoginWrapper = styled(LoginPanel)`
 
 class Login extends PureComponent {
   static propTypes = {
-    userId: PropTypes.string,
+    username: PropTypes.string,
   };
 
   static defaultProps = {
-    userId: null,
+    username: null,
   };
 
   static async getInitialProps(ctx) {
     const { store, res } = ctx;
-    const userId = currentUnsafeServerUserIdSelector(store.getState());
+    const user = currentUnsafeUserSelector(store.getState());
 
-    if (userId) {
-      const path = `/@${userId}/feed`;
+    if (user) {
+      const path = `/@${user.username}/feed`;
       if (res) {
         res.redirect(path);
       } else {
         Router.push(path);
       }
     }
+
     return {
-      userId,
+      username: user.username,
     };
   }
 
   componentDidUpdate() {
-    const { userId } = this.props;
+    const { username } = this.props;
 
-    if (userId) {
-      Router.push(`/@${userId}/feed`);
+    if (username) {
+      Router.push(`/@${username}/feed`);
     }
   }
 
@@ -123,6 +121,10 @@ class Login extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  userId: currentUnsafeUserIdSelector(state),
-}))(Login);
+export default connect(state => {
+  const user = currentUnsafeUserSelector(state);
+
+  return {
+    username: user?.username,
+  };
+})(Login);

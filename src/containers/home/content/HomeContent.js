@@ -89,7 +89,7 @@ export default class HomeContent extends Component {
 
       if (!username) {
         try {
-          await store.dispatch(fetchProfile(userId));
+          await store.dispatch(fetchProfile({ userId }));
           state = store.getState();
           username =
             entitySelector('profiles', userId)(state)?.username ||
@@ -144,7 +144,7 @@ export default class HomeContent extends Component {
     const { loggedUserId, feedType, tagsStr, userId, username } = this.props;
 
     if (feedType !== 'feed') {
-      return <NoPostsPlaceholder feedType={feedType} tagsStr={tagsStr} userId={userId} />;
+      return <NoPostsPlaceholder feedType={feedType} tagsStr={tagsStr} username={username} />;
     }
 
     const isMyAccount = loggedUserId === userId;
