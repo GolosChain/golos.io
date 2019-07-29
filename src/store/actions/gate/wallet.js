@@ -87,7 +87,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
     userId,
     types,
     sequenceKey,
-    limit: 2,
+    limit: 20,
   };
 
   return {
