@@ -97,7 +97,7 @@ class Login extends PureComponent {
     }
 
     return {
-      username: user.username,
+      username: user?.username,
     };
   }
 
@@ -128,3 +128,4 @@ export default connect(state => {
     username: user?.username,
   };
 })(Login);
+gst;

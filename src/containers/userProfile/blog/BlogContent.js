@@ -5,13 +5,13 @@ import tt from 'counterpart';
 
 import { Link } from 'shared/routes';
 import { fetchPosts } from 'store/actions/gate';
+import { dataSelector } from 'store/selectors/common';
 import { visuallyHidden } from 'helpers/styles';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import CardsList from 'components/common/CardsList';
 import InfoBlock from 'components/common/InfoBlock';
 import EmptyBlock, { EmptySubText } from 'components/common/EmptyBlock';
 import CardsListWrapper from 'components/common/CardsListWrapper';
-import { dataSelector } from '../../../store/selectors/common';
 
 const Loader = styled(LoadingIndicator)`
   margin-top: 30px;
@@ -24,8 +24,6 @@ const Header = styled.h1`
 export default class BlogContent extends Component {
   static async getInitialProps({ store, query }) {
     const userId = dataSelector(['usernames', query.username])(store.getState());
-
-    console.log(store.getState());
 
     if (userId) {
       await store.dispatch(
