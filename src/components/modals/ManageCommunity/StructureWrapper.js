@@ -1,8 +1,8 @@
-import React, { PureComponent, createRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.li`
-  margin: 10px 0;
+  margin: 10px 0 20px;
 `;
 
 const StructureLine = styled.div`
@@ -17,57 +17,14 @@ const HasChanges = styled.span`
   margin-left: 8px;
 `;
 
-const ToggleButton = styled.button.attrs({ type: 'button' })`
-  margin-left: 6px;
-  padding: 5px 8px;
-  cursor: pointer;
-`;
-
-export default class StructureWrapper extends PureComponent {
-  state = {
-    isCollapsed: true,
-  };
-
-  wrapperRef = createRef();
-
-  onCollapseClick = () => {
-    this.setState(
-      state => ({
-        isCollapsed: !state.isCollapsed,
-      }),
-      () => {
-        if (!this.state.isCollapsed) {
-          this.scrollIntoView();
-        }
-      }
-    );
-  };
-
-  scrollIntoView() {
-    const el = this.wrapperRef.current;
-
-    if (el.scrollIntoViewIfNeeded) {
-      el.scrollIntoViewIfNeeded();
-    } else if (el.scrollIntoView) {
-      el.scrollIntoView();
-    }
-  }
-
-  render() {
-    const { title, hasChanges, children } = this.props;
-    const { isCollapsed } = this.state;
-
-    return (
-      <Wrapper ref={this.wrapperRef}>
-        <StructureLine>
-          <StructureName>{title}</StructureName>
-          {hasChanges ? <HasChanges>(has changes)</HasChanges> : null}
-          <ToggleButton onClick={this.onCollapseClick}>
-            {isCollapsed ? 'Раскрыть' : 'Скрыть'}
-          </ToggleButton>
-        </StructureLine>
-        {isCollapsed ? null : children}
-      </Wrapper>
-    );
-  }
+export default function StructureWrapper({ title, hasChanges, children }) {
+  return (
+    <Wrapper>
+      <StructureLine>
+        <StructureName>{title}</StructureName>
+        {hasChanges ? <HasChanges>(has changes)</HasChanges> : null}
+      </StructureLine>
+      {children}
+    </Wrapper>
+  );
 }

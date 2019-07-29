@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { displayError } from 'utils/toastMessages';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
-import Button from 'components/golos-ui/Button';
+
+import ErrorLine from '../ErrorLine';
 
 const DEFAULT = {
   actor: '',
@@ -27,37 +27,39 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-const Buttons = styled.div`
-  margin-top: 8px;
-`;
-
-const SaveButton = styled(Button)``;
-
 export default class BwProvider extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onActorChange = e => {
-    this.setState({
-      actor: e.target.value,
-    });
+    this.setState(
+      {
+        actor: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
   onPermissionChange = e => {
-    this.setState({
-      permission: e.target.value,
-    });
+    this.setState(
+      {
+        permission: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
-  onSaveClick = () => {
+  triggerChange = () => {
     const { onChange } = this.props;
     const actor = this.state.actor.trim();
     const permission = this.state.permission.trim();
 
     if (!actor || !permission) {
-      displayError('Введены некорректные значения');
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
       return;
     }
 
+    this.setState({ isInvalid: false });
     onChange({
       actor,
       permission,
@@ -65,7 +67,7 @@ export default class BwProvider extends PureComponent {
   };
 
   render() {
-    const { actor, permission } = this.state;
+    const { actor, permission, isInvalid } = this.state;
 
     return (
       <Fields>
@@ -73,9 +75,7 @@ export default class BwProvider extends PureComponent {
         <InputSmall value={actor} onChange={this.onActorChange} />
         <FieldSubTitle>Уровень разрешений:</FieldSubTitle>
         <InputSmall value={permission} onChange={this.onPermissionChange} />
-        <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
-        </Buttons>
+        {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
   }

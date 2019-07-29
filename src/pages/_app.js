@@ -198,10 +198,10 @@ export default class GolosApp extends App {
                       {router.route === '/submit' ? null : <ScrollUpstairsButton />}
                       <MobileAppButton />
                     </div>
-                    <DialogManager />
                     {isSSR ? null : <TooltipManager />}
                     <UIStoreSync />
                     <ModalManager passStore={store} />
+                    <DialogManager />
                     <ToastsManager renderToast={NotifyToast} />
                   </ContentErrorBoundary>
                   <FeaturesToggle />
