@@ -20,9 +20,7 @@ const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const VestingParams = styled.div`
-  padding: 0 30px 5px;
-`;
+const VestingParams = styled.div``;
 
 const ContractGroup = styled.div`
   margin: 0 0 8px;
@@ -150,31 +148,37 @@ export default class ContactSettings extends PureComponent {
     );
   };
 
-  renderContract = ({ contractName, structures }) => (
-    <ContractGroup key={contractName}>
-      <ContractName>Contract: {contractName}</ContractName>
-      <Structures>
-        {structures.map(structure => this.renderStructure(contractName, structure))}
-      </Structures>
-    </ContractGroup>
-  );
-
-  render() {
+  renderContract = () => {
     const { data } = this.props;
-    const { symbol, isSaving, updates, hasChanges } = this.state;
+    const { symbol } = this.state;
 
-    const isInvalid = [...Object.values(updates)].some(data => data === 'INVALID');
-
-    const contract = CONTRACTS.find(contact => contact.contractName === data.contractName);
+    const { contractName, structures } = CONTRACTS.find(
+      contact => contact.contractName === data.contractName
+    );
 
     return (
-      <>
+      <ContractGroup>
+        <ContractName>Contract: {contractName}</ContractName>
         {data.contractName === 'vesting' ? (
           <VestingParams>
             Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
           </VestingParams>
         ) : null}
-        <Wrapper>{this.renderContract(contract)}</Wrapper>
+        <Structures>
+          {structures.map(structure => this.renderStructure(contractName, structure))}
+        </Structures>
+      </ContractGroup>
+    );
+  };
+
+  render() {
+    const { isSaving, updates, hasChanges } = this.state;
+
+    const isInvalid = [...Object.values(updates)].some(data => data === 'INVALID');
+
+    return (
+      <>
+        <Wrapper>{this.renderContract()}</Wrapper>
         <FooterButtons>
           {hasChanges ? (
             <Button disabled={isSaving || isInvalid} onClick={this.onSaveClick}>
