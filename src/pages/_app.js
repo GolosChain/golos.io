@@ -81,6 +81,7 @@ export default class GolosApp extends App {
     }
 
     try {
+      // TODO: doesn't work
       // await ctx.store.dispatch(getActualRates());
     } catch (err) {
       // eslint-disable-next-line no-console
