@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../ErrorLine';
+import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  actor: '',
-  permission: 'active',
+  min_breakout: '',
+  max_breakout: '',
 };
 
 const Fields = styled.label`
@@ -27,22 +27,22 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class BwProvider extends PureComponent {
+export default class BreakoutParams extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
-  onActorChange = e => {
+  onMinChange = e => {
     this.setState(
       {
-        actor: e.target.value,
+        min_breakout: e.target.value,
       },
       this.triggerChange
     );
   };
 
-  onPermissionChange = e => {
+  onMaxChange = e => {
     this.setState(
       {
-        permission: e.target.value,
+        max_breakout: e.target.value,
       },
       this.triggerChange
     );
@@ -50,10 +50,10 @@ export default class BwProvider extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
-    const actor = this.state.actor.trim();
-    const permission = this.state.permission.trim();
+    const min_breakout = this.state.min_breakout.trim();
+    const max_breakout = this.state.max_breakout.trim();
 
-    if (!actor || !permission) {
+    if (!min_breakout || !max_breakout) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -61,20 +61,21 @@ export default class BwProvider extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      actor,
-      permission,
+      min_breakout,
+      max_breakout,
     });
   };
 
   render() {
-    const { actor, permission, isInvalid } = this.state;
+    const { fields } = this.props;
+    const { min_breakout, max_breakout, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Актор:</FieldSubTitle>
-        <InputSmall value={actor} onChange={this.onActorChange} />
-        <FieldSubTitle>Уровень разрешений:</FieldSubTitle>
-        <InputSmall value={permission} onChange={this.onPermissionChange} />
+        <FieldSubTitle>{fields.min_breakout}:</FieldSubTitle>
+        <InputSmall value={min_breakout} onChange={this.onMinChange} />
+        <FieldSubTitle>{fields.max_breakout}:</FieldSubTitle>
+        <InputSmall value={max_breakout} onChange={this.onMaxChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

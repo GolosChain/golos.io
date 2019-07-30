@@ -61,7 +61,7 @@ export const createPropose = ({
   });
 };
 
-export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
+export const setParams = ({ contractName, updates, params }) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -91,11 +91,12 @@ export const setPublishParams = ({ updates }) => async (dispatch, getState) => {
 
   return await dispatch(
     createPropose({
-      contract: 'publish',
+      contract: contractName,
       method: 'setparams',
-      actor: 'gls.publish',
+      actor: `gls.${contractName}`,
       permission: 'active',
       params: {
+        ...params,
         params: structures,
       },
       requested: requestedAuth,

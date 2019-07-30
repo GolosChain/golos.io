@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../ErrorLine';
+import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  value: '',
+  symbol: '',
 };
 
 const Fields = styled.label`
@@ -19,13 +19,13 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class SocialAcc extends PureComponent {
+export default class EmitToken extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
     this.setState(
       {
-        value: e.target.value,
+        symbol: e.target.value,
       },
       this.triggerChange
     );
@@ -33,9 +33,9 @@ export default class SocialAcc extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
-    const value = this.state.value.trim();
+    const symbol = this.state.symbol.trim();
 
-    if (!value) {
+    if (!symbol) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -43,16 +43,16 @@ export default class SocialAcc extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      value,
+      symbol,
     });
   };
 
   render() {
-    const { value, isInvalid } = this.state;
+    const { symbol, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall value={value} onChange={this.onChange} />
+        <InputSmall value={symbol} onChange={this.onChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

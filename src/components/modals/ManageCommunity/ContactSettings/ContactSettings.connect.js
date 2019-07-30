@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 
 import { waitForTransaction } from 'store/actions/gate';
-import { setPublishParams } from 'store/actions/cyberway';
+import { setParams } from 'store/actions/cyberway';
 
 import ContactSettings from './ContactSettings';
 
 export default connect(
   null,
   {
-    setPublishParams,
+    setParams,
     waitForTransaction,
   },
   null,

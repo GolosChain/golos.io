@@ -4,19 +4,25 @@ import styled from 'styled-components';
 
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
+import { Input } from 'components/golos-ui/Form';
 import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
 import { Router } from 'shared/routes';
 
-import { CONTRACTS } from '../structures';
+import { CONTRACTS } from 'constants/setParamsStructures';
+import { STRUCTURES } from '../structures';
 import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
 
 const Wrapper = styled.div`
-  padding: 10px 30px 0;
+  padding: 0 30px;
   height: 60vh;
   min-height: 400px;
   overflow: auto;
+`;
+
+const VestingParams = styled.div`
+  margin-top: 8px;
 `;
 
 const ContractGroup = styled.div`
@@ -39,29 +45,38 @@ const FooterButtons = styled.div`
   }
 `;
 
-export default class Step2 extends PureComponent {
+export default class ContactSettings extends PureComponent {
   static propTypes = {
-    setPublishParams: PropTypes.func.isRequired,
+    setParams: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
   state = {
+    symbol: '',
     isSaving: false,
     hasChanges: false,
     updates: {},
   };
 
   onSaveClick = async () => {
-    const { setPublishParams, waitForTransaction, onClose } = this.props;
-    const { updates } = this.state;
+    const { data, setParams, waitForTransaction, onClose } = this.props;
+    const { updates, symbol } = this.state;
 
     this.setState({
       isSaving: true,
     });
 
+    const { contractName } = data;
+
     try {
-      const { transaction_id } = await setPublishParams({ updates });
+      let params = null;
+
+      if (contractName === 'vesting') {
+        params = { symbol };
+      }
+
+      const { transaction_id } = await setParams({ contractName, updates, params });
       displaySuccess('Success');
       onClose();
       await waitForTransaction(transaction_id);
@@ -106,11 +121,19 @@ export default class Step2 extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, { name, title, Component }) => {
+  onSymbolChange = e => {
+    this.setState({
+      symbol: e.target.value,
+    });
+  };
+
+  renderStructure = (contractName, { name, title, fields = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
-    if (!Component) {
+    const StructureComponent = STRUCTURES[contractName]?.[name];
+
+    if (!StructureComponent) {
       console.warn(`No component for type ${name}`);
       return;
     }
@@ -120,8 +143,9 @@ export default class Step2 extends PureComponent {
     return (
       <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
         {currentSettings ? (
-          <Component
+          <StructureComponent
             structureName={name}
+            fields={fields}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
           />
@@ -130,14 +154,28 @@ export default class Step2 extends PureComponent {
     );
   };
 
-  renderContract = ({ contractName, structures }) => (
-    <ContractGroup key={contractName}>
-      <ContractName>Contract: {contractName}</ContractName>
-      <Structures>
-        {structures.map(structure => this.renderStructure(contractName, structure))}
-      </Structures>
-    </ContractGroup>
-  );
+  renderContract = () => {
+    const { data } = this.props;
+    const { symbol } = this.state;
+
+    const { contractName, structures } = CONTRACTS.find(
+      contact => contact.contractName === data.contractName
+    );
+
+    return (
+      <ContractGroup>
+        <ContractName>Contract: {contractName}</ContractName>
+        {data.contractName === 'vesting' ? (
+          <VestingParams>
+            Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
+          </VestingParams>
+        ) : null}
+        <Structures>
+          {structures.map(structure => this.renderStructure(contractName, structure))}
+        </Structures>
+      </ContractGroup>
+    );
+  };
 
   render() {
     const { isSaving, updates, hasChanges } = this.state;
@@ -146,7 +184,7 @@ export default class Step2 extends PureComponent {
 
     return (
       <>
-        <Wrapper>{this.renderContract(CONTRACTS[0])}</Wrapper>
+        <Wrapper>{this.renderContract()}</Wrapper>
         <FooterButtons>
           {hasChanges ? (
             <Button disabled={isSaving || isInvalid} onClick={this.onSaveClick}>

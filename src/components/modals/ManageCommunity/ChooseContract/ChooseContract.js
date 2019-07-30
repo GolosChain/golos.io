@@ -4,10 +4,11 @@ import tt from 'counterpart';
 
 import Button from 'components/golos-ui/Button';
 
+import { CONTRACTS } from 'constants/setParamsStructures';
 import { STEPS } from '../ManageCommunity';
 
 const Wrapper = styled.div`
-  padding: 10px 30px 0;
+  padding: 0 30px;
   height: 60vh;
   min-height: 400px;
   overflow: auto;
@@ -22,6 +23,7 @@ const Hint = styled.h2`
 const List = styled.ul``;
 
 const Item = styled.li`
+  margin: 0 0 14px;
   list-style: none;
 `;
 
@@ -55,13 +57,13 @@ const FooterButtons = styled.div`
 `;
 
 export default class ChooseContract extends PureComponent {
-  onClick = () => {
+  onClick = contractName => {
     const { onStepChange } = this.props;
 
     onStepChange({
       step: STEPS.CHANGE_PARAMS,
       data: {
-        contractName: 'publish',
+        contractName,
       },
     });
   };
@@ -71,24 +73,25 @@ export default class ChooseContract extends PureComponent {
     onClose();
   };
 
+  renderContractLine = ({ contractName }) => (
+    <Item key={contractName}>
+      <Contract onClick={() => this.onClick(contractName)}>
+        <ContractName>{contractName}</ContractName>
+        <ContractDescription>
+          {contractName} is lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
+          commodi eveniet ipsa nam porro, quaerat repellendus saepe sequi ullam ut, vero vitae
+          voluptatem voluptates. Animi deleniti laboriosam suscipit tempora voluptates!
+        </ContractDescription>
+      </Contract>
+    </Item>
+  );
+
   render() {
     return (
       <>
         <Wrapper>
           <Hint>Choose contract to change settings:</Hint>
-          <List>
-            <Item>
-              <Contract onClick={this.onClick}>
-                <ContractName>Publish</ContractName>
-                <ContractDescription>
-                  Publis it Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
-                  commodi eveniet ipsa nam porro, quaerat repellendus saepe sequi ullam ut, vero
-                  vitae voluptatem voluptates. Animi deleniti laboriosam suscipit tempora
-                  voluptates!
-                </ContractDescription>
-              </Contract>
-            </Item>
-          </List>
+          <List>{CONTRACTS.map(this.renderContractLine)}</List>
         </Wrapper>
         <FooterButtons>
           <Button light onClick={this.onCancelClick}>

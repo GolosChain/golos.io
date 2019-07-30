@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../ErrorLine';
+import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  value: 2,
+  value: 3,
 };
 
 const Fields = styled.label`
@@ -19,7 +19,7 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class MaxCommentDepth extends PureComponent {
+export default class MaxVoteChanges extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
