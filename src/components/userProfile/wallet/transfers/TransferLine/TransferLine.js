@@ -10,6 +10,7 @@ import Icon from 'components/golos-ui/Icon';
 import TextCut from 'components/common/TextCut';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Linkify from 'components/common/Linkify';
+import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import { CURRENCY } from '../../Transfers';
 
 const Root = styled.div`
@@ -55,12 +56,20 @@ const WhoLink = styled.a`
   text-overflow: ellipsis;
 `;
 
+const WhoBottom = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const TimeStamp = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 12px;
   color: #959595;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-right: 8px;
 `;
 
 const Memo = styled.div`
@@ -207,13 +216,12 @@ function TransferLine({
               </>
             ) : null}
           </WhoName>
-          {/*    {title ? <WhoTitle>{title}</WhoTitle> : null}*/}
-          {/*    /!*{post ? (*!/*/}
-          {/*    /!*  <PostLink post={post} getContent={getContent} postsContent={postsContent} />*!/*/}
-          {/*    /!*) : null}*!/*/}
-          <TimeStamp>
-            <TimeAgoWrapper date={timestamp} />
-          </TimeStamp>
+          <WhoBottom>
+            <TimeStamp>
+              <TimeAgoWrapper date={timestamp} />
+            </TimeStamp>
+            <TrxLink trxId={trxId} />
+          </WhoBottom>
         </Who>
         {memo ? (
           <Memo>
@@ -232,8 +240,6 @@ function TransferLine({
           <Currency>{sym}</Currency>
         </Value>
       </Line>
-      {/*{this.renderEditDelegation()}*/}
-      {/*{loader ? <SplashLoader light /> : null}*/}
     </Root>
   );
 }

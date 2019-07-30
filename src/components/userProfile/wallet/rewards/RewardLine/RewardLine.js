@@ -5,6 +5,7 @@ import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import RewardContentLink from '../RewardContentLink';
 
 const Root = styled.div`
@@ -37,7 +38,13 @@ const Who = styled.div`
   overflow: hidden;
 `;
 
+const WhoBottom = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const TimeStamp = styled.div`
+  margin-right: 8px;
   font-size: 12px;
   color: #959595;
   white-space: nowrap;
@@ -76,13 +83,8 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-function RewardLine({
-  router: {
-    query: { userId },
-  },
-  reward,
-}) {
-  const { timestamp, tokenType, type, contentId, quantity } = reward;
+function RewardLine({ reward }) {
+  const { trxId, timestamp, tokenType, type, contentId, quantity } = reward;
   const color = '#f57c02';
 
   let icon = 'logo';
@@ -106,9 +108,12 @@ function RewardLine({
         <LineIcon name={icon} color={color} />
         <Who>
           <RewardContentLink contentId={contentId} />
-          <TimeStamp>
-            <TimeAgoWrapper date={timestamp} />
-          </TimeStamp>
+          <WhoBottom>
+            <TimeStamp>
+              <TimeAgoWrapper date={timestamp} />
+            </TimeStamp>
+            <TrxLink trxId={trxId} />
+          </WhoBottom>
         </Who>
         <Value>
           <Amount color={color}>{quantity}</Amount>
