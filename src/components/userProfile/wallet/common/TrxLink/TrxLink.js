@@ -25,7 +25,7 @@ const Trx = styled.a`
 export default function TrxLink({ trxId }) {
   return (
     <Link href={`${process.env.EXPLORER_URL}/trx/${trxId}`} passHref>
-      <Trx target="_black" rel="noopener nofollow">
+      <Trx target="_blank" rel="noopener nofollow">
         TRX
       </Trx>
     </Link>
