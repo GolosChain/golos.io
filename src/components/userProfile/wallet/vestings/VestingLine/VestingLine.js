@@ -5,7 +5,7 @@ import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-import TrxLink from '../../common/TrxLink/TrxLink';
+import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 
 const Root = styled.div`
   &:nth-child(even) {

@@ -10,7 +10,7 @@ import Icon from 'components/golos-ui/Icon';
 import TextCut from 'components/common/TextCut';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Linkify from 'components/common/Linkify';
-import TrxLink from '../../common/TrxLink';
+import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import { CURRENCY } from '../../Transfers';
 
 const Root = styled.div`

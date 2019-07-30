@@ -5,8 +5,8 @@ import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import RewardContentLink from '../RewardContentLink';
-import TrxLink from '../../common/TrxLink/TrxLink';
 
 const Root = styled.div`
   &:nth-child(even) {
