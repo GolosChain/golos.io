@@ -87,8 +87,6 @@ export default class CuratorPercent extends PureComponent {
     const { fields } = this.props;
     const { min, max, isInvalid } = this.state;
 
-    console.log('FIELDS', fields);
-
     return (
       <Fields>
         <FieldSubTitle>{fields.min_curators_prcnt}</FieldSubTitle>
