@@ -9,7 +9,7 @@ vendor/*
 tmp/*
 .vscode
 
-.env*
+.env
 .npmrc
 .yarnrc
 

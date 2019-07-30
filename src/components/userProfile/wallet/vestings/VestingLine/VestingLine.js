@@ -2,12 +2,10 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import tt from 'counterpart';
-import is from 'styled-is';
 
-import { breakWordStyles } from 'helpers/styles';
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
-import TextCut from 'components/common/TextCut';
+import TrxLink from '../../common/TrxLink/TrxLink';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -45,7 +43,13 @@ const WhoTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
+const WhoBottom = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const TimeStamp = styled.div`
+  margin-right: 8px;
   font-size: 12px;
   color: #959595;
   white-space: nowrap;
@@ -84,17 +88,8 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-const CURRENCY_COLOR = {
-  GOLOS: '#2879ff',
-};
-
-function VestingLine({
-  router: {
-    query: { userId },
-  },
-  vesting,
-}) {
-  const { id, who, diff, block, trxId, timestamp } = vesting;
+function VestingLine({ vesting }) {
+  const { diff, trxId, timestamp } = vesting;
   //
   // const samePerson = receiver.userId === sender.userId;
   // const isSent = sender.userId === userId;
@@ -118,17 +113,18 @@ function VestingLine({
         <LineIcon name="logo" color={color} />
         <Who>
           <WhoTitle>{title} </WhoTitle>
-          <TimeStamp>
-            <TimeAgoWrapper date={timestamp} />
-          </TimeStamp>
+          <WhoBottom>
+            <TimeStamp>
+              <TimeAgoWrapper date={timestamp} />
+            </TimeStamp>
+            <TrxLink trxId={trxId} />
+          </WhoBottom>
         </Who>
         <Value>
           <Amount color={color}>{diff.GESTS}</Amount>
           <Currency>{tt('token_names.VESTING_TOKEN')}</Currency>
         </Value>
       </Line>
-      {/*{this.renderEditDelegation()}*/}
-      {/*{loader ? <SplashLoader light /> : null}*/}
     </Root>
   );
 }
