@@ -14,9 +14,8 @@ export default ({ getState }) => next => async action => {
     return next(action);
   }
 
-  // TODO: change to providebw: true and broadcast: false when Gate will work
   const callApi = defaults(action[CYBERWAY_API], {
-    options: { providebw: false, broadcast: true },
+    options: { broadcast: false, providebw: true, bwprovider: 'gls' },
   });
 
   const actionWithoutCall = { ...action };
