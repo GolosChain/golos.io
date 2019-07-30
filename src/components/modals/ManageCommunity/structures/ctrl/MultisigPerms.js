@@ -7,9 +7,9 @@ import { Input } from 'components/golos-ui/Form';
 import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  super_majority: 1,
-  majority: 1,
-  minority: 1,
+  super_majority: 0,
+  majority: 0,
+  minority: 0,
 };
 
 const Fields = styled.label`

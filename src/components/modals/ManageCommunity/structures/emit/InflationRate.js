@@ -7,9 +7,9 @@ import { Input } from 'components/golos-ui/Form';
 import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  start: 0,
-  stop: 0,
-  narrowing: 0,
+  start: 1500,
+  stop: 95,
+  narrowing: 250000,
 };
 
 const Fields = styled.label`

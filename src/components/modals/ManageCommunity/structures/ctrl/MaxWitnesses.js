@@ -7,7 +7,7 @@ import { Input } from 'components/golos-ui/Form';
 import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  max: 21,
+  max: 5,
 };
 
 const Fields = styled.label`
