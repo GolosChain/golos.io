@@ -1,3 +1,7 @@
+export const FIELD_TYPES = {
+  PERCENT: 'PERCENT',
+};
+
 export const CONTRACTS = [
   {
     contractName: 'publish',
@@ -27,6 +31,10 @@ export const CONTRACTS = [
         fields: {
           min_curators_prcnt: 'Минимум (%)',
           max_curators_prcnt: 'Максимум (%)',
+        },
+        fieldsTypes: {
+          max_curators_prcnt: FIELD_TYPES.PERCENT,
+          min_curators_prcnt: FIELD_TYPES.PERCENT,
         },
       },
       {

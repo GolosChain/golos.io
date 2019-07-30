@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { displayError, displaySuccess } from 'utils/toastMessages';
+import { parsePercent } from 'utils/common';
 import Button from 'components/golos-ui/Button';
-import { CONTRACTS } from 'constants/setParamsStructures';
+import { CONTRACTS, FIELD_TYPES } from 'constants/setParamsStructures';
 
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
@@ -283,6 +284,7 @@ export default class ProposalCard extends PureComponent {
     for (const fieldName of fieldNames) {
       const value = values[fieldName];
       let title = null;
+      let finalValue = null;
 
       if (structure) {
         if (structure.fields) {
@@ -296,10 +298,20 @@ export default class ProposalCard extends PureComponent {
         title = fieldName;
       }
 
+      const fieldType = structure?.fieldsTypes?.[fieldName];
+
+      switch (fieldType) {
+        case FIELD_TYPES.PERCENT:
+          finalValue = parsePercent(value);
+          break;
+        default:
+          finalValue = JSON.stringify(value, null, 2);
+      }
+
       fields.push(
         <div key={fieldName.length}>
           {title ? `${title}: ` : null}
-          {JSON.stringify(value, null, 2)}
+          {finalValue}
         </div>
       );
     }
