@@ -14,9 +14,17 @@ export default ({ getState }) => next => async action => {
     return next(action);
   }
 
-  const callApi = defaults(action[CYBERWAY_API], {
-    options: { broadcast: false, providebw: true, bwprovider: 'gls' },
-  });
+  let callApi = action[CYBERWAY_API];
+
+  if (process.env.PROVIDEBW_ENABLED) {
+    callApi = defaults(callApi, {
+      options: {
+        broadcast: false,
+        providebw: true,
+        bwprovider: 'gls',
+      },
+    });
+  }
 
   const actionWithoutCall = { ...action };
   delete actionWithoutCall[CYBERWAY_API];
