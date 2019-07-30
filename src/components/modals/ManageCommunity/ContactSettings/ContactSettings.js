@@ -20,7 +20,9 @@ const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const VestingParams = styled.div``;
+const VestingParams = styled.div`
+  margin-top: 8px;
+`;
 
 const ContractGroup = styled.div`
   margin: 0 0 8px;
