@@ -40,6 +40,7 @@ import NotifyToast from 'components/common/NotifyToast';
 import CloseButton from 'components/common/CloseButton';
 import ContentErrorBoundary from 'containers/ContentErrorBoundary';
 import UIStoreSync from 'components/common/UIStoreSync';
+import ScrollFix from 'components/common/ScrollFix';
 import { checkMobileDevice } from 'helpers/browser';
 import { init as initAnchorHelper } from 'utils/anchorHelper';
 
@@ -190,20 +191,22 @@ export default class GolosApp extends App {
               >
                 <div className="App">
                   <Header />
-                  <ContentErrorBoundary>
-                    <div className="App__content">
-                      {this.renderCallout()}
-                      <Component {...pageProps} />
-                      {router.route === '/submit' ? null : <Footer />}
-                      {router.route === '/submit' ? null : <ScrollUpstairsButton />}
-                      <MobileAppButton />
-                    </div>
-                    {isSSR ? null : <TooltipManager />}
-                    <UIStoreSync />
-                    <ModalManager passStore={store} />
-                    <DialogManager />
-                    <ToastsManager renderToast={NotifyToast} />
-                  </ContentErrorBoundary>
+                  <ScrollFix>
+                    <ContentErrorBoundary>
+                      <div className="App__content">
+                        {this.renderCallout()}
+                        <Component {...pageProps} />
+                        {router.route === '/submit' ? null : <Footer />}
+                        {router.route === '/submit' ? null : <ScrollUpstairsButton />}
+                        <MobileAppButton />
+                      </div>
+                      {isSSR ? null : <TooltipManager />}
+                      <UIStoreSync />
+                      <ModalManager passStore={store} />
+                      <DialogManager />
+                      <ToastsManager renderToast={NotifyToast} />
+                    </ContentErrorBoundary>
+                  </ScrollFix>
                   <FeaturesToggle />
                 </div>
               </ConfigureFlopFlip>
