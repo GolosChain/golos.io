@@ -67,13 +67,14 @@ export default class BwProvider extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { actor, permission, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Актор:</FieldSubTitle>
+        <FieldSubTitle>{fields.actor}:</FieldSubTitle>
         <InputSmall value={actor} onChange={this.onActorChange} />
-        <FieldSubTitle>Уровень разрешений:</FieldSubTitle>
+        <FieldSubTitle>{fields.permission}:</FieldSubTitle>
         <InputSmall value={permission} onChange={this.onPermissionChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

@@ -68,13 +68,14 @@ export default class CashoutWindow extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { window, upvote_lockout, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Окно (сек)</FieldSubTitle>
+        <FieldSubTitle>{fields.window}</FieldSubTitle>
         <InputSmall type="number" value={window} min="0" onChange={this.onWindowChange} />
-        <FieldSubTitle>Upvote Lockout (сек)</FieldSubTitle>
+        <FieldSubTitle>{fields.upvote_lockout}</FieldSubTitle>
         <InputSmall
           type="number"
           value={upvote_lockout}

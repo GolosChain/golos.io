@@ -74,6 +74,7 @@ export default class VestingDelegation extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const {
       min_amount,
       min_remainder,
@@ -85,20 +86,35 @@ export default class VestingDelegation extends PureComponent {
 
     return (
       <Fields>
-        <FieldSubTitle>min_amount:</FieldSubTitle>
-        <NumberInput value={min_amount} onChange={e => this.onFieldChange(e, 'min_amount')} />
-        <FieldSubTitle>min_remainder:</FieldSubTitle>
-        <NumberInput value={min_remainder} onChange={e => this.onFieldChange(e, 'min_remainder')} />
-        <FieldSubTitle>return_time:</FieldSubTitle>
-        <NumberInput value={return_time} onChange={e => this.onFieldChange(e, 'return_time')} />
-        <FieldSubTitle>min_time:</FieldSubTitle>
+        <FieldSubTitle>{fields.min_amount}:</FieldSubTitle>
+        <NumberInput
+          type="number"
+          min="0"
+          value={min_amount}
+          onChange={e => this.onFieldChange(e, 'min_amount')}
+        />
+        <FieldSubTitle>{fields.min_remainder}:</FieldSubTitle>
+        <NumberInput
+          type="number"
+          min="0"
+          value={min_remainder}
+          onChange={e => this.onFieldChange(e, 'min_remainder')}
+        />
+        <FieldSubTitle>{fields.return_time}:</FieldSubTitle>
+        <NumberInput
+          type="number"
+          min="0"
+          value={return_time}
+          onChange={e => this.onFieldChange(e, 'return_time')}
+        />
+        <FieldSubTitle>{fields.min_time}:</FieldSubTitle>
         <NumberInput
           type="number"
           min="0"
           value={min_time}
           onChange={e => this.onFieldChange(e, 'min_time')}
         />
-        <FieldSubTitle>max_delegators:</FieldSubTitle>
+        <FieldSubTitle>{fields.max_delegators}:</FieldSubTitle>
         <NumberInput
           value={max_delegators}
           onChange={e => this.onFieldChange(e, 'max_delegators')}

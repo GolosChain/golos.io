@@ -87,15 +87,16 @@ export default class MultisigPerms extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { super_majority, majority, minority, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Super majority:</FieldSubTitle>
+        <FieldSubTitle>{fields.super_majority}:</FieldSubTitle>
         <InputSmall value={super_majority} onChange={this.onSuperChange} />
-        <FieldSubTitle>Majority:</FieldSubTitle>
+        <FieldSubTitle>{fields.majority}:</FieldSubTitle>
         <InputSmall value={majority} onChange={this.onMajorityChange} />
-        <FieldSubTitle>Minority:</FieldSubTitle>
+        <FieldSubTitle>{fields.minority}:</FieldSubTitle>
         <InputSmall value={minority} onChange={this.onMinorityChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

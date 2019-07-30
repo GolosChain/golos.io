@@ -72,15 +72,16 @@ export default class InflationRate extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { start, stop, narrowing, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Start:</FieldSubTitle>
+        <FieldSubTitle>{fields.start}:</FieldSubTitle>
         <InputSmall value={start} onChange={this.onStartChange} />
-        <FieldSubTitle>Stop:</FieldSubTitle>
+        <FieldSubTitle>{fields.stop}:</FieldSubTitle>
         <InputSmall value={stop} onChange={this.onStopChange} />
-        <FieldSubTitle>Narrowing:</FieldSubTitle>
+        <FieldSubTitle>{fields.narrowing}:</FieldSubTitle>
         <InputSmall value={narrowing} onChange={this.onNarrowingChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

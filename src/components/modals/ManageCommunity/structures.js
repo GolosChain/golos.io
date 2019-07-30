@@ -36,7 +36,15 @@ export const CONTRACTS = [
         title: 'Максимальное количество смен голоса',
         Component: MaxVoteChanges,
       },
-      { name: 'st_cashout_window', title: 'Окно выплат', Component: CashoutWindow },
+      {
+        name: 'st_cashout_window',
+        title: 'Окно выплат',
+        fields: {
+          window: 'Окно (сек)',
+          upvote_lockout: 'Upvote Lockout (сек)',
+        },
+        Component: CashoutWindow,
+      },
       { name: 'st_max_beneficiaries', title: 'Максимум бенефициаров', Component: MaxBeneficiaries },
       {
         name: 'st_max_comment_depth',
@@ -48,9 +56,21 @@ export const CONTRACTS = [
       {
         name: 'st_curators_prcnt',
         title: 'Проценты кураторской выплаты',
+        fields: {
+          min_curators_prcnt: 'Минимум (%)',
+          max_curators_prcnt: 'Максимум (%)',
+        },
         Component: CuratorPercent,
       },
-      { name: 'st_bwprovider', title: 'Предоставление bandwidth', Component: BwProvider },
+      {
+        name: 'st_bwprovider',
+        title: 'Предоставление bandwidth',
+        fields: {
+          actor: 'Актор',
+          permission: 'Уровень разрешений',
+        },
+        Component: BwProvider,
+      },
     ],
   },
   {
@@ -69,6 +89,11 @@ export const CONTRACTS = [
       {
         name: 'multisig_perms',
         title: 'Multi-sig разрешения',
+        fields: {
+          super_majority: 'Super majority',
+          majority: 'Majority',
+          minority: 'Minority',
+        },
         Component: MultisigPerms,
       },
       {
@@ -94,6 +119,10 @@ export const CONTRACTS = [
       {
         name: 'breakout_parametrs',
         title: 'Breakout',
+        fields: {
+          min_breakout: 'Минимум',
+          max_breakout: 'Максимум',
+        },
         Component: BreakoutParams,
       },
       {
@@ -114,6 +143,11 @@ export const CONTRACTS = [
       {
         name: 'inflation_rate',
         title: 'Инфляция',
+        fields: {
+          start: 'Start',
+          stop: 'Stop',
+          narrowing: 'Narrowing',
+        },
         Component: InflationRate,
       },
       {
@@ -134,6 +168,10 @@ export const CONTRACTS = [
       {
         name: 'bwprovider',
         title: 'Bandwidth provider',
+        fields: {
+          actor: 'Актор',
+          permission: 'Уровень разрешений',
+        },
         Component: BwProvider,
       },
     ],
@@ -144,6 +182,10 @@ export const CONTRACTS = [
       {
         name: 'vesting_withdraw',
         title: 'vesting_withdraw',
+        fields: {
+          intervals: 'Количество интервалов',
+          interval_seconds: 'Время интервала (сек)',
+        },
         Component: VestingWithdraw,
       },
       {
@@ -154,11 +196,22 @@ export const CONTRACTS = [
       {
         name: 'vesting_delegation',
         title: 'vesting_delegation',
+        fields: {
+          min_amount: 'Min amount',
+          min_remainder: 'Min remainder',
+          return_time: 'Return time',
+          min_time: 'Min time',
+          max_delegators: 'Max delegators',
+        },
         Component: VestingDelegation,
       },
       {
         name: 'vesting_bwprovider',
         title: 'vesting_bwprovider',
+        fields: {
+          actor: 'Актор',
+          permission: 'Уровень разрешений',
+        },
         Component: BwProvider,
       },
     ],

@@ -126,7 +126,7 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, { name, title, Component }) => {
+  renderStructure = (contractName, { name, title, fields = {}, Component }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
@@ -142,6 +142,7 @@ export default class ContactSettings extends PureComponent {
         {currentSettings ? (
           <Component
             structureName={name}
+            fields={fields}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
           />

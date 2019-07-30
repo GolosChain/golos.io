@@ -84,13 +84,16 @@ export default class CuratorPercent extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { min, max, isInvalid } = this.state;
+
+    console.log('FIELDS', fields);
 
     return (
       <Fields>
-        <FieldSubTitle>Минимум (%)</FieldSubTitle>
+        <FieldSubTitle>{fields.min_curators_prcnt}</FieldSubTitle>
         <InputSmall type="number" value={min} min="0" max="100" onChange={this.onMinChange} />
-        <FieldSubTitle>Максимум (%)</FieldSubTitle>
+        <FieldSubTitle>{fields.max_curators_prcnt}</FieldSubTitle>
         <InputSmall type="number" value={max} min="0" max="100" onChange={this.onMaxChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

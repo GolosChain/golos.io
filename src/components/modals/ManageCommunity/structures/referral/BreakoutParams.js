@@ -67,13 +67,14 @@ export default class BreakoutParams extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
     const { min_breakout, max_breakout, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Минимум</FieldSubTitle>
+        <FieldSubTitle>{fields.min_breakout}:</FieldSubTitle>
         <InputSmall value={min_breakout} onChange={this.onMinChange} />
-        <FieldSubTitle>Максимум</FieldSubTitle>
+        <FieldSubTitle>{fields.max_breakout}:</FieldSubTitle>
         <InputSmall value={max_breakout} onChange={this.onMaxChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

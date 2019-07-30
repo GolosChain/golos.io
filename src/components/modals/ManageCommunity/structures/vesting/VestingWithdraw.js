@@ -77,11 +77,13 @@ export default class VestingWithdraw extends PureComponent {
   };
 
   render() {
+    const { fields } = this.props;
+
     const { intervals, interval_seconds, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>Количество интервалов</FieldSubTitle>
+        <FieldSubTitle>{fields.intervals}</FieldSubTitle>
         <InputSmall
           type="number"
           min="1"
@@ -89,7 +91,7 @@ export default class VestingWithdraw extends PureComponent {
           value={intervals}
           onChange={this.onIntervalsChange}
         />
-        <FieldSubTitle>Время интервала (сек)</FieldSubTitle>
+        <FieldSubTitle>{fields.interval_seconds}</FieldSubTitle>
         <InputSmall
           type="number"
           min="3"
