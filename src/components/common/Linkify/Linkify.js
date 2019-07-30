@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { utils } from 'mocks/golos-js';
 import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
 
@@ -48,6 +47,11 @@ export default class Linkify extends PureComponent {
   }
 }
 
+function validateAccountName(str) {
+  // TODO: Implement
+  return true;
+}
+
 function addLinkToUser(str) {
   const parts = [];
 
@@ -57,7 +61,7 @@ function addLinkToUser(str) {
     if (position > prevPosition) {
       parts.push(str.substring(prevPosition, position));
     }
-    if (utils.validateAccountName(accountName.substring(1)) === null) {
+    if (validateAccountName(accountName.substring(1)) === null) {
       parts.push(
         <Link key={position} to={`/${accountName}`}>
           {accountName}

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
-import { api, utils } from 'mocks/golos-js';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'ramda';
@@ -434,8 +433,6 @@ export default class AccountNameInput extends PureComponent {
       }
     }
   };
-
-  loadAccounts = memoize(word => api.lookupAccountsAsync(word, MAX_VARIANTS + 1));
 
   filterAccounts = memoize((word, list) => list.filter(item => item.startsWith(word)));
 
