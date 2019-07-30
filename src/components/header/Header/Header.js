@@ -14,11 +14,12 @@ import {
 import { SHOW_MODAL_LOGIN, SHOW_MODAL_SIGNUP } from 'store/constants/modalTypes';
 import { Link } from 'shared/routes';
 import { HEADER_SEARCH } from 'shared/feature-flags';
+
 import Icon from 'components/golos-ui/Icon';
-
 import Button from 'components/golos-ui/Button';
-
+import ScrollFix from 'components/common/ScrollFix';
 import Popover from 'components/header/Popover/Popover';
+
 import Menu from '../Menu';
 import IconWrapper from '../IconWrapper';
 import NotificationsWindow from '../NotificationsWindow';
@@ -28,9 +29,9 @@ import AccountInfo from '../AccountInfo';
 import AccountInfoMobile from '../AccountInfoMobile';
 import NotificationsCounter from '../NotificationsCounter';
 
-const Root = styled.div``;
+const Wrapper = styled.div``;
 
-const Container = styled.div`
+const ScrollFixStyled = styled(ScrollFix)`
   position: relative;
   display: flex;
   justify-content: center;
@@ -332,6 +333,11 @@ export default class Header extends PureComponent {
     });
   };
 
+  openSignUp = () => {
+    const { openModal } = this.props;
+    openModal(SHOW_MODAL_SIGNUP);
+  };
+
   renderLocaleBlock = () => (
     <LocaleWrapper>
       <LocaleSelect />
@@ -368,97 +374,143 @@ export default class Header extends PureComponent {
     );
   }
 
-  openSignUp = () => {
-    const { openModal } = this.props;
-    openModal(SHOW_MODAL_SIGNUP);
-  };
+  renderLogo() {
+    const { screenType } = this.props;
+    const isDesktop = screenType === 'desktop';
 
-  render() {
-    const { isAuthorized, userId, screenType } = this.props;
-    const { isMenuOpen, isNotificationsOpen, waitAuth } = this.state;
+    return (
+      <Link route="home" passHref>
+        <LogoLink aria-label={tt('aria_label.header_logo')}>
+          <LogoIcon />
+          {isDesktop ? <LogoText>GOLOS</LogoText> : null}
+        </LogoLink>
+      </Link>
+    );
+  }
+
+  renderSearch() {
+    const { screenType } = this.props;
+    const isDesktop = screenType === 'desktop';
+
+    return (
+      <ToggleFeature flag={HEADER_SEARCH}>
+        <SearchBlock href="/static/search.html" aria-label={tt('g.search')}>
+          {isDesktop ? <SearchInput /> : null}
+          <IconWrapper>
+            <SearchIcon name="search" />
+          </IconWrapper>
+        </SearchBlock>
+      </ToggleFeature>
+    );
+  }
+
+  renderRight() {
+    const { isAuthorized, screenType } = this.props;
+    const { isMenuOpen, waitAuth } = this.state;
+
+    const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
+
+    let authBlock;
+
+    if (isAuthorized) {
+      authBlock = this.renderAuthorizedPart();
+    } else {
+      authBlock = (
+        <>
+          {this.renderLocaleBlock()}
+          <Buttons hidden={waitAuth}>
+            <SignUp name="header__sigh-up" onClick={this.openSignUp}>
+              {tt('g.sign_up')}
+            </SignUp>
+            {isMobile ? null : (
+              <SignIn light name="header__register" onClick={this.onLoginClick}>
+                {tt('g.login')}
+              </SignIn>
+            )}
+          </Buttons>
+        </>
+      );
+    }
+
+    return (
+      <Right>
+        {authBlock}
+        <DotsWrapper
+          as="button"
+          type="button"
+          name="header__more-actions"
+          aria-label={tt('aria_label.additional_menu')}
+          ref={this.dotsRef}
+          active={isMenuOpen}
+          isTablet={screenType === 'tablet' ? 1 : 0}
+          isMobile={isMobile ? 1 : 0}
+          onClick={this.onMenuToggle}
+        >
+          <Dots name="dots" width="4" height="20" />
+        </DotsWrapper>
+      </Right>
+    );
+  }
+
+  renderNotifications() {
+    const { screenType } = this.props;
+    const { isNotificationsOpen } = this.state;
+
+    const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
+
+    if (isNotificationsOpen) {
+      return (
+        <Popover
+          notificationMobile={isMobile}
+          target={this.notificationsIconRef.current}
+          onClose={this.onNotificationsMenuClose}
+        >
+          <NotificationsWindow isMobile={isMobile} onClose={this.onNotificationsMenuClose} />
+        </Popover>
+      );
+    }
+  }
+
+  renderMenu() {
+    const { userId, screenType } = this.props;
+    const { isMenuOpen } = this.state;
 
     const isDesktop = screenType === 'desktop';
     const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
 
+    if (isMenuOpen) {
+      return (
+        <Popover menuMobile={!isDesktop} target={this.dotsRef.current} onClose={this.onMenuToggle}>
+          <Menu
+            isMobile={isMobile}
+            userId={userId}
+            onClose={this.onMenuToggle}
+            onLoginClick={this.onLoginClick}
+            onLogoutClick={this.onLogoutClick}
+          />
+        </Popover>
+      );
+    }
+  }
+
+  render() {
+    const { screenType } = this.props;
+    const isDesktop = screenType === 'desktop';
+
     return (
-      <Root>
-        <Container isFixed={isDesktop ? 1 : 0}>
+      <Wrapper>
+        <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
           <ContainerWrapper>
-            <Link route="home" passHref>
-              <LogoLink aria-label={tt('aria_label.header_logo')}>
-                <LogoIcon />
-                {isDesktop ? <LogoText>GOLOS</LogoText> : null}
-              </LogoLink>
-            </Link>
+            {this.renderLogo()}
             {screenType === 'tablet' ? <Filler /> : null}
-            <ToggleFeature flag={HEADER_SEARCH}>
-              <SearchBlock href="/static/search.html" aria-label={tt('g.search')}>
-                {isDesktop ? <SearchInput /> : null}
-                <IconWrapper>
-                  <SearchIcon name="search" />
-                </IconWrapper>
-              </SearchBlock>
-            </ToggleFeature>
-            <Right>
-              {isAuthorized ? (
-                this.renderAuthorizedPart()
-              ) : (
-                <>
-                  {this.renderLocaleBlock()}
-                  <Buttons hidden={waitAuth}>
-                    <SignUp name="header__sigh-up" onClick={this.openSignUp}>
-                      {tt('g.sign_up')}
-                    </SignUp>
-                    {isMobile ? null : (
-                      <SignIn light name="header__register" onClick={this.onLoginClick}>
-                        {tt('g.login')}
-                      </SignIn>
-                    )}
-                  </Buttons>
-                </>
-              )}
-              <DotsWrapper
-                as="button"
-                type="button"
-                name="header__more-actions"
-                aria-label={tt('aria_label.additional_menu')}
-                ref={this.dotsRef}
-                active={isMenuOpen}
-                isTablet={screenType === 'tablet' ? 1 : 0}
-                isMobile={isMobile ? 1 : 0}
-                onClick={this.onMenuToggle}
-              >
-                <Dots name="dots" width="4" height="20" />
-              </DotsWrapper>
-            </Right>
+            {this.renderSearch()}
+            {this.renderRight()}
           </ContainerWrapper>
-          {isNotificationsOpen ? (
-            <Popover
-              notificationMobile={isMobile}
-              target={this.notificationsIconRef.current}
-              onClose={this.onNotificationsMenuClose}
-            >
-              <NotificationsWindow isMobile={isMobile} onClose={this.onNotificationsMenuClose} />
-            </Popover>
-          ) : null}
-          {isMenuOpen ? (
-            <Popover
-              menuMobile={!isDesktop}
-              target={this.dotsRef.current}
-              onClose={this.onMenuToggle}
-            >
-              <Menu
-                isMobile={isMobile}
-                userId={userId}
-                onClose={this.onMenuToggle}
-                onLoginClick={this.onLoginClick}
-                onLogoutClick={this.onLogoutClick}
-              />
-            </Popover>
-          ) : null}
-        </Container>
+          {this.renderNotifications()}
+          {this.renderMenu()}
+        </ScrollFixStyled>
         {isDesktop ? <HeaderStub /> : null}
-      </Root>
+      </Wrapper>
     );
   }
 }

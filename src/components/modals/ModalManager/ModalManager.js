@@ -13,7 +13,7 @@ import {
   SHOW_MODAL_MANAGE_COMMUNITY,
   SHOW_MODAL_REPOST,
 } from 'store/constants/modalTypes';
-// import ScrollFix from 'components/ScrollFix';
+import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
 
 const Wrapper = styled.div`
@@ -41,8 +41,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-// const ModalWrapper = styled(ScrollFix)`
-const ModalWrapper = styled.div`
+const ModalWrapper = styled(ScrollFix)`
   display: flex;
   align-items: center;
   justify-content: center;
