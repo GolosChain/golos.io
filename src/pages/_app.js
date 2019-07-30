@@ -6,7 +6,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 import withRedux from 'next-redux-wrapper';
 import tt from 'counterpart';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { ConfigureFlopFlip } from '@flopflip/react-redux';
 import adapter from '@flopflip/memory-adapter';
 import 'isomorphic-unfetch';
