@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults, isPositiveInteger, fieldsToString } from 'utils/common';
+import { defaults, parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
@@ -28,21 +28,30 @@ const InputSmall = styled(Input)`
 `;
 
 export default class CuratorPercent extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
+  constructor(props) {
+    super(props);
 
-  onCurationMinChange = e => {
+    const { min_curators_prcnt, max_curators_prcnt } = defaults(this.props.initialValues, DEFAULT);
+
+    this.state = {
+      min: parsePercent(min_curators_prcnt),
+      max: parsePercent(max_curators_prcnt),
+    };
+  }
+
+  onMinChange = e => {
     this.setState(
       {
-        min_curators_prcnt: e.target.value,
+        min: e.target.value,
       },
       this.triggerChange
     );
   };
 
-  onCurationMaxChange = e => {
+  onMaxChange = e => {
     this.setState(
       {
-        max_curators_prcnt: e.target.value,
+        max: e.target.value,
       },
       this.triggerChange
     );
@@ -51,19 +60,17 @@ export default class CuratorPercent extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const min_curators_prcnt = this.state.min_curators_prcnt.trim();
-    const max_curators_prcnt = this.state.max_curators_prcnt.trim();
+    const min = this.state.min.trim();
+    const max = this.state.max.trim();
 
-    if (!isPositiveInteger(min_curators_prcnt) || !isPositiveInteger(max_curators_prcnt)) {
-      this.setState({ isInvalid: true });
-      onChange('INVALID');
-      return;
-    }
+    const min_curators_prcnt = parsePercentString(min);
+    const max_curators_prcnt = parsePercentString(max);
 
-    const min = Number(min_curators_prcnt);
-    const max = Number(max_curators_prcnt);
-
-    if (min < 0 || max > 10000 || max < min) {
+    if (
+      Number.isNaN(min_curators_prcnt) ||
+      Number.isNaN(max_curators_prcnt) ||
+      min_curators_prcnt > max_curators_prcnt
+    ) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -77,26 +84,14 @@ export default class CuratorPercent extends PureComponent {
   };
 
   render() {
-    const { min_curators_prcnt, max_curators_prcnt, isInvalid } = this.state;
+    const { min, max, isInvalid } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>Минимум (%)</FieldSubTitle>
-        <InputSmall
-          type="number"
-          value={min_curators_prcnt}
-          min="0"
-          max="10000"
-          onChange={this.onCurationMinChange}
-        />
+        <InputSmall type="number" value={min} min="0" max="100" onChange={this.onMinChange} />
         <FieldSubTitle>Максимум (%)</FieldSubTitle>
-        <InputSmall
-          type="number"
-          value={max_curators_prcnt}
-          min="0"
-          max="10000"
-          onChange={this.onCurationMaxChange}
-        />
+        <InputSmall type="number" value={max} min="0" max="100" onChange={this.onMaxChange} />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

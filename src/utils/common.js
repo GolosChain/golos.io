@@ -46,3 +46,21 @@ export function isInteger(str) {
 export function isPositiveInteger(str) {
   return /^\d+$/.test(str);
 }
+
+export function parsePercent(percent) {
+  return (percent / 100).toFixed(2);
+}
+
+export function parsePercentString(str) {
+  if (!/^\d{1,3}(?:\.\d{1,2})?$/.test(str)) {
+    return NaN;
+  }
+
+  const value = Math.floor(parseFloat(str) * 100);
+
+  if (value > 10000) {
+    return NaN;
+  }
+
+  return value;
+}

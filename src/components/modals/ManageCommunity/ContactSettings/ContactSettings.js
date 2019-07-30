@@ -14,7 +14,7 @@ import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
 
 const Wrapper = styled.div`
-  padding: 10px 30px 0;
+  padding: 0 30px;
   height: 60vh;
   min-height: 400px;
   overflow: auto;

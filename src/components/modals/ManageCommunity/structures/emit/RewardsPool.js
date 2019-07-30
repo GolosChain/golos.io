@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
+import { defaults, parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
@@ -52,7 +52,20 @@ const PercentInput = styled(Input)`
 `;
 
 export default class RewardsPool extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  constructor(props) {
+    super(props);
+
+    const { pools } = defaults(props.initialValues, DEFAULT);
+
+    const formattedPools = pools.map(pool => ({
+      name: pool.name,
+      percent: parsePercent(pool.percent),
+    }));
+
+    this.state = {
+      pools: formattedPools,
+    };
+  }
 
   triggerChange = () => {
     const { onChange } = this.props;
@@ -61,7 +74,7 @@ export default class RewardsPool extends PureComponent {
 
     for (const pool of this.state.pools) {
       const name = pool.name.trim();
-      const percent = parseInt(pool.percent, 10);
+      const percent = parsePercentString(pool.percent);
 
       if (!name || !percent || Number.isNaN(percent)) {
         this.setState({ isInvalid: true });
@@ -125,7 +138,7 @@ export default class RewardsPool extends PureComponent {
     const { pools } = this.state;
 
     return (
-      <Pool>
+      <Pool key={index}>
         <PoolFieldTitle>Пул #{index + 1} Аккаунт:</PoolFieldTitle>
         <InputSmall value={name} onChange={e => this.onFieldChange(e, index, 'name')} />
         <PoolFieldTitle>Процент (%):</PoolFieldTitle>

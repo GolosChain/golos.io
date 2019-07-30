@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
+import { defaults, parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
 
 const DEFAULT = {
-  max_percent: '5000',
+  max_percent: 5000,
 };
 
 const Fields = styled.label`
@@ -20,7 +20,15 @@ const InputSmall = styled(Input)`
 `;
 
 export default class PercentParams extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  constructor(props) {
+    super(props);
+
+    const values = defaults(props.initialValues, DEFAULT);
+
+    this.state = {
+      max_percent: parsePercent(values.max_percent),
+    };
+  }
 
   onChange = e => {
     this.setState(
@@ -33,9 +41,9 @@ export default class PercentParams extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
-    const max_percent = parseInt(this.state.max_percent, 10);
+    const max_percent = parsePercentString(this.state.max_percent);
 
-    if (!max_percent || Number.isNaN(max_percent)) {
+    if (!max_percent) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
