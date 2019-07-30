@@ -5,6 +5,7 @@ import is from 'styled-is';
 
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
+import { CONTRACTS } from 'constants/setParamsStructures';
 
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
@@ -31,10 +32,16 @@ const ChangesBlock = styled.div``;
 const ChangesList = styled.ul`
   padding: 6px 12px;
   list-style: none;
-  border: 1px solid #888;
 `;
 
-const ChangesLine = styled.li``;
+const ChangesLine = styled.li`
+  padding-left: 10px;
+  border-left: 4px solid #888;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+`;
 
 const ChangeStructureName = styled.div``;
 
@@ -245,9 +252,66 @@ export default class ProposalCard extends PureComponent {
     );
   }
 
+  renderChangeLine = ({ structureName, values }, contract, i) => {
+    let structure;
+
+    if (contract) {
+      structure = contract.structures.find(struct => struct.name === structureName);
+    }
+
+    return (
+      <ChangesLine key={i}>
+        <ChangeStructureName>
+          {structure ? (
+            structure.title
+          ) : (
+            <>
+              <FieldTitle>Structure:</FieldTitle> {structureName}
+            </>
+          )}
+        </ChangeStructureName>
+        {this.renderChanges(structureName, structure, values)}
+      </ChangesLine>
+    );
+  };
+
+  renderChanges(structureName, structure, values) {
+    const fields = [];
+
+    const fieldNames = Object.keys(values);
+
+    for (const fieldName of fieldNames) {
+      const value = values[fieldName];
+      let title = null;
+
+      if (structure) {
+        if (structure.fields) {
+          title = structure.fields[fieldName];
+        }
+
+        if (!title && fieldNames.length > 1) {
+          title = structure.title;
+        }
+      } else {
+        title = fieldName;
+      }
+
+      fields.push(
+        <div key={fieldName.length}>
+          {title ? `${title}: ` : null}
+          {JSON.stringify(value, null, 2)}
+        </div>
+      );
+    }
+
+    return <Changes>{fields}</Changes>;
+  }
+
   render() {
     const { proposal } = this.props;
     const { showRequestedSigns } = this.state;
+    const [, contractName] = proposal.code.split('.');
+    const contract = CONTRACTS.find(contract => contract.contractName === contractName);
 
     return (
       <Wrapper>
@@ -287,14 +351,7 @@ export default class ProposalCard extends PureComponent {
         <ChangesBlock>
           <FieldTitle>Changes:</FieldTitle>
           <ChangesList>
-            {proposal.changes.map(({ structureName, values }, i) => (
-              <ChangesLine key={i}>
-                <ChangeStructureName>
-                  <FieldTitle>Structure:</FieldTitle> {structureName}
-                </ChangeStructureName>
-                <Changes>{JSON.stringify(values, null, 2)}</Changes>
-              </ChangesLine>
-            ))}
+            {proposal.changes.map((struct, i) => this.renderChangeLine(struct, contract, i))}
           </ChangesList>
         </ChangesBlock>
         {this.renderApproveState()}

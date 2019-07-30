@@ -9,7 +9,8 @@ import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
 import { Router } from 'shared/routes';
 
-import { CONTRACTS } from '../structures';
+import { CONTRACTS } from 'constants/setParamsStructures';
+import { STRUCTURES } from '../structures';
 import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
 
@@ -126,11 +127,13 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, { name, title, fields = {}, Component }) => {
+  renderStructure = (contractName, { name, title, fields = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
-    if (!Component) {
+    const StructureComponent = STRUCTURES[contractName]?.[name];
+
+    if (!StructureComponent) {
       console.warn(`No component for type ${name}`);
       return;
     }
@@ -140,7 +143,7 @@ export default class ContactSettings extends PureComponent {
     return (
       <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
         {currentSettings ? (
-          <Component
+          <StructureComponent
             structureName={name}
             fields={fields}
             initialValues={values}

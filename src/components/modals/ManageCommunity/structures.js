@@ -27,193 +27,41 @@ import VestingWithdraw from './structures/vesting/VestingWithdraw';
 import VestingAmount from './structures/vesting/VestingAmount';
 import VestingDelegation from './structures/vesting/VestingDelegation';
 
-export const CONTRACTS = [
-  {
-    contractName: 'publish',
-    structures: [
-      {
-        name: 'st_max_vote_changes',
-        title: 'Максимальное количество смен голоса',
-        Component: MaxVoteChanges,
-      },
-      {
-        name: 'st_cashout_window',
-        title: 'Окно выплат',
-        fields: {
-          window: 'Окно (сек)',
-          upvote_lockout: 'Upvote Lockout (сек)',
-        },
-        Component: CashoutWindow,
-      },
-      { name: 'st_max_beneficiaries', title: 'Максимум бенефициаров', Component: MaxBeneficiaries },
-      {
-        name: 'st_max_comment_depth',
-        title: 'Вложенность комментариев',
-        Component: MaxCommentDepth,
-      },
-      { name: 'st_social_acc', title: 'Социальный аккаунт', Component: SocialAcc },
-      { name: 'st_referral_acc', title: 'Реферальный аккаунт', Component: ReferralAcc },
-      {
-        name: 'st_curators_prcnt',
-        title: 'Проценты кураторской выплаты',
-        fields: {
-          min_curators_prcnt: 'Минимум (%)',
-          max_curators_prcnt: 'Максимум (%)',
-        },
-        Component: CuratorPercent,
-      },
-      {
-        name: 'st_bwprovider',
-        title: 'Предоставление bandwidth',
-        fields: {
-          actor: 'Актор',
-          permission: 'Уровень разрешений',
-        },
-        Component: BwProvider,
-      },
-    ],
+export const STRUCTURES = {
+  publish: {
+    st_max_vote_changes: MaxVoteChanges,
+    st_cashout_window: CashoutWindow,
+    st_max_beneficiaries: MaxBeneficiaries,
+    st_max_comment_depth: MaxCommentDepth,
+    st_social_acc: SocialAcc,
+    st_referral_acc: ReferralAcc,
+    st_curators_prcnt: CuratorPercent,
+    st_bwprovider: BwProvider,
   },
-  {
-    contractName: 'ctrl',
-    structures: [
-      {
-        name: 'ctrl_token',
-        title: 'Управляющий токен',
-        Component: CtrlToken,
-      },
-      {
-        name: 'multisig_acc',
-        title: 'Multi-sig аккаунт',
-        Component: MultisigAcc,
-      },
-      {
-        name: 'multisig_perms',
-        title: 'Multi-sig разрешения',
-        fields: {
-          super_majority: 'Super majority',
-          majority: 'Majority',
-          minority: 'Minority',
-        },
-        Component: MultisigPerms,
-      },
-      {
-        name: 'max_witnesses',
-        title: 'Максимальное количество делегатов',
-        Component: MaxWitnesses,
-      },
-      {
-        name: 'max_witnesses_votes',
-        title: 'Максимальное количество голосов за делегатов',
-        Component: MaxWitnessesVotes,
-      },
-      {
-        name: 'update_auth',
-        title: 'Период обновления авторизации',
-        Component: UpdateAuth,
-      },
-    ],
+  ctrl: {
+    ctrl_token: CtrlToken,
+    multisig_acc: MultisigAcc,
+    multisig_perms: MultisigPerms,
+    max_witnesses: MaxWitnesses,
+    max_witnesses_votes: MaxWitnessesVotes,
+    update_auth: UpdateAuth,
   },
-  {
-    contractName: 'referral',
-    structures: [
-      {
-        name: 'breakout_parametrs',
-        title: 'Breakout',
-        fields: {
-          min_breakout: 'Минимум',
-          max_breakout: 'Максимум',
-        },
-        Component: BreakoutParams,
-      },
-      {
-        name: 'expire_parametrs',
-        title: 'Expire',
-        Component: ExpireParams,
-      },
-      {
-        name: 'percent_parametrs',
-        title: 'Percent',
-        Component: PercentParams,
-      },
-    ],
+  referral: {
+    breakout_parametrs: BreakoutParams,
+    expire_parametrs: ExpireParams,
+    percent_parametrs: PercentParams,
   },
-  {
-    contractName: 'emit',
-    structures: [
-      {
-        name: 'inflation_rate',
-        title: 'Инфляция',
-        fields: {
-          start: 'Start',
-          stop: 'Stop',
-          narrowing: 'Narrowing',
-        },
-        Component: InflationRate,
-      },
-      {
-        name: 'reward_pools',
-        title: 'Пул наград',
-        Component: RewardsPool,
-      },
-      {
-        name: 'emit_token',
-        title: 'Токен эмиссии',
-        Component: EmitToken,
-      },
-      {
-        name: 'emit_interval',
-        title: 'Интервал эмиссии',
-        Component: EmitInterval,
-      },
-      {
-        name: 'bwprovider',
-        title: 'Bandwidth provider',
-        fields: {
-          actor: 'Актор',
-          permission: 'Уровень разрешений',
-        },
-        Component: BwProvider,
-      },
-    ],
+  emit: {
+    inflation_rate: InflationRate,
+    reward_pools: RewardsPool,
+    emit_token: EmitToken,
+    emit_interval: EmitInterval,
+    bwprovider: BwProvider,
   },
-  {
-    contractName: 'vesting',
-    structures: [
-      {
-        name: 'vesting_withdraw',
-        title: 'vesting_withdraw',
-        fields: {
-          intervals: 'Количество интервалов',
-          interval_seconds: 'Время интервала (сек)',
-        },
-        Component: VestingWithdraw,
-      },
-      {
-        name: 'vesting_amount',
-        title: 'vesting_amount',
-        Component: VestingAmount,
-      },
-      {
-        name: 'vesting_delegation',
-        title: 'vesting_delegation',
-        fields: {
-          min_amount: 'Min amount',
-          min_remainder: 'Min remainder',
-          return_time: 'Return time',
-          min_time: 'Min time',
-          max_delegators: 'Max delegators',
-        },
-        Component: VestingDelegation,
-      },
-      {
-        name: 'vesting_bwprovider',
-        title: 'vesting_bwprovider',
-        fields: {
-          actor: 'Актор',
-          permission: 'Уровень разрешений',
-        },
-        Component: BwProvider,
-      },
-    ],
+  vesting: {
+    vesting_withdraw: VestingWithdraw,
+    vesting_amount: VestingAmount,
+    vesting_delegation: VestingDelegation,
+    vesting_bwprovider: BwProvider,
   },
-];
+};

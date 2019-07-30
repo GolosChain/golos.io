@@ -4,7 +4,7 @@ import tt from 'counterpart';
 
 import Button from 'components/golos-ui/Button';
 
-import { CONTRACTS } from '../structures';
+import { CONTRACTS } from 'constants/setParamsStructures';
 import { STEPS } from '../ManageCommunity';
 
 const Wrapper = styled.div`
