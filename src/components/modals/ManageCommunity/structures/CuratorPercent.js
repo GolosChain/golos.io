@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
-import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
-import Button from 'components/golos-ui/Button';
+
+import ErrorLine from '../ErrorLine';
 
 const DEFAULT = {
   min_curators_prcnt: 2500,
@@ -27,12 +27,6 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-const Buttons = styled.div`
-  margin-top: 8px;
-`;
-
-const SaveButton = styled(Button)``;
-
 export default class CuratorPercent extends PureComponent {
   constructor(props) {
     super(props);
@@ -42,32 +36,41 @@ export default class CuratorPercent extends PureComponent {
     this.state = {
       min: String(initial.min_curators_prcnt / 100),
       max: String(initial.max_curators_prcnt / 100),
+      isInvalid: false,
     };
   }
 
   onCurationMinChange = e => {
-    this.setState({
-      min: e.target.value,
-    });
+    this.setState(
+      {
+        min: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
   onCurationMaxChange = e => {
-    this.setState({
-      max: e.target.value,
-    });
+    this.setState(
+      {
+        max: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
-  onSaveClick = () => {
+  triggerChange = () => {
     const { onChange } = this.props;
 
     const min = parseInt(this.state.min, 10);
     const max = parseInt(this.state.max, 10);
 
     if (Number.isNaN(min) || Number.isNaN(max) || min > max || min < 0 || max > 100) {
-      displayError('Введены некорректные значения');
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
       return;
     }
 
+    this.setState({ isInvalid: false });
     onChange({
       min_curators_prcnt: min * 100,
       max_curators_prcnt: max * 100,
@@ -75,7 +78,7 @@ export default class CuratorPercent extends PureComponent {
   };
 
   render() {
-    const { min, max } = this.state;
+    const { min, max, isInvalid } = this.state;
 
     return (
       <Fields>
@@ -95,9 +98,7 @@ export default class CuratorPercent extends PureComponent {
           max="100"
           onChange={this.onCurationMaxChange}
         />
-        <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
-        </Buttons>
+        {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
   }

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { displayError } from 'utils/toastMessages';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
-import Button from 'components/golos-ui/Button';
+
+import ErrorLine from '../ErrorLine';
 
 const Fields = styled.label`
   text-transform: none;
@@ -22,12 +22,6 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-const Buttons = styled.div`
-  margin-top: 8px;
-`;
-
-const SaveButton = styled(Button)``;
-
 const DEFAULT = {
   window: 120,
   upvote_lockout: 15,
@@ -37,28 +31,36 @@ export default class CashoutWindow extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onWindowChange = e => {
-    this.setState({
-      window: e.target.value,
-    });
+    this.setState(
+      {
+        window: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
   onUpvoteLockoutChange = e => {
-    this.setState({
-      upvote_lockout: e.target.value,
-    });
+    this.setState(
+      {
+        upvote_lockout: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
-  onSaveClick = () => {
+  triggerChange = () => {
     const { onChange } = this.props;
 
     const cashoutWindow = parseInt(this.state.window, 10);
     const lockout = parseInt(this.state.upvote_lockout, 10);
 
     if (Number.isNaN(cashoutWindow) || Number.isNaN(lockout) || cashoutWindow < 0 || lockout < 0) {
-      displayError('Введены некорректные значения');
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
       return;
     }
 
+    this.setState({ isInvalid: false });
     onChange({
       window: cashoutWindow,
       upvote_lockout: lockout,
@@ -66,7 +68,7 @@ export default class CashoutWindow extends PureComponent {
   };
 
   render() {
-    const { window, upvote_lockout } = this.state;
+    const { window, upvote_lockout, isInvalid } = this.state;
 
     return (
       <Fields>
@@ -79,9 +81,7 @@ export default class CashoutWindow extends PureComponent {
           min="0"
           onChange={this.onUpvoteLockoutChange}
         />
-        <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
-        </Buttons>
+        {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
   }

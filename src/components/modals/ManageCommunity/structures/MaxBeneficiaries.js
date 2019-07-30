@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
-import { displayError } from 'utils/toastMessages';
 import { Input } from 'components/golos-ui/Form';
-import Button from 'components/golos-ui/Button';
+
+import ErrorLine from '../ErrorLine';
 
 const DEFAULT = {
   value: 100,
@@ -19,46 +19,43 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-const Buttons = styled.div`
-  margin-top: 8px;
-`;
-
-const SaveButton = styled(Button)``;
-
 export default class MaxBeneficiaries extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
-    this.setState({
-      value: e.target.value,
-    });
+    this.setState(
+      {
+        value: e.target.value,
+      },
+      this.triggerChange
+    );
   };
 
-  onSaveClick = () => {
+  triggerChange = () => {
     const { onChange } = this.props;
     const { value } = this.state;
 
     const valueNumber = parseInt(value, 10);
 
     if (Number.isNaN(valueNumber) || valueNumber < 0 || valueNumber > 255) {
-      displayError('Введены некорректные значения');
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
       return;
     }
 
+    this.setState({ isInvalid: false });
     onChange({
       value: valueNumber,
     });
   };
 
   render() {
-    const { value } = this.state;
+    const { value, isInvalid } = this.state;
 
     return (
       <Fields>
         <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
-        <Buttons>
-          <SaveButton onClick={this.onSaveClick}>Применить</SaveButton>
-        </Buttons>
+        {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
   }
