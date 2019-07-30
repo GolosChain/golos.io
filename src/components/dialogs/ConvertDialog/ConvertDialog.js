@@ -226,6 +226,7 @@ export default class ConvertDialog extends PureComponent {
         await transferToken(
           'gls.vesting',
           tokensQuantity,
+          'GOLOS',
           `send to: ${saveTo ? recipient : currentUserId}`
         );
       } else if (type === TYPES.POWER) {
