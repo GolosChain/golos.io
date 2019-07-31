@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'next/router';
 
-import { fetchProfile } from 'store/actions/gate';
+import { fetchProfile, getBalance } from 'store/actions/gate';
 import withTabs from 'utils/hocs/withTabs';
 
 import UserProfile from 'containers/userProfile/UserProfile';
@@ -65,11 +65,13 @@ export default class Profile extends PureComponent {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
-    await store.dispatch(fetchProfile(query.userId)).catch(() => {
-      // TODO: Temporary catch!
+    try {
+      await store.dispatch(fetchProfile(query.userId));
+      await store.dispatch(getBalance(query.userId));
+    } catch (err) {
       // eslint-disable-next-line no-console
       console.error(`Profile [${query.userId}] not found`);
-    });
+    }
 
     return {
       userId: query.userId,

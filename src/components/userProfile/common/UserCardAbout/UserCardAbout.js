@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import ToastsManager from 'toasts-manager';
 import { FormattedDate } from 'react-intl';
 
 import { Link } from 'shared/routes';

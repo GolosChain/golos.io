@@ -19,12 +19,15 @@ export const userLiquidPaymentsSelector = userId =>
     balances => parsePayoutAmount(balances?.liquid?.payments?.GOLOS) || 0
   );
 
-export const userVestingBalanceSelector = userId =>
+export const userVestingBalanceSelector = (userId, symbol = 'GOLOS') =>
   createSelector(
     [userBalanceSelector(userId)],
-    balances => ({
-      total: parsePayoutAmount(balances?.vesting?.total?.GOLOS) || 0,
-      outDelegate: parsePayoutAmount(balances?.vesting?.outDelegate?.GOLOS) || 0,
-      inDelegated: parsePayoutAmount(balances?.vesting?.inDelegated?.GOLOS) || 0,
-    })
+    balances => {
+      debugger;
+      return {
+        total: parsePayoutAmount(path(['vesting', 'total', symbol], balances)) || 0,
+        outDelegate: parsePayoutAmount(path(['vesting', 'outDelegate', symbol], balances)) || 0,
+        inDelegated: parsePayoutAmount(path(['vesting', 'inDelegated', symbol], balances)) || 0,
+      };
+    }
   );
