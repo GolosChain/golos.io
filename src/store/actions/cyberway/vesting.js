@@ -13,31 +13,30 @@ import {
   STOP_DELEGATE,
   STOP_DELEGATE_SUCCESS,
   STOP_DELEGATE_ERROR,
-  CREATE_WALLET,
-  CREATE_WALLET_SUCCESS,
-  CREATE_WALLET_ERROR,
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 
 const CONTRACT_NAME = 'vesting';
-const GOLOS_COMMUNITY_ID = '6,GOLOS';
+const VESTING_SYMBOL = '6,GOLOS';
 
-export const openWallet = accountName => async dispatch => {
-  const data = {
-    owner: accountName,
-    symbol: GOLOS_COMMUNITY_ID,
-    ram_payer: accountName,
-  };
+export const openVesting = () => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
 
   return dispatch({
     [CYBERWAY_API]: {
-      types: [CREATE_WALLET, CREATE_WALLET_SUCCESS, CREATE_WALLET_ERROR],
       contract: CONTRACT_NAME,
       method: 'open',
-      params: data,
+      params: {
+        symbol: VESTING_SYMBOL,
+        owner: userId,
+        ram_payer: userId,
+      },
     },
-    meta: data,
   });
 };
 
@@ -74,7 +73,7 @@ export const stopWithdrawTokens = () => async (dispatch, getState) => {
 
   const data = {
     owner: userId,
-    symbol: GOLOS_COMMUNITY_ID,
+    symbol: VESTING_SYMBOL,
   };
 
   return dispatch({
