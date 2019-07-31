@@ -422,6 +422,8 @@ export default class PostCardCompact extends PureComponent {
       trimLength = Math.floor(trimLength * 1.3);
     }
 
+    const text = post.content.body.preview || post.content.body.raw;
+
     return (
       <BodyBlock onClick={this.props.onClick}>
         {imageLink ? (
@@ -438,7 +440,7 @@ export default class PostCardCompact extends PureComponent {
               <PostTitle>{post.content.title}</PostTitle>
               <PostContent
                 dangerouslySetInnerHTML={{
-                  __html: smartTrim(post.content.body.preview, trimLength),
+                  __html: smartTrim(text, trimLength),
                 }}
               />
             </BodyLink>
