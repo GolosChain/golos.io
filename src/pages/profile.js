@@ -66,8 +66,10 @@ export default class Profile extends PureComponent {
     const { store, query } = ctx;
 
     try {
-      await store.dispatch(fetchProfile(query.userId));
-      await store.dispatch(getBalance(query.userId));
+      await Promise.all([
+        store.dispatch(fetchProfile(query.userId)),
+        store.dispatch(getBalance(query.userId)),
+      ]);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(`Profile [${query.userId}] not found`);
