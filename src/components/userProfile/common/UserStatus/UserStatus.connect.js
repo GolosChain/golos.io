@@ -10,17 +10,13 @@ import UserStatus from './UserStatus';
 
 export default connect(
   createSelector(
-    [
-      (state, props) => userVestingBalanceSelector(props.profile.userId, 'GESTS')(state),
-      (state, props) => statusSelector(['wallet', props.profile.userId, 'isLoading'])(state),
-    ],
-    (vesting, isLoading) => {
+    [(state, props) => userVestingBalanceSelector(props.profile.userId, 'GESTS')(state)],
+    vesting => {
       const power = vesting.total;
 
       return {
         userStatus: getUserStatus(power),
         power,
-        isLoading,
       };
     }
   ),
