@@ -73,10 +73,11 @@ export default ({ getState }) => next => async action => {
 
     if (options.providebw) {
       const { signatures, serializedTransaction } = result;
+
       const paramsProvidebw = {
         transaction: {
           signatures,
-          serializedTransaction: Array.from(serializedTransaction),
+          serializedTransaction: uint8ArrayToHex(serializedTransaction),
         },
         chainId: cyber.api.chainId,
       };
@@ -114,3 +115,19 @@ export default ({ getState }) => next => async action => {
     throw err;
   }
 };
+
+function uint8ArrayToHex(array) {
+  const result = [];
+
+  for (const num of array) {
+    let str = num.toString(16);
+
+    if (num < 16) {
+      str = `0${str}`;
+    }
+
+    result.push(str);
+  }
+
+  return result.join('');
+}
