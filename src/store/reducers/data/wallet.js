@@ -1,7 +1,9 @@
 import u from 'updeep';
 
 import {
+  FETCH_USER_BALANCE,
   FETCH_USER_BALANCE_SUCCESS,
+  FETCH_USER_BALANCE_ERROR,
   FETCH_TRANSFERS_HISTORY,
   FETCH_TRANSFERS_HISTORY_SUCCESS,
   FETCH_TRANSFERS_HISTORY_ERROR,
@@ -17,11 +19,17 @@ const initialState = {};
 
 export default function(state = initialState, { type, payload, meta, error }) {
   switch (type) {
+    case FETCH_USER_BALANCE:
+      return u.updateIn([meta.userId, 'balances'], { isLoading: true }, state);
+
     case FETCH_USER_BALANCE_SUCCESS:
       // eslint-disable-next-line no-param-reassign
       delete payload.userId;
 
       return u.updateIn([meta.userId, 'balances'], payload, state);
+
+    case FETCH_USER_BALANCE_ERROR:
+      return u.updateIn([meta.userId, 'balances'], { isLoading: false }, state);
 
     // Transfers
 

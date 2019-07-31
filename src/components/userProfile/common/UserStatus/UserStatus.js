@@ -138,6 +138,7 @@ export default class UserStatus extends Component {
 
   render() {
     const { userStatus, popover, profile } = this.props;
+
     const statusPosition = this.getStatusPosition(userStatuses, userStatus);
     const coloredStatuses = this.getColoredStatuses(userStatuses, statusPosition);
     const toNext = this.getPercentToNextStatus(userStatuses, statusesByPower, statusPosition);
