@@ -27,10 +27,11 @@ import {
 
 import { regDataSelector, fullNumberSelector } from 'store/selectors/registration';
 import { CALL_GATE } from 'store/middlewares/gate-api';
+import { openVesting } from 'store/actions/cyberway';
 import { saveAuth, setRegistrationData } from 'utils/localStorage';
+import { displayError } from 'utils/toastMessages';
 import { createPdf, stepToScreenId } from 'components/modals/SignUp/utils';
 import { login } from './auth';
-import { openWallet } from '../cyberway/vesting';
 
 const INVALID_STEP_TAKEN = 'Invalid step taken';
 const PHONE_ALREADY_REGISTERED = 'Phone already registered.';
@@ -190,6 +191,13 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
 
   const password = keys.active.privateKey;
   const auth = await dispatch(login(userId, password));
+
+  try {
+    await dispatch(openVesting());
+  } catch (err) {
+    displayError('Open vesting failed', err);
+  }
+
   if (auth) {
     saveAuth(userId, password);
   }
