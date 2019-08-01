@@ -76,7 +76,6 @@ export const getTransfersHistory = ({
     },
     meta: {
       ...params,
-      name: userId,
     },
   };
 };
@@ -101,7 +100,6 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
     },
     meta: {
       ...params,
-      name: userId,
     },
   };
 };
@@ -144,7 +142,6 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
     },
     meta: {
       ...params,
-      name: userId,
     },
   };
 };
@@ -170,7 +167,6 @@ export const getGenesisConversions = ({ userId }) => {
     },
     meta: {
       ...params,
-      name: userId,
     },
   };
 };

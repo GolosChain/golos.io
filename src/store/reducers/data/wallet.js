@@ -41,14 +41,14 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
       if (meta.sequenceKey) {
         return u.updateIn(
-          [meta.name, 'transfers', currency, meta.direction],
+          [meta.userId, 'transfers', currency, meta.direction],
           { isLoading: true },
           state
         );
       }
 
       return u.updateIn(
-        [meta.name, 'transfers', currency, meta.direction],
+        [meta.userId, 'transfers', currency, meta.direction],
         {
           isLoading: true,
           items: [],
@@ -63,7 +63,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const currency = meta.currencies.sort().join('/');
 
       return u.updateIn(
-        [meta.name, 'transfers', currency, meta.direction],
+        [meta.userId, 'transfers', currency, meta.direction],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -78,7 +78,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const currency = meta.currencies.sort().join('/');
 
       return u.updateIn(
-        [meta.name, 'transfers', currency, meta.direction],
+        [meta.userId, 'transfers', currency, meta.direction],
         { isLoading: false },
         state
       );
@@ -88,11 +88,11 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_VESTING_HISTORY:
       if (meta.sequenceKey) {
-        return u.updateIn([meta.name, 'vestings'], { isLoading: true }, state);
+        return u.updateIn([meta.userId, 'vestings'], { isLoading: true }, state);
       }
 
       return u.updateIn(
-        [meta.name, 'vestings'],
+        [meta.userId, 'vestings'],
         {
           isLoading: true,
           items: [],
@@ -104,7 +104,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_VESTING_HISTORY_SUCCESS:
       return u.updateIn(
-        [meta.name, 'vestings'],
+        [meta.userId, 'vestings'],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -115,12 +115,12 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
 
     case FETCH_VESTING_HISTORY_ERROR:
-      return u.updateIn([meta.name, 'genesis'], { isLoading: false }, state);
+      return u.updateIn([meta.userId, 'genesis'], { isLoading: false }, state);
 
     // Genesis
     case FETCH_GENESIS_CONVERSIONS:
       return u.updateIn(
-        [meta.name, 'genesis'],
+        [meta.userId, 'genesis'],
         {
           isLoading: true,
           items: [],
@@ -130,7 +130,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_GENESIS_CONVERSIONS_SUCCESS:
       return u.updateIn(
-        [meta.name, 'genesis'],
+        [meta.userId, 'genesis'],
         {
           isLoading: false,
           items: payload,
@@ -139,7 +139,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
 
     case FETCH_GENESIS_CONVERSIONS_ERROR:
-      return u.updateIn([meta.name, 'genesis'], { isLoading: false }, state);
+      return u.updateIn([meta.userId, 'genesis'], { isLoading: false }, state);
 
     // Rewards
 
@@ -147,11 +147,11 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const types = meta.types.sort().join('/');
 
       if (meta.sequenceKey) {
-        return u.updateIn([meta.name, 'rewards', types], { isLoading: true }, state);
+        return u.updateIn([meta.userId, 'rewards', types], { isLoading: true }, state);
       }
 
       return u.updateIn(
-        [meta.name, 'rewards', types],
+        [meta.userId, 'rewards', types],
         {
           isLoading: true,
           items: [],
@@ -166,7 +166,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const types = meta.types.sort().join('/');
 
       return u.updateIn(
-        [meta.name, 'rewards', types],
+        [meta.userId, 'rewards', types],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -180,7 +180,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     case FETCH_REWARDS_HISTORY_ERROR: {
       const types = meta.types.sort().join('/');
 
-      return u.updateIn([meta.name, 'rewards', types], { isLoading: false }, state);
+      return u.updateIn([meta.userId, 'rewards', types], { isLoading: false }, state);
     }
 
     default:

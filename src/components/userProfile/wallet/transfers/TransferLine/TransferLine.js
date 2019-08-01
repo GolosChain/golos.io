@@ -93,9 +93,11 @@ const MemoIcon = styled(Icon)`
   color: #333;
   transition: color 0.15s;
 
-  ${is('text')}:hover {
-    color: #3684ff;
-  }
+  ${is('text')`
+    &:hover {
+      color: #3684ff;
+    }
+  `}
 `;
 
 const MemoCut = styled(TextCut)`
