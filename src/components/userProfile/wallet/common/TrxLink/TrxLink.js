@@ -23,7 +23,7 @@ const Trx = styled.a`
       border-color: #2f2f2f;
       color: #2f2f2f;
     }
-  `}
+  `};
 `;
 
 export default function TrxLink({ trxId }) {
