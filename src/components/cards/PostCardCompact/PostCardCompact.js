@@ -422,7 +422,7 @@ export default class PostCardCompact extends PureComponent {
       trimLength = Math.floor(trimLength * 1.3);
     }
 
-    const text = post.content.body.preview || post.content.body.raw;
+    const text = post.content.body.preview || content.desc;
 
     return (
       <BodyBlock onClick={this.props.onClick}>
