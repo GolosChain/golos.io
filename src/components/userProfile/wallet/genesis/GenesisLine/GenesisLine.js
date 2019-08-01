@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import is from 'styled-is';
 
+import { breakWordStyles } from 'helpers/styles';
 import Icon from 'components/golos-ui/Icon/Icon';
-import Linkify from '../../../../common/Linkify';
-import TextCut from '../../../../common/TextCut';
-import { breakWordStyles } from '../../../../../helpers/styles';
+import Linkify from 'components/common/Linkify';
+import TextCut from 'components/common/TextCut';
 
 const Root = styled.div`
   &:nth-child(even) {
