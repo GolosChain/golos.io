@@ -37,7 +37,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     // Transfers
 
     case FETCH_TRANSFERS_HISTORY: {
-      const currency = meta.currencies.sort().join('/');
+      const currency = meta.currencies.join('/');
 
       if (meta.sequenceKey) {
         return u.updateIn(
@@ -60,7 +60,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     }
 
     case FETCH_TRANSFERS_HISTORY_SUCCESS: {
-      const currency = meta.currencies.sort().join('/');
+      const currency = meta.currencies.join('/');
 
       return u.updateIn(
         [meta.userId, 'transfers', currency, meta.direction],
@@ -75,7 +75,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     }
 
     case FETCH_TRANSFERS_HISTORY_ERROR: {
-      const currency = meta.currencies.sort().join('/');
+      const currency = meta.currencies.join('/');
 
       return u.updateIn(
         [meta.userId, 'transfers', currency, meta.direction],
@@ -144,7 +144,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     // Rewards
 
     case FETCH_REWARDS_HISTORY: {
-      const types = meta.types.sort().join('/');
+      const types = meta.types.join('/');
 
       if (meta.sequenceKey) {
         return u.updateIn([meta.userId, 'rewards', types], { isLoading: true }, state);
@@ -163,7 +163,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     }
 
     case FETCH_REWARDS_HISTORY_SUCCESS: {
-      const types = meta.types.sort().join('/');
+      const types = meta.types.join('/');
 
       return u.updateIn(
         [meta.userId, 'rewards', types],
@@ -178,7 +178,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
     }
 
     case FETCH_REWARDS_HISTORY_ERROR: {
-      const types = meta.types.sort().join('/');
+      const types = meta.types.join('/');
 
       return u.updateIn([meta.userId, 'rewards', types], { isLoading: false }, state);
     }

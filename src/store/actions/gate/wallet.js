@@ -58,7 +58,7 @@ export const getTransfersHistory = ({
 
   const params = {
     userId,
-    currencies,
+    currencies: [...currencies].sort(),
     direction,
     sequenceKey,
     limit: 20,
@@ -74,9 +74,7 @@ export const getTransfersHistory = ({
       method: 'wallet.getTransferHistory',
       params,
     },
-    meta: {
-      ...params,
-    },
+    meta: params,
   };
 };
 
@@ -87,7 +85,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
 
   const params = {
     userId,
-    types,
+    types: [...types].sort(),
     sequenceKey,
     limit: 20,
   };
@@ -98,9 +96,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
       method: 'wallet.getRewardsHistory',
       params,
     },
-    meta: {
-      ...params,
-    },
+    meta: params,
   };
 };
 
@@ -140,9 +136,7 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
       method: 'wallet.getVestingHistory',
       params,
     },
-    meta: {
-      ...params,
-    },
+    meta: params,
   };
 };
 
@@ -165,9 +159,7 @@ export const getGenesisConversions = ({ userId }) => {
       method: 'wallet.getGenesisConv',
       params,
     },
-    meta: {
-      ...params,
-    },
+    meta: params,
   };
 };
 
@@ -198,7 +190,7 @@ export const convertVestingToToken = vesting => {
       method: 'wallet.convertVestingToToken',
       params,
     },
-    meta: { ...params },
+    meta: params,
   };
 };
 
@@ -215,6 +207,6 @@ export const convertTokensToVesting = tokens => {
       method: 'wallet.convertTokensToVesting',
       params,
     },
-    meta: { ...params },
+    meta: params,
   };
 };
