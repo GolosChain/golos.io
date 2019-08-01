@@ -30,7 +30,7 @@ export default function TrxLink({ trxId }) {
   return (
     <Link href={`${process.env.EXPLORER_URL}/trx/${trxId}`} passHref>
       <Trx target="_blank" rel="noopener nofollow">
-        {trxId ? 'TRX' : 'GENESIS'}
+        TRX
       </Trx>
     </Link>
   );
