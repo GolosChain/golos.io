@@ -23,10 +23,14 @@ const Trx = styled.a`
 `;
 
 export default function TrxLink({ trxId }) {
+  if (!trxId) {
+    return <Trx as="div">GENESIS</Trx>;
+  }
+
   return (
     <Link href={`${process.env.EXPLORER_URL}/trx/${trxId}`} passHref>
       <Trx target="_blank" rel="noopener nofollow">
-        TRX
+        {trxId ? 'TRX' : 'GENESIS'}
       </Trx>
     </Link>
   );
