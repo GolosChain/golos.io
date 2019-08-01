@@ -98,7 +98,7 @@ export default class CreateUsername extends PureComponent {
     const { username } = this.state;
     let currentUsername = e.target.value.trim();
     currentUsername = currentUsername.toLowerCase();
-    currentUsername = currentUsername.replace(/[^a-z1-5.]+/g, '');
+    currentUsername = currentUsername.replace(/[^a-z0-9.-]+/g, '');
 
     if (username !== currentUsername) {
       this.setState({ username: currentUsername, usernameError: '' });
