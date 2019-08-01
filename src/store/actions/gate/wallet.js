@@ -11,6 +11,9 @@ import {
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
+  FETCH_GENESIS_CONVERSIONS,
+  FETCH_GENESIS_CONVERSIONS_SUCCESS,
+  FETCH_GENESIS_CONVERSIONS_ERROR,
   FETCH_VESTING_PARAMS,
   FETCH_VESTING_PARAMS_SUCCESS,
   FETCH_VESTING_PARAMS_ERROR,
@@ -137,6 +140,32 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
     [CALL_GATE]: {
       types: [FETCH_VESTING_HISTORY, FETCH_VESTING_HISTORY_SUCCESS, FETCH_VESTING_HISTORY_ERROR],
       method: 'wallet.getVestingHistory',
+      params,
+    },
+    meta: {
+      ...params,
+      name: userId,
+    },
+  };
+};
+
+export const getGenesisConversions = ({ userId }) => {
+  if (!userId) {
+    throw new Error('userId is required!');
+  }
+
+  const params = {
+    userId,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [
+        FETCH_GENESIS_CONVERSIONS,
+        FETCH_GENESIS_CONVERSIONS_SUCCESS,
+        FETCH_GENESIS_CONVERSIONS_ERROR,
+      ],
+      method: 'wallet.getGenesisConv',
       params,
     },
     meta: {

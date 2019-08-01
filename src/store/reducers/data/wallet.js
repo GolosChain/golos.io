@@ -13,6 +13,9 @@ import {
   FETCH_REWARDS_HISTORY,
   FETCH_REWARDS_HISTORY_SUCCESS,
   FETCH_REWARDS_HISTORY_ERROR,
+  FETCH_GENESIS_CONVERSIONS,
+  FETCH_GENESIS_CONVERSIONS_SUCCESS,
+  FETCH_GENESIS_CONVERSIONS_ERROR,
 } from 'store/constants';
 
 const initialState = {};
@@ -112,7 +115,31 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
 
     case FETCH_VESTING_HISTORY_ERROR:
-      return u.updateIn([meta.name, 'vestings'], { isLoading: false }, state);
+      return u.updateIn([meta.name, 'genesis'], { isLoading: false }, state);
+
+    // Genesis
+    case FETCH_GENESIS_CONVERSIONS:
+      return u.updateIn(
+        [meta.name, 'genesis'],
+        {
+          isLoading: true,
+          items: [],
+        },
+        state
+      );
+
+    case FETCH_GENESIS_CONVERSIONS_SUCCESS:
+      return u.updateIn(
+        [meta.name, 'genesis'],
+        {
+          isLoading: false,
+          items: payload,
+        },
+        state
+      );
+
+    case FETCH_GENESIS_CONVERSIONS_ERROR:
+      return u.updateIn([meta.name, 'genesis'], { isLoading: false }, state);
 
     // Rewards
 

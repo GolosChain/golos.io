@@ -1084,7 +1084,8 @@
       "publication": "публикацию",
       "reward_for": "Награда за",
       "reward_post_with_text": "Награда за пост \"%(text)s\"",
-      "reward_comment_with_text": "Награда за комментарий \"%(text)s\""
+      "reward_comment_with_text": "Награда за комментарий \"%(text)s\"",
+      "conversion": "Конвертация"
     },
     "tab_title": {
       "all": "Все",
@@ -1101,7 +1102,8 @@
       "savings": "Сейф",
       "sent": "Отправленные",
       "transaction_history": "История транзакций",
-      "vesting_history": "История вестинга"
+      "vesting_history": "История вестинга",
+      "genesis_history": "GOLOS Genesis"
     }
   },
   "userkeys_jsx": {

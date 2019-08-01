@@ -90,15 +90,6 @@ const Currency = styled.div`
 
 function VestingLine({ vesting }) {
   const { diff, trxId, timestamp } = vesting;
-  //
-  // const samePerson = receiver.userId === sender.userId;
-  // const isSent = sender.userId === userId;
-  // const isReceive = receiver.userId === userId && !samePerson;
-  //
-  // const icon = sym === CURRENCY.GOLOS ? 'logo' : 'brilliant';
-  // const color = CURRENCY_COLOR[sym] : null;
-  //
-  // const memoIconText = null; // TODO
 
   const isPowerUp = !diff.GESTS.startsWith('-');
 
@@ -112,7 +103,7 @@ function VestingLine({ vesting }) {
       <Line>
         <LineIcon name="logo" color={color} />
         <Who>
-          <WhoTitle>{title} </WhoTitle>
+          <WhoTitle>{title}</WhoTitle>
           <WhoBottom>
             <TimeStamp>
               <TimeAgoWrapper date={timestamp} />

@@ -1072,7 +1072,8 @@
       "publication": "publication",
       "reward_for": "Reward for",
       "reward_post_with_text": "Reward for post \"%(text)s\"",
-      "reward_comment_with_text": "Reward for comment \"%(text)s\""
+      "reward_comment_with_text": "Reward for comment \"%(text)s\"",
+      "conversion": "Сonversion"
     },
     "tab_title": {
       "all": "All",
@@ -1089,7 +1090,8 @@
       "savings": "Savings",
       "sent": "Sent",
       "transaction_history": "Transaction History",
-      "vesting_history": "Vesting History"
+      "vesting_history": "Vesting History",
+      "genesis_history": "GOLOS Genesis"
     }
   },
   "userkeys_jsx": {
