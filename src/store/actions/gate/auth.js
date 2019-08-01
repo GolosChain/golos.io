@@ -12,6 +12,7 @@ import {
   subscribeNotifications,
   unsubscribeNotifications,
 } from 'store/actions/gate/notifications';
+import { openVesting } from 'store/actions/cyberway';
 import { isAuthorized } from 'store/selectors/auth';
 import {
   AUTH_LOGIN,
@@ -97,11 +98,19 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       document.cookie = `golos.userId=${auth.user}; path=/; expires=${date.toGMTString()}`;
 
       try {
-        await Promise.all([dispatch(fetchProfile(auth.user)), dispatch(fetchChargers(auth.user))]);
+        const [profile] = await Promise.all([
+          dispatch(fetchProfile(auth.user)),
+          dispatch(fetchChargers(auth.user)),
+        ]);
+
+        if (!profile.isGolosVestingOpened) {
+          // Запускаем без ожидания завершения
+          dispatch(openVesting()).catch(() => {});
+        }
       } catch (err) {
         // replace with action if needed
         // eslint-disable-next-line no-console
-        console.warn('fetch profile error');
+        console.warn('user data fetching failed:', err);
       }
 
       // fetchFavorites и getBalance вынесены в таймаут, чтобы отделить их от экшена авторизации.
