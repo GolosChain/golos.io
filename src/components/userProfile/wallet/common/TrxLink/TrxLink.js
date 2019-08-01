@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
+import is from 'styled-is';
 
 const Trx = styled.a`
   display: flex;
@@ -13,13 +14,16 @@ const Trx = styled.a`
   color: #959595;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s ease 0s, color 0.3s ease 0s;
 
-  &:hover,
-  &:focus {
-    border-color: #2f2f2f;
-    color: #2f2f2f;
-  }
+  ${is('href')`
+    transition: border-color 0.3s ease 0s, color 0.3s ease 0s;
+
+    &:hover,
+    &:focus {
+      border-color: #2f2f2f;
+      color: #2f2f2f;
+    }
+  `}
 `;
 
 export default function TrxLink({ trxId }) {
