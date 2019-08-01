@@ -11,6 +11,9 @@ import {
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
+  FETCH_GENESIS_CONVERSIONS,
+  FETCH_GENESIS_CONVERSIONS_SUCCESS,
+  FETCH_GENESIS_CONVERSIONS_ERROR,
   FETCH_VESTING_PARAMS,
   FETCH_VESTING_PARAMS_SUCCESS,
   FETCH_VESTING_PARAMS_ERROR,
@@ -55,7 +58,7 @@ export const getTransfersHistory = ({
 
   const params = {
     userId,
-    currencies,
+    currencies: [...currencies].sort(),
     direction,
     sequenceKey,
     limit: 20,
@@ -71,10 +74,7 @@ export const getTransfersHistory = ({
       method: 'wallet.getTransferHistory',
       params,
     },
-    meta: {
-      ...params,
-      name: userId,
-    },
+    meta: params,
   };
 };
 
@@ -85,7 +85,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
 
   const params = {
     userId,
-    types,
+    types: [...types].sort(),
     sequenceKey,
     limit: 20,
   };
@@ -96,10 +96,7 @@ export const getRewardsHistory = ({ userId, types = ['all'], sequenceKey = null 
       method: 'wallet.getRewardsHistory',
       params,
     },
-    meta: {
-      ...params,
-      name: userId,
-    },
+    meta: params,
   };
 };
 
@@ -139,10 +136,30 @@ export const getVestingHistory = ({ userId, sequenceKey = null }) => {
       method: 'wallet.getVestingHistory',
       params,
     },
-    meta: {
-      ...params,
-      name: userId,
+    meta: params,
+  };
+};
+
+export const getGenesisConversions = ({ userId }) => {
+  if (!userId) {
+    throw new Error('userId is required!');
+  }
+
+  const params = {
+    userId,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [
+        FETCH_GENESIS_CONVERSIONS,
+        FETCH_GENESIS_CONVERSIONS_SUCCESS,
+        FETCH_GENESIS_CONVERSIONS_ERROR,
+      ],
+      method: 'wallet.getGenesisConv',
+      params,
     },
+    meta: params,
   };
 };
 
@@ -173,7 +190,7 @@ export const convertVestingToToken = vesting => {
       method: 'wallet.convertVestingToToken',
       params,
     },
-    meta: { ...params },
+    meta: params,
   };
 };
 
@@ -190,6 +207,6 @@ export const convertTokensToVesting = tokens => {
       method: 'wallet.convertTokensToVesting',
       params,
     },
-    meta: { ...params },
+    meta: params,
   };
 };

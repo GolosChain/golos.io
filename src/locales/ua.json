@@ -966,7 +966,8 @@
       "publication": "публікацію",
       "reward_for": "Нагорода за",
       "reward_post_with_text": "Нагорода за пост \"%(text)s\"",
-      "reward_comment_with_text": "Нагорода за коментар \"%(text)s\""
+      "reward_comment_with_text": "Нагорода за коментар \"%(text)s\"",
+      "conversion": "Конвертація"
     },
     "tab_title": {
       "all": "Усе",
@@ -983,7 +984,8 @@
       "savings": "Сейф",
       "sent": "Відправлені",
       "transaction_history": "Исторія транзакцій",
-      "vesting_history": "Исторія Вестінга"
+      "vesting_history": "Исторія Вестінга",
+      "genesis_history": "GOLOS Genesis"
     }
   },
   "userkeys_jsx": {

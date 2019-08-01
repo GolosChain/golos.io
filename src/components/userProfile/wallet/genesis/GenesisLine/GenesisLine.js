@@ -1,17 +1,13 @@
 import React from 'react';
 import { withRouter } from 'next/router';
-import Link from 'next/link';
-import tt from 'counterpart';
 import styled from 'styled-components';
+import tt from 'counterpart';
 import is from 'styled-is';
 
 import { breakWordStyles } from 'helpers/styles';
-import Icon from 'components/golos-ui/Icon';
-import TextCut from 'components/common/TextCut';
-import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import Icon from 'components/golos-ui/Icon/Icon';
 import Linkify from 'components/common/Linkify';
-import TrxLink from 'components/userProfile/wallet/common/TrxLink';
-import { CURRENCY } from '../../Transfers';
+import TextCut from 'components/common/TextCut';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -43,33 +39,16 @@ const Who = styled.div`
   overflow: hidden;
 `;
 
+const WhoTitle = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const WhoName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
-
-const WhoLink = styled.a`
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const WhoBottom = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const TimeStamp = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: #959595;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 8px;
 `;
 
 const Memo = styled.div`
@@ -152,68 +131,24 @@ const Amount = styled.div`
   }
 `;
 
-const Currency = styled.div`
-  font-size: 12px;
-  color: #757575;
-  white-space: nowrap;
-  overflow: hidden;
-`;
+function GenesisLine({ convertion }) {
+  const { quantity, memo } = convertion;
 
-const CURRENCY_COLOR = {
-  GOLOS: '#2879ff',
-};
-
-function TransferLine({
-  router: {
-    query: { userId },
-  },
-  transfer,
-}) {
-  const { memo, quantity, sym, receiver, sender, timestamp, trxId } = transfer;
-
-  const samePerson = receiver.userId === sender.userId;
-  const isSent = sender.userId === userId;
-  const isReceive = receiver.userId === userId && !samePerson;
-
-  const icon = sym === CURRENCY.GOLOS ? 'logo' : 'brilliant';
-  const color = isReceive ? CURRENCY_COLOR[sym] : null;
-
-  const memoIconText = null; // TODO
+  const color = '#2879ff';
 
   return (
     <Root>
       <Line>
-        <LineIcon name={icon} color={color} />
+        <LineIcon name="logo" color={color} />
         <Who>
           <WhoName>
-            {isReceive ? (
-              <>
-                {tt('user_wallet.content.from')}{' '}
-                <Link href={`/@${sender.userId}`} passHref>
-                  <WhoLink>@{sender.userId}</WhoLink>
-                </Link>
-              </>
-            ) : null}
-            {isSent ? (
-              <>
-                {tt('user_wallet.content.to')}{' '}
-                <Link href={`/@${receiver.userId}`} passHref>
-                  <WhoLink>@{receiver.userId}</WhoLink>
-                </Link>
-              </>
-            ) : null}
+            <WhoTitle>{tt('user_wallet.content.conversion')}</WhoTitle>
           </WhoName>
-          <WhoBottom>
-            <TimeStamp>
-              <TimeAgoWrapper date={timestamp} />
-            </TimeStamp>
-            <TrxLink trxId={trxId} />
-          </WhoBottom>
         </Who>
         {memo ? (
           <Memo>
-            <MemoIcon name="note" text={memoIconText} data-hint={memoIconText} />
-            <MemoCut height={50}>
+            <MemoIcon name="note" />
+            <MemoCut height={55}>
               <MemoCenter>
                 <MemoText>
                   <Linkify>{memo}</Linkify>
@@ -224,11 +159,10 @@ function TransferLine({
         ) : null}
         <Value>
           <Amount color={color}>{quantity}</Amount>
-          <Currency>{sym}</Currency>
         </Value>
       </Line>
     </Root>
   );
 }
 
-export default withRouter(TransferLine);
+export default withRouter(GenesisLine);
