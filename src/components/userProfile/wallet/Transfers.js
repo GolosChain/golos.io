@@ -19,21 +19,23 @@ export const DIRECTION = {
   IN: 'in',
 };
 
-const TransfersDirectionsTabs = ({ currency }) => (
-  <Tabs activeTab={{ id: DIRECTION.ALL }}>
-    <TabsContent>
-      <TabContainer id={DIRECTION.ALL} title={tt('user_wallet.tab_title.all')}>
-        <TransfersList currency={currency} direction={DIRECTION.ALL} />
-      </TabContainer>
-      <TabContainer id={DIRECTION.OUT} title={tt('user_wallet.tab_title.sent')}>
-        <TransfersList currency={currency} direction={DIRECTION.OUT} />
-      </TabContainer>
-      <TabContainer id={DIRECTION.IN} title={tt('user_wallet.tab_title.received')}>
-        <TransfersList currency={currency} direction={DIRECTION.IN} />
-      </TabContainer>
-    </TabsContent>
-  </Tabs>
-);
+function TransfersDirectionsTabs({ currency }) {
+  return (
+    <Tabs activeTab={{ id: DIRECTION.ALL }}>
+      <TabsContent>
+        <TabContainer id={DIRECTION.ALL} title={tt('user_wallet.tab_title.all')}>
+          <TransfersList currency={currency} direction={DIRECTION.ALL} />
+        </TabContainer>
+        <TabContainer id={DIRECTION.OUT} title={tt('user_wallet.tab_title.sent')}>
+          <TransfersList currency={currency} direction={DIRECTION.OUT} />
+        </TabContainer>
+        <TabContainer id={DIRECTION.IN} title={tt('user_wallet.tab_title.received')}>
+          <TransfersList currency={currency} direction={DIRECTION.IN} />
+        </TabContainer>
+      </TabsContent>
+    </Tabs>
+  );
+}
 
 export default function Transfers() {
   return (

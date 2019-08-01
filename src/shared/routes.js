@@ -12,7 +12,7 @@ routes.add('trending', '/trending', 'feed');
 routes.add('profile', '/@:userId');
 routes.add(
   'profileSection',
-  '/@:userId/:section(comments|replies|favorites|wallet|activity|settings)/:subSection?',
+  '/@:userId/:section(comments|replies|favorites|wallet|activity|settings)/:section2?/:section3?/:section4?',
   'profile'
 );
 routes.add('post', '/@:userId/:permlink/:mode?');

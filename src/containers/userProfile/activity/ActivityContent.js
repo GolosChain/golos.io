@@ -76,14 +76,14 @@ const TABS = [
 export default class ActivityContent extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    subSection: PropTypes.string.isRequired,
+    section2: PropTypes.string.isRequired,
     order: PropTypes.array.isRequired,
     userId: PropTypes.string.isRequired,
     getNotificationsHistory: PropTypes.func.isRequired,
   };
 
   static async getInitialProps({ store, query }) {
-    const tabId = query.subSection || 'all';
+    const tabId = query.section2 || 'all';
 
     if (process.browser) {
       try {
@@ -182,7 +182,7 @@ export default class ActivityContent extends PureComponent {
       params: {
         userId,
         section: 'activity',
-        subSection: id === 'all' ? undefined : id,
+        section2: id === 'all' ? undefined : id,
       },
     }));
 
