@@ -1,7 +1,6 @@
 import React from 'react';
-import tt from 'counterpart';
 
-import LinkTabs from 'components/common/LinkTabs';
+import { LinkTabsContent } from 'components/common/LinkTabs';
 import RewardsList from './rewards/RewardsList';
 
 const TABS = [
@@ -29,28 +28,16 @@ const TABS = [
 ];
 
 export default function Rewards({ userId, sections }) {
-  const selected = sections[0];
-
   const baseUrl = `/@${userId}/wallet/rewards`;
 
-  const tabs = TABS.map(({ id, index, translation }) => ({
-    id,
-    to: `${baseUrl}${index ? '' : `/${id}`}`,
-    title: tt(translation),
+  const tabs = TABS.map(tab => ({
+    ...tab,
+    to: `${baseUrl}${tab.index ? '' : `/${tab.id}`}`,
   }));
 
-  const tab = TABS.find(({ id, index }) => {
-    if (!selected && index) {
-      return true;
-    }
-
-    return selected === id;
-  });
-
   return (
-    <>
-      <LinkTabs tabs={tabs} activeTab={tab?.id || null} />
-      {tab ? <RewardsList type={tab.id} /> : null}
-    </>
+    <LinkTabsContent tabs={tabs} activeTab={sections[0] || null}>
+      {tab => <RewardsList type={tab.id} />}
+    </LinkTabsContent>
   );
 }

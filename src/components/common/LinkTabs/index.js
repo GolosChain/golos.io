@@ -1,1 +1,1 @@
-export { default } from './LinkTabs';
+export { default, LinkTabsContent } from './LinkTabs';
