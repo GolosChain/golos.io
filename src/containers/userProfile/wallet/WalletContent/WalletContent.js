@@ -5,7 +5,7 @@ import tt from 'counterpart';
 import Head from 'next/head';
 
 import Card from 'components/golos-ui/Card';
-import WalletShow from 'components/userProfile/WalletShow/WalletShow';
+import WalletShow from 'components/userProfile/WalletShow';
 
 export default class WalletContent extends Component {
   static propTypes = {
