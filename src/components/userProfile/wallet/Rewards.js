@@ -27,16 +27,9 @@ const TABS = [
   },
 ];
 
-export default function Rewards({ userId, sections }) {
-  const baseUrl = `/@${userId}/wallet/rewards`;
-
-  const tabs = TABS.map(tab => ({
-    ...tab,
-    to: `${baseUrl}${tab.index ? '' : `/${tab.id}`}`,
-  }));
-
+export default function Rewards({ sections, url }) {
   return (
-    <LinkTabsContent tabs={tabs} activeTab={sections[0] || null}>
+    <LinkTabsContent tabs={TABS} activeTab={sections[0] || 'all'} url={url}>
       {tab => <RewardsList type={tab.id} />}
     </LinkTabsContent>
   );

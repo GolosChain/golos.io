@@ -42,25 +42,24 @@ export default class WalletShow extends PureComponent {
   render() {
     const { userId, isGenesisUser, sections } = this.props;
 
-    let tabs = TABS.map(tab => ({
-      ...tab,
-      to: `/@${userId}/wallet${tab.index ? '' : `/${tab.id}`}`,
-    }));
+    let tabs = TABS;
 
     if (!isGenesisUser) {
-      tabs = tabs.filter(({ id }) => id !== 'genesis');
+      tabs = TABS.filter(({ id }) => id !== 'genesis');
     }
 
     return (
-      <>
-        <LinkTabsContent tabs={tabs} activeTab={sections[0] || 'transfers'}>
-          {tab => (
-            <CardContentStyled>
-              <tab.Comp userId={userId} sections={sections.slice(1)} />
-            </CardContentStyled>
-          )}
-        </LinkTabsContent>
-      </>
+      <LinkTabsContent
+        tabs={tabs}
+        activeTab={sections[0] || 'transfers'}
+        url={`/@${userId}/wallet`}
+      >
+        {(tab, props) => (
+          <CardContentStyled>
+            <tab.Comp userId={userId} sections={sections.slice(1)} {...props} />
+          </CardContentStyled>
+        )}
+      </LinkTabsContent>
     );
   }
 }

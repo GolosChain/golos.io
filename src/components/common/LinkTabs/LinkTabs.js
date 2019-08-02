@@ -13,23 +13,31 @@ const NoSection = styled.div`
   color: #c5c5c5;
 `;
 
-export default function LinkTabs({ tabs, activeTab }) {
+export default function LinkTabs({ tabs, activeTab, url, fullUrl }) {
   let items;
 
   if (activeTab !== undefined) {
-    items = tabs.map(({ id, to, translation }) => (
-      <Link key={to} to={to} passHref>
-        <Tab isLink className={id === activeTab ? 'active' : null}>
-          {tt(translation)}
-        </Tab>
-      </Link>
-    ));
+    items = tabs.map(({ id, index, translation }) => {
+      const to = index ? url : `${fullUrl || url}/${id}`;
+
+      return (
+        <Link key={to} to={to} passHref>
+          <Tab isLink className={id === activeTab ? 'active' : null}>
+            {tt(translation)}
+          </Tab>
+        </Link>
+      );
+    });
   } else {
-    items = tabs.map(({ to, translation }) => (
-      <TabLink key={to} route={to} isLink>
-        {tt(translation)}
-      </TabLink>
-    ));
+    items = tabs.map(({ id, index, translation }) => {
+      const to = index ? url : `${fullUrl || url}/${id}`;
+
+      return (
+        <TabLink key={to} route={to} isLink>
+          {tt(translation)}
+        </TabLink>
+      );
+    });
   }
 
   return (
@@ -39,13 +47,26 @@ export default function LinkTabs({ tabs, activeTab }) {
   );
 }
 
-export function LinkTabsContent({ tabs, children, activeTab }) {
+export function LinkTabsContent({ tabs, children, activeTab, url, fullUrl }) {
   const tab = tabs.find(({ id }) => activeTab === id);
+
+  let content = null;
+
+  if (tab) {
+    const innerFullUrl = `${fullUrl || url}/${tab.id}`;
+
+    content = children(tab, {
+      url: tab.index ? url : innerFullUrl,
+      fullUrl: innerFullUrl,
+    });
+  } else {
+    content = <NoSection>Раздел не найден</NoSection>;
+  }
 
   return (
     <>
-      <LinkTabs tabs={tabs} activeTab={tab?.id || null} />
-      {tab ? children(tab) : <NoSection>Раздел не найден</NoSection>}
+      <LinkTabs tabs={tabs} activeTab={tab?.id || null} url={url} fullUrl={fullUrl || url} />
+      {content}
     </>
   );
 }
