@@ -112,7 +112,7 @@ function VestingLine({ vesting }) {
           </WhoBottom>
         </Who>
         <Value>
-          <Amount color={color}>{diff.GESTS}</Amount>
+          <Amount color={color}>{diff.GOLOS}</Amount>
           <Currency>{tt('token_names.VESTING_TOKEN')}</Currency>
         </Value>
       </Line>
