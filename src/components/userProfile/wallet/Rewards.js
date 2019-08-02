@@ -1,45 +1,56 @@
 import React from 'react';
-import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
-
+import LinkTabs from 'components/common/LinkTabs';
 import RewardsList from './rewards/RewardsList';
 
-const TabsContent = styled.div``;
+const TABS = [
+  {
+    id: 'all',
+    index: true,
+    translation: 'user_wallet.tab_title.all',
+  },
+  {
+    id: 'benefeciary',
+    translation: 'user_wallet.tab_title.beneficiary_rewards',
+  },
+  {
+    id: 'curators',
+    translation: 'user_wallet.tab_title.curation_rewards',
+  },
+  {
+    id: 'author',
+    translation: 'user_wallet.tab_title.author_rewards',
+  },
+  {
+    id: 'delegator',
+    translation: 'user_wallet.tab_title.delegation_rewards',
+  },
+];
 
-export const REWARDS = {
-  ALL: 'all',
-  TRANSFER: 'transfer',
-  BENEFECIARY: 'benefeciary',
-  CURATORS: 'curators',
-  AUTHOR: 'author',
-  DELEGATOR: 'delegator',
-};
+export default function Rewards({ userId, sections }) {
+  const selected = sections[0];
 
-export default function Rewards() {
+  const baseUrl = `/@${userId}/wallet/rewards`;
+
+  const tabs = TABS.map(({ id, index, translation }) => ({
+    id,
+    to: `${baseUrl}${index ? '' : `/${id}`}`,
+    title: tt(translation),
+  }));
+
+  const tab = TABS.find(({ id, index }) => {
+    if (!selected && index) {
+      return true;
+    }
+
+    return selected === id;
+  });
+
   return (
-    <Tabs activeTab={{ id: REWARDS.ALL }}>
-      <TabsContent>
-        <TabContainer id={REWARDS.ALL} title={tt('user_wallet.tab_title.all')}>
-          <RewardsList type={REWARDS.ALL} />
-        </TabContainer>
-        <TabContainer
-          id={REWARDS.BENEFECIARY}
-          title={tt('user_wallet.tab_title.beneficiary_rewards')}
-        >
-          <RewardsList type={REWARDS.BENEFECIARY} />
-        </TabContainer>
-        <TabContainer id={REWARDS.CURATORS} title={tt('user_wallet.tab_title.curation_rewards')}>
-          <RewardsList type={REWARDS.CURATORS} />
-        </TabContainer>
-        <TabContainer id={REWARDS.AUTHOR} title={tt('user_wallet.tab_title.author_rewards')}>
-          <RewardsList type={REWARDS.AUTHOR} />
-        </TabContainer>
-        <TabContainer id={REWARDS.DELEGATOR} title={tt('user_wallet.tab_title.delegation_rewards')}>
-          <RewardsList type={REWARDS.DELEGATOR} />
-        </TabContainer>
-      </TabsContent>
-    </Tabs>
+    <>
+      <LinkTabs tabs={tabs} activeTab={tab?.id || null} />
+      {tab ? <RewardsList type={tab.id} /> : null}
+    </>
   );
 }
