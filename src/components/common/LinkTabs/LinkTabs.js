@@ -60,7 +60,7 @@ export function LinkTabsContent({ tabs, children, activeTab, url, fullUrl }) {
       fullUrl: innerFullUrl,
     });
   } else {
-    content = <NoSection>Раздел не найден</NoSection>;
+    content = <NoSection>{tt('g.section_not_found')}</NoSection>;
   }
 
   return (
