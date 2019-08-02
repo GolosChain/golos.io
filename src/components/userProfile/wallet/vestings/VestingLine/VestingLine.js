@@ -94,16 +94,13 @@ function VestingLine({ vesting }) {
   const isPowerUp = !diff.GOLOS.startsWith('-');
 
   const color = isPowerUp ? '#f57c02' : null;
-  const title = isPowerUp
-    ? tt('user_wallet.content.power_up')
-    : tt('user_wallet.content.power_down');
 
   return (
     <Root>
       <Line>
         <LineIcon name="logo" color={color} />
         <Who>
-          <WhoTitle>{title}</WhoTitle>
+          <WhoTitle>{tt('user_wallet.content.power_change')}</WhoTitle>
           <WhoBottom>
             <TimeStamp>
               <TimeAgoWrapper date={timestamp} />

@@ -1054,6 +1054,7 @@
       "nothing_here_yet": "Nothing here yet",
       "power_up": "Power Up",
       "power_down": "Power Down",
+      "power_change": "Power Change",
       "tip": {
         "cancel_delegation": "Cancel delegation",
         "edit_delegation": "Edit delegation",
