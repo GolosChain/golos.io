@@ -91,7 +91,7 @@ const Currency = styled.div`
 function VestingLine({ vesting }) {
   const { diff, trxId, timestamp } = vesting;
 
-  const isPowerUp = !diff.GESTS.startsWith('-');
+  const isPowerUp = !diff.GOLOS.startsWith('-');
 
   const color = isPowerUp ? '#f57c02' : null;
   const title = isPowerUp
