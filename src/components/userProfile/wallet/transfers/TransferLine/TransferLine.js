@@ -175,7 +175,7 @@ function TransferLine({
   const isSent = sender.userId === userId;
   const isReceive = receiver.userId === userId && !samePerson;
 
-  const icon = sym === CURRENCY.GOLOS ? 'logo' : 'brilliant';
+  const icon = sym === 'GOLOS' ? 'logo' : 'brilliant';
   const color = isReceive ? CURRENCY_COLOR[sym] : null;
 
   const memoIconText = null; // TODO

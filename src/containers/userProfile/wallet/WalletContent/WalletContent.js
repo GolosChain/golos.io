@@ -10,6 +10,7 @@ import WalletShow from 'components/userProfile/WalletShow';
 export default class WalletContent extends Component {
   static propTypes = {
     userId: PropTypes.string.isRequired,
+    sections: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   // state = {
@@ -18,6 +19,7 @@ export default class WalletContent extends Component {
   // };
 
   renderContent() {
+    const { userId, sections } = this.props;
     // const { isLoading, error } = this.state;
     //
     // if (error) {
@@ -26,7 +28,9 @@ export default class WalletContent extends Component {
 
     return (
       <WalletShow
-      // isFetching={isLoading}
+        userId={userId}
+        sections={sections}
+        // isFetching={isLoading}
       />
     );
   }

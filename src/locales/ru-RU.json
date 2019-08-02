@@ -329,6 +329,7 @@
   },
   "g": {
     "retry": "Повторить",
+    "section_not_found": "Раздел не найден",
     "transaction_wait_failed": "Ожидание транзакции завершилось с ошибкой",
     "APP_NAME": "Голос",
     "APP_NAME_support": "%(APP_NAME)s поддержка",

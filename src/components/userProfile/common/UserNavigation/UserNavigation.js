@@ -49,11 +49,13 @@ export default class UserNavigation extends PureComponent {
       {
         text: tt('g.comments'),
         route: 'profileSection',
+        includeSubRoutes: true,
         params: { userId, section: 'comments' },
       },
       {
         text: tt('g.replies'),
         route: 'profileSection',
+        includeSubRoutes: true,
         params: { userId, section: 'replies' },
       }
     );
@@ -62,6 +64,7 @@ export default class UserNavigation extends PureComponent {
       tabLinks.push({
         text: tt('g.favorites'),
         route: 'profileSection',
+        includeSubRoutes: true,
         params: { userId, section: 'favorites' },
       });
     }
@@ -69,6 +72,7 @@ export default class UserNavigation extends PureComponent {
     tabLinks.push({
       text: tt('g.wallet'),
       route: 'profileSection',
+      includeSubRoutes: true,
       params: { userId, section: 'wallet' },
     });
 
@@ -76,6 +80,7 @@ export default class UserNavigation extends PureComponent {
       tabLinks.push({
         text: tt('g.activity'),
         route: 'profileSection',
+        includeSubRoutes: true,
         params: { userId, section: 'activity' },
       });
 
@@ -96,6 +101,7 @@ export default class UserNavigation extends PureComponent {
         tabLinks.push({
           text: tt('g.settings'),
           route: 'profileSection',
+          includeSubRoutes: true,
           params: { userId, section: 'settings' },
         });
       }

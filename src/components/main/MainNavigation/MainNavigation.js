@@ -56,7 +56,7 @@ export default class MainNavigation extends PureComponent {
         route: 'trending',
         params,
         includeRoute: '/',
-        index: true,
+        includeSubRoutes: true,
       }
     );
 

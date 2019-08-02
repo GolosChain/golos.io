@@ -1,51 +1,65 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import { TabContainer, Tabs } from 'components/golos-ui/Tabs';
+import { LinkTabsContent } from 'components/common/LinkTabs';
 
 import TransfersList from './transfers/TransfersList';
-import tt from 'counterpart';
 
-const TabsContent = styled.div``;
-
-export const CURRENCY = {
-  ALL: 'all',
-  GOLOS: 'GOLOS',
-};
-
-export const DIRECTION = {
-  ALL: 'all',
-  OUT: 'out',
-  IN: 'in',
-};
-
-const TransfersDirectionsTabs = ({ currency }) => (
-  <Tabs activeTab={{ id: DIRECTION.ALL }}>
-    <TabsContent>
-      <TabContainer id={DIRECTION.ALL} title={tt('user_wallet.tab_title.all')}>
-        <TransfersList currency={currency} direction={DIRECTION.ALL} />
-      </TabContainer>
-      <TabContainer id={DIRECTION.OUT} title={tt('user_wallet.tab_title.sent')}>
-        <TransfersList currency={currency} direction={DIRECTION.OUT} />
-      </TabContainer>
-      <TabContainer id={DIRECTION.IN} title={tt('user_wallet.tab_title.received')}>
-        <TransfersList currency={currency} direction={DIRECTION.IN} />
-      </TabContainer>
-    </TabsContent>
-  </Tabs>
-);
-
-export default function Transfers() {
+function TransfersDirectionsTabs({ currency, sections, url, fullUrl }) {
   return (
-    <Tabs activeTab={{ id: CURRENCY.ALL }}>
-      <TabsContent>
-        <TabContainer id={CURRENCY.ALL} title={tt('user_wallet.tab_title.all')}>
-          <TransfersDirectionsTabs currency={CURRENCY.ALL} />
-        </TabContainer>
-        <TabContainer id={CURRENCY.GOLOS} title={tt('user_wallet.tab_title.golos')}>
-          <TransfersDirectionsTabs currency={CURRENCY.GOLOS} />
-        </TabContainer>
-      </TabsContent>
-    </Tabs>
+    <LinkTabsContent
+      url={url}
+      fullUrl={fullUrl}
+      tabs={[
+        {
+          id: 'all',
+          index: true,
+          translation: 'user_wallet.tab_title.all',
+          direction: 'all',
+        },
+        {
+          id: 'sent',
+          translation: 'user_wallet.tab_title.sent',
+          direction: 'out',
+        },
+        {
+          id: 'received',
+          translation: 'user_wallet.tab_title.received',
+          direction: 'in',
+        },
+      ]}
+      activeTab={sections[0] || 'all'}
+    >
+      {tab => <TransfersList currency={currency} direction={tab.direction} />}
+    </LinkTabsContent>
+  );
+}
+
+export default function Transfers({ userId, sections, url, fullUrl }) {
+  return (
+    <LinkTabsContent
+      tabs={[
+        {
+          id: 'all',
+          index: true,
+          translation: 'user_wallet.tab_title.all',
+        },
+        {
+          id: 'golos',
+          translation: 'user_wallet.tab_title.golos',
+        },
+      ]}
+      activeTab={sections[0] || 'all'}
+      url={url}
+      fullUrl={fullUrl}
+    >
+      {(tab, props) => (
+        <TransfersDirectionsTabs
+          userId={userId}
+          currency={tab.id === 'golos' ? 'GOLOS' : 'all'}
+          sections={sections.slice(1)}
+          {...props}
+        />
+      )}
+    </LinkTabsContent>
   );
 }

@@ -328,6 +328,7 @@
   },
   "g": {
     "retry": "Retry",
+    "section_not_found": "Section not found",
     "transaction_wait_failed": "Waiting for transaction failed",
     "APP_NAME": "Golos",
     "APP_NAME_support": "%(APP_NAME)s Support",

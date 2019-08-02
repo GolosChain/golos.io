@@ -81,13 +81,16 @@ export default class Profile extends PureComponent {
   }
 
   render() {
-    const { userId, tab, tabId, tabProps } = this.props;
+    const { userId, tab, tabId, tabProps, router } = this.props;
+    const { query } = router;
+
+    const sections = [query.section2, query.section3, query.section4];
 
     return (
       <UserProfile
         userId={userId}
         tabId={tabId}
-        content={<tab.Component userId={userId} {...tabProps} />}
+        content={<tab.Component userId={userId} sections={sections} {...tabProps} />}
         sidebar={<SidebarRight userId={userId} />}
       />
     );

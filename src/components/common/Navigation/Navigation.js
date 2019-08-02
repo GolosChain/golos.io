@@ -87,14 +87,14 @@ export default class Navigation extends PureComponent {
       <SlideContainerStyled className={className}>
         <Container>
           <Wrapper>
-            {tabLinks.map(({ text, route, params, index, includeRoute }) => (
+            {tabLinks.map(({ text, route, params, includeRoute, includeSubRoutes }) => (
               <TabLinkStyled
                 key={text}
                 route={route}
                 params={params}
                 compact={compact ? 1 : 0}
-                includeSubRoutes={index}
                 includeRoute={includeRoute}
+                includeSubRoutes={includeSubRoutes}
               >
                 {text}
               </TabLinkStyled>
