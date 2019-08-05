@@ -364,7 +364,7 @@ export default class VotePanelAbstract extends PureComponent {
 
       // Update data
     } catch (err) {
-      displayError('Voting error', err);
+      displayError(err);
     }
 
     this.setState({

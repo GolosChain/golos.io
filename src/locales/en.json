@@ -109,7 +109,8 @@
     "only_post_once_every": "You may only post once every 5 minutes",
     "only_vote_once_every": "Can only vote once every 3 seconds",
     "tx_missing_owner_auth": "Entered the wrong owner key",
-    "voting_weight_is_too_small": "Voting weight is too small, please accumulate more voting power or steem power"
+    "voting_weight_is_too_small": "Voting weight is too small, please accumulate more voting power or steem power",
+    "cashout_window": "The time for voting is over"
   },
   "chainvalidation_js": {
     "account_name_should": "Account name should ",
