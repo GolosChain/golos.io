@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import styled from 'styled-components';
+import ToastsManager from 'toasts-manager';
 
+import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
 import DialogManager from 'components/elements/common/DialogManager';
@@ -73,19 +75,25 @@ const Root = styled.div`
 export default class PowerDownLine extends Component {
   static propTypes = {
     // connect
-    toWithdraw: PropTypes.string,
-    withdrawn: PropTypes.string,
-    nextWithdrawal: PropTypes.string,
-    cancelPowerDown: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    isOwner: PropTypes.bool.isRequired,
+    toWithdraw: PropTypes.number,
+    quantity: PropTypes.string,
+    nextPayout: PropTypes.string,
+    stopWithdrawTokens: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    toWithdraw: 0,
+    quantity: '',
+    nextPayout: '',
   };
 
   onCancelClick = async () => {
-    const { stopWithdrawTokens, showNotification } = this.props;
+    const { stopWithdrawTokens } = this.props;
 
     try {
       await stopWithdrawTokens();
-      showNotification(tt('wallet.success'));
+      ToastsManager.info(tt('wallet.success'));
     } catch (err) {
       if (err === 'Canceled') {
         // Do nothing
@@ -96,11 +104,17 @@ export default class PowerDownLine extends Component {
   };
 
   render() {
-    const { toWithdraw, withdrawn, nextWithdrawal } = this.props;
+    const { isOwner, toWithdraw, quantity, nextPayout } = this.props;
+
+    if (!isOwner) {
+      return null;
+    }
 
     if (!toWithdraw) {
       return null;
     }
+
+    const withdrawn = parseFloat(parsePayoutAmount(quantity) - toWithdraw).toFixed(6);
 
     return (
       <Root>
@@ -113,7 +127,7 @@ export default class PowerDownLine extends Component {
           </Line>
           <Line>
             {tt('wallet.next_power_down_date')}
-            <TimeAgoStyled date={nextWithdrawal} />
+            <TimeAgoStyled date={nextPayout} />
           </Line>
         </Text>
         <ButtonWrapper>
