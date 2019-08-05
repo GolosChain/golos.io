@@ -77,15 +77,8 @@
     "use_spaces_to_separate_tags": "Використовуйте пробіл, щоб розділити теги"
   },
   "chain_errors": {
-    "account_does_not_have_sufficient_power_for_withdraw": "Кількість Сили Голосу недостатньо для зниження",
-    "already_voted": "Ви вже голосували за цей пост",
-    "exceeded_maximum_allowed_bandwidth": "Недостатньо пропускної спроможності аккаунта. Поповніть Силу Голоса або дочекайтеся відновлення",
-    "missing_active_authority": "Введено невірний активний ключ",
-    "only_comment_once_every": "Коментувати можна не частіше, ніж раз в 20 секунд",
-    "only_post_once_every": "Публікувати пости можна не частіше, ніж раз в 5 хвилин",
-    "only_vote_once_every": "Голосувати можна не частіше, ніж раз в 3 секунди",
     "tx_missing_owner_auth": "Введено невірний головний ключ",
-    "voting_weight_is_too_small": "Вашої потужності голосування недостатньо. Будь ласка, дочекайтеся її відновлення"
+    "cashout_window": "Час для голосування закінчилося"
   },
   "chainvalidation_js": {
     "account_name_should": "Ім'я акаунта має бути ",
