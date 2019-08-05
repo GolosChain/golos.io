@@ -81,7 +81,7 @@ export default class Navigation extends PureComponent {
   };
 
   render() {
-    const { tabLinks, rightItems, compact, shallow, className } = this.props;
+    const { tabLinks, rightItems, compact, className } = this.props;
 
     return (
       <SlideContainerStyled className={className}>
@@ -93,7 +93,6 @@ export default class Navigation extends PureComponent {
                 route={route}
                 params={params}
                 compact={compact ? 1 : 0}
-                shallow={shallow ? 1 : 0}
                 includeRoute={includeRoute}
                 includeSubRoutes={includeSubRoutes}
               >
