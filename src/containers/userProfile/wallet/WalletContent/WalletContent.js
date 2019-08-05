@@ -6,6 +6,7 @@ import Head from 'next/head';
 
 import Card from 'components/golos-ui/Card';
 import WalletShow from 'components/userProfile/WalletShow';
+import PowerDownLine from 'components/wallet/PowerDownLine';
 
 export default class WalletContent extends Component {
   static propTypes = {
@@ -47,6 +48,7 @@ export default class WalletContent extends Component {
             })}
           </title>
         </Head>
+        {<PowerDownLine userId={userId} />}
         {this.renderContent()}
       </Card>
     );

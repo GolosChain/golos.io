@@ -28,3 +28,13 @@ export const userVestingBalanceSelector = (userId, symbol = 'GOLOS') =>
       inDelegated: parsePayoutAmount(path(['vesting', 'inDelegated', symbol], balances)) || 0,
     })
   );
+
+export const userWithdrawStatusSelector = userId =>
+  createSelector(
+    [userBalanceSelector(userId)],
+    status => ({
+      toWithdraw: path(['vesting', 'withdraw', 'toWithdraw'], status) || 0,
+      quantity: path(['vesting', 'withdraw', 'quantity'], status),
+      nextPayout: path(['vesting', 'withdraw', 'nextPayout'], status),
+    })
+  );
