@@ -193,7 +193,7 @@ export default class ActivityContent extends PureComponent {
         </Head>
         <Header>{tt('g.activity')}</Header>
         <Card auto ref={this.rootRef}>
-          <NavigationStyled tabLinks={tabLinks} compact />
+          <NavigationStyled tabLinks={tabLinks} compact shallow />
           <CardContent column auto>
             {this.renderTab()}
           </CardContent>

@@ -21,7 +21,7 @@ export default function LinkTabs({ tabs, activeTab, url, fullUrl }) {
       const to = index ? url : `${fullUrl || url}/${id}`;
 
       return (
-        <Link key={to} to={to} passHref>
+        <Link key={to} to={to} shallow passHref>
           <Tab isLink className={id === activeTab ? 'active' : null}>
             {tt(translation)}
           </Tab>
@@ -33,7 +33,7 @@ export default function LinkTabs({ tabs, activeTab, url, fullUrl }) {
       const to = index ? url : `${fullUrl || url}/${id}`;
 
       return (
-        <TabLink key={to} route={to} isLink>
+        <TabLink key={to} route={to} shallow isLink>
           {tt(translation)}
         </TabLink>
       );
