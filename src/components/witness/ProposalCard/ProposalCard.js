@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { parsePercent } from 'utils/common';
@@ -139,7 +140,7 @@ export default class ProposalCard extends PureComponent {
       return;
     }
 
-    displaySuccess('Success');
+    displaySuccess(tt('g.saved'));
   };
 
   tryToExec = async () => {
@@ -155,7 +156,7 @@ export default class ProposalCard extends PureComponent {
       return;
     }
 
-    displaySuccess('Success');
+    displaySuccess(tt('g.saved'));
   };
 
   toggleRequestedSigns = () => {

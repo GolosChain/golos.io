@@ -88,7 +88,7 @@ export default class BecomeLeader extends PureComponent {
       console.warn('Profile fetching failed:', err);
     }
 
-    displaySuccess('Success');
+    displaySuccess(tt('g.saved'));
 
     close();
   };
