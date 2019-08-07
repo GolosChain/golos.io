@@ -157,6 +157,7 @@ export default class PayoutInfo extends PureComponent {
     // const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
     const { payout } = content;
+
     return (
       <Root>
         <Part>
@@ -171,7 +172,7 @@ export default class PayoutInfo extends PureComponent {
           {/*) : null}*/}
         </Part>
         <Part>
-          {payout.author?.token ? (
+          {payout.author ? (
             <Line>
               <Label>{tt('payout_info.author')}</Label>
               <Money>
@@ -180,7 +181,7 @@ export default class PayoutInfo extends PureComponent {
               <HintIcon hint={tt('payout_info.author_hint')} />
             </Line>
           ) : null}
-          {payout.curator?.token ? (
+          {payout.curator ? (
             <Line>
               <Label>{tt('payout_info.curator')}</Label>
               <Money>
@@ -189,7 +190,7 @@ export default class PayoutInfo extends PureComponent {
               <HintIcon hint={tt('payout_info.curator_hint')} />
             </Line>
           ) : null}
-          {payout.benefactor?.token ? (
+          {payout.benefactor ? (
             <Line>
               <Label>{tt('payout_info.beneficiary')}</Label>
               <Money>
