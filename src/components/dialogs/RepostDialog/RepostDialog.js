@@ -157,7 +157,7 @@ export default class RepostDialog extends Component {
       });
 
       close();
-      displaySuccess('Reblogged successfully');
+      displaySuccess(tt('dialogs_repost.success'));
     } catch (err) {
       displayError(err);
     }

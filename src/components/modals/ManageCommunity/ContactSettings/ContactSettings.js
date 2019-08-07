@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
@@ -77,7 +78,7 @@ export default class ContactSettings extends PureComponent {
       }
 
       const { transaction_id } = await setParams({ contractName, updates, params });
-      displaySuccess('Success');
+      displaySuccess(tt('g.saved'));
       onClose();
       await waitForTransaction(transaction_id);
       Router.replaceRoute(Router.asPath);

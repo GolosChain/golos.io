@@ -373,7 +373,7 @@ export default class UserHeader extends Component {
       return;
     }
 
-    displaySuccess('Update done!');
+    displaySuccess(tt('g.saved'));
   };
 
   onAvatarDrop = files => {
@@ -405,7 +405,7 @@ export default class UserHeader extends Component {
         [key]: url,
       });
 
-      displaySuccess('Update done!');
+      displaySuccess(tt('g.saved'));
     } catch (err) {
       displayError('Update failed', err);
     }
