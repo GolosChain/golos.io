@@ -192,12 +192,6 @@ export const fetchToBlockChain = () => async (dispatch, getState) => {
   const password = keys.active.privateKey;
   const auth = await dispatch(login(userId, password));
 
-  try {
-    await dispatch(openVesting());
-  } catch (err) {
-    displayError('Open vesting failed', err);
-  }
-
   if (auth) {
     saveAuth(userId, password);
   }
