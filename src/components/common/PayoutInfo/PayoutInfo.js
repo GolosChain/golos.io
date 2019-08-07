@@ -171,35 +171,29 @@ export default class PayoutInfo extends PureComponent {
           {/*) : null}*/}
         </Part>
         <Part>
-          {payout.author?.vesting ? (
+          {payout.author?.token ? (
             <Line>
               <Label>{tt('payout_info.author')}</Label>
               <Money>
-                {payout.author.vesting.value.toString()} {payout.author.vesting.name}
+                {payout.author.token.value.toString()} {payout.author.token.name}
               </Money>
-              {/*{authorGbg ? (*/}
-              {/*  <>*/}
-              {/*    <Plus>+</Plus>*/}
-              {/*    <Money>{authorGbg.toFixed(3)} GBG</Money>*/}
-              {/*  </>*/}
-              {/*) : null}*/}
               <HintIcon hint={tt('payout_info.author_hint')} />
             </Line>
           ) : null}
-          {payout.curator?.vesting ? (
+          {payout.curator?.token ? (
             <Line>
               <Label>{tt('payout_info.curator')}</Label>
               <Money>
-                {payout.curator.vesting.value.toString()} {payout.curator.vesting.name}
+                {payout.curator.token.value.toString()} {payout.curator.token.name}
               </Money>
               <HintIcon hint={tt('payout_info.curator_hint')} />
             </Line>
           ) : null}
-          {payout.benefactor?.vesting ? (
+          {payout.benefactor?.token ? (
             <Line>
               <Label>{tt('payout_info.beneficiary')}</Label>
               <Money>
-                {payout.benefactor.vesting.value.toString()} {payout.benefactor.vesting.name}
+                {payout.benefactor.token.value.toString()} {payout.benefactor.token.name}
               </Money>
               <HintIcon hint={tt('payout_info.beneficiary_hint')} />
             </Line>
