@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -35,10 +35,6 @@ export default function RewardsList({
   isHistoryEnd,
   getRewardsHistory,
 }) {
-  useEffect(() => {
-    getRewardsHistory({ userId, types: [type], sequenceKey });
-  }, []);
-
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getRewardsHistory({ userId, types: [type], sequenceKey });

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -36,10 +36,6 @@ export default function TransfersList({
   isHistoryEnd,
   getTransfersHistory,
 }) {
-  useEffect(() => {
-    getTransfersHistory({ userId, currencies: [currency], direction });
-  }, []);
-
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getTransfersHistory({ userId, currencies: [currency], direction, sequenceKey });
