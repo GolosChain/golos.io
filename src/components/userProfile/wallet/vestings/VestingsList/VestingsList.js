@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
@@ -34,10 +34,6 @@ export default function VestingsList({
   isHistoryEnd,
   getVestingHistory,
 }) {
-  useEffect(() => {
-    getVestingHistory({ userId, sequenceKey });
-  }, []);
-
   const onNeedLoadMore = useCallback(async () => {
     try {
       await getVestingHistory({ userId, sequenceKey });
