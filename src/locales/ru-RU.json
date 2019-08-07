@@ -993,6 +993,7 @@
     "account_tokens": {
       "title": "Баланс аккаунта",
       "tokens": {
+        "unclaimed": "Ожидающие",
         "delegated": "Делегированные",
         "savings": "Сейф",
         "wallet": "Свои"

@@ -13,7 +13,7 @@ export const userLiquidBalanceSelector = (userId, symbol = 'GOLOS') =>
     balances => parsePayoutAmount(path(['liquid', 'balances', symbol], balances)) || 0
   );
 
-export const userLiquidPaymentsSelector = userId =>
+export const userLiquidUnclaimedSelector = userId =>
   createSelector(
     [userBalanceSelector(userId)],
     balances => parsePayoutAmount(balances?.liquid?.payments?.GOLOS) || 0

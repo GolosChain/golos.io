@@ -982,6 +982,7 @@
     "account_tokens": {
       "title": "Account balance",
       "tokens": {
+        "unclaimed": "Awaiting",
         "delegated": "Delegated",
         "savings": "Savings",
         "wallet": "Wallet"
