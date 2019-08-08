@@ -873,6 +873,7 @@
     "account_tokens": {
       "title": "Баланс аккаунта",
       "tokens": {
+        "unclaimed": "Очікують",
         "delegated": "Делеговані",
         "savings": "Сейф",
         "wallet": "Свої"
