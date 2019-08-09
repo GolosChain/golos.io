@@ -44,7 +44,7 @@ export const createmssg = data => async (dispatch, getState) => {
     curators_prcnt: 2500,
     max_payout: null,
     tokenprop: 5000,
-    vestpayment: true,
+    vestpayment: false,
     headermssg: '',
     bodymssg: '',
     languagemssg: '',
