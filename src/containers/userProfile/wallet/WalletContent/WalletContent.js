@@ -3,10 +3,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import Head from 'next/head';
+import styled from 'styled-components';
 
+import { visuallyHidden } from 'helpers/styles';
 import Card from 'components/golos-ui/Card';
 import WalletShow from 'components/userProfile/WalletShow';
 import PowerDownLine from 'components/wallet/PowerDownLine';
+
+const Header = styled.h1`
+  ${visuallyHidden};
+`;
 
 export default class WalletContent extends Component {
   static propTypes = {
@@ -48,6 +54,7 @@ export default class WalletContent extends Component {
             })}
           </title>
         </Head>
+        <Header>{tt('g.wallet')}</Header>
         {<PowerDownLine userId={userId} />}
         {this.renderContent()}
       </Card>

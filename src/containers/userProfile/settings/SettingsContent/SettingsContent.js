@@ -6,6 +6,7 @@ import { FORM_ERROR } from 'final-form';
 import { merge, pick } from 'ramda';
 import tt from 'counterpart';
 
+import { visuallyHidden } from 'helpers/styles';
 import { profileType } from 'types/common';
 import { displaySuccess } from 'utils/toastMessages';
 import { transformContacts } from 'utils/transforms';
@@ -15,6 +16,10 @@ import { SettingsShow } from 'components/userProfile';
 const ErrorBlock = styled.div`
   padding: 16px;
   color: #f00;
+`;
+
+const Header = styled.h1`
+  ${visuallyHidden};
 `;
 
 export default class SettingsContent extends PureComponent {
@@ -131,6 +136,7 @@ export default class SettingsContent extends PureComponent {
         <Head>
           <title>{tt('meta.title.profile.settings', { name: profile.username })}</title>
         </Head>
+        <Header>{tt('g.settings')}</Header>
         {this.renderContent()}
       </>
     );
