@@ -204,15 +204,15 @@ export default class AccountTokens extends PureComponent {
         values: [
           {
             title: tt('user_profile.account_tokens.tokens.staked'),
-            value: cyberStake.staked || 0,
+            value: cyberStake.staked,
           },
           {
             title: tt('user_profile.account_tokens.tokens.received'),
-            value: cyberStake.received || 0,
+            value: cyberStake.received,
           },
           {
             title: tt('user_profile.account_tokens.tokens.provided'),
-            value: cyberStake.provided || 0,
+            value: cyberStake.provided,
           },
         ],
       },
