@@ -325,6 +325,7 @@
     "transaction_wait_failed": "Waiting for transaction failed",
     "APP_NAME": "Golos",
     "APP_NAME_support": "%(APP_NAME)s Support",
+    "account_id": "Account ID",
     "account_name": "Account Name",
     "account_name_chars_restrictions": "Account name should have only letters, digits, or dashes.",
     "account_name_should_be_longer": "Account name should be longer.",

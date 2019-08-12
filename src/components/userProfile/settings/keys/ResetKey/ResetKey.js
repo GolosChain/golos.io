@@ -90,7 +90,7 @@ const CheckboxLabel = styled.div`
 
 export default class ResetKey extends PureComponent {
   static propTypes = {
-    username: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     publicKeys: PropTypes.shape({}).isRequired,
     changePassword: PropTypes.func.isRequired,
   };
@@ -100,12 +100,15 @@ export default class ResetKey extends PureComponent {
   };
 
   async componentWillMount() {
-    const { username } = this.props;
-    this.setState({ generatedKeys: await generateKeys(username) });
+    const { userId } = this.props;
+    /**
+     * Для генерации ключей нужен userId из бч, НЕ МЕНЯТЬ на username
+     */
+    this.setState({ generatedKeys: await generateKeys(userId) });
   }
 
   validatePassword = password => {
-    const { username, publicKeys } = this.props;
+    const { userId, publicKeys } = this.props;
 
     if (!password) {
       return tt('g.required');
@@ -116,7 +119,7 @@ export default class ResetKey extends PureComponent {
     }
 
     try {
-      const keyPair = cyber.getActualAuth(username, password, 'owner');
+      const keyPair = cyber.getActualAuth(userId, password, 'owner');
       if (keyPair.publicKey !== publicKeys.owner) {
         return tt('chain_errors.tx_missing_owner_auth');
       }
@@ -172,7 +175,7 @@ export default class ResetKey extends PureComponent {
   };
 
   render() {
-    const { username } = this.props;
+    const { userId } = this.props;
     const { generatedKeys } = this.state;
 
     let newWif = '';
@@ -181,7 +184,7 @@ export default class ResetKey extends PureComponent {
     }
 
     const initialData = {
-      username,
+      userId,
       newWif,
     };
 
@@ -212,10 +215,10 @@ export default class ResetKey extends PureComponent {
                   <Li>{tt('password_rules.p7')}</Li>
                 </Ol>
               </RulesBlock>
-              <Field name="username">
+              <Field name="userId">
                 {({ input, meta }) => (
                   <FieldBlock>
-                    <LabelText>{tt('g.account_name')}</LabelText>
+                    <LabelText>{tt('g.account_id')}</LabelText>
                     <Input {...input} type="text" autoComplete="off" disabled />
                     <FormErrorStyled meta={meta} />
                   </FieldBlock>
