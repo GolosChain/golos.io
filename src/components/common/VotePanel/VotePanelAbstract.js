@@ -503,7 +503,7 @@ export default class VotePanelAbstract extends PureComponent {
               </LoaderWrapper>
             ) : null}
             <MoneyText isInvisible={isVoting}>
-              {`${totalSum.toFixed(payoutRounding)} ${currency}`}
+              {totalSum.toFixed(payoutRounding)} GOLOS{/*currency*/}
               {/* <PostPayoutStyled postLink={postLink} /> */}
               {add}
             </MoneyText>
@@ -522,7 +522,7 @@ export default class VotePanelAbstract extends PureComponent {
               </LoaderWrapper>
             ) : null}
             <MoneyText isInvisible={isVoting}>
-              {`${totalSum.toFixed(payoutRounding)} ${currency}`}
+              {totalSum.toFixed(payoutRounding)} GOLOS{/*currency*/}
               {/* <PostPayoutStyled postLink={postLink} /> */}
               {add}
             </MoneyText>

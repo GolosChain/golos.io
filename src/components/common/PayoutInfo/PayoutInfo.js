@@ -147,23 +147,19 @@ export default class PayoutInfo extends PureComponent {
 
     return (
       <>
-        <Money>{totalPayout.toString()} GOLOS</Money>
+        <Money>{totalPayout} GOLOS</Money>
       </>
     );
   }
 
   render() {
-    const { content } = this.props;
+    const { done, author, curator, benefactor, unclaimed } = this.props;
     // const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
-
-    const { payout } = content;
 
     return (
       <Root>
         <Part>
-          <Title>
-            {payout.done ? tt('payout_info.payout') : tt('payout_info.potential_payout')}
-          </Title>
+          <Title>{done ? tt('payout_info.payout') : tt('payout_info.potential_payout')}</Title>
           <Payout>{this.renderOverallValue()}</Payout>
           {/*{isPending ? (*/}
           {/*  <Duration>*/}
@@ -172,34 +168,45 @@ export default class PayoutInfo extends PureComponent {
           {/*) : null}*/}
         </Part>
         <Part>
-          {payout.author ? (
+          {author ? (
             <Line>
               <Label>{tt('payout_info.author')}</Label>
               <Money>
-                {payout.author.token.value.toString()} {payout.author.token.name}
+                {author.value} {author.sym}
               </Money>
               <HintIcon hint={tt('payout_info.author_hint')} />
             </Line>
           ) : null}
-          {payout.curator ? (
+          {curator ? (
             <Line>
               <Label>{tt('payout_info.curator')}</Label>
               <Money>
-                {payout.curator.token.value.toString()} {payout.curator.token.name}
+                {curator.value} {curator.sym}
               </Money>
               <HintIcon hint={tt('payout_info.curator_hint')} />
             </Line>
           ) : null}
-          {payout.benefactor ? (
+          {benefactor ? (
             <Line>
               <Label>{tt('payout_info.beneficiary')}</Label>
               <Money>
-                {payout.benefactor.token.value.toString()} {payout.benefactor.token.name}
+                {benefactor.value} {benefactor.sym}
               </Money>
               <HintIcon hint={tt('payout_info.beneficiary_hint')} />
             </Line>
           ) : null}
         </Part>
+        {unclaimed ? (
+          <Part>
+            <Line>
+              <Label>{tt('payout_info.unclaimed')}</Label>
+              <Money>
+                {unclaimed.value} {unclaimed.sym}
+              </Money>
+              <HintIcon hint={tt('payout_info.unclaimed_hint')} />
+            </Line>
+          </Part>
+        ) : null}
       </Root>
     );
   }

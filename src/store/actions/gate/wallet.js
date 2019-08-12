@@ -23,6 +23,9 @@ import {
   CONVERT_TOKENS_TO_VESTING,
   CONVERT_TOKENS_TO_VESTING_SUCCESS,
   CONVERT_TOKENS_TO_VESTING_ERROR,
+  FETCH_VESTING_SUPPLY_AND_BALANCE,
+  FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS,
+  FETCH_VESTING_SUPPLY_AND_BALANCE_ERROR,
 } from 'store/constants';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
@@ -208,5 +211,18 @@ export const convertTokensToVesting = tokens => {
       params,
     },
     meta: params,
+  };
+};
+
+export const getVestingSupplyAndBalance = () => {
+  return {
+    [CALL_GATE]: {
+      types: [
+        FETCH_VESTING_SUPPLY_AND_BALANCE,
+        FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS,
+        FETCH_VESTING_SUPPLY_AND_BALANCE_ERROR,
+      ],
+      method: 'wallet.getVestingSupplyAndBalance',
+    },
   };
 };

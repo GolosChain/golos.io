@@ -1,9 +1,9 @@
 import BigNum from 'bignumber.js';
 
-export const payoutSum = entity =>
+export const payoutSum = payout =>
   ['author', 'curator', 'benefactor'].reduce(
     (parentPrev, parentKey) => {
-      const parent = entity.payout[parentKey];
+      const parent = payout[parentKey];
       if (!parent) {
         return parentPrev;
       }

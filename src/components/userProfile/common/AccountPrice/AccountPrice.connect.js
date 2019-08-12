@@ -10,8 +10,8 @@ import AccountPrice from './AccountPrice';
 export default connect(
   createSelector(
     [
-      (state, props) => dataSelector(['wallet', props.userId, 'balances'])(state),
-      (state, props) => dataSelector(['wallet', props.userId, 'vesting'])(state),
+      (state, props) => dataSelector(['wallet', 'users', props.userId, 'balances'])(state),
+      (state, props) => dataSelector(['wallet', 'users', props.userId, 'vesting'])(state),
       dataSelector(['settings', 'basic', 'currency']),
       state =>
         dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),

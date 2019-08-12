@@ -11,7 +11,9 @@ export default compose(
   connect(
     (state, { router, currency, direction }) => {
       const { userId } = router.query;
-      const transfers = dataSelector(['wallet', userId, 'transfers', currency, direction])(state);
+      const transfers = dataSelector(['wallet', 'users', userId, 'transfers', currency, direction])(
+        state
+      );
       return {
         isLoading: Boolean(transfers?.isLoading),
         items: transfers?.items || [],

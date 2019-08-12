@@ -16,23 +16,28 @@ import {
   FETCH_GENESIS_CONVERSIONS,
   FETCH_GENESIS_CONVERSIONS_SUCCESS,
   FETCH_GENESIS_CONVERSIONS_ERROR,
+  FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS,
 } from 'store/constants';
 
-const initialState = {};
+const initialState = {
+  balance: 0,
+  supply: 0,
+  users: {},
+};
 
 export default function(state = initialState, { type, payload, meta, error }) {
   switch (type) {
     case FETCH_USER_BALANCE:
-      return u.updateIn([meta.userId, 'balances'], { isLoading: true }, state);
+      return u.updateIn(['users', meta.userId, 'balances'], { isLoading: true }, state);
 
     case FETCH_USER_BALANCE_SUCCESS:
       // eslint-disable-next-line no-param-reassign
       delete payload.userId;
 
-      return u.updateIn([meta.userId, 'balances'], payload, state);
+      return u.updateIn(['users', meta.userId, 'balances'], payload, state);
 
     case FETCH_USER_BALANCE_ERROR:
-      return u.updateIn([meta.userId, 'balances'], { isLoading: false }, state);
+      return u.updateIn(['users', meta.userId, 'balances'], { isLoading: false }, state);
 
     // Transfers
 
@@ -41,14 +46,14 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
       if (meta.sequenceKey) {
         return u.updateIn(
-          [meta.userId, 'transfers', currency, meta.direction],
+          ['users', meta.userId, 'transfers', currency, meta.direction],
           { isLoading: true },
           state
         );
       }
 
       return u.updateIn(
-        [meta.userId, 'transfers', currency, meta.direction],
+        ['users', meta.userId, 'transfers', currency, meta.direction],
         {
           isLoading: true,
           items: [],
@@ -63,7 +68,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const currency = meta.currencies.join('/');
 
       return u.updateIn(
-        [meta.userId, 'transfers', currency, meta.direction],
+        ['users', meta.userId, 'transfers', currency, meta.direction],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -78,7 +83,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const currency = meta.currencies.join('/');
 
       return u.updateIn(
-        [meta.userId, 'transfers', currency, meta.direction],
+        ['users', meta.userId, 'transfers', currency, meta.direction],
         { isLoading: false },
         state
       );
@@ -88,11 +93,11 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_VESTING_HISTORY:
       if (meta.sequenceKey) {
-        return u.updateIn([meta.userId, 'vestings'], { isLoading: true }, state);
+        return u.updateIn(['users', meta.userId, 'vestings'], { isLoading: true }, state);
       }
 
       return u.updateIn(
-        [meta.userId, 'vestings'],
+        ['users', meta.userId, 'vestings'],
         {
           isLoading: true,
           items: [],
@@ -104,7 +109,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_VESTING_HISTORY_SUCCESS:
       return u.updateIn(
-        [meta.userId, 'vestings'],
+        ['users', meta.userId, 'vestings'],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -115,12 +120,12 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
 
     case FETCH_VESTING_HISTORY_ERROR:
-      return u.updateIn([meta.userId, 'genesis'], { isLoading: false }, state);
+      return u.updateIn(['users', meta.userId, 'genesis'], { isLoading: false }, state);
 
     // Genesis
     case FETCH_GENESIS_CONVERSIONS:
       return u.updateIn(
-        [meta.userId, 'genesis'],
+        ['users', meta.userId, 'genesis'],
         {
           isLoading: true,
           items: [],
@@ -130,7 +135,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_GENESIS_CONVERSIONS_SUCCESS:
       return u.updateIn(
-        [meta.userId, 'genesis'],
+        ['users', meta.userId, 'genesis'],
         {
           isLoading: false,
           items: payload,
@@ -139,7 +144,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       );
 
     case FETCH_GENESIS_CONVERSIONS_ERROR:
-      return u.updateIn([meta.userId, 'genesis'], { isLoading: false }, state);
+      return u.updateIn(['users', meta.userId, 'genesis'], { isLoading: false }, state);
 
     // Rewards
 
@@ -147,11 +152,11 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const types = meta.types.join('/');
 
       if (meta.sequenceKey) {
-        return u.updateIn([meta.userId, 'rewards', types], { isLoading: true }, state);
+        return u.updateIn(['users', meta.userId, 'rewards', types], { isLoading: true }, state);
       }
 
       return u.updateIn(
-        [meta.userId, 'rewards', types],
+        ['users', meta.userId, 'rewards', types],
         {
           isLoading: true,
           items: [],
@@ -166,7 +171,7 @@ export default function(state = initialState, { type, payload, meta, error }) {
       const types = meta.types.join('/');
 
       return u.updateIn(
-        [meta.userId, 'rewards', types],
+        ['users', meta.userId, 'rewards', types],
         {
           isLoading: false,
           items: items => [...items, ...payload.items],
@@ -180,8 +185,11 @@ export default function(state = initialState, { type, payload, meta, error }) {
     case FETCH_REWARDS_HISTORY_ERROR: {
       const types = meta.types.join('/');
 
-      return u.updateIn([meta.userId, 'rewards', types], { isLoading: false }, state);
+      return u.updateIn(['users', meta.userId, 'rewards', types], { isLoading: false }, state);
     }
+
+    case FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS:
+      return u.update(payload, state);
 
     default:
       return state;
