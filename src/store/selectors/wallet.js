@@ -13,10 +13,16 @@ export const userLiquidBalanceSelector = (userId, symbol = 'GOLOS') =>
     balances => parsePayoutAmount(path(['liquid', 'balances', symbol], balances)) || 0
   );
 
-export const userLiquidUnclaimedSelector = userId =>
+export const userLiquidUnclaimedBalanceSelector = userId =>
   createSelector(
     [userBalanceSelector(userId)],
     balances => parsePayoutAmount(balances?.liquid?.payments?.GOLOS) || 0
+  );
+
+export const userCyberStakeBalanceSelector = (userId, type) =>
+  createSelector(
+    [userBalanceSelector(userId)],
+    balances => parsePayoutAmount(path(['stakeInfo', type], balances)) || 0
   );
 
 export const userVestingBalanceSelector = (userId, symbol = 'GOLOS') =>

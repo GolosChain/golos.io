@@ -4,7 +4,8 @@ import { createSelector } from 'reselect';
 import {
   userLiquidBalanceSelector,
   userVestingBalanceSelector,
-  userLiquidUnclaimedSelector,
+  userLiquidUnclaimedBalanceSelector,
+  userCyberStakeBalanceSelector,
 } from 'store/selectors/wallet';
 import { getBalance } from 'store/actions/gate';
 import { statusSelector } from 'store/selectors/common';
@@ -17,12 +18,18 @@ export default connect(
       (state, props) => userLiquidBalanceSelector(props.userId)(state),
       (state, props) => userLiquidBalanceSelector(props.userId, 'CYBER')(state),
       (state, props) => userVestingBalanceSelector(props.userId)(state),
-      (state, props) => userLiquidUnclaimedSelector(props.userId)(state),
+      (state, props) => userLiquidUnclaimedBalanceSelector(props.userId)(state),
+      (state, props) => ({
+        staked: userCyberStakeBalanceSelector(props.userId, 'staked')(state),
+        recieved: userCyberStakeBalanceSelector(props.userId, 'recieved')(state),
+        provided: userCyberStakeBalanceSelector(props.userId, 'provided')(state),
+      }),
       statusSelector(['wallet', 'isLoading']),
     ],
-    (liquid, cyber, vesting, unclaimed, isLoading) => ({
+    (liquid, cyber, vesting, unclaimed, cyberStake, isLoading) => ({
       golos: liquid,
       cyber,
+      cyberStake,
       power: vesting.total,
       powerDelegated: vesting.inDelegated,
       unclaimed,

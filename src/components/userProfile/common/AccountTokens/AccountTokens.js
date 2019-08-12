@@ -106,6 +106,11 @@ export default class AccountTokens extends PureComponent {
     power: PropTypes.number.isRequired,
     powerDelegated: PropTypes.number.isRequired,
     unclaimed: PropTypes.number.isRequired,
+    cyberStake: PropTypes.shape({
+      staked: PropTypes.number.isRequired,
+      received: PropTypes.number.isRequired,
+      provided: PropTypes.number.isRequired,
+    }).isRequired,
     isLoading: PropTypes.bool,
     getBalance: PropTypes.func.isRequired,
   };
@@ -149,7 +154,7 @@ export default class AccountTokens extends PureComponent {
   };
 
   render() {
-    const { golos, cyber, power, powerDelegated, unclaimed, isLoading } = this.props;
+    const { golos, cyber, power, powerDelegated, unclaimed, cyberStake, isLoading } = this.props;
     const { isAlreadyTryToLoad } = this.state;
 
     // const { hoverIndex } = this.state;
@@ -189,6 +194,25 @@ export default class AccountTokens extends PureComponent {
           {
             title: tt('user_profile.account_tokens.tokens.wallet'),
             value: cyber,
+          },
+        ],
+      },
+      {
+        id: 'cyberStake',
+        title: 'CYBER STAKE',
+        color: 'rgb(255, 184, 57)',
+        values: [
+          {
+            title: tt('user_profile.account_tokens.tokens.staked'),
+            value: cyberStake.staked || 0,
+          },
+          {
+            title: tt('user_profile.account_tokens.tokens.received'),
+            value: cyberStake.received || 0,
+          },
+          {
+            title: tt('user_profile.account_tokens.tokens.provided'),
+            value: cyberStake.provided || 0,
           },
         ],
       },

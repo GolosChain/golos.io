@@ -986,7 +986,10 @@
         "unclaimed": "Awaiting",
         "delegated": "Delegated",
         "savings": "Savings",
-        "wallet": "Wallet"
+        "wallet": "Wallet",
+        "staked": "Staked",
+        "received": "Received",
+        "provided": "Provided"
       }
     },
     "actions": {
