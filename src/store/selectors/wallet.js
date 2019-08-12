@@ -5,7 +5,7 @@ import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
 import { dataSelector } from './common';
 
-export const userBalanceSelector = userId => dataSelector(['wallet', userId, 'balances']);
+export const userBalanceSelector = userId => dataSelector(['wallet', 'users', userId, 'balances']);
 
 export const userLiquidBalanceSelector = (userId, symbol = 'GOLOS') =>
   createSelector(

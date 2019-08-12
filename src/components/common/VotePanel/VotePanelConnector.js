@@ -14,7 +14,7 @@ export default connect(
     [
       state => userVestingBalanceSelector(currentUserIdSelector(state))(state),
       dataSelector(['settings', 'basic', 'votePower']),
-      (state, props) => payoutSum(props.entity),
+      (state, props) => payoutSum(props.entity.payout),
       dataSelector(['settings', 'basic', 'currency']),
       state =>
         dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),
