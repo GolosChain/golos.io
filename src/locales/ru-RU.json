@@ -326,6 +326,7 @@
     "transaction_wait_failed": "Ожидание транзакции завершилось с ошибкой",
     "APP_NAME": "Голос",
     "APP_NAME_support": "%(APP_NAME)s поддержка",
+    "account_id": "ID аккаунта",
     "account_name": "Имя аккаунта",
     "account_name_chars_restrictions": "Имя аккаунта должно должно состоять только из букв, цифр или дефисов.",
     "account_name_should_be_longer": "Имя аккаунта должно быть длиннее.",
