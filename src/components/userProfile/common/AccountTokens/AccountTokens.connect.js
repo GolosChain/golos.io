@@ -21,7 +21,7 @@ export default connect(
       (state, props) => userLiquidUnclaimedBalanceSelector(props.userId)(state),
       (state, props) => ({
         staked: userCyberStakeBalanceSelector(props.userId, 'staked')(state),
-        recieved: userCyberStakeBalanceSelector(props.userId, 'recieved')(state),
+        received: userCyberStakeBalanceSelector(props.userId, 'received')(state),
         provided: userCyberStakeBalanceSelector(props.userId, 'provided')(state),
       }),
       statusSelector(['wallet', 'isLoading']),
