@@ -200,7 +200,7 @@ export default class AccountTokens extends PureComponent {
       {
         id: 'cyberStake',
         title: 'CYBER STAKE',
-        color: 'rgb(255, 184, 57)',
+        color: '#faa100',
         values: [
           {
             title: tt('user_profile.account_tokens.tokens.staked'),
