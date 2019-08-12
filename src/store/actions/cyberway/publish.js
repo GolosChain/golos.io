@@ -41,7 +41,7 @@ export const createmssg = data => async (dispatch, getState) => {
     },
     parent_recid: 0,
     beneficiaries: [],
-    curators_prcnt: 2500,
+    curators_prcnt: 5000,
     max_payout: null,
     tokenprop: 5000,
     vestpayment: false,
