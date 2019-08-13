@@ -93,10 +93,12 @@ export default class RightActions extends PureComponent {
           <ActionIcon name="coins" />
           <ActionTitle>{tt('user_profile.actions.transfer')}</ActionTitle>
         </Action>
-        <Action onClick={this.onDelegateClick}>
-          <ActionIcon name="voice" />
-          <ActionTitle>{tt('user_profile.actions.delegate_vesting_shares')}</ActionTitle>
-        </Action>
+        <ToggleFeature flag={RIGHTACTIONS_DELEGATE}>
+          <Action onClick={this.onDelegateClick}>
+            <ActionIcon name="voice" />
+            <ActionTitle>{tt('user_profile.actions.delegate_vesting_shares')}</ActionTitle>
+          </Action>
+        </ToggleFeature>
         {isOwner && (
           <Action onClick={this.onConvertClick}>
             <ActionIcon name="refresh" />
