@@ -1131,5 +1131,13 @@
       "not_more_than_one_dot": "Не більше однієї точки.",
       "code_did_not_resend": "Код не відправлено повторно. Cпробуйте знову."
     }
+  },
+  "currency": {
+    "errors": {
+      "three_rounding": "Можна використовувати тільки 3 знаки після коми",
+      "wrong_format": "Неправильний формат",
+      "insufficient_funds": "Недостатньо коштів",
+      "enter_amount": "Введіть суму"
+    }
   }
 }

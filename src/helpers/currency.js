@@ -1,4 +1,5 @@
 import React from 'react';
+import tt from 'counterpart';
 // import { getHistoricalData } from 'app/redux/actions/rates';
 import { CURRENCIES, DEFAULT_CURRENCY } from 'constants/config';
 
@@ -29,13 +30,13 @@ export function parseAmount(amount, balance, isFinal) {
   const match = amountFixed.match(/\.(\d+)/);
 
   if (match && match[1].length > 3) {
-    error = 'Можно использовать только 3 знака после запятой';
+    error = tt('currency.errors.three_rounding');
   } else if (!/^\d*(?:\.\d*)?$/.test(amountFixed)) {
-    error = 'Неправильный формат';
+    error = tt('currency.errors.wrong_format');
   } else if (amountValue && amountValue > balance) {
-    error = 'Недостаточно средств';
+    error = tt('currency.errors.insufficient_funds');
   } else if (amountFixed !== '' && amountValue === 0 && isFinal) {
-    error = 'Введите сумму';
+    error = tt('currency.errors.enter_amount');
   }
 
   return {
@@ -54,13 +55,13 @@ export function parseAmount2(amount, balance, isFinal, multiplier) {
   const match = amountFixed.match(/\.(\d+)/);
 
   if (match && match[1].length > 3) {
-    error = 'Можно использовать только 3 знака после запятой';
+    error = tt('currency.errors.three_rounding');
   } else if (!/^\d*(?:\.\d*)?$/.test(amountFixed)) {
-    error = 'Неправильный формат';
+    error = tt('currency.errors.wrong_format');
   } else if (amountValue && amountValue > balance) {
-    error = 'Недостаточно средств';
+    error = tt('currency.errors.insufficient_funds');
   } else if (amountFixed !== '' && amountValue === 0 && isFinal) {
-    error = 'Введите сумму';
+    error = tt('currency.errors.enter_amount');
   }
 
   return {

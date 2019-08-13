@@ -1260,5 +1260,13 @@
       "not_more_than_one_dot": "Not more than one dot.",
       "code_did_not_resend": "Code didn't resend. Try again."
     }
+  },
+  "currency": {
+    "errors": {
+      "three_rounding": "Only 3 decimal places allowed",
+      "wrong_format": "Invalid format",
+      "insufficient_funds": "Insufficient funds",
+      "enter_amount": "Enter amount"
+    }
   }
 }
