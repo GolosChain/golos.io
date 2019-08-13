@@ -999,7 +999,10 @@
         "unclaimed": "Ожидающие",
         "delegated": "Делегированные",
         "savings": "Сейф",
-        "wallet": "Свои"
+        "wallet": "Свои",
+        "staked": "Заложенные",
+        "received": "Полученные",
+        "provided": "Предоставленные"
       }
     },
     "actions": {

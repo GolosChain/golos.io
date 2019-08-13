@@ -879,7 +879,10 @@
         "unclaimed": "Очікують",
         "delegated": "Делеговані",
         "savings": "Сейф",
-        "wallet": "Свої"
+        "wallet": "Свої",
+        "staked": "Закладені",
+        "received": "Отримані",
+        "provided": "Надані"
       }
     },
     "actions": {
