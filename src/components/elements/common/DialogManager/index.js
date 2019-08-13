@@ -257,11 +257,9 @@ export default class DialogManager extends React.PureComponent {
     const content = document.getElementById('__next');
 
     if (el) {
-      // if (window.innerHeight < body.offsetHeight) {
       body.style.overflow = 'hidden';
       body.style.height = `${window.innerHeight + 1}px`; // some tricky
       content.style['overflow-y'] = 'scroll';
-      // }
     } else {
       body.style.overflow = '';
       body.style.height = '';
