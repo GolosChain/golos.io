@@ -29,5 +29,6 @@ routes.add('login', '/login', 'login');
 routes.add('market', '/market', 'market');
 routes.add('witnessesProposals', '/~witnesses/proposals', 'witnesses');
 routes.add('witnesses', '/~witnesses');
+routes.add('validators', '/validators', 'validators');
 
 module.exports = routes;

@@ -642,6 +642,7 @@
     "about": "О проекте",
     "buy_LIQUID_TOKEN": "Купить %(LIQUID_TOKEN)s",
     "delegates": "Делегаты",
+    "validators": "Валидаторы",
     "explore": "Исследовать",
     "faq": "Частые вопросы",
     "feedback": "Обратная связь",
@@ -1219,6 +1220,12 @@
       "leaders": "Топ делегатов",
       "proposals": "Список предложений"
     }
+  },
+  "validators_jsx": {
+    "validators": "Список валидаторов",
+    "validator": "Валидаторы",
+    "public_key": "Публичный ключ",
+    "last_update": "Последнее обновление"
   },
   "settings": {
     "update_success": "Успешно сохранено"

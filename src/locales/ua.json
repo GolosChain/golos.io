@@ -570,6 +570,7 @@
     "about": "Про проект",
     "buy_LIQUID_TOKEN": "Купити %(LIQUID_TOKEN)s",
     "delegates": "Делегати",
+    "validators": "Валідатори",
     "explore": "Дослідити",
     "faq": "Часті питання",
     "feedback": "Зворотній зв'язок",
@@ -1105,6 +1106,12 @@
       "leaders": "Топ делегатів",
       "proposals": "Cписок пропозицій"
     }
+  },
+  "validators_jsx": {
+    "validators": "Список валідаторів",
+    "validator": "Валідатори",
+    "public_key": "Публічний ключ",
+    "last_update": "Останнє оновлення"
   },
   "registration": {
     "next": "Далі",

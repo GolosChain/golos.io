@@ -638,6 +638,7 @@
     "about": "About",
     "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
     "delegates": "Delegates",
+    "validators": "Validators",
     "explore": "Explore",
     "faq": "FAQ",
     "feedback": "Feedback",
@@ -1231,6 +1232,12 @@
       "leaders": "Witness top",
       "proposals": "Proposals list"
     }
+  },
+  "validators_jsx": {
+    "validators": "Validators List",
+    "validator": "Validators",
+    "public_key": "Public key",
+    "last_update": "Last update at"
   },
   "settings": {
     "update_success": "Saved Successfully"
