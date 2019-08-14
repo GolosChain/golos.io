@@ -270,14 +270,14 @@ export default class WitnessesLine extends PureComponent {
 
     if (links.local.test(item.url)) {
       return <PostLink to={item.url}>{tt('witnesses_jsx.witness_thread')}</PostLink>;
-    } else {
-      return (
-        <PostLink href={item.url}>
-          {tt('witnesses_jsx.witness_thread')}
-          <Icon name="external-link" size="13" />
-        </PostLink>
-      );
     }
+
+    return (
+      <PostLink href={item.url}>
+        {tt('witnesses_jsx.witness_thread')}
+        <Icon name="external-link" size="13" />
+      </PostLink>
+    );
   }
 
   render() {
