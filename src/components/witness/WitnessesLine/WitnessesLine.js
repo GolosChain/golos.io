@@ -7,7 +7,7 @@ import tt from 'counterpart';
 import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
 import { displayError, displaySuccess } from 'utils/toastMessages';
-import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import links from 'utils/Links';
 import CloseOpenButton from 'components/cards/CloseOpenButton';
 
 export const lineTemplate = '170px 70px 300px 180px minmax(60px, auto)';
@@ -46,42 +46,42 @@ const VoteButtonCeil = styled(WitnessInfoCeil)`
   padding: 0;
 `;
 
-// const PostLink = styled(({ to, href, children, ...props }) =>
-//   to ? (
-//     <Link to={to} {...props}>
-//       {children}
-//     </Link>
-//   ) : (
-//     <a href={href} {...props}>
-//       {children}
-//     </a>
-//   )
-// )`
-//   position: relative;
-//   text-transform: capitalize;
-//   color: #2879ff;
-//
-//   &:focus {
-//     color: #2879ff;
-//   }
-//   &:hover {
-//     color: #2879ff;
-//     text-decoration: underline;
-//   }
-//
-//   & ${Icon} {
-//     position: absolute;
-//     top: 50%;
-//     transform: translateY(-50%);
-//     margin-left: 8px;
-//     color: #2879ff;
-//   }
-// `;
+const PostLink = styled(({ to, href, children, ...props }) =>
+  to ? (
+    <Link to={to}>
+      <a {...props}>{children}</a>
+    </Link>
+  ) : (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  )
+)`
+  position: relative;
+  text-transform: capitalize;
+  color: #2879ff;
 
-const LittleM = styled.span`
-  font-size: 10px;
-  color: #959595;
+  &:focus {
+    color: #2879ff;
+  }
+  &:hover {
+    color: #2879ff;
+    text-decoration: underline;
+  }
+
+  & ${Icon} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    color: #2879ff;
+  }
 `;
+
+// const LittleM = styled.span`
+//   font-size: 10px;
+//   color: #959595;
+// `;
 
 const Wrapper = styled.div`
   display: grid;
@@ -132,79 +132,79 @@ const VoteButton = styled.button`
   }
 `;
 
-const PriceFeedQuote = styled.span`
-  font-weight: bold;
-`;
+// const PriceFeedQuote = styled.span`
+//   font-weight: bold;
+// `;
+//
+// const PriceFeedTokens = styled.div`
+//   white-space: nowrap;
+// `;
 
-const PriceFeedTokens = styled.div`
-  white-space: nowrap;
-`;
+// const LastFeedTime = styled.div`
+//   font-size: 12px;
+//   color: #959595;
+//   ${ellipsisStyles};
+// `;
 
-const LastFeedTime = styled.div`
-  font-size: 12px;
-  color: #959595;
-  ${ellipsisStyles};
-`;
+// const InfoString = styled.div`
+//   display: flex;
+//   align-items: center;
+//   overflow: hidden;
+//   white-space: nowrap;
+//   font-size: 14px;
+//   color: #393636;
+//
+//   & ${LastFeedTime} {
+//     margin-top: 3px;
+//   }
+//   & ${LittleM} {
+//     margin-top: 4px;
+//   }
+// `;
 
-const InfoString = styled.div`
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 14px;
-  color: #393636;
+// const InfoStringSpan = styled.span`
+//   font-weight: bold;
+// `;
 
-  & ${LastFeedTime} {
-    margin-top: 3px;
-  }
-  & ${LittleM} {
-    margin-top: 4px;
-  }
-`;
+// const FullInfoDivider = styled.div`
+//   position: absolute;
+//   width: 1px;
+//   height: calc(100% - 4px);
+//   background-color: #e1e1e1;
+// `;
 
-const InfoStringSpan = styled.span`
-  font-weight: bold;
-`;
-
-const FullInfoDivider = styled.div`
-  position: absolute;
-  width: 1px;
-  height: calc(100% - 4px);
-  background-color: #e1e1e1;
-`;
-
-const FullInfoFirstDivider = styled(FullInfoDivider)`
-  left: 382px;
-`;
-
-const FullInfoSecondDivider = styled(FullInfoDivider)`
-  right: 382px;
-`;
-
-const FullInfo = styled.div`
-  position: relative;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(11, 1fr);
-
-  height: 370px;
-  border-bottom: 1px solid #e1e1e1;
-  background-color: #f6f6f6;
-  overflow: hidden;
-  transition: 0.25s background-color ease;
-
-  & ${InfoString} {
-    margin: 0 16px;
-    align-self: center;
-  }
-
-  ${is('collapsed')`
-    height: 0 !important;
-    border-bottom: 0 !important;
-    background-color: #fff !important;
-  `};
-`;
+// const FullInfoFirstDivider = styled(FullInfoDivider)`
+//   left: 382px;
+// `;
+//
+// const FullInfoSecondDivider = styled(FullInfoDivider)`
+//   right: 382px;
+// `;
+//
+// const FullInfo = styled.div`
+//   position: relative;
+//   display: grid;
+//   grid-auto-flow: column;
+//   grid-template-columns: 1fr 1fr 1fr;
+//   grid-template-rows: repeat(11, 1fr);
+//
+//   height: 370px;
+//   border-bottom: 1px solid #e1e1e1;
+//   background-color: #f6f6f6;
+//   overflow: hidden;
+//   transition: 0.25s background-color ease;
+//
+//   & ${InfoString} {
+//     margin: 0 16px;
+//     align-self: center;
+//   }
+//
+//   ${is('collapsed')`
+//     height: 0 !important;
+//     border-bottom: 0 !important;
+//     background-color: #fff !important;
+//   `};
+// `;
 
 export default class WitnessesLine extends PureComponent {
   static propTypes = {
@@ -272,6 +272,20 @@ export default class WitnessesLine extends PureComponent {
     }
     //title = tt('witnesses_jsx.no_price_feed');
 
+    let url = '';
+    if (item.url) {
+      if (links.local.test(item.url)) {
+        url = <PostLink to={item.url}>{tt('witnesses_jsx.witness_thread')}</PostLink>;
+      } else {
+        url = (
+          <PostLink href={item.url}>
+            {tt('witnesses_jsx.witness_thread')}
+            <Icon name="external-link" size="13" />
+          </PostLink>
+        );
+      }
+    }
+
     return (
       <>
         <Wrapper title={title} isDeactive={!item.active} collapsed={isCollapsed}>
@@ -290,7 +304,7 @@ export default class WitnessesLine extends PureComponent {
               <Icon name="witness-logo" size="16" />
             </VoteButton>
           </VoteButtonCeil>
-          <WitnessInfoCeil>{item.url}</WitnessInfoCeil>
+          <WitnessInfoCeil>{url}</WitnessInfoCeil>
           <WitnessInfoCeil>{item.rating}</WitnessInfoCeil>
           <WitnessInfoCeil>
             <CloseOpenButton collapsed={isCollapsed} onClick={this.onToggleClick} />
