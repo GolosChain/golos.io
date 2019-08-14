@@ -4,8 +4,10 @@ import styled from 'styled-components';
 
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
+import { ToggleFeature } from '@flopflip/react-redux';
 
 import { CURRENCIES, LANGUAGES } from 'constants/config';
+import { USER_SETTINGS } from 'shared/feature-flags';
 
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { CardContent } from 'components/golos-ui/Card';
@@ -80,20 +82,22 @@ export default class Common extends PureComponent {
                   </FormGroup>
                 )}
               </Field>
-              <Field name="basic.currency">
-                {({ input }) => (
-                  <FormGroup>
-                    <Label>{tt('settings_jsx.choose_currency')}</Label>
-                    <Select {...input} onChange={e => input.onChange(e.target.value)}>
-                      {CURRENCIES.map(key => (
-                        <option key={key} value={key}>
-                          {key}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormGroup>
-                )}
-              </Field>
+              <ToggleFeature flag={USER_SETTINGS}>
+                <Field name="basic.currency">
+                  {({ input }) => (
+                    <FormGroup>
+                      <Label>{tt('settings_jsx.choose_currency')}</Label>
+                      <Select {...input} onChange={e => input.onChange(e.target.value)}>
+                        {CURRENCIES.map(key => (
+                          <option key={key} value={key}>
+                            {key}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormGroup>
+                  )}
+                </Field>
+              </ToggleFeature>
               <Field name="basic.nsfw">
                 {({ input, meta }) => (
                   <FormGroup>
