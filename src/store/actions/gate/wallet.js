@@ -223,6 +223,7 @@ export const getVestingSupplyAndBalance = () => {
         FETCH_VESTING_SUPPLY_AND_BALANCE_ERROR,
       ],
       method: 'wallet.getVestingSupplyAndBalance',
+      params: {},
     },
   };
 };
