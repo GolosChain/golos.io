@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { openModal } from 'redux-modals-manager';
 
-import { SHOW_MODAL_BECOME_LOADER } from '/store/constants';
+import { SHOW_MODAL_BECOME_LOADER } from 'store/constants';
 import { dataSelector } from 'store/selectors/common';
 import { amIWitnessSelector } from 'store/selectors/auth';
 import { fetchLeaders } from 'store/actions/gate';
