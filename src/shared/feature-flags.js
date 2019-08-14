@@ -8,6 +8,9 @@ export const RIGHTACTIONS_DELEGATE = 'rightActionsDelegate';
 // FOOTER
 export const FOOTER_PAYOUT = 'footerPayout';
 
+// SETTINGS
+export const USER_SETTINGS = 'userSettings';
+
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
@@ -15,6 +18,7 @@ export default {
   // PROFILE
   [RIGHTACTIONS_BUY_OR_SELL]: false,
   [RIGHTACTIONS_DELEGATE]: false,
+  [USER_SETTINGS]: false,
 
   // FOOTER
   [FOOTER_PAYOUT]: false,
