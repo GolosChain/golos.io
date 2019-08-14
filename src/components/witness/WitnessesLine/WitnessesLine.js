@@ -261,6 +261,25 @@ export default class WitnessesLine extends PureComponent {
   //   );
   // }
 
+  renderPostLink() {
+    const { item } = this.props;
+
+    if (!item.url) {
+      return null;
+    }
+
+    if (links.local.test(item.url)) {
+      return <PostLink to={item.url}>{tt('witnesses_jsx.witness_thread')}</PostLink>;
+    } else {
+      return (
+        <PostLink href={item.url}>
+          {tt('witnesses_jsx.witness_thread')}
+          <Icon name="external-link" size="13" />
+        </PostLink>
+      );
+    }
+  }
+
   render() {
     const { index, item } = this.props;
     const { isCollapsed } = this.state;
@@ -271,20 +290,6 @@ export default class WitnessesLine extends PureComponent {
       title = tt('witnesses_jsx.witness_deactive');
     }
     //title = tt('witnesses_jsx.no_price_feed');
-
-    let url = '';
-    if (item.url) {
-      if (links.local.test(item.url)) {
-        url = <PostLink to={item.url}>{tt('witnesses_jsx.witness_thread')}</PostLink>;
-      } else {
-        url = (
-          <PostLink href={item.url}>
-            {tt('witnesses_jsx.witness_thread')}
-            <Icon name="external-link" size="13" />
-          </PostLink>
-        );
-      }
-    }
 
     return (
       <>
@@ -304,7 +309,7 @@ export default class WitnessesLine extends PureComponent {
               <Icon name="witness-logo" size="16" />
             </VoteButton>
           </VoteButtonCeil>
-          <WitnessInfoCeil>{url}</WitnessInfoCeil>
+          <WitnessInfoCeil>{this.renderPostLink()}</WitnessInfoCeil>
           <WitnessInfoCeil>{item.rating}</WitnessInfoCeil>
           <WitnessInfoCeil>
             <CloseOpenButton collapsed={isCollapsed} onClick={this.onToggleClick} />
