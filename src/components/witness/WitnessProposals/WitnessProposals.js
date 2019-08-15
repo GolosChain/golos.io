@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import { ToggleFeature } from '@flopflip/react-redux';
 
+import { PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import Button from 'components/golos-ui/Button';
@@ -136,7 +138,9 @@ export default class WitnessProposals extends PureComponent {
             title={tt('witnesses_jsx.tabs.proposals')}
             actions={() =>
               isWitness ? (
-                <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+                <ToggleFeature flag={PROPOSALS_MANAGE_BUTTON}>
+                  <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+                </ToggleFeature>
               ) : null
             }
           />
