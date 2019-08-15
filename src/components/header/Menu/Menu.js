@@ -91,6 +91,13 @@ export default class Menu extends PureComponent {
       height: 16,
     },
     {
+      link: '/validators',
+      icon: 'delegates',
+      text: tt('navigation.validators'),
+      width: 22,
+      height: 16,
+    },
+    {
       link: tt('link_to.telegram'),
       icon: 'technical-support',
       text: tt('navigation.technical_support'),
@@ -147,6 +154,13 @@ export default class Menu extends PureComponent {
       link: '/~witnesses',
       icon: 'delegates',
       text: tt('navigation.delegates'),
+      width: 22,
+      height: 16,
+    },
+    {
+      link: '/validators',
+      icon: 'delegates',
+      text: tt('navigation.validators'),
       width: 22,
       height: 16,
     },
