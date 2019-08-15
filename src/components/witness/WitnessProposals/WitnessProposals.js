@@ -10,6 +10,8 @@ import { fetchProposals } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
 import WitnessHeader from '../WitnessHeader';
 import ProposalCard from '../ProposalCard';
+import { HEADER_SEARCH, PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
+import { ToggleFeature } from '@flopflip/react-redux';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -136,7 +138,9 @@ export default class WitnessProposals extends PureComponent {
             title={tt('witnesses_jsx.tabs.proposals')}
             actions={() =>
               isWitness ? (
-                <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+                <ToggleFeature flag={PROPOSALS_MANAGE_BUTTON}>
+                  <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+                </ToggleFeature>
               ) : null
             }
           />

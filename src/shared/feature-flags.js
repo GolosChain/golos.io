@@ -11,6 +11,9 @@ export const FOOTER_PAYOUT = 'footerPayout';
 // SETTINGS
 export const USER_SETTINGS = 'userSettings';
 
+// PROPOSALS
+export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
+
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
@@ -22,4 +25,7 @@ export default {
 
   // FOOTER
   [FOOTER_PAYOUT]: false,
+
+  // PROPOSALS
+  [PROPOSALS_MANAGE_BUTTON]: false,
 };
