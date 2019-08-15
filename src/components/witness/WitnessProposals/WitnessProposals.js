@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import { ToggleFeature } from '@flopflip/react-redux';
 
+import { PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import Button from 'components/golos-ui/Button';
@@ -10,8 +12,6 @@ import { fetchProposals } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
 import WitnessHeader from '../WitnessHeader';
 import ProposalCard from '../ProposalCard';
-import { HEADER_SEARCH, PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
-import { ToggleFeature } from '@flopflip/react-redux';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
