@@ -79,7 +79,7 @@ const ScrollFixStyled = styled(ScrollFix)`
 
   /* delete TODO: before technical work */
   @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
-    height: 373px;
+    height: 351px;
   }
 
   ${is('isFixed')`
