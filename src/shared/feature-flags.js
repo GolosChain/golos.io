@@ -1,5 +1,5 @@
 // HEADER
-export const HEADER_SEARCH = 'headerSerach';
+export const HEADER_SEARCH = 'headerSearch';
 export const HEADER_SIGN_IN = 'headerSignIn';
 export const HEADER_SIGN_UP = 'headerSignUp';
 
