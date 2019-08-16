@@ -1263,5 +1263,24 @@
       "insufficient_funds": "Недостаточно средств",
       "enter_amount": "Введите сумму"
     }
+  },
+  "technical_work": {
+    "top": "В данный момент ведутся технические работы",
+    "state": "Текущее состояние:",
+    "updates": "Мы сообщим вам об обновлениях",
+    "yours": "С уважением, команда \"Голос\"",
+    "steps": {
+      "first": "1. Сеть cyberway: %(status)s",
+      "second": "2. Block Explorer %(status)s: %(link)s",
+      "third": "3. Backend сервисы: %(status)s",
+      "fourth": "4. Front-end: %(status)s",
+      "fifth": "5. Регистрация: %(status)s",
+      "sixth": "6. Авторизация: %(status)s",
+      "seventh": "7. Нотификации: %(status)s"
+    },
+    "statuses": {
+      "ready": "запущено",
+      "maintance": "в процессе запуска"
+    }
   }
 }
