@@ -2,6 +2,7 @@
 export const HEADER_SEARCH = 'headerSerach';
 export const HEADER_SIGN_IN = 'headerSignIn';
 export const HEADER_SIGN_UP = 'headerSignUp';
+export const HEADER_CREATE_POST = 'headerCreatePost';
 
 // PROFILE
 export const RIGHTACTIONS_BUY_OR_SELL = 'rightActionsBuyOrSell';
@@ -21,6 +22,7 @@ export default {
   [HEADER_SEARCH]: false,
   [HEADER_SIGN_IN]: false,
   [HEADER_SIGN_UP]: false,
+  [HEADER_CREATE_POST]: false,
 
   // PROFILE
   [RIGHTACTIONS_BUY_OR_SELL]: false,
