@@ -10,13 +10,15 @@ import { selfVoteSelector } from 'store/selectors/settings';
 
 import PostForm from './PostForm';
 
+const DEFAULT_CURATION_PERCENT = 5000;
+
 export default connect(
   createDeepEqualSelector(
     [currentUnsafeUserSelector, selfVoteSelector, (_, props) => props.post],
     (currentUser, selfVote, post) => ({
       currentUser,
       selfVote,
-      curationPercent: post ? Number(post.payout.meta.curatorsPercent) : null,
+      curationPercent: post ? Number(post.payout.meta.curatorsPercent) : DEFAULT_CURATION_PERCENT,
     })
   ),
   {
