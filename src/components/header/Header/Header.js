@@ -400,19 +400,21 @@ export default class Header extends PureComponent {
     return (
       <>
         <ToggleFeature flag={HEADER_CREATE_POST}>
-          <Link route="submit" passHref>
-            <NewPostLink name="header__create-post">
-              <Button as="span">
-                <NewPostIcon />
-                {tt('g.create_post')}
-              </Button>
-            </NewPostLink>
-          </Link>
-          <Link route="submit" passHref>
-            <MobileNewPostLink as="a" aria-label={tt('g.create_post')} name="header__create-post">
-              <NewPostIcon mobile={1} />
-            </MobileNewPostLink>
-          </Link>
+          <>
+            <Link route="submit" passHref>
+              <NewPostLink name="header__create-post">
+                <Button as="span">
+                  <NewPostIcon />
+                  {tt('g.create_post')}
+                </Button>
+              </NewPostLink>
+            </Link>
+            <Link route="submit" passHref>
+              <MobileNewPostLink as="a" aria-label={tt('g.create_post')} name="header__create-post">
+                <NewPostIcon mobile={1} />
+              </MobileNewPostLink>
+            </Link>
+          </>
         </ToggleFeature>
         <NotificationsCounter
           isOpen={isNotificationsOpen}
