@@ -83,13 +83,13 @@ export default class Menu extends PureComponent {
     //   width: 32,
     //   height: 19,
     // },
-    {
-      link: '/~witnesses',
-      icon: 'delegates',
-      text: tt('navigation.delegates'),
-      width: 22,
-      height: 16,
-    },
+    // {
+    //   link: '/~witnesses',
+    //   icon: 'delegates',
+    //   text: tt('navigation.delegates'),
+    //   width: 22,
+    //   height: 16,
+    // },
     {
       link: '/validators',
       icon: 'delegates',
@@ -150,13 +150,13 @@ export default class Menu extends PureComponent {
     //   width: 32,
     //   height: 19,
     // },
-    {
-      link: '/~witnesses',
-      icon: 'delegates',
-      text: tt('navigation.delegates'),
-      width: 22,
-      height: 16,
-    },
+    // {
+    //   link: '/~witnesses',
+    //   icon: 'delegates',
+    //   text: tt('navigation.delegates'),
+    //   width: 22,
+    //   height: 16,
+    // },
     {
       link: '/validators',
       icon: 'delegates',
