@@ -1275,5 +1275,24 @@
       "insufficient_funds": "Insufficient funds",
       "enter_amount": "Enter amount"
     }
+  },
+  "technical_work": {
+    "top": "Golos.io is in maintenance mode now",
+    "state": "The current state is the following:",
+    "updates": "We will inform you on the updates",
+    "yours": "Yours, Golos Team",
+    "steps": {
+      "first": "1. Cyberway mainnet %(status)s",
+      "second": "2. Block explorer %(status)s, you can reach it on %(link)s",
+      "third": "3. Backend services are %(status)s",
+      "fourth": "4. Front-end is %(status)s",
+      "fifth": "5. Registration is %(status)s",
+      "sixth": "6. Authorisation is %(status)s",
+      "seventh": "7. Notifications are %(status)s"
+    },
+    "statuses": {
+      "ready": "is up and running",
+      "maintance": "in maintenance mode"
+    }
   }
 }

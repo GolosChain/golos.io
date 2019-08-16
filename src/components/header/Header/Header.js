@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import Interpolate from 'react-interpolate-component';
 import { ToggleFeature } from '@flopflip/react-redux';
 
 import {
@@ -13,7 +14,7 @@ import {
 } from 'constants/container';
 import { SHOW_MODAL_LOGIN, SHOW_MODAL_SIGNUP } from 'store/constants/modalTypes';
 import { Link } from 'shared/routes';
-import { HEADER_SEARCH, HEADER_SIGN_UP } from 'shared/feature-flags';
+import { HEADER_SEARCH, HEADER_SIGN_IN, HEADER_SIGN_UP } from 'shared/feature-flags';
 
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
@@ -31,13 +32,55 @@ import NotificationsCounter from '../NotificationsCounter';
 
 const Wrapper = styled.div``;
 
+// Technical work
+const TechnicalWork = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #2196f3;
+  color: white;
+`;
+
+const TechnicalContainerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: ${CONTAINER_FULL_WIDTH}px;
+  margin: 0 auto;
+
+  @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 20px;
+  }
+
+  ${is('center')`
+    justify-content: center;
+  `}
+`;
+
+const TechnicalStatus = styled.span`
+  ${is('ready')`
+    background: green;
+  `}
+`;
+//
+
 const ScrollFixStyled = styled(ScrollFix)`
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  height: 60px;
+  height: 276px; /* 60px; TODO: before technical work */
   background: #fff;
   z-index: 15;
+
+  /* delete TODO: before technical work */
+  @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
+    height: 373px;
+  }
 
   ${is('isFixed')`
     position: fixed;
@@ -49,7 +92,7 @@ const ScrollFixStyled = styled(ScrollFix)`
 `;
 
 const HeaderStub = styled.div`
-  height: 60px;
+  height: 276px; /* 60px; TODO: before technical work */
 `;
 
 const ContainerWrapper = styled.div`
@@ -57,6 +100,7 @@ const ContainerWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  height: 60px;
   max-width: ${CONTAINER_FULL_WIDTH}px;
   margin: 0 auto;
 
@@ -424,11 +468,13 @@ export default class Header extends PureComponent {
                 {tt('g.sign_up')}
               </SignUp>
             </ToggleFeature>
-            {isMobile ? null : (
-              <SignIn light name="header__register" onClick={this.onLoginClick}>
-                {tt('g.login')}
-              </SignIn>
-            )}
+            <ToggleFeature flag={HEADER_SIGN_IN}>
+              {isMobile ? null : (
+                <SignIn light name="header__register" onClick={this.onLoginClick}>
+                  {tt('g.login')}
+                </SignIn>
+              )}
+            </ToggleFeature>
           </Buttons>
         </>
       );
@@ -495,6 +541,17 @@ export default class Header extends PureComponent {
     }
   }
 
+  // TODO: before technical work
+  renderTechnicalStatus(value) {
+    const ready = process.env.TECHNICAL_STATUSES.includes(value);
+
+    return (
+      <TechnicalStatus ready={ready}>
+        {ready ? tt('technical_work.statuses.ready') : tt('technical_work.statuses.maintance')}
+      </TechnicalStatus>
+    );
+  }
+
   render() {
     const { screenType } = this.props;
     const isDesktop = screenType === 'desktop';
@@ -502,6 +559,109 @@ export default class Header extends PureComponent {
     return (
       <Wrapper>
         <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
+          <TechnicalWork>
+            <TechnicalContainerWrapper center style={{ height: '50px' }}>
+              {tt('technical_work.top')}
+            </TechnicalContainerWrapper>
+            <TechnicalContainerWrapper>
+              <div>{tt('technical_work.state')}</div>
+              <div>
+                <ul>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(1),
+                      }}
+                    >
+                      {tt('technical_work.steps.first', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(2),
+                        link: (
+                          <a href="https://explorer.cyberway.io/" style={{ color: '#1d0050' }}>
+                            https://explorer.cyberway.io/
+                          </a>
+                        ),
+                      }}
+                    >
+                      {tt('technical_work.steps.second', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(3),
+                      }}
+                    >
+                      {tt('technical_work.steps.third', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(4),
+                      }}
+                    >
+                      {tt('technical_work.steps.fourth', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(5),
+                      }}
+                    >
+                      {tt('technical_work.steps.fifth', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(6),
+                      }}
+                    >
+                      {tt('technical_work.steps.sixth', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                  <li>
+                    <Interpolate
+                      with={{
+                        status: this.renderTechnicalStatus(7),
+                      }}
+                    >
+                      {tt('technical_work.steps.seventh', {
+                        interpolate: false,
+                      })}
+                    </Interpolate>
+                  </li>
+                </ul>
+              </div>
+            </TechnicalContainerWrapper>
+            <TechnicalContainerWrapper center style={{ height: '65px' }}>
+              {tt('technical_work.updates')}
+              <br />
+              {tt('technical_work.yours')}
+            </TechnicalContainerWrapper>
+          </TechnicalWork>
           <ContainerWrapper>
             {this.renderLogo()}
             {screenType === 'tablet' ? <Filler /> : null}

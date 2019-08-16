@@ -1,5 +1,6 @@
 // HEADER
 export const HEADER_SEARCH = 'headerSerach';
+export const HEADER_SIGN_IN = 'headerSignIn';
 export const HEADER_SIGN_UP = 'headerSignUp';
 
 // PROFILE
@@ -18,6 +19,7 @@ export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
+  [HEADER_SIGN_IN]: false,
   [HEADER_SIGN_UP]: false,
 
   // PROFILE
