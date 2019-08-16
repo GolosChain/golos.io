@@ -160,8 +160,8 @@ export const logout = () => async (dispatch, getState) => {
 
   if (isAuth) {
     try {
-      await dispatch(unsubscribeNotifications());
-      await dispatch({
+      dispatch(unsubscribeNotifications());
+      dispatch({
         [CALL_GATE]: {
           method: 'auth.logout',
           params: {},
