@@ -65,6 +65,9 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
   } else if (type === 'user') {
     newParams.type = 'byUser';
     newParams.userId = id;
+  } else if (type === 'subscriptions') {
+    newParams.type = 'subscriptions';
+    newParams.userId = id;
   } else {
     throw new Error('Invalid fetch posts type');
   }

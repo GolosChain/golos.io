@@ -58,7 +58,7 @@ export default class HomeContent extends Component {
 
   static async getInitialProps({ store, asPath, query: { tags, userId } }) {
     const feedType = Routes.findAndGetUrls(asPath).route.name;
-    const type = userId ? 'user' : 'community';
+    const type = userId ? 'subscriptions' : 'community';
     const selectedTags = tags ? tags.split(',') : [];
 
     const fetchPostsData = {
