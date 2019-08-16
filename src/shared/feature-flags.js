@@ -17,6 +17,16 @@ export const USER_SETTINGS = 'userSettings';
 // PROPOSALS
 export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
 
+let envFeatureFlags = {};
+
+if (process.env.FEATURE_FLAGS) {
+  try {
+    envFeatureFlags = JSON.parse(process.env.FEATURE_FLAGS);
+  } catch {
+    console.error('Wrong JSON of FEATURE_FLAGS');
+  }
+}
+
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
@@ -34,4 +44,6 @@ export default {
 
   // PROPOSALS
   [PROPOSALS_MANAGE_BUTTON]: false,
+
+  ...envFeatureFlags,
 };
