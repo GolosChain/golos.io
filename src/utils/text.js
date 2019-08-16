@@ -4,7 +4,7 @@ export function softTrim(text, limit) {
   }
 
   const lastChar = text[limit];
-  let short = text.substr(0, limit);
+  let short = text.toString().substr(0, limit);
 
   if (/^[^\s.,;:]$/i.test(lastChar)) {
     short = short.replace(/[\s.,;:]+[^\s.,;:]*$/, '');
