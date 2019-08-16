@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
 import { Link } from 'shared/routes';
+import { entitiesSelector } from 'store/selectors/common';
+import { fetchProfile } from 'store/actions/gate';
 import WitnessHeader from 'components/witness/WitnessHeader';
 
 export const lineTemplate = '270px minmax(360px, auto)';
@@ -105,7 +108,17 @@ const WrapperLine = styled.div`
 
 const REFRESH_INTERVAL = 60 * 1000;
 
+@connect(
+  state => ({
+    profiles: entitiesSelector('profiles')(state),
+  }),
+  { fetchProfile }
+)
 export default class ValidatorsPage extends PureComponent {
+  static defaultProps = {
+    profiles: [],
+  };
+
   state = {
     producers: [],
     producersUpdateTime: null,
@@ -123,6 +136,8 @@ export default class ValidatorsPage extends PureComponent {
   }
 
   async _refreshData() {
+    const { fetchProfile } = this.props;
+
     try {
       const response = await fetch(
         `${process.env.CYBERWAY_HTTP_URL}/v1/chain/get_producer_schedule`,
@@ -138,6 +153,12 @@ export default class ValidatorsPage extends PureComponent {
         signKey: producer.block_signing_key,
       }));
 
+      const profilesPromises = data.active.producers.map(async producer => {
+        return await fetchProfile(producer.producer_name);
+      });
+
+      await Promise.all(profilesPromises);
+
       this.setState({
         producers,
         producersUpdateTime: new Date(),
@@ -148,6 +169,7 @@ export default class ValidatorsPage extends PureComponent {
   }
 
   render() {
+    const { profiles } = this.props;
     const { producers, producersUpdateTime } = this.state;
 
     return (
@@ -172,7 +194,7 @@ export default class ValidatorsPage extends PureComponent {
                 <WitnessNumberAndName>
                   <div>{index}</div>
                   <Link route="profile" params={{ userId: producer.id }}>
-                    <a>{producer.id || 'hello'}</a>
+                    <a>{profiles[producer.id]?.username || producer.id || 'hello'}</a>
                   </Link>
                 </WitnessNumberAndName>
                 <WitnessInfoCeil>{producer.signKey}</WitnessInfoCeil>
