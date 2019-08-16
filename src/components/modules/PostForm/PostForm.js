@@ -72,7 +72,7 @@ function markdownToHtmlEditorState(markdown) {
 }
 
 function slug(text) {
-  return getSlug(text.replace(/[<>]/g, ''), { truncate: 128 });
+  return getSlug(text.replace(/[<>]/g, ''), { truncate: 128 }) + '-' + new Date().getTime();
 }
 
 const Preview = styled.div`
