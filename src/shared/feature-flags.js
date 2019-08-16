@@ -1,5 +1,6 @@
 // HEADER
 export const HEADER_SEARCH = 'headerSerach';
+export const HEADER_SIGN_UP = 'headerSignUp';
 
 // PROFILE
 export const RIGHTACTIONS_BUY_OR_SELL = 'rightActionsBuyOrSell';
@@ -14,6 +15,7 @@ export const USER_SETTINGS = 'userSettings';
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
+  [HEADER_SIGN_UP]: false,
 
   // PROFILE
   [RIGHTACTIONS_BUY_OR_SELL]: false,

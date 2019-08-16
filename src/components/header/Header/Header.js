@@ -13,7 +13,7 @@ import {
 } from 'constants/container';
 import { SHOW_MODAL_LOGIN, SHOW_MODAL_SIGNUP } from 'store/constants/modalTypes';
 import { Link } from 'shared/routes';
-import { HEADER_SEARCH } from 'shared/feature-flags';
+import { HEADER_SEARCH, HEADER_SIGN_UP } from 'shared/feature-flags';
 
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
@@ -419,9 +419,11 @@ export default class Header extends PureComponent {
         <>
           {this.renderLocaleBlock()}
           <Buttons hidden={waitAuth}>
-            <SignUp name="header__sigh-up" onClick={this.openSignUp}>
-              {tt('g.sign_up')}
-            </SignUp>
+            <ToggleFeature flag={HEADER_SIGN_UP}>
+              <SignUp name="header__sigh-up" onClick={this.openSignUp}>
+                {tt('g.sign_up')}
+              </SignUp>
+            </ToggleFeature>
             {isMobile ? null : (
               <SignIn light name="header__register" onClick={this.onLoginClick}>
                 {tt('g.login')}
