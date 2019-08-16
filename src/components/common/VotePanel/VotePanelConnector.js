@@ -23,9 +23,9 @@ export default connect(
     (vesting, votePower, totalSum, currency = 'GOLOS', actualRate, payoutRounding) => {
       let payout = new BigNum(totalSum);
 
-      if (actualRate) {
-        payout = payout.multipliedBy(actualRate);
-      }
+      // if (actualRate) {
+      //   payout = payout.multipliedBy(actualRate);
+      // }
 
       return {
         settingsVotePower: votePower,
