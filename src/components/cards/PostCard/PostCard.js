@@ -631,7 +631,7 @@ export default class PostCard extends PureComponent {
   }
 
   renderBody() {
-    const { compact, stats, post, warnNsfw, onClick } = this.props;
+    const { compact, stats, author, post, warnNsfw, onClick } = this.props;
 
     if (!post.content.body?.raw) {
       console.error('Repost without body:', post);
@@ -646,7 +646,14 @@ export default class PostCard extends PureComponent {
     }
 
     return (
-      <Link route="post" params={post.contentId} passHref>
+      <Link
+        route="post"
+        params={{
+          userId: author.username,
+          permlink: post.contentId.permlink,
+        }}
+        passHref
+      >
         <BodyLink compact={compact ? 1 : 0} onClick={onClick}>
           {imageLink ? (
             <PostImageWrapper>

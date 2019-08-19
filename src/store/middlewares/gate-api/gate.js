@@ -106,9 +106,11 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
           return;
         }
 
+        let normalizedResult = result;
+
         if (schema) {
           try {
-            result = normalize(result, schema);
+            normalizedResult = normalize(result, schema);
           } catch (err) {
             err.message = `Normalization failed: ${err.message}`;
             reject(err);
@@ -120,7 +122,7 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
           next({
             ...actionWithoutCall,
             type: successType,
-            payload: result,
+            payload: normalizedResult,
             error: null,
           });
         }

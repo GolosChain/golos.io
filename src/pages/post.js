@@ -8,20 +8,31 @@ export default class Post extends Component {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
-    const contentId = {
-      userId: query.userId,
-      permlink: query.permlink,
-    };
+    const post = await store.dispatch(
+      fetchPagePost({
+        user: query.userId,
+        permlink: query.permlink,
+      })
+    );
 
-    await store.dispatch(fetchPagePost(contentId));
-    await store.dispatch(fetchProfile(query.userId)).catch(() => {
+    if (!post) {
+      return {
+        contentId: {
+          userId: '',
+          permlink: query.permlink,
+        },
+        isEdit: false,
+      };
+    }
+
+    await store.dispatch(fetchProfile(post.contentId.userId)).catch(() => {
       // TODO: Temporary catch!
       // eslint-disable-next-line no-console
-      console.error(`Profile [${query.userId}] not found`);
+      console.error(`Profile [${post.contentId.userId}] not found`);
     });
 
     return {
-      contentId,
+      contentId: post.contentId,
       isEdit: query.mode === 'edit',
     };
   }
