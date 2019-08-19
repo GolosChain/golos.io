@@ -25,7 +25,7 @@ export function sanitizeUrl(url) {
     return url;
   }
 
-  return `/leave_page?${encodeURIComponent(url)}`;
+  return `/leave_page?target=${encodeURIComponent(url)}`;
 }
 
 export function makeSocialLink(urlOrName, prefix) {
