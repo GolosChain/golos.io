@@ -112,9 +112,20 @@ export default class HomeContent extends Component {
   }
 
   async componentDidMount() {
-    const { fetchError, fetchPosts, type, feedType, selectedTags } = this.props;
+    const { fetchError, fetchPosts, type, feedType, selectedTags, userId } = this.props;
+
     if (fetchError) {
       try {
+        const params = {
+          type,
+          feedType,
+          tags: selectedTags,
+        };
+
+        if (userId) {
+          params.id = userId;
+        }
+
         await fetchPosts({
           type,
           feedType,
@@ -128,15 +139,30 @@ export default class HomeContent extends Component {
   }
 
   fetchPosts = () => {
-    const { isFetching, isEnd, feedType, type, selectedTags, sequenceKey, fetchPosts } = this.props;
+    const {
+      isFetching,
+      isEnd,
+      feedType,
+      type,
+      selectedTags,
+      sequenceKey,
+      fetchPosts,
+      userId,
+    } = this.props;
 
     if (!isFetching && !isEnd) {
-      fetchPosts({
+      const params = {
         type,
         feedType,
         tags: selectedTags,
         sequenceKey,
-      });
+      };
+
+      if (userId) {
+        params.id = userId;
+      }
+
+      fetchPosts(params);
     }
   };
 
