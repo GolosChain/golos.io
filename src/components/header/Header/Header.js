@@ -48,7 +48,7 @@ const TechnicalWork = styled.div`
 const TechnicalContainerWrapper = styled.div`
   width: 100%;
   max-width: ${CONTAINER_FULL_WIDTH}px;
-  margin: 20px auto;
+  margin: 10px auto;
 
   & a {
     color: #001f33 !important;
@@ -56,7 +56,7 @@ const TechnicalContainerWrapper = styled.div`
 
   @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
     width: 100%;
-    margin: 20px;
+    margin: 10px;
   }
 
   ${is('center')`
@@ -291,7 +291,7 @@ const DotsWrapper = styled(IconWrapper)`
 
   ${is('isMobile')`
     padding: 10px 16px;
-    
+
     @media (max-width: 400px) {
       padding: 10px 8px;
     }
@@ -551,12 +551,7 @@ export default class Header extends PureComponent {
         <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
           <TechnicalWork>
             <TechnicalContainerWrapper>
-              {tt('technical_work.dears')}
-              <br />
-              <br />
               {tt('technical_work.start')}
-              <br />
-              {tt('technical_work.bags')}
               <br />
               <Interpolate
                 with={{
@@ -574,12 +569,6 @@ export default class Header extends PureComponent {
                   interpolate: false,
                 })}
               </Interpolate>
-              <br />
-              <br />
-              {tt('technical_work.thanks')}
-              <br />
-              {tt('technical_work.bless')}
-              <br />
             </TechnicalContainerWrapper>
           </TechnicalWork>
           <ContainerWrapper>
