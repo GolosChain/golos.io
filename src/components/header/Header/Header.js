@@ -70,7 +70,7 @@ const ScrollFixStyled = styled(ScrollFix)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 301px; /* 60px; TODO: before technical work */
+  height: 133px; /* 60px; TODO: before technical work */
   background: #fff;
   z-index: 15;
 
@@ -89,7 +89,7 @@ const ScrollFixStyled = styled(ScrollFix)`
 `;
 
 const HeaderStub = styled.div`
-  height: 301px; /* 60px; TODO: before technical work */
+  height: 133px; /* 60px; TODO: before technical work */
 `;
 
 const ContainerWrapper = styled.div`
