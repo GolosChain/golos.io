@@ -16,6 +16,10 @@ routes.add(
   'profile'
 );
 routes.add('post', '/@:userId/:permlink/:mode?');
+
+// Support legacy url format (with tag)
+routes.add('postRedirect', '/:tag/@:userId/:permlink/:mode?');
+
 // routes.add('trending', '/trending');
 // routes.add('profileSection', '/@:userId/:section', 'profile');
 routes.add('submit', '/submit', 'submit');
