@@ -12,18 +12,23 @@ import { entitySelector } from 'store/selectors/common';
 import { currentUnsafeServerUserIdSelector } from 'store/selectors/auth';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
-export const fetchPost = contentId => ({
-  [CALL_GATE]: {
-    types: [FETCH_POST, FETCH_POST_SUCCESS, FETCH_POST_ERROR],
-    method: 'content.getPost',
-    params: {
-      contentType: 'raw',
-      ...contentId,
+export const fetchPost = contentId => {
+  const params = {
+    app: 'gls',
+    contentType: 'raw',
+    ...contentId,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_POST, FETCH_POST_SUCCESS, FETCH_POST_ERROR],
+      method: 'content.getPost',
+      params,
+      schema: postSchema,
     },
-    schema: postSchema,
-  },
-  meta: contentId,
-});
+    meta: params,
+  };
+};
 
 export const fetchPostIfNeeded = contentId => (dispatch, getState) => {
   if (!entitySelector('posts', formatContentId(contentId))(getState())) {
