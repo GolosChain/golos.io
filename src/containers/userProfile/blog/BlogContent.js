@@ -31,7 +31,7 @@ export default class BlogContent extends Component {
   }
 
   fetchPosts = () => {
-    const { isFetching, isEnd, userId, sequenceKey, fetchComments } = this.props;
+    const { isFetching, isEnd, userId, sequenceKey, fetchPosts } = this.props;
 
     if (!isFetching && !isEnd) {
       fetchPosts({
