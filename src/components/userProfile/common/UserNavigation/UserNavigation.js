@@ -32,31 +32,31 @@ const GearIcon = styled(Icon).attrs({ name: 'gear' })`
 @withRouter
 export default class UserNavigation extends PureComponent {
   static propTypes = {
-    userId: PropTypes.string.isRequired,
+    user: PropTypes.string.isRequired,
     isOwner: PropTypes.bool,
     isMobile: PropTypes.bool,
     showLayout: PropTypes.bool,
   };
 
   render() {
-    const { userId, router, isOwner, isMobile, showLayout, className } = this.props;
+    const { user, router, isOwner, isMobile, showLayout, className } = this.props;
 
     const tabLinks = [];
     const rightItems = [];
 
     tabLinks.push(
-      { text: tt('g.blog'), route: 'profile', params: { userId } },
+      { text: tt('g.blog'), route: 'profile', params: { userId: user } },
       {
         text: tt('g.comments'),
         route: 'profileSection',
         includeSubRoutes: true,
-        params: { userId, section: 'comments' },
+        params: { userId: user, section: 'comments' },
       },
       {
         text: tt('g.replies'),
         route: 'profileSection',
         includeSubRoutes: true,
-        params: { userId, section: 'replies' },
+        params: { userId: user, section: 'replies' },
       }
     );
 
@@ -65,7 +65,7 @@ export default class UserNavigation extends PureComponent {
         text: tt('g.favorites'),
         route: 'profileSection',
         includeSubRoutes: true,
-        params: { userId, section: 'favorites' },
+        params: { userId: user, section: 'favorites' },
       });
     }
 
@@ -73,7 +73,7 @@ export default class UserNavigation extends PureComponent {
       text: tt('g.wallet'),
       route: 'profileSection',
       includeSubRoutes: true,
-      params: { userId, section: 'wallet' },
+      params: { userId: user, section: 'wallet' },
     });
 
     if (isOwner) {
@@ -81,7 +81,7 @@ export default class UserNavigation extends PureComponent {
         text: tt('g.activity'),
         route: 'profileSection',
         includeSubRoutes: true,
-        params: { userId, section: 'activity' },
+        params: { userId: user, section: 'activity' },
       });
 
       if (isMobile) {
@@ -89,7 +89,7 @@ export default class UserNavigation extends PureComponent {
           <Link
             key="settings"
             route="profileSection"
-            params={{ userId, section: 'settings' }}
+            params={{ userId: user, section: 'settings' }}
             passHref
           >
             <SettingsLink>
@@ -102,7 +102,7 @@ export default class UserNavigation extends PureComponent {
           text: tt('g.settings'),
           route: 'profileSection',
           includeSubRoutes: true,
-          params: { userId, section: 'settings' },
+          params: { userId: user, section: 'settings' },
         });
       }
     }

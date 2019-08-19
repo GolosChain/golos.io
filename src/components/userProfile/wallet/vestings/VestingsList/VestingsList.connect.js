@@ -9,8 +9,8 @@ import VestingsList from './VestingsList';
 export default compose(
   withRouter,
   connect(
-    (state, { router }) => {
-      const vestings = dataSelector(['wallet', 'users', router.query.userId, 'vestings'])(state);
+    (state, { userId }) => {
+      const vestings = dataSelector(['wallet', 'users', userId, 'vestings'])(state);
       return {
         isLoading: Boolean(vestings?.isLoading),
         items: vestings?.items || [],

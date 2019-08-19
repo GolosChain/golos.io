@@ -104,7 +104,7 @@ export default class AccountInfo extends PureComponent {
     const votingPower = chargers?.votes ? parseFloat(chargers.votes).toFixed(2) : 0;
 
     return (
-      <Link route="profile" params={{ userId }} passHref>
+      <Link route="profile" params={{ userId: username }} passHref>
         <AccountInfoBlock>
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>

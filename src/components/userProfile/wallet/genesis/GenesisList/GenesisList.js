@@ -22,14 +22,7 @@ const EmptyBlock = styled.div`
   color: #c5c5c5;
 `;
 
-export default function GenesisList({
-  router: {
-    query: { userId },
-  },
-  isLoading,
-  items,
-  getGenesisConversions,
-}) {
+export default function GenesisList({ userId, isLoading, items, getGenesisConversions }) {
   useEffect(() => {
     getGenesisConversions({ userId });
   }, []);

@@ -5,6 +5,7 @@ import tt from 'counterpart';
 import Head from 'next/head';
 import throttle from 'lodash/throttle';
 import ToastsManager from 'toasts-manager';
+import { withRouter } from 'next/router';
 
 import { ACTIVITIES_FILTER_TYPES } from 'constants/activities';
 
@@ -73,8 +74,10 @@ const TABS = [
   },
 ];
 
+@withRouter
 export default class ActivityContent extends PureComponent {
   static propTypes = {
+    router: PropTypes.shape().isRequired,
     isLoading: PropTypes.bool.isRequired,
     section2: PropTypes.string.isRequired,
     order: PropTypes.array.isRequired,
@@ -82,7 +85,8 @@ export default class ActivityContent extends PureComponent {
     getNotificationsHistory: PropTypes.func.isRequired,
   };
 
-  static async getInitialProps({ store, query }) {
+  static async getInitialProps({ store, query, profileProps }) {
+    const { userId } = profileProps;
     const tabId = query.section2 || 'all';
 
     if (process.browser) {
@@ -91,7 +95,7 @@ export default class ActivityContent extends PureComponent {
           fetchActivities(
             {
               types: ACTIVITIES_FILTER_TYPES[tabId],
-              userId: query.userId,
+              userId,
             },
             {
               tabId,
@@ -104,7 +108,7 @@ export default class ActivityContent extends PureComponent {
     }
 
     return {
-      userId: query.userId,
+      userId,
       tabId,
     };
   }
@@ -174,13 +178,13 @@ export default class ActivityContent extends PureComponent {
   }
 
   render() {
-    const { userId, isLoading, tabLoading, tabId } = this.props;
+    const { userId, router, isLoading, tabLoading, tabId } = this.props;
 
     const tabLinks = TABS.map(({ id, title }) => ({
       text: tt(title),
       route: 'profileSection',
       params: {
-        userId,
+        userId: router.query.userId,
         section: 'activity',
         section2: id === 'all' ? undefined : id,
       },

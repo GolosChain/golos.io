@@ -21,11 +21,11 @@ const Header = styled.h1`
 `;
 
 export default class BlogContent extends Component {
-  static async getInitialProps({ store, query }) {
+  static async getInitialProps({ store, profileProps }) {
     await store.dispatch(
       fetchPosts({
         type: 'user',
-        id: query.userId,
+        id: profileProps.userId,
       })
     );
   }

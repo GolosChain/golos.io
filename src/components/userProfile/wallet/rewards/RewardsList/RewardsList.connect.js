@@ -9,10 +9,8 @@ import RewardsList from './RewardsList';
 export default compose(
   withRouter,
   connect(
-    (state, { router, type }) => {
-      const rewards = dataSelector(['wallet', 'users', router.query.userId, 'rewards', type])(
-        state
-      );
+    (state, { type, userId }) => {
+      const rewards = dataSelector(['wallet', 'users', userId, 'rewards', type])(state);
       return {
         isLoading: Boolean(rewards?.isLoading),
         items: rewards?.items || [],

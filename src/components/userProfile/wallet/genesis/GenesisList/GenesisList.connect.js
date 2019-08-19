@@ -9,8 +9,8 @@ import GenesisList from './GenesisList';
 export default compose(
   withRouter,
   connect(
-    (state, { router }) => {
-      const genesis = dataSelector(['wallet', 'users', router.query.userId, 'genesis'])(state);
+    (state, { userId }) => {
+      const genesis = dataSelector(['wallet', 'users', userId, 'genesis'])(state);
       return {
         isLoading: Boolean(genesis?.isLoading),
         items: genesis?.items || [],

@@ -25,9 +25,7 @@ const EmptyBlock = styled.div`
 `;
 
 export default function TransfersList({
-  router: {
-    query: { userId },
-  },
+  userId,
   isLoading,
   items,
   currency,

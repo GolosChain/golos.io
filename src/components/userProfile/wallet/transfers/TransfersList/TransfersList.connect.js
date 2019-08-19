@@ -9,8 +9,7 @@ import TransfersList from './TransfersList';
 export default compose(
   withRouter,
   connect(
-    (state, { router, currency, direction }) => {
-      const { userId } = router.query;
+    (state, { currency, direction, userId }) => {
       const transfers = dataSelector(['wallet', 'users', userId, 'transfers', currency, direction])(
         state
       );
