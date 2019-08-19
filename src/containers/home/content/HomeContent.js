@@ -126,11 +126,7 @@ export default class HomeContent extends Component {
           params.id = userId;
         }
 
-        await fetchPosts({
-          type,
-          feedType,
-          tags: selectedTags,
-        });
+        await fetchPosts(params);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.warn(err);
