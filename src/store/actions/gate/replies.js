@@ -11,7 +11,7 @@ import { CALL_GATE } from 'store/middlewares/gate-api';
 export const fetchReplies = ({ userId, sequenceKey }) => {
   const newParams = {
     type: 'replies',
-    sortBy: 'time',
+    sortBy: 'timeDesc',
     limit: FEED_PAGE_SIZE,
     sequenceKey: sequenceKey || null,
     userId,
