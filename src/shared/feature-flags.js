@@ -17,6 +17,8 @@ export const USER_SETTINGS = 'userSettings';
 // PROPOSALS
 export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
 
+export const BECOME_WITNESS = 'becomeWitness';
+
 let envFeatureFlags = {};
 
 if (process.env.FEATURE_FLAGS) {
@@ -44,6 +46,8 @@ export default {
 
   // PROPOSALS
   [PROPOSALS_MANAGE_BUTTON]: false,
+
+  [BECOME_WITNESS]: false,
 
   ...envFeatureFlags,
 };

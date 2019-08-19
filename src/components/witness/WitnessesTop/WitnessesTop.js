@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import { ToggleFeature } from '@flopflip/react-redux';
 
+import { BECOME_WITNESS } from 'shared/feature-flags';
 import { fetchLeaders } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
@@ -116,15 +118,17 @@ export default class WitnessesTop extends PureComponent {
           <WitnessHeader
             title={tt('witnesses_jsx.top_witnesses')}
             subTitle={tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}
-            actions={() =>
-              isWitness ? (
-                <Button light onClick={this.onStopLeaderClick}>
-                  {tt('witnesses_jsx.stop')}
-                </Button>
-              ) : (
-                <Button onClick={this.onBecomeLeaderClick}>{tt('witnesses_jsx.become')}</Button>
-              )
-            }
+            actions={() => (
+              <ToggleFeature flag={BECOME_WITNESS}>
+                {isWitness ? (
+                  <Button light onClick={this.onStopLeaderClick}>
+                    {tt('witnesses_jsx.stop')}
+                  </Button>
+                ) : (
+                  <Button onClick={this.onBecomeLeaderClick}>{tt('witnesses_jsx.become')}</Button>
+                )}
+              </ToggleFeature>
+            )}
           />
           <InfinityScrollHelper disabled={isEnd || isLoading} onNeedLoadMore={this.onNeedLoadMore}>
             <TableWrapper>
