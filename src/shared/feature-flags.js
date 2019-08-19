@@ -30,8 +30,8 @@ if (process.env.FEATURE_FLAGS) {
 export default {
   // HEADER
   [HEADER_SEARCH]: false,
-  [HEADER_SIGN_IN]: false,
-  [HEADER_SIGN_UP]: false,
+  [HEADER_SIGN_IN]: true,
+  [HEADER_SIGN_UP]: true,
   [HEADER_CREATE_POST]: false,
 
   // PROFILE
