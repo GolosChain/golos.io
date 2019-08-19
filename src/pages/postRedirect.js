@@ -5,7 +5,7 @@ export default class extends Component {
   static async getInitialProps({ query, req, res }) {
     const searchQuery = req.url.match(/\?.*$/);
 
-    let redirectUrl = `/@${query.userId}/${query.permlink}`;
+    let redirectUrl = `/@${query.user}/${query.permlink}`;
 
     if (searchQuery) {
       redirectUrl += searchQuery[0];

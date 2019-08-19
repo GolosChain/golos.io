@@ -135,6 +135,8 @@ export const fetchPagePost = contentId => async dispatch => {
       type: FETCH_PAGE_POST_SUCCESS,
       payload: post,
     });
+
+    return post;
   } catch (err) {
     if (err.code !== 404) {
       // eslint-disable-next-line no-console
