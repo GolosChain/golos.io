@@ -33,7 +33,7 @@ export default function(state = initialState, { type, payload, meta }) {
 
       return {
         ...state,
-        order: reverse(order),
+        order,
         sequenceKey: payload.result.sequenceKey,
         isLoading: false,
         isEnd: payload.result.items.length < meta.limit,
