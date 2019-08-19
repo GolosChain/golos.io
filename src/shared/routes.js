@@ -35,6 +35,6 @@ routes.add('witnessesProposals', '/~witnesses/proposals', 'witnesses');
 routes.add('witnesses', '/~witnesses');
 routes.add('validators', '/validators', 'validators');
 
-routes.add('leavePage', '/leave_page');
+routes.add('leavePage', '/leave');
 
 module.exports = routes;
