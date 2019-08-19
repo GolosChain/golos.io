@@ -44,6 +44,7 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
   const userId = currentUnsafeServerUserIdSelector(getState());
 
   const newParams = {
+    app: 'gls',
     contentType: 'raw',
     sortBy: 'timeDesc',
     limit: POSTS_FETCH_LIMIT,
