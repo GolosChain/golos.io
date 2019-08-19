@@ -1,10 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 
 import { SET_POST_VOTE, SET_COMMENT_VOTE } from 'store/constants';
+import { currentUserIdSelector } from 'store/selectors/auth';
 import { vote as cyberwayVote } from 'store/actions/cyberway/publish';
 import { formatContentId } from 'store/schemas/gate';
+import { fetchChargers } from 'store/actions/gate';
 
-export const vote = ({ contentId, type, weight }) => async dispatch => {
+export const vote = ({ contentId, type, weight }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
   const voteResult = await dispatch(
     cyberwayVote({
       message_id: {
@@ -34,6 +38,8 @@ export const vote = ({ contentId, type, weight }) => async dispatch => {
       status,
     },
   });
+
+  await dispatch(fetchChargers(userId));
 
   return voteResult;
 };
