@@ -265,6 +265,13 @@
       "transfer": "Transfer",
       "transfer_button": "Transfer",
       "withdraw": "Withdraw"
+    },
+    "delegatevote": {
+      "title": "Vote for validator",
+      "tip": "By transferring the desired amount of CYBER you raise his position",
+      "transfer_button": "Transfer",
+      "transfer_success": "Transfer successfully completed!",
+      "transfer_failed": "Transfer failed!"
     }
   },
   "editor_toolbar": {

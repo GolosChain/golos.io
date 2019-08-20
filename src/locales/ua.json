@@ -233,6 +233,13 @@
       "transfer": "Переказати",
       "transfer_button": "Переказати",
       "withdraw": "Вивести"
+    },
+    "delegatevote": {
+      "title": "Проголосувати за валідатора",
+      "tip": "Перекладаючи бажану кількість CYBER ви піднімаєте його позицію",
+      "transfer_button": "Передати",
+      "transfer_success": "Переклад успішно здійснений!",
+      "transfer_failed": "Помилка перекладу!"
     }
   },
   "editor_toolbar": {

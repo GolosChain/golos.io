@@ -8,8 +8,10 @@ import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfile } from 'store/actions/gate';
 import WitnessHeader from 'components/witness/WitnessHeader';
+import { openDelegateVoteDialog } from 'components/userProfile/common/RightActions/showDialogs';
+import Icon from '../components/golos-ui/Icon/Icon';
 
-export const lineTemplate = '270px minmax(360px, auto)';
+export const lineTemplate = '270px 70px minmax(360px, auto)';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -84,6 +86,38 @@ const WitnessNumberAndName = styled(WitnessInfoCeil)`
   }
 `;
 
+const VoteButtonCeil = styled(WitnessInfoCeil)`
+  justify-self: center;
+  padding: 0;
+`;
+
+const VoteButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid rgba(57, 54, 54, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    ${({ upvoted }) =>
+      upvoted ? 'background-color: #0e69ff' : 'border: 1px solid rgba(57, 54, 54, 0.6)'};
+  }
+
+  ${is('upvoted')`
+    background-color: #2879ff;
+    border: 0;
+  `};
+
+  & svg {
+    flex-shrink: 0;
+    color: ${({ upvoted }) => (upvoted ? '#fff' : '#393636')};
+  }
+`;
+
 const WrapperLine = styled.div`
   display: grid;
   grid-template-columns: ${lineTemplate};
@@ -153,6 +187,8 @@ export default class ValidatorsPage extends PureComponent {
         signKey: producer.block_signing_key,
       }));
 
+      console.log(data.active);
+
       const profilesPromises = data.active.producers.map(async producer => {
         return await fetchProfile(producer.producer_name);
       });
@@ -167,6 +203,10 @@ export default class ValidatorsPage extends PureComponent {
       console.error('Get producers error:', err);
     }
   }
+
+  onDelegateVoteClick = userId => async () => {
+    await openDelegateVoteDialog(userId);
+  };
 
   render() {
     const { profiles } = this.props;
@@ -186,8 +226,8 @@ export default class ValidatorsPage extends PureComponent {
           <TableWrapper>
             <TableHead>
               <TableHeadItem>{tt('validators_jsx.validator')}</TableHeadItem>
-              <TableHeadItem>{tt('validators_jsx.public_key')}</TableHeadItem>
               <TableHeadItem />
+              <TableHeadItem>{tt('validators_jsx.public_key')}</TableHeadItem>
             </TableHead>
             {producers.map((producer, index) => (
               <WrapperLine collapsed>
@@ -197,6 +237,15 @@ export default class ValidatorsPage extends PureComponent {
                     <a>{profiles[producer.id]?.username || producer.id || 'hello'}</a>
                   </Link>
                 </WitnessNumberAndName>
+                <VoteButtonCeil>
+                  <VoteButton
+                    // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
+                    // upvoted={item.hasVote ? 1 : 0}
+                    onClick={this.onDelegateVoteClick(producer.id)}
+                  >
+                    <Icon name="witness-logo" size="16" />
+                  </VoteButton>
+                </VoteButtonCeil>
                 <WitnessInfoCeil>{producer.signKey}</WitnessInfoCeil>
               </WrapperLine>
             ))}
