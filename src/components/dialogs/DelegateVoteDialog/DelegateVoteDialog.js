@@ -191,12 +191,12 @@ export default class DelegateVoteDialog extends PureComponent {
       },
     ];
 
-    let availableBalance;
-    if (currency === CURRENCIES.CYBER.id) {
-      availableBalance = cyberBalance;
-    }
-
-    const { value, error } = parseAmount(amount, availableBalance, !amountInFocus);
+    const { value, error } = parseAmount(
+      amount,
+      cyberBalance,
+      !amountInFocus,
+      CURRENCIES[currency].decs
+    );
 
     const allow = recipientName && value > 0 && !error && !loader && !disabled;
 
@@ -240,7 +240,7 @@ export default class DelegateVoteDialog extends PureComponent {
                 <Label>{tt('dialogs_transfer.amount')}</Label>
                 <ComplexInput
                   placeholder={tt('dialogs_transfer.amount_placeholder', {
-                    amount: availableBalance.toFixed(CURRENCIES[currency].decs),
+                    amount: cyberBalance.toFixed(CURRENCIES[currency].decs),
                   })}
                   spellCheck="false"
                   value={amount}

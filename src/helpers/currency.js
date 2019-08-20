@@ -20,7 +20,7 @@ const MIN_DELEGATION_AMOUNT_ERROR = 'Delegation difference is not enough';
 
 const queried = new Set();
 
-export function parseAmount(amount, balance, isFinal) {
+export function parseAmount(amount, balance, isFinal, decs = 3) {
   const amountFixed = amount.trim().replace(/\s+/, '');
 
   const amountValue = parseFloat(amountFixed);
@@ -29,7 +29,7 @@ export function parseAmount(amount, balance, isFinal) {
 
   const match = amountFixed.match(/\.(\d+)/);
 
-  if (match && match[1].length > 3) {
+  if (match && match[1].length > decs) {
     error = tt('currency.errors.three_rounding');
   } else if (!/^\d*(?:\.\d*)?$/.test(amountFixed)) {
     error = tt('currency.errors.wrong_format');
