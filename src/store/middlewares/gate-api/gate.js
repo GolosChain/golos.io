@@ -3,7 +3,6 @@
 import { normalize } from 'normalizr';
 
 import { currentUnsafeServerUserIdSelector } from 'store/selectors/auth';
-import { wait } from 'utils/time';
 import CurrentRequests from './utils/CurrentRequests';
 
 export const CALL_GATE = 'CALL_GATE';
@@ -11,10 +10,29 @@ const SSR_REQUEST_TIMEOUT = 5000;
 
 export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => next => {
   let client = null;
+  let autoAuthPromise = null;
+  let initialAuthPromiseResolve = null;
+
+  if (process.browser) {
+    autoAuthPromise = new Promise(resolve => {
+      initialAuthPromiseResolve = resolve;
+    });
+  }
 
   if (process.browser) {
     const GateWsClient = require('./clients/GateWsClient').default;
     client = new GateWsClient({
+      onConnect: async () => {
+        const action = autoLogin();
+
+        if (action) {
+          autoAuthPromise = await dispatch(action);
+        } else {
+          autoAuthPromise = null;
+        }
+
+        initialAuthPromiseResolve();
+      },
       onNotifications: notifications => {
         onNotifications(notifications, { getState, dispatch });
       },
@@ -22,20 +40,6 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
   } else {
     const FacadeClient = require('./clients/FacadeClient').default;
     client = new FacadeClient();
-  }
-
-  let autoAuthPromise = null;
-
-  if (process.browser) {
-    autoAuthPromise = (async () => {
-      const action = autoLogin();
-
-      if (action) {
-        // Ждем потому что нельзя dispatch'ить во время создания middleware.
-        await wait(0);
-        await dispatch(action);
-      }
-    })();
   }
 
   const currentRequests = new CurrentRequests();
