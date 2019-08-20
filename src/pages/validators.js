@@ -216,6 +216,8 @@ export default class ValidatorsPage extends PureComponent {
     const { profiles } = this.props;
     const { producers, producersUpdateTime } = this.state;
 
+    const validatorId = profiles[producer.id]?.username || producer.id;
+
     return (
       <WrapperForBackground>
         <Wrapper>
@@ -237,8 +239,8 @@ export default class ValidatorsPage extends PureComponent {
               <WrapperLine collapsed>
                 <WitnessNumberAndName>
                   <div>{index}</div>
-                  <Link route="profile" params={{ userId: producer.id }}>
-                    <a>{profiles[producer.id]?.username || producer.id || 'hello'}</a>
+                  <Link route="profile" params={{ userId: validatorId }}>
+                    <a>{validatorId}</a>
                   </Link>
                 </WitnessNumberAndName>
                 <VoteButtonCeil>

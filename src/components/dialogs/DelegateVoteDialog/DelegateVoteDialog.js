@@ -78,7 +78,7 @@ export default class DelegateVoteDialog extends PureComponent {
     recipientName: PropTypes.string.isRequired,
     amount: PropTypes.string,
 
-    cyberBalance: PropTypes.string.isRequired,
+    cyberBalance: PropTypes.number.isRequired,
 
     onClose: PropTypes.func.isRequired,
     delegateVote: PropTypes.func.isRequired,
@@ -124,12 +124,6 @@ export default class DelegateVoteDialog extends PureComponent {
   onAmountBlur = () => {
     this.setState({
       amountInFocus: false,
-    });
-  };
-
-  onCurrencyChange = currency => {
-    this.setState({
-      currency,
     });
   };
 
@@ -256,7 +250,6 @@ export default class DelegateVoteDialog extends PureComponent {
                   onChange={this.onAmountChange}
                   onFocus={this.onAmountFocus}
                   onBlur={this.onAmountBlur}
-                  onActiveChange={this.onCurrencyChange}
                 />
               </Section>
             </Column>
