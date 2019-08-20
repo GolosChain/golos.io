@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 400;
+  z-index: 600;
 `;
 
 const ModalContainer = styled.div`
