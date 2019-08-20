@@ -6,6 +6,9 @@ import {
   TRANSFER_TOKEN,
   TRANSFER_TOKEN_SUCCESS,
   TRANSFER_TOKEN_ERROR,
+  CLAIM_TOKEN,
+  CLAIM_TOKEN_SUCCESS,
+  CLAIM_TOKEN_ERROR,
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { getBalance, getTransfersHistory, waitForWalletTransaction } from 'store/actions/gate';
@@ -13,7 +16,6 @@ import { displayError, displaySuccess } from 'utils/toastMessages';
 
 const CONTRACT_NAME = 'cyberToken';
 
-// eslint-disable-next-line
 export const transferToken = (recipient, amount, symbol, memo) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
@@ -49,5 +51,41 @@ export const transferToken = (recipient, amount, symbol, memo) => async (dispatc
     }
   } catch (err) {
     displayError(tt('dialogs_transfer.transfer.transfer_failed'), err);
+  }
+};
+
+export const claimToken = quantity => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const data = {
+    owner: userId,
+    quantity,
+  };
+
+  try {
+    const { processed } = await dispatch({
+      [CYBERWAY_API]: {
+        types: [CLAIM_TOKEN, CLAIM_TOKEN_SUCCESS, CLAIM_TOKEN_ERROR],
+        contract: CONTRACT_NAME,
+        method: 'claim',
+        params: data,
+      },
+      meta: data,
+    });
+
+    if (processed?.id) {
+      await waitForWalletTransaction(processed.id);
+      await Promise.all([
+        dispatch(getBalance(userId)),
+        dispatch(getTransfersHistory({ userId, direction: 'in' })),
+      ]);
+      displaySuccess(tt('wallet.success'));
+    }
+  } catch (err) {
+    displayError(tt('g.error'), err);
   }
 };

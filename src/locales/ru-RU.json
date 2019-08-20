@@ -1141,7 +1141,9 @@
     "cancel": "Отменить",
     "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",
     "power_down_line": "Вы запустили понижение силы голоса на **%(all)s GOLOS** (**%(done)s GOLOS** уже выплачено)",
-    "success": "Операция завершилась успешно"
+    "success": "Операция завершилась успешно",
+    "claim_balance": "Claim balance",
+    "claim_button": "Claim"
   },
   "welcome_page": {
     "about": {

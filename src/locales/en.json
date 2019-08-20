@@ -1129,7 +1129,9 @@
     "cancel": "Cancel",
     "next_power_down_date": "The next power down is scheduled to happen ",
     "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",
-    "success": "Operation completed successfully"
+    "success": "Operation completed successfully",
+    "claim_balance": "Claim balance",
+    "claim_button": "Claim"
   },
   "welcome_page": {
     "about": {
