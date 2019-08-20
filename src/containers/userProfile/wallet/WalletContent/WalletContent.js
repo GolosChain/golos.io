@@ -1,14 +1,17 @@
-/* eslint-disable no-plusplus, no-console, consistent-return */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
 import Head from 'next/head';
 import styled from 'styled-components';
+import { ToggleFeature } from '@flopflip/react-redux';
 
 import { visuallyHidden } from 'helpers/styles';
 import Card from 'components/golos-ui/Card';
 import WalletShow from 'components/userProfile/WalletShow';
 import PowerDownLine from 'components/wallet/PowerDownLine';
+import ClaimLine from 'components/wallet/ClaimLine';
+
+import { CLAIM_TOKENS } from 'shared/feature-flags';
 
 const Header = styled.h1`
   ${visuallyHidden};
@@ -55,7 +58,10 @@ export default class WalletContent extends Component {
           </title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
-        {<PowerDownLine userId={userId} />}
+        <PowerDownLine userId={userId} />
+        <ToggleFeature flag={CLAIM_TOKENS}>
+          <ClaimLine userId={userId} />
+        </ToggleFeature>
         {this.renderContent()}
       </Card>
     );

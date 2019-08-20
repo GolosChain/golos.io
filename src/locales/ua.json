@@ -1028,7 +1028,9 @@
     "cancel": "Отменить",
     "next_power_down_date": "Наступне зниження Сили заплановано ",
     "power_down_line": "Ви запустили зниження Сили Голосу на **%(all)s GOLOS** (**%(done)s GOLOS** вже виплачено)",
-    "success": "Операція завершилася успішно"
+    "success": "Операція завершилася успішно",
+    "claim_balance": "Claim balance",
+    "claim_button": "Claim"
   },
   "welcome_page": {
     "about": {
