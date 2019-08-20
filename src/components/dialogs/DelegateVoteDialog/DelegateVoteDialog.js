@@ -75,7 +75,7 @@ const ErrorLine = styled.div`
 
 export default class DelegateVoteDialog extends PureComponent {
   static propTypes = {
-    validator: PropTypes.string.isRequired,
+    recipientName: PropTypes.string.isRequired,
     amount: PropTypes.string,
 
     cyberBalance: PropTypes.string.isRequired,
@@ -87,10 +87,10 @@ export default class DelegateVoteDialog extends PureComponent {
   constructor(props) {
     super(props);
 
-    let validator = '';
+    let recipientName = '';
 
-    if (props.validator) {
-      validator = props.validator;
+    if (props.recipientName) {
+      recipientName = props.recipientName;
     }
 
     let amount = '';
@@ -100,7 +100,7 @@ export default class DelegateVoteDialog extends PureComponent {
     }
 
     this.state = {
-      validator,
+      recipientName,
       amount,
       currency: CURRENCIES.CYBER.id,
       amountInFocus: false,
@@ -140,7 +140,7 @@ export default class DelegateVoteDialog extends PureComponent {
 
   onOkClick = async () => {
     const { delegateVote, onClose } = this.props;
-    const { validator, amount, currency, loader, disabled } = this.state;
+    const { recipientName, amount, currency, loader, disabled } = this.state;
 
     if (loader || disabled) {
       return;
@@ -153,7 +153,7 @@ export default class DelegateVoteDialog extends PureComponent {
     });
 
     try {
-      await delegateVote(validator, `${tokensAmount} ${currency}`);
+      await delegateVote(recipientName, `${tokensAmount} ${currency}`);
       displaySuccess(tt('dialogs_transfer.delegatevote.transfer_success'));
       this.unblockDialog();
       onClose();

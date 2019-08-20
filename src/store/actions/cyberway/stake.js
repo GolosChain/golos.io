@@ -4,7 +4,7 @@ import { currentUserIdSelector } from 'store/selectors/auth';
 
 const CONTRACT_NAME = 'cyberStake';
 
-export const delegateVote = (validator, quantity) => async (dispatch, getState) => {
+export const delegateVote = (recipientName, quantity) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -17,7 +17,7 @@ export const delegateVote = (validator, quantity) => async (dispatch, getState) 
       method: 'delegatevote',
       params: {
         grantor_name: userId,
-        recipient_name: validator,
+        recipient_name: recipientName,
         quantity,
       },
     },

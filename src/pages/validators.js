@@ -203,11 +203,11 @@ export default class ValidatorsPage extends PureComponent {
     }
   }
 
-  onDelegateVoteClick = validator => () => {
+  onDelegateVoteClick = recipientName => () => {
     DialogManager.showDialog({
       component: DelegateVoteDialog,
       props: {
-        validator,
+        recipientName,
       },
     });
   };
