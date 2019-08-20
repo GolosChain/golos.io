@@ -61,7 +61,7 @@ export default class ContactSettings extends PureComponent {
   };
 
   onSaveClick = async () => {
-    const { data, setParams, waitForTransaction, onClose } = this.props;
+    const { data, setParams, setChargeRestorer, waitForTransaction, onClose } = this.props;
     const { updates, symbol } = this.state;
 
     this.setState({
@@ -71,13 +71,20 @@ export default class ContactSettings extends PureComponent {
     const { contractName } = data;
 
     try {
-      let params = null;
+      let transaction_id;
 
-      if (contractName === 'vesting') {
-        params = { symbol };
+      if (updates.setrestorer) {
+        ({ transaction_id } = await setChargeRestorer(updates.setrestorer));
+      } else {
+        let params = null;
+
+        if (contractName === 'vesting') {
+          params = { symbol };
+        }
+
+        ({ transaction_id } = await setParams({ contractName, updates, params }));
       }
 
-      const { transaction_id } = await setParams({ contractName, updates, params });
       displaySuccess(tt('g.saved'));
       onClose();
       await waitForTransaction(transaction_id);
