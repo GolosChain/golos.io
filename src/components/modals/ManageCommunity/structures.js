@@ -27,6 +27,8 @@ import VestingWithdraw from './structures/vesting/VestingWithdraw';
 import VestingAmount from './structures/vesting/VestingAmount';
 import VestingDelegation from './structures/vesting/VestingDelegation';
 
+import SetRestorer from './structures/charge/SetRestorer';
+
 export const STRUCTURES = {
   publish: {
     st_max_vote_changes: MaxVoteChanges,
@@ -63,5 +65,8 @@ export const STRUCTURES = {
     vesting_amount: VestingAmount,
     vesting_delegation: VestingDelegation,
     vesting_bwprovider: BwProvider,
+  },
+  charge: {
+    setrestorer: SetRestorer,
   },
 };

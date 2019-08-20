@@ -172,4 +172,21 @@ export const CONTRACTS = [
       },
     ],
   },
+  {
+    contractName: 'charge',
+    structures: [
+      {
+        name: 'setrestorer',
+        title: 'restorer',
+        fields: {
+          token_code: 'Token',
+          charge_id: 'Charge Id',
+          func_str: 'Func',
+          max_prev: 'Max prev',
+          max_vesting: 'Max vesting',
+          max_elapsed: 'Max elapsed',
+        },
+      },
+    ],
+  },
 ];

@@ -11,6 +11,8 @@ import {
 } from 'store/constants';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
+const DEFAULT_PROPOSAL_EXPIRES = 2592000; // в секундах (2592000 = 30 суток)
+
 function generateRandomProposalName() {
   const numbers = [];
 
@@ -61,13 +63,7 @@ export const createPropose = ({
   });
 };
 
-export const setParams = ({ contractName, updates, params }) => async (dispatch, getState) => {
-  const userId = currentUserIdSelector(getState());
-
-  if (!userId) {
-    throw new Error('Unauthorized');
-  }
-
+async function getTopLeaders(dispatch) {
   const results = await dispatch({
     [CALL_GATE]: {
       method: 'content.getLeadersTop',
@@ -78,16 +74,26 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
     },
   });
 
-  const requestedAuth = results.items.map(({ userId }) => ({
+  return results.items.map(({ userId }) => ({
     actor: userId,
     permission: 'active',
   }));
+}
+
+export const setParams = ({ contractName, updates, params }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
 
   const structures = toPairs(updates);
 
   if (structures.length === 0) {
     throw new Error('No changes');
   }
+
+  const requestedAuth = await getTopLeaders(dispatch);
 
   return await dispatch(
     createPropose({
@@ -100,7 +106,29 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
         params: structures,
       },
       requested: requestedAuth,
-      expires: 2592000, // в секундах (2592000 = 30 суток)
+      expires: DEFAULT_PROPOSAL_EXPIRES,
+    })
+  );
+};
+
+export const setChargeRestorer = params => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const requestedAuth = await getTopLeaders(dispatch);
+
+  return await dispatch(
+    createPropose({
+      contract: 'charge',
+      method: 'setrestorer',
+      actor: 'gls.charge',
+      permission: 'active',
+      params,
+      requested: requestedAuth,
+      expires: DEFAULT_PROPOSAL_EXPIRES,
     })
   );
 };

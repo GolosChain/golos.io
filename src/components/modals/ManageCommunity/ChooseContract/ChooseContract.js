@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { CONTRACTS } from 'constants/setParamsStructures';
 import Button from 'components/golos-ui/Button';
 
-import { CONTRACTS } from 'constants/setParamsStructures';
 import { STEPS } from '../ManageCommunity';
 
 const Wrapper = styled.div`
