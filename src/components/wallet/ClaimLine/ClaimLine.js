@@ -67,7 +67,7 @@ const Root = styled.div`
   }
 `;
 
-export default class PowerDownLine extends Component {
+export default class ClaimLine extends Component {
   static propTypes = {
     // connect
     isOwner: PropTypes.bool.isRequired,
