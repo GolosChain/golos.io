@@ -569,7 +569,7 @@
   "navigation": {
     "about": "Про проект",
     "buy_LIQUID_TOKEN": "Купити %(LIQUID_TOKEN)s",
-    "delegates": "Делегати",
+    "leaders": "Лідери",
     "validators": "Валідатори",
     "explore": "Дослідити",
     "faq": "Часті питання",
@@ -1090,7 +1090,7 @@
     "witness": "Делегати",
     "witness_deactive": "Делегат призупинив підпис блоків",
     "witness_proxy_set": "Установить прокси",
-    "witness_thread": "пост делегата",
+    "witness_thread": "пост лідера",
     "you_can_vote_for_maximum_of_witnesses": "Ви можете голосувати максимум за 30 делегатів",
     "you_have_votes_remaining": "У Вас залишилося ",
     "you_have_votes_remaining_count": {
