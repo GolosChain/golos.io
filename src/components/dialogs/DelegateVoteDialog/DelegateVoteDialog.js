@@ -75,7 +75,7 @@ const ErrorLine = styled.div`
 
 export default class DelegateVoteDialog extends PureComponent {
   static propTypes = {
-    recipientName: PropTypes.string.isRequired,
+    validator: PropTypes.string.isRequired,
     amount: PropTypes.string,
 
     cyberBalance: PropTypes.string.isRequired,
@@ -89,8 +89,8 @@ export default class DelegateVoteDialog extends PureComponent {
 
     let validator = '';
 
-    if (props.recipientName) {
-      validator = props.recipientName;
+    if (props.validator) {
+      validator = props.validator;
     }
 
     let amount = '';

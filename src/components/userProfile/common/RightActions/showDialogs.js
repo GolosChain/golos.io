@@ -2,7 +2,6 @@ import DialogManager from 'components/elements/common/DialogManager';
 import TransferDialog from 'components/dialogs/TransferDialog';
 import DelegateDialog from 'components/dialogs/DelegateDialog';
 import ConvertDialog from 'components/dialogs/ConvertDialog';
-import DelegateVoteDialog from 'components/dialogs/DelegateVoteDialog';
 
 import { showLoginModal } from 'store/actions/modals/index';
 import { displayError } from 'utils/toastMessages';
@@ -56,18 +55,6 @@ export function openConvertDialog() {
     DialogManager.showDialog({
       component: ConvertDialog,
       props: {},
-      onClose: resolve,
-    });
-  });
-}
-
-export async function openDelegateVoteDialog(recipientName = '') {
-  return new Promise(resolve => {
-    DialogManager.showDialog({
-      component: DelegateVoteDialog,
-      props: {
-        recipientName,
-      },
       onClose: resolve,
     });
   });

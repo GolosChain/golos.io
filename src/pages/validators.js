@@ -10,6 +10,8 @@ import { fetchProfile } from 'store/actions/gate';
 import WitnessHeader from 'components/witness/WitnessHeader';
 import { openDelegateVoteDialog } from 'components/userProfile/common/RightActions/showDialogs';
 import Icon from '../components/golos-ui/Icon/Icon';
+import DialogManager from '../components/elements/common/DialogManager';
+import DelegateVoteDialog from '../components/dialogs/DelegateVoteDialog/DelegateVoteDialog.connect';
 
 export const lineTemplate = '270px 70px minmax(360px, auto)';
 
@@ -187,8 +189,6 @@ export default class ValidatorsPage extends PureComponent {
         signKey: producer.block_signing_key,
       }));
 
-      console.log(data.active);
-
       const profilesPromises = data.active.producers.map(async producer => {
         return await fetchProfile(producer.producer_name);
       });
@@ -204,8 +204,13 @@ export default class ValidatorsPage extends PureComponent {
     }
   }
 
-  onDelegateVoteClick = userId => async () => {
-    await openDelegateVoteDialog(userId);
+  onDelegateVoteClick = validator => () => {
+    DialogManager.showDialog({
+      component: DelegateVoteDialog,
+      props: {
+        validator,
+      },
+    });
   };
 
   render() {
