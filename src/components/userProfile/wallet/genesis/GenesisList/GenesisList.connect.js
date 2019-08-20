@@ -1,23 +1,18 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
 
 import { dataSelector } from 'store/selectors/common';
 import { getGenesisConversions } from 'store/actions/gate';
 import GenesisList from './GenesisList';
 
-export default compose(
-  withRouter,
-  connect(
-    (state, { userId }) => {
-      const genesis = dataSelector(['wallet', 'users', userId, 'genesis'])(state);
-      return {
-        isLoading: Boolean(genesis?.isLoading),
-        items: genesis?.items || [],
-      };
-    },
-    {
-      getGenesisConversions,
-    }
-  )
+export default connect(
+  (state, { userId }) => {
+    const genesis = dataSelector(['wallet', 'users', userId, 'genesis'])(state);
+    return {
+      isLoading: Boolean(genesis?.isLoading),
+      items: genesis?.items || [],
+    };
+  },
+  {
+    getGenesisConversions,
+  }
 )(GenesisList);

@@ -65,7 +65,7 @@ export default class Profile extends PureComponent {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
-    let user = {};
+    let user = null;
 
     try {
       user = await store.dispatch(fetchProfile(query.userId));
@@ -76,7 +76,7 @@ export default class Profile extends PureComponent {
     }
 
     return {
-      userId: user.userId,
+      userId: user?.userId,
     };
   }
 
