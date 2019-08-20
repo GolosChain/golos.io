@@ -107,7 +107,7 @@ function RewardLine({ reward }) {
       <Line>
         <LineIcon name={icon} color={color} />
         <Who>
-          <RewardContentLink contentId={contentId} />
+          {contentId ? <RewardContentLink contentId={contentId} /> : null}
           <WhoBottom>
             <TimeStamp>
               <TimeAgoWrapper date={timestamp} />

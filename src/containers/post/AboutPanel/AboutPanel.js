@@ -157,14 +157,15 @@ export default class AboutPanel extends Component {
       return null;
     }
 
+    const authorId = profile?.username || author;
+
     return (
       <Wrapper>
         <Avatar>
           <Userpic userId={author} size={50} ariaLabel={tt('aria_label.avatar')} />
           <AuthorInfo>
-            {/*<AuthorName>{name}</AuthorName>*/}
-            <Link route="profile" params={{ userId: author }} passHref>
-              <Account aria-label={tt('aria_label.username')}>@{profile.username}</Account>
+            <Link route="profile" params={{ userId: authorId }} passHref>
+              <Account aria-label={tt('aria_label.username')}>@{authorId}</Account>
             </Link>
           </AuthorInfo>
           <Divider />

@@ -83,21 +83,25 @@ export default class VotersDialog extends PureComponent {
 
   renderUsers = () => {
     const { users, currentUserId, onClose } = this.props;
-    return users.map(({ name, userId, avatar, percent, isSubscribed }) => (
-      <UserItem key={name}>
-        <UserLink userId={userId} title={name} onClick={onClose}>
-          <Avatar avatarUrl={avatar} />
-          <Name>{name}</Name>
-        </UserLink>
-        <Percent>{Math.round(percent)}%</Percent>
-        {/* TODO: uncomment when hasSubscription flag will be added
+    return users.map(({ name, userId, avatar, percent, isSubscribed }) => {
+      const user = name || userId;
+
+      return (
+        <UserItem key={name}>
+          <UserLink userId={user} title={user} onClick={onClose}>
+            <Avatar avatarUrl={avatar} />
+            <Name>{user}</Name>
+          </UserLink>
+          <Percent>{Math.round(percent)}%</Percent>
+          {/* TODO: uncomment when hasSubscription flag will be added
         {userId !== currentUserId ? (
           <Follow userId={userId} collapseOnMobile isFollow={hasSubscription} />
         ) : ( */}
-        <EmptyBlockLikeFollow />
-        {/* )} */}
-      </UserItem>
-    ));
+          <EmptyBlockLikeFollow />
+          {/* )} */}
+        </UserItem>
+      );
+    });
   };
 
   render() {

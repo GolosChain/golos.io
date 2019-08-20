@@ -195,6 +195,8 @@ export default class PopoverBody extends Component {
       reputation = repLog10(stats.reputation);
     }
 
+    const profileId = username || userId;
+
     return (
       <Wrapper className={className}>
         <ClosePopoverButton aria-label={tt('aria_label.close_button')} onClick={closePopover}>
@@ -202,13 +204,13 @@ export default class PopoverBody extends Component {
         </ClosePopoverButton>
         <Block>
           <AuthorTitle>
-            <Link route="profile" params={{ userId }} passHref>
+            <Link route="profile" params={{ userId: profileId }} passHref>
               <AuthorInfoBlock>
-                <AuthorName>{personal.name || username || userId}</AuthorName>
-                <AuthorAccount aria-label={tt('aria_label.username')}>@{userId}</AuthorAccount>
+                <AuthorName>{personal.name || profileId}</AuthorName>
+                <AuthorAccount aria-label={tt('aria_label.username')}>@{profileId}</AuthorAccount>
               </AuthorInfoBlock>
             </Link>
-            <Link route="profile" params={{ userId }} passHref>
+            <Link route="profile" params={{ userId: profileId }} passHref>
               <AvatarLink aria-label={tt('aria_label.avatar')} rating={reputation}>
                 <Userpic userId={userId} size={USER_ICON_SIZE} />
               </AvatarLink>
