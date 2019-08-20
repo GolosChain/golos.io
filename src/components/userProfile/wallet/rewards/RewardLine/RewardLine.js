@@ -1,11 +1,11 @@
 import React from 'react';
-import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
+
 import RewardContentLink from '../RewardContentLink';
 
 const Root = styled.div`
@@ -83,7 +83,7 @@ const Currency = styled.div`
   overflow: hidden;
 `;
 
-function RewardLine({ reward }) {
+export default function RewardLine({ reward }) {
   const { trxId, timestamp, tokenType, type, contentId, quantity } = reward;
   const color = '#f57c02';
 
@@ -107,7 +107,7 @@ function RewardLine({ reward }) {
       <Line>
         <LineIcon name={icon} color={color} />
         <Who>
-          <RewardContentLink contentId={contentId} />
+          {contentId ? <RewardContentLink contentId={contentId} /> : null}
           <WhoBottom>
             <TimeStamp>
               <TimeAgoWrapper date={timestamp} />
@@ -123,5 +123,3 @@ function RewardLine({ reward }) {
     </Root>
   );
 }
-
-export default withRouter(RewardLine);
