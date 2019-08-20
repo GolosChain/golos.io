@@ -1150,7 +1150,7 @@
   },
   "currency": {
     "errors": {
-      "three_rounding": "Можна використовувати тільки 3 знаки після коми",
+      "three_rounding": "Можна використовувати тільки %(decs)s знаки після коми",
       "wrong_format": "Неправильний формат",
       "insufficient_funds": "Недостатньо коштів",
       "enter_amount": "Введіть суму"

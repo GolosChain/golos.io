@@ -1279,7 +1279,7 @@
   },
   "currency": {
     "errors": {
-      "three_rounding": "Only 3 decimal places allowed",
+      "three_rounding": "Only %(decs)s decimal places allowed",
       "wrong_format": "Invalid format",
       "insufficient_funds": "Insufficient funds",
       "enter_amount": "Enter amount"

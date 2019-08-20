@@ -30,7 +30,7 @@ export function parseAmount(amount, balance, isFinal, decs = 3) {
   const match = amountFixed.match(/\.(\d+)/);
 
   if (match && match[1].length > decs) {
-    error = tt('currency.errors.three_rounding');
+    error = tt('currency.errors.three_rounding', { decs });
   } else if (!/^\d*(?:\.\d*)?$/.test(amountFixed)) {
     error = tt('currency.errors.wrong_format');
   } else if (amountValue && amountValue > balance) {
