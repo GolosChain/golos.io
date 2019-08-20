@@ -112,9 +112,10 @@ export const getSubscribers = ({ userId, sequenceKey } = {}) => {
   };
 };
 
-export const getNotifyMeta = ({ contentId }) => {
+export const getNotifyMeta = ({ contentId, userId }) => {
   const params = {
     contentId,
+    userId,
   };
 
   return {

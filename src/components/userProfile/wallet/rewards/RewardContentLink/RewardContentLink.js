@@ -36,7 +36,7 @@ export default class RewardContentLink extends Component {
 
     if (!contentMeta && contentId) {
       try {
-        await getNotifyMeta({ contentId });
+        await getNotifyMeta({ contentId, userId: contentId.userId });
       } catch (err) {
         // eslint-disable-next-line no-console
         console.warn(`Unable to load content:`, contentId);
@@ -54,10 +54,13 @@ export default class RewardContentLink extends Component {
 
   renderPostLink() {
     const {
-      contentMeta: { post },
+      contentMeta: { post, user },
     } = this.props;
 
-    const href = `/@${formatContentId(post.contentId)}`;
+    const href = `/@${formatContentId({
+      userId: user.username || post.contentId.userId,
+      permlink: post.contentId.permlink,
+    })}`;
 
     if (post.title) {
       return (

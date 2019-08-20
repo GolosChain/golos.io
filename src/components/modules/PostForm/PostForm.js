@@ -491,6 +491,7 @@ export default class PostForm extends React.Component {
       waitForTransaction,
     } = this.props;
     const { tags } = this.state;
+    const { currentUser } = this.props;
 
     if (!data) {
       return;
@@ -565,7 +566,7 @@ export default class PostForm extends React.Component {
         }
 
         Router.pushRoute('post', {
-          userId: author,
+          userId: currentUser?.username || author,
           permlink: data.permlink,
         });
       }
