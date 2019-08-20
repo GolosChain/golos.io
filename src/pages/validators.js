@@ -216,8 +216,6 @@ export default class ValidatorsPage extends PureComponent {
     const { profiles } = this.props;
     const { producers, producersUpdateTime } = this.state;
 
-    const validatorId = profiles[producer.id]?.username || producer.id;
-
     return (
       <WrapperForBackground>
         <Wrapper>
@@ -235,26 +233,30 @@ export default class ValidatorsPage extends PureComponent {
               <TableHeadItem />
               <TableHeadItem>{tt('validators_jsx.public_key')}</TableHeadItem>
             </TableHead>
-            {producers.map((producer, index) => (
-              <WrapperLine collapsed>
-                <WitnessNumberAndName>
-                  <div>{index}</div>
-                  <Link route="profile" params={{ userId: validatorId }}>
-                    <a>{validatorId}</a>
-                  </Link>
-                </WitnessNumberAndName>
-                <VoteButtonCeil>
-                  <VoteButton
-                    // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
-                    // upvoted={item.hasVote ? 1 : 0}
-                    onClick={this.onDelegateVoteClick(producer.id)}
-                  >
-                    <Icon name="witness-logo" size="16" />
-                  </VoteButton>
-                </VoteButtonCeil>
-                <WitnessInfoCeil>{producer.signKey}</WitnessInfoCeil>
-              </WrapperLine>
-            ))}
+            {producers.map((producer, index) => {
+              const validatorId = profiles[producer.id]?.username || producer.id;
+
+              return (
+                <WrapperLine collapsed>
+                  <WitnessNumberAndName>
+                    <div>{index}</div>
+                    <Link route="profile" params={{ userId: validatorId }}>
+                      <a>{validatorId}</a>
+                    </Link>
+                  </WitnessNumberAndName>
+                  <VoteButtonCeil>
+                    <VoteButton
+                      // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
+                      // upvoted={item.hasVote ? 1 : 0}
+                      onClick={this.onDelegateVoteClick(producer.id)}
+                    >
+                      <Icon name="witness-logo" size="16" />
+                    </VoteButton>
+                  </VoteButtonCeil>
+                  <WitnessInfoCeil>{producer.signKey}</WitnessInfoCeil>
+                </WrapperLine>
+              );
+            })}
           </TableWrapper>
         </Wrapper>
       </WrapperForBackground>
