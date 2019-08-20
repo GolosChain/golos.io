@@ -401,6 +401,10 @@ export default class ConvertDialog extends PureComponent {
       balanceByType = type === TYPES.STAKE ? stakedBalance : cyberBalance;
     }
 
+    balanceByType = balanceByType.toFixed(
+      convertType === CONVERT_TYPE.CYBER ? CURRENCIES.CYBER.decs : CURRENCIES.GOLOS.decs
+    );
+
     return (
       <DialogFrameStyled
         title={tt('dialogs_transfer.convert.title')}
