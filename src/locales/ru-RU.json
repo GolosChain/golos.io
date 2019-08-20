@@ -266,6 +266,13 @@
       "transfer": "Перевести",
       "transfer_button": "Передать",
       "withdraw": "Вывести"
+    },
+    "delegatevote": {
+      "title": "Проголосовать за валидатора",
+      "tip": "Переводя желаемое количество CYBER вы поднимаете его позицию",
+      "transfer_button": "Передать",
+      "transfer_success": "Перевод успешно совершен!",
+      "transfer_failed": "Перевод не удался!"
     }
   },
   "editor_toolbar": {

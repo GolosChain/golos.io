@@ -173,6 +173,7 @@ export default class CardsList extends PureComponent {
     if (layout === 'compact') {
       return <PostCardCompact {...props} />;
     }
+
     return <PostCard postInFeed={!isProfile} {...props} />;
   };
 
@@ -197,6 +198,7 @@ export default class CardsList extends PureComponent {
         </ColumnsContainer>
       );
     }
+
     return items.map(this.renderCard);
   }
 
