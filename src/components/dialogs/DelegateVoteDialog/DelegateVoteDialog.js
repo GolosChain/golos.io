@@ -165,9 +165,9 @@ export default class DelegateVoteDialog extends PureComponent {
 
   confirmClose() {
     const { onClose } = this.props;
-    const { validator, amount } = this.state;
+    const { recipientName, amount } = this.state;
 
-    if (validator || amount.trim()) {
+    if (recipientName || amount.trim()) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
           onClose();
@@ -188,7 +188,7 @@ export default class DelegateVoteDialog extends PureComponent {
 
   render() {
     const { cyberBalance } = this.props;
-    const { validator, amount, currency, loader, disabled, amountInFocus } = this.state;
+    const { recipientName, amount, currency, loader, disabled, amountInFocus } = this.state;
 
     const buttons = [
       {
@@ -204,7 +204,7 @@ export default class DelegateVoteDialog extends PureComponent {
 
     const { value, error } = parseAmount(amount, availableBalance, !amountInFocus);
 
-    const allow = validator && value > 0 && !error && !loader && !disabled;
+    const allow = recipientName && value > 0 && !error && !loader && !disabled;
 
     return (
       <DialogFrameStyled
@@ -237,7 +237,7 @@ export default class DelegateVoteDialog extends PureComponent {
                   autoFocus={false}
                   disabled
                   placeholder={tt('dialogs_transfer.to_placeholder')}
-                  value={validator}
+                  value={recipientName}
                 />
               </Section>
             </Column>
