@@ -9,6 +9,23 @@ import CollapsingBlock from 'components/golos-ui/CollapsingBlock';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 // import PieChart from 'components/common/PieChart';
 
+import { CURRENCIES } from 'shared/constants';
+
+const toPrecision = (type, amount) => {
+  if (amount === 0) {
+    return 0;
+  }
+  switch (type) {
+    case 'golos':
+    case 'power':
+    case 'unclaimed':
+      return amount.toFixed(CURRENCIES.GOLOS.decs);
+
+    default:
+      return amount.toFixed(CURRENCIES.CYBER.decs);
+  }
+};
+
 const Root = styled.div``;
 
 // const ChartBlock = styled.div`
@@ -236,7 +253,7 @@ export default class AccountTokens extends PureComponent {
         sum += value;
       }
 
-      label.value = sum.toFixed(3);
+      label.value = toPrecision(label.id, sum);
     }
 
     if (isLoading || !isAlreadyTryToLoad) {
@@ -245,20 +262,20 @@ export default class AccountTokens extends PureComponent {
 
     return (
       <Root>
-        {/*TODO: we can't sum this */}
-        {/*{golos || power || powerDelegated ? (*/}
-        {/*  <ChartBlock>*/}
-        {/*    <ChartWrapper>*/}
-        {/*      <PieChart*/}
-        {/*        parts={labels.map((label, i) => ({*/}
-        {/*          isBig: i === hoverIndex,*/}
-        {/*          value: parseFloat(label.value) / (label.rate || 1),*/}
-        {/*          color: label.color,*/}
-        {/*        }))}*/}
-        {/*      />*/}
-        {/*    </ChartWrapper>*/}
-        {/*  </ChartBlock>*/}
-        {/*) : null}*/}
+        {/* TODO: we can't sum this */}
+        {/* {golos || power || powerDelegated ? ( */}
+        {/*  <ChartBlock> */}
+        {/*    <ChartWrapper> */}
+        {/*      <PieChart */}
+        {/*        parts={labels.map((label, i) => ({ */}
+        {/*          isBig: i === hoverIndex, */}
+        {/*          value: parseFloat(label.value) / (label.rate || 1), */}
+        {/*          color: label.color, */}
+        {/*        }))} */}
+        {/*      /> */}
+        {/*    </ChartWrapper> */}
+        {/*  </ChartBlock> */}
+        {/* ) : null} */}
         <Labels>
           {labels.map((label, i) => (
             <CollapsingBlockStyled
@@ -281,7 +298,9 @@ export default class AccountTokens extends PureComponent {
                   <SubLabel key={index}>
                     <SubColorMark style={{ backgroundColor: label.color }} />
                     <LabelTitle>{subLabel.title}</LabelTitle>
-                    <LabelValue title={label.value}>{subLabel.value}</LabelValue>
+                    <LabelValue title={label.value}>
+                      {toPrecision(label.id, subLabel.value)}
+                    </LabelValue>
                   </SubLabel>
                 ))}
               </LabelBody>
