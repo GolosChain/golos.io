@@ -8,10 +8,9 @@ import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfile } from 'store/actions/gate';
 import WitnessHeader from 'components/witness/WitnessHeader';
-import { openDelegateVoteDialog } from 'components/userProfile/common/RightActions/showDialogs';
-import Icon from '../components/golos-ui/Icon/Icon';
-import DialogManager from '../components/elements/common/DialogManager';
-import DelegateVoteDialog from '../components/dialogs/DelegateVoteDialog/DelegateVoteDialog.connect';
+import Icon from 'components/golos-ui/Icon/Icon';
+import DialogManager from 'components/elements/common/DialogManager';
+import DelegateVoteDialog from 'components/dialogs/DelegateVoteDialog/DelegateVoteDialog.connect';
 
 export const lineTemplate = '270px 70px minmax(360px, auto)';
 
