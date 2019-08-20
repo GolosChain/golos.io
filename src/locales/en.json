@@ -205,7 +205,7 @@
         },
         "golos_gp": {
           "hint": "Delegation - transfer some amount of your Golos Power to other users account. Delegation can be canceled at any time.",
-          "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and delegates.",
+          "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and leaders.",
           "tip_2": "Golos Power cannot be transferred to other users, but you can delegate it",
           "tip_3": "The amount of Golos Power increases during storage.",
           "title": "Golos → Golos Power"
@@ -533,13 +533,12 @@
     "view_the_direct_parent": "View the direct parent",
     "view_the_full_context": "View the full context",
     "vote": "Vote",
-    "vote_currently_exists_user_must_be_indicate_a_to_reject_witness": "vote currently exists, user must be indicate a desire to reject witness",
     "votes": "votes",
     "voting_capacity": "Golos Power",
     "wallet": "Wallet",
     "warning": "warning",
     "with_the_tag": "with the tag ",
-    "witness": "witness",
+    "witness": "leader",
     "write_your_story": "Write your story",
     "yes": "Yes",
     "you_need_private_password_or_key_not_a_public_key": "You need a private password or key (not a public key)"
@@ -669,7 +668,7 @@
       "upvote": "Liked your post \"%(content)s\"",
       "upvote_comment": "Liked your comment \"%(content)s\"",
       "witnessCancelVote": "Has removed your voice from your delegate node",
-      "witnessVote": "Voted for you as a delegate"
+      "witnessVote": "Voted for you as a leader"
     },
     "online": {
       "curatorReward": "Curation reward of entry %(content)s %(amount)s 💸",
@@ -683,8 +682,8 @@
       "transfer": "%(user)s has transferred to your account %(amount)s 💸",
       "unsubscribe": "%(user)s unsubscribed from your blog 😔",
       "upvote": "%(user)s liked your entry %(content)s 👍",
-      "witnessCancelVote": "%(user)s has removed your voice from your delegate node 🙈",
-      "witnessVote": "%(user)s voted for you as a delegate 🔥"
+      "witnessCancelVote": "%(user)s has removed your voice from your leader node 🙈",
+      "witnessVote": "%(user)s voted for you as a leader 🔥"
     }
   },
   "notifications_menu": {
@@ -881,8 +880,8 @@
       "transfer": "Transfer",
       "unsubscribe": "Unsubscribe from blog",
       "vote": "Vote for",
-      "witnessCancelVote": "Cancel vote for witness",
-      "witnessVote": "Vote for witness"
+      "witnessCancelVote": "Cancel vote for leader",
+      "witnessVote": "Vote for leader"
     },
     "private_post_display_settings": "Private Post Display Settings",
     "profile_about": "About",
@@ -1184,7 +1183,7 @@
     "create_account_min_golos_fee": "Create account min golos fee",
     "curation_reward_curve": "Curation reward curve",
     "custom_ops_bandwidth_multiplier": "Custom ops bandwidth multiplier",
-    "if_you_want_to_vote_outside_of_top_enter_account_name": "If you would like to vote for a witness outside of the top 100, enter the account name below to cast a vote",
+    "if_you_want_to_vote_outside_of_top_enter_account_name": "If you would like to vote for a leader outside of the top 100, enter the account name below to cast a vote",
     "information": "Information",
     "last_block1": "Last",
     "last_block2": "block",
@@ -1208,31 +1207,31 @@
     "reg_fee": "Registration fee",
     "remove_vote": "Remove vote",
     "sbg_interest_rate": "SBD interest rate",
-    "top_witnesses": "Witness Voting",
+    "top_witnesses": "Leaders Top",
     "version": "Version",
     "vote": "Vote for",
     "votes_per_window": "Votes per window",
     "votes_window": "Votes window",
-    "witness": "Witness",
-    "witness_deactive": "Withness suspended the signature of the blocks",
+    "witness": "Leader",
+    "witness_deactive": "Leader suspended the signature of the blocks",
     "witness_proxy_set": "Set proxy",
     "witness_thread": "leader thread",
-    "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 witnesses",
+    "you_can_vote_for_maximum_of_witnesses": "You can vote for a maximum of 30 leaders",
     "you_have_votes_remaining": "",
     "you_have_votes_remaining_count": {
       "one": "You have 1 vote remaining",
       "other": "You have %(count)s votes remaining",
       "zero": "You have no votes remaining"
     },
-    "become": "Become a witness",
-    "stop": "Stop be a witness",
+    "become": "Become a leader",
+    "stop": "Stop be a leader",
     "manage": "Manage",
     "register_dialog": {
-      "title": "Register as witness",
-      "url": "Witness welcome post link"
+      "title": "Register as leader",
+      "url": "Leader welcome post link"
     },
     "tabs": {
-      "leaders": "Witness top",
+      "leaders": "Leaders top",
       "proposals": "Proposals list"
     }
   },
