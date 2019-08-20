@@ -493,8 +493,6 @@ export default class PostForm extends React.Component {
     const { tags } = this.state;
     const { currentUser } = this.props;
 
-    debugger;
-
     if (!data) {
       return;
     }
