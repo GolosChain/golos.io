@@ -1,5 +1,3 @@
-/* eslint-disable prefer-const */
-
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -7,13 +5,11 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
 
-import Shrink from 'components/golos-ui/Shrink';
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { processError } from 'helpers/dialogs';
 import { displayError } from 'utils/toastMessages';
 
-// import { MIN_VOICE_POWER } from 'constants/config';
 import { isBadActor } from 'utils/chainValidation';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
@@ -21,13 +17,21 @@ import { parseAmount } from 'helpers/currency';
 import { boldify } from 'helpers/text';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 
+import { CURRENCIES } from 'shared/constants';
 import AdditionalSection from './AdditionalSection';
 
 const POWER_TO_GOLOS_INTERVAL = 13; // weeks
 
+const CONVERT_TYPE = {
+  GOLOS: 'GOLOS',
+  CYBER: 'CYBER',
+};
+
 const TYPES = {
   GOLOS: 'GOLOS',
   POWER: 'POWER',
+  CYBER: 'CYBER',
+  STAKE: 'STAKE',
 };
 
 const DialogFrameStyled = styled(DialogFrame)`
@@ -105,16 +109,17 @@ const PowerDownText = styled.div`
 
 export default class ConvertDialog extends PureComponent {
   static propTypes = {
-    myAccount: PropTypes.shape({}),
-    globalProps: PropTypes.shape({}),
     toWithdraw: PropTypes.string,
     withdrawn: PropTypes.string,
     balance: PropTypes.number,
     powerBalance: PropTypes.number,
     currentUserId: PropTypes.string,
+    cyberBalance: PropTypes.number,
+    stakedBalance: PropTypes.number,
 
     onClose: PropTypes.func.isRequired,
     withdrawTokens: PropTypes.func.isRequired,
+    withdrawStake: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
     getBalance: PropTypes.func.isRequired,
     convertTokensToVesting: PropTypes.func.isRequired,
@@ -123,14 +128,15 @@ export default class ConvertDialog extends PureComponent {
   static defaultProps = {
     balance: 0,
     powerBalance: 0,
+    cyberBalance: 0,
+    stakedBalance: 0,
     currentUserId: '',
-    myAccount: {},
-    globalProps: {},
     toWithdraw: '',
     withdrawn: '',
   };
 
   state = {
+    convertType: CONVERT_TYPE.GOLOS,
     type: TYPES.GOLOS,
     recipient: '',
     amount: '',
@@ -204,6 +210,7 @@ export default class ConvertDialog extends PureComponent {
     const {
       currentUserId,
       withdrawTokens,
+      withdrawStake,
       transferToken,
       convertTokensToVesting,
       onClose,
@@ -219,13 +226,13 @@ export default class ConvertDialog extends PureComponent {
       disabled: true,
     });
 
-    const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
+    const tokensQuantity = parseFloat(amount.replace(/\s+/, ''));
 
     try {
       if (type === TYPES.GOLOS) {
         await transferToken(
           'gls.vesting',
-          tokensQuantity,
+          tokensQuantity.toFixed(CURRENCIES.GOLOS.decs),
           'GOLOS',
           `send to: ${saveTo ? recipient : currentUserId}`
         );
@@ -234,10 +241,22 @@ export default class ConvertDialog extends PureComponent {
         await withdrawTokens(convertedAmount.split(' ')[0]);
 
         ToastsManager.info(tt('dialogs_transfer.operation_started'));
+      } else if (type === TYPES.CYBER) {
+        await transferToken(
+          'cyber.stake',
+          tokensQuantity.toFixed(CURRENCIES.CYBER.decs),
+          'CYBER',
+          `${currentUserId}`
+        );
+      } else if (type === TYPES.STAKE) {
+        await withdrawStake(tokensQuantity.toFixed(CURRENCIES.CYBER.decs));
+        ToastsManager.info(tt('dialogs_transfer.operation_started'));
       }
+
       this.setState({
         loader: false,
       });
+
       onClose();
     } catch (err) {
       this.setState({
@@ -252,6 +271,15 @@ export default class ConvertDialog extends PureComponent {
   onClickType = type => {
     this.setState({
       type,
+      amount: '',
+      saveTo: false,
+    });
+  };
+
+  onConvertTypeClick = type => {
+    this.setState({
+      convertType: type,
+      type: TYPES[type],
       amount: '',
       saveTo: false,
     });
@@ -309,12 +337,30 @@ export default class ConvertDialog extends PureComponent {
   }
 
   render() {
-    const { balance, powerBalance, toWithdraw, withdrawn } = this.props;
-    const { recipient, amount, loader, disabled, amountInFocus, type, saveTo } = this.state;
+    const {
+      balance,
+      powerBalance,
+      toWithdraw,
+      withdrawn,
+      cyberBalance,
+      stakedBalance,
+    } = this.props;
+    const {
+      recipient,
+      amount,
+      loader,
+      disabled,
+      amountInFocus,
+      type,
+      saveTo,
+      convertType,
+    } = this.state;
 
     const TYPES_TRANSLATE = {
       GOLOS: tt('token_names.LIQUID_TOKEN'),
       POWER: tt('token_names.VESTING_TOKEN'),
+      CYBER: 'CYBER',
+      STAKE: 'CYBER STAKE',
     };
 
     let { value, error } = parseAmount(
@@ -348,6 +394,13 @@ export default class ConvertDialog extends PureComponent {
       footer = <HintLine>{hint}</HintLine>;
     }
 
+    let balanceByType;
+    if (convertType === CONVERT_TYPE.GOLOS) {
+      balanceByType = type === TYPES.POWER ? powerBalance : balance;
+    } else if (convertType === CONVERT_TYPE.CYBER) {
+      balanceByType = type === TYPES.STAKE ? stakedBalance : cyberBalance;
+    }
+
     return (
       <DialogFrameStyled
         title={tt('dialogs_transfer.convert.title')}
@@ -370,20 +423,48 @@ export default class ConvertDialog extends PureComponent {
         <Container>
           <DialogTypeSelect
             mobileColumn
-            activeId={type}
+            activeId={convertType}
             buttons={[
               {
-                id: TYPES.GOLOS,
-                title: tt('dialogs_transfer.convert.tabs.golos_gp.title'),
+                id: CONVERT_TYPE.GOLOS,
+                title: 'GOLOS',
               },
               {
-                id: TYPES.POWER,
-                title: tt('dialogs_transfer.convert.tabs.gp_golos.title'),
+                id: CONVERT_TYPE.CYBER,
+                title: 'CYBER',
               },
             ]}
+            onClick={this.onConvertTypeClick}
+          />
+          <DialogTypeSelect
+            mobileColumn
+            activeId={type}
+            buttons={
+              convertType === CONVERT_TYPE.GOLOS
+                ? [
+                    {
+                      id: TYPES.GOLOS,
+                      title: tt('dialogs_transfer.convert.tabs.golos_gp.title'),
+                    },
+                    {
+                      id: TYPES.POWER,
+                      title: tt('dialogs_transfer.convert.tabs.gp_golos.title'),
+                    },
+                  ]
+                : [
+                    {
+                      id: TYPES.CYBER,
+                      title: 'CYBER → STAKED',
+                    },
+                    {
+                      id: TYPES.STAKE,
+                      title: 'STAKED → CYBER',
+                    },
+                  ]
+            }
             onClick={this.onClickType}
           />
-          <SubHeader>{this.renderSubHeader()}</SubHeader>
+          {convertType === CONVERT_TYPE.GOLOS && <SubHeader>{this.renderSubHeader()}</SubHeader>}
           <Content>
             {toWithdraw && type === TYPES.POWER ? (
               <PowerDownText>
@@ -400,7 +481,7 @@ export default class ConvertDialog extends PureComponent {
                 <Label>{tt('dialogs_transfer.amount')}</Label>
                 <ComplexInput
                   placeholder={tt('dialogs_transfer.amount_placeholder', {
-                    amount: type === TYPES.POWER ? powerBalance : balance,
+                    amount: balanceByType,
                   })}
                   spellCheck="false"
                   value={amount}
@@ -412,7 +493,7 @@ export default class ConvertDialog extends PureComponent {
                 />
               </Section>
               <AdditionalSection
-                balance={type === TYPES.POWER ? powerBalance : balance}
+                balance={balanceByType}
                 type={type}
                 types={TYPES}
                 recipient={recipient}
