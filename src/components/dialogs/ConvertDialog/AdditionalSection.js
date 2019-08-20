@@ -80,6 +80,8 @@ export default function AdditionalSection({
           />
         </SliderWrapper>
       );
+    default:
+      return null;
   }
 }
 
