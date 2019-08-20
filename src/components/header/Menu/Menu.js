@@ -86,7 +86,7 @@ export default class Menu extends PureComponent {
     {
       link: '/~witnesses',
       icon: 'delegates',
-      text: tt('navigation.delegates'),
+      text: tt('navigation.leaders'),
       width: 22,
       height: 16,
     },
@@ -153,7 +153,7 @@ export default class Menu extends PureComponent {
     {
       link: '/~witnesses',
       icon: 'delegates',
-      text: tt('navigation.delegates'),
+      text: tt('navigation.leaders'),
       width: 22,
       height: 16,
     },

@@ -637,7 +637,7 @@
   "navigation": {
     "about": "About",
     "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
-    "delegates": "Delegates",
+    "leaders": "Leaders",
     "validators": "Validators",
     "explore": "Explore",
     "faq": "FAQ",

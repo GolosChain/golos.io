@@ -641,7 +641,7 @@
   "navigation": {
     "about": "О проекте",
     "buy_LIQUID_TOKEN": "Купить %(LIQUID_TOKEN)s",
-    "delegates": "Делегаты",
+    "leaders": "Лидеры",
     "validators": "Валидаторы",
     "explore": "Исследовать",
     "faq": "Частые вопросы",
