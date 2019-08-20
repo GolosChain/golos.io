@@ -23,8 +23,8 @@ const Header = styled.h1`
 `;
 
 export default class RepliesContent extends Component {
-  static async getInitialProps({ store, query }) {
-    const { userId } = query;
+  static async getInitialProps({ store, profileProps }) {
+    const { userId } = profileProps;
     try {
       await store.dispatch(
         fetchReplies({

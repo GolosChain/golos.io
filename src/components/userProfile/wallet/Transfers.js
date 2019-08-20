@@ -4,7 +4,7 @@ import { LinkTabsContent } from 'components/common/LinkTabs';
 
 import TransfersList from './transfers/TransfersList';
 
-function TransfersDirectionsTabs({ currency, sections, url, fullUrl }) {
+function TransfersDirectionsTabs({ currency, sections, url, fullUrl, userId }) {
   return (
     <LinkTabsContent
       url={url}
@@ -29,7 +29,7 @@ function TransfersDirectionsTabs({ currency, sections, url, fullUrl }) {
       ]}
       activeTab={sections[0] || 'all'}
     >
-      {tab => <TransfersList currency={currency} direction={tab.direction} />}
+      {tab => <TransfersList currency={currency} direction={tab.direction} userId={userId} />}
     </LinkTabsContent>
   );
 }

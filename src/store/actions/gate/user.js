@@ -12,7 +12,7 @@ import { userProfileSchema } from 'store/schemas/gate';
 // eslint-disable-next-line import/prefer-default-export
 export const fetchProfile = userId => dispatch => {
   const params = {
-    userId,
+    user: userId,
     app: 'gls',
   };
 

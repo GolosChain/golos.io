@@ -25,9 +25,7 @@ const EmptyBlock = styled.div`
 `;
 
 export default function RewardsList({
-  router: {
-    query: { userId },
-  },
+  userId,
   type,
   isLoading,
   items,

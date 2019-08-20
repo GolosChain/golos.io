@@ -11,7 +11,6 @@ import TextCut from 'components/common/TextCut';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Linkify from 'components/common/Linkify';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
-import { CURRENCY } from '../../Transfers';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -163,12 +162,7 @@ const CURRENCY_COLOR = {
   GOLOS: '#2879ff',
 };
 
-function TransferLine({
-  router: {
-    query: { userId },
-  },
-  transfer,
-}) {
+function TransferLine({ userId, transfer }) {
   const { memo, quantity, sym, receiver, sender, timestamp, trxId } = transfer;
 
   const samePerson = receiver.userId === sender.userId;

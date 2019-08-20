@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'next/router';
 
 import { CardContent } from 'components/golos-ui/Card';
 import { LinkTabsContent } from 'components/common/LinkTabs';
@@ -38,9 +39,10 @@ const TABS = [
   },
 ];
 
+@withRouter
 export default class WalletShow extends PureComponent {
   render() {
-    const { userId, isGenesisUser, sections } = this.props;
+    const { router, userId, isGenesisUser, sections } = this.props;
 
     let tabs = TABS;
 
@@ -52,7 +54,7 @@ export default class WalletShow extends PureComponent {
       <LinkTabsContent
         tabs={tabs}
         activeTab={sections[0] || 'transfers'}
-        url={`/@${userId}/wallet`}
+        url={`/@${router.query.userId}/wallet`}
       >
         {(tab, props) => (
           <CardContentStyled>

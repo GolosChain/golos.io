@@ -27,10 +27,10 @@ export default (tabs, defaultTab) => Comp =>
     static async getInitialProps({ query, store }) {
       const tab = tabs[query.section || defaultTab];
 
-      const [profileProps, tabProps] = await Promise.all([
-        Comp.getInitialProps({ query, store }),
-        tab ? getDynamicComponentInitialProps(tab.Component, { query, store }) : null,
-      ]);
+      const profileProps = await Comp.getInitialProps({ query, store });
+      const tabProps = tab
+        ? await getDynamicComponentInitialProps(tab.Component, { query, store, profileProps })
+        : null;
 
       return {
         ...profileProps,
