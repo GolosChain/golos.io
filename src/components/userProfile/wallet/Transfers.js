@@ -47,6 +47,10 @@ export default function Transfers({ userId, sections, url, fullUrl }) {
           id: 'golos',
           translation: 'user_wallet.tab_title.golos',
         },
+        {
+          id: 'cyber',
+          translation: 'user_wallet.tab_title.cyber',
+        },
       ]}
       activeTab={sections[0] || 'all'}
       url={url}
@@ -55,7 +59,7 @@ export default function Transfers({ userId, sections, url, fullUrl }) {
       {(tab, props) => (
         <TransfersDirectionsTabs
           userId={userId}
-          currency={tab.id === 'golos' ? 'GOLOS' : 'all'}
+          currency={tab.id === 'all' ? 'all' : tab.id.toUpperCase()}
           sections={sections.slice(1)}
           {...props}
         />

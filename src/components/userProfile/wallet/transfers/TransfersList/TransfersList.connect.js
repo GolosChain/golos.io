@@ -9,6 +9,7 @@ export default connect(
     const transfers = dataSelector(['wallet', 'users', userId, 'transfers', currency, direction])(
       state
     );
+
     return {
       isLoading: Boolean(transfers?.isLoading),
       items: transfers?.items || [],
