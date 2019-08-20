@@ -203,11 +203,12 @@ export default class ValidatorsPage extends PureComponent {
     }
   }
 
-  onDelegateVoteClick = recipientName => () => {
+  onDelegateVoteClick = (recipientName, recipientUsername) => () => {
     DialogManager.showDialog({
       component: DelegateVoteDialog,
       props: {
         recipientName,
+        recipientUsername,
       },
     });
   };
@@ -223,7 +224,11 @@ export default class ValidatorsPage extends PureComponent {
             title={tt('validators_jsx.validators')}
             subTitle={
               <div>
-                {tt('validators_jsx.last_update')} {new Date(producersUpdateTime).toLocaleString()}
+                {producersUpdateTime
+                  ? `${tt('validators_jsx.last_update')} ${new Date(
+                      producersUpdateTime
+                    ).toLocaleString()}`
+                  : null}
               </div>
             }
           />
@@ -237,9 +242,9 @@ export default class ValidatorsPage extends PureComponent {
               const validatorId = profiles[producer.id]?.username || producer.id;
 
               return (
-                <WrapperLine collapsed>
+                <WrapperLine collapsed key={producer.id}>
                   <WitnessNumberAndName>
-                    <div>{index}</div>
+                    <div>{index + 1}</div>
                     <Link route="profile" params={{ userId: validatorId }}>
                       <a>{validatorId}</a>
                     </Link>
@@ -248,7 +253,7 @@ export default class ValidatorsPage extends PureComponent {
                     <VoteButton
                       // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
                       // upvoted={item.hasVote ? 1 : 0}
-                      onClick={this.onDelegateVoteClick(producer.id)}
+                      onClick={this.onDelegateVoteClick(producer.id, validatorId)}
                     >
                       <Icon name="witness-logo" size="16" />
                     </VoteButton>
