@@ -363,11 +363,19 @@ export default class ConvertDialog extends PureComponent {
       STAKE: 'CYBER STAKE',
     };
 
-    let { value, error } = parseAmount(
-      amount,
-      type === TYPES.POWER ? powerBalance : balance,
-      !amountInFocus
-    );
+    const precision =
+      convertType === CONVERT_TYPE.CYBER ? CURRENCIES.CYBER.decs : CURRENCIES.GOLOS.decs;
+
+    let balanceByType;
+    if (convertType === CONVERT_TYPE.GOLOS) {
+      balanceByType = type === TYPES.POWER ? powerBalance : balance;
+    } else if (convertType === CONVERT_TYPE.CYBER) {
+      balanceByType = type === TYPES.STAKE ? stakedBalance : cyberBalance;
+    }
+
+    balanceByType = balanceByType.toFixed(precision);
+
+    let { value, error } = parseAmount(amount, balanceByType, !amountInFocus, precision);
     if (isBadActor(recipient)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }
@@ -393,17 +401,6 @@ export default class ConvertDialog extends PureComponent {
     } else if (hint) {
       footer = <HintLine>{hint}</HintLine>;
     }
-
-    let balanceByType;
-    if (convertType === CONVERT_TYPE.GOLOS) {
-      balanceByType = type === TYPES.POWER ? powerBalance : balance;
-    } else if (convertType === CONVERT_TYPE.CYBER) {
-      balanceByType = type === TYPES.STAKE ? stakedBalance : cyberBalance;
-    }
-
-    balanceByType = balanceByType.toFixed(
-      convertType === CONVERT_TYPE.CYBER ? CURRENCIES.CYBER.decs : CURRENCIES.GOLOS.decs
-    );
 
     return (
       <DialogFrameStyled
