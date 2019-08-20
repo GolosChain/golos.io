@@ -9,10 +9,10 @@ import SplashLoader from 'components/golos-ui/SplashLoader';
 import { parseAmount } from 'helpers/currency';
 import { processError } from 'helpers/dialogs';
 import { displaySuccess } from 'utils/toastMessages';
+import { Link } from 'shared/routes';
 
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
-import AccountNameInput from 'components/common/AccountNameInput';
 
 import { CURRENCIES } from 'shared/constants';
 
@@ -38,19 +38,7 @@ const SubHeader = styled.div`
 const Body = styled.div`
   display: flex;
   margin: 0 -10px;
-
-  @media (max-width: 640px) {
-    flex-direction: column;
-  }
-`;
-
-const Column = styled.div`
-  width: 288px;
-  padding: 0 10px;
-
-  @media (max-width: 640px) {
-    width: unset;
-  }
+  justify-content: center;
 `;
 
 const Section = styled.div`
@@ -76,9 +64,10 @@ const ErrorLine = styled.div`
 export default class DelegateVoteDialog extends PureComponent {
   static propTypes = {
     recipientName: PropTypes.string.isRequired,
+    recipientUsername: PropTypes.string.isRequired,
     amount: PropTypes.string,
 
-    cyberBalance: PropTypes.number.isRequired,
+    stakedBalance: PropTypes.number.isRequired,
 
     onClose: PropTypes.func.isRequired,
     delegateVote: PropTypes.func.isRequired,
@@ -181,7 +170,7 @@ export default class DelegateVoteDialog extends PureComponent {
   }
 
   render() {
-    const { cyberBalance } = this.props;
+    const { stakedBalance, recipientUsername } = this.props;
     const { recipientName, amount, currency, loader, disabled, amountInFocus } = this.state;
 
     const buttons = [
@@ -193,7 +182,7 @@ export default class DelegateVoteDialog extends PureComponent {
 
     const { value, error } = parseAmount(
       amount,
-      cyberBalance,
+      stakedBalance,
       !amountInFocus,
       CURRENCIES[currency].decs
     );
@@ -202,7 +191,14 @@ export default class DelegateVoteDialog extends PureComponent {
 
     return (
       <DialogFrameStyled
-        title={tt('dialogs_transfer.delegatevote.title')}
+        title={
+          <span>
+            {tt('dialogs_transfer.delegatevote.title')}{' '}
+            <Link route="profile" params={{ userId: recipientUsername }}>
+              {recipientUsername}
+            </Link>
+          </span>
+        }
         titleSize={20}
         icon="coins"
         buttons={[
@@ -222,37 +218,22 @@ export default class DelegateVoteDialog extends PureComponent {
         <Content>
           <SubHeader>{tt('dialogs_transfer.delegatevote.tip')}</SubHeader>
           <Body>
-            <Column>
-              <Section>
-                <Label>{tt('dialogs_transfer.to')}</Label>
-                <AccountNameInput
-                  block
-                  name="account"
-                  autoFocus={false}
-                  disabled
-                  placeholder={tt('dialogs_transfer.to_placeholder')}
-                  value={recipientName}
-                />
-              </Section>
-            </Column>
-            <Column>
-              <Section>
-                <Label>{tt('dialogs_transfer.amount')}</Label>
-                <ComplexInput
-                  placeholder={tt('dialogs_transfer.amount_placeholder', {
-                    amount: cyberBalance.toFixed(CURRENCIES[currency].decs),
-                  })}
-                  spellCheck="false"
-                  value={amount}
-                  autoFocus
-                  activeId={currency}
-                  buttons={buttons}
-                  onChange={this.onAmountChange}
-                  onFocus={this.onAmountFocus}
-                  onBlur={this.onAmountBlur}
-                />
-              </Section>
-            </Column>
+            <Section>
+              <Label>{tt('dialogs_transfer.amount')}</Label>
+              <ComplexInput
+                placeholder={tt('dialogs_transfer.amount_placeholder', {
+                  amount: stakedBalance.toFixed(CURRENCIES[currency].decs),
+                })}
+                spellCheck="false"
+                value={amount}
+                autoFocus
+                activeId={currency}
+                buttons={buttons}
+                onChange={this.onAmountChange}
+                onFocus={this.onAmountFocus}
+                onBlur={this.onAmountBlur}
+              />
+            </Section>
           </Body>
           <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>
         </Content>

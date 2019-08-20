@@ -268,7 +268,7 @@
     },
     "delegatevote": {
       "title": "Vote for validator",
-      "tip": "By transferring the desired amount of CYBER you raise his position",
+      "tip": "By transferring the desired amount of CYBER STAKE you raise his position",
       "transfer_button": "Transfer",
       "transfer_success": "Transfer successfully completed!",
       "transfer_failed": "Transfer failed!"
