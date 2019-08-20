@@ -174,6 +174,9 @@ function TransferLine({ userId, transfer }) {
 
   const memoIconText = null; // TODO
 
+  const senderId = sender.username || sender.userId;
+  const receiverId = receiver.username || receiver.userId;
+
   return (
     <Root>
       <Line>
@@ -183,16 +186,16 @@ function TransferLine({ userId, transfer }) {
             {isReceive ? (
               <>
                 {tt('user_wallet.content.from')}{' '}
-                <Link href={`/@${sender.userId}`} passHref>
-                  <WhoLink>@{sender.userId}</WhoLink>
+                <Link href={`/@${senderId}`} passHref>
+                  <WhoLink>@{senderId}</WhoLink>
                 </Link>
               </>
             ) : null}
             {isSent ? (
               <>
                 {tt('user_wallet.content.to')}{' '}
-                <Link href={`/@${receiver.userId}`} passHref>
-                  <WhoLink>@{receiver.userId}</WhoLink>
+                <Link href={`/@${receiverId}`} passHref>
+                  <WhoLink>@{receiverId}</WhoLink>
                 </Link>
               </>
             ) : null}
