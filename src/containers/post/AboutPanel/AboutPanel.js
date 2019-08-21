@@ -137,23 +137,27 @@ const FollowButton = styled(Follow)`
 
 export default class AboutPanel extends Component {
   static propTypes = {
-    post: PropTypes.object,
-    profile: PropTypes.object,
-    currentUsername: PropTypes.string,
+    post: PropTypes.shape({}).isRequired,
+    profile: PropTypes.shape({}).isRequired,
+    currentUserId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    currentUserId: undefined,
   };
 
   openDonateDialog = async () => {
-    const { post, currentUsername } = this.props;
-    await openTransferDialog(currentUsername, post.author, 'donate', `/${post.id}`);
+    const { post, currentUserId } = this.props;
+    await openTransferDialog(currentUserId, post.author, 'donate', `/${post.id}`);
   };
 
   render() {
-    const { post, profile, currentUsername } = this.props;
+    const { post, profile, currentUserId } = this.props;
     const { about, author } = post;
 
     const registrationTime = profile.registration.time;
 
-    if (currentUsername === author) {
+    if (currentUserId === author) {
       return null;
     }
 
