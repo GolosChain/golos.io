@@ -43,8 +43,13 @@ export default class Current extends Component {
   renderKeys = () => {
     const { publicKeys, profile } = this.props;
 
-    const { privateKey } = getAuth();
-    const keyPair = getKeyPair(privateKey);
+    const auth = getAuth();
+
+    if (!auth) {
+      return null;
+    }
+
+    const keyPair = getKeyPair(auth.privateKey);
 
     return authTypes.map(authType => {
       const pubKey = publicKeys[authType];
