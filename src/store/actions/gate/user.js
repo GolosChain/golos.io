@@ -27,6 +27,16 @@ export const fetchProfile = userId => dispatch => {
   });
 };
 
+export const suggestNames = text => ({
+  [CALL_GATE]: {
+    method: 'content.suggestNames',
+    params: {
+      text,
+      app: 'gls',
+    },
+  },
+});
+
 export const fetchChargers = userId => {
   const params = {
     userId,
