@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'next/router';
-import Link from 'next/link';
 import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -11,6 +10,7 @@ import TextCut from 'components/common/TextCut';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import Linkify from 'components/common/Linkify';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
+import TransferLink from '../TransferLink';
 
 const Root = styled.div`
   &:nth-child(even) {
@@ -43,13 +43,6 @@ const Who = styled.div`
 `;
 
 const WhoName = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const WhoLink = styled.a`
-  color: #333;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -185,18 +178,12 @@ function TransferLine({ userId, transfer }) {
           <WhoName>
             {isReceive ? (
               <>
-                {tt('user_wallet.content.from')}{' '}
-                <Link href={`/@${senderId}`} passHref>
-                  <WhoLink>@{senderId}</WhoLink>
-                </Link>
+                {tt('user_wallet.content.from')} <TransferLink user={senderId} />
               </>
             ) : null}
             {isSent ? (
               <>
-                {tt('user_wallet.content.to')}{' '}
-                <Link href={`/@${receiverId}`} passHref>
-                  <WhoLink>@{receiverId}</WhoLink>
-                </Link>
+                {tt('user_wallet.content.to')} <TransferLink user={receiverId} />
               </>
             ) : null}
           </WhoName>
