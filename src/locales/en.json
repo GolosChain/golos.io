@@ -1100,7 +1100,8 @@
       "sent": "Sent",
       "transaction_history": "Transaction History",
       "vesting_history": "Vesting History",
-      "genesis_history": "GOLOS Genesis"
+      "genesis_history": "GOLOS Genesis",
+      "claim": "Claim"
     }
   },
   "userkeys_jsx": {

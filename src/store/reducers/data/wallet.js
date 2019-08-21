@@ -17,6 +17,9 @@ import {
   FETCH_GENESIS_CONVERSIONS_SUCCESS,
   FETCH_GENESIS_CONVERSIONS_ERROR,
   FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS,
+  FETCH_CLAIM_HISTORY,
+  FETCH_CLAIM_HISTORY_SUCCESS,
+  FETCH_CLAIM_HISTORY_ERROR,
 } from 'store/constants';
 
 const initialState = {
@@ -190,6 +193,38 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS:
       return u.update(payload, state);
+
+    // Claim
+    case FETCH_CLAIM_HISTORY:
+      if (meta.sequenceKey) {
+        return u.updateIn(['users', meta.userId, 'claim'], { isLoading: true }, state);
+      }
+
+      return u.updateIn(
+        ['users', meta.userId, 'claim'],
+        {
+          isLoading: true,
+          claims: [],
+          sequenceKey: null,
+          isHistoryEnd: false,
+        },
+        state
+      );
+
+    case FETCH_CLAIM_HISTORY_SUCCESS:
+      return u.updateIn(
+        ['users', meta.userId, 'claim'],
+        {
+          isLoading: false,
+          claims: claims => [...claims, ...payload.claims],
+          sequenceKey: payload.sequenceKey || null,
+          isHistoryEnd: payload.claims.length < meta.limit,
+        },
+        state
+      );
+
+    case FETCH_CLAIM_HISTORY_ERROR:
+      return u.updateIn(['users', meta.userId, 'claim'], { isLoading: false }, state);
 
     default:
       return state;

@@ -9,6 +9,7 @@ import Transfers from '../wallet/Transfers';
 import Rewards from '../wallet/Rewards';
 import Vestings from '../wallet/Vestings';
 import Genesis from '../wallet/Genesis';
+import Claim from '../wallet/Claim';
 
 const CardContentStyled = styled(CardContent)`
   display: block;
@@ -31,6 +32,11 @@ const TABS = [
     id: 'vesting',
     translation: 'user_wallet.tab_title.vesting_history',
     Comp: Vestings,
+  },
+  {
+    id: 'claim',
+    translation: 'user_wallet.tab_title.claim',
+    Comp: Claim,
   },
   {
     id: 'genesis',

@@ -26,6 +26,9 @@ import {
   FETCH_VESTING_SUPPLY_AND_BALANCE,
   FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS,
   FETCH_VESTING_SUPPLY_AND_BALANCE_ERROR,
+  FETCH_CLAIM_HISTORY,
+  FETCH_CLAIM_HISTORY_SUCCESS,
+  FETCH_CLAIM_HISTORY_ERROR,
 } from 'store/constants';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
@@ -225,5 +228,26 @@ export const getVestingSupplyAndBalance = () => {
       method: 'wallet.getVestingSupplyAndBalance',
       params: {},
     },
+  };
+};
+
+export const getClaimHistory = ({ userId, sequenceKey = null }) => {
+  if (!userId) {
+    throw new Error('userId is required!');
+  }
+
+  const params = {
+    userId,
+    limit: 20,
+    sequenceKey,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_CLAIM_HISTORY, FETCH_CLAIM_HISTORY_SUCCESS, FETCH_CLAIM_HISTORY_ERROR],
+      method: 'wallet.getClaimHistory',
+      params,
+    },
+    meta: params,
   };
 };

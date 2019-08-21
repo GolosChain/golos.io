@@ -8,6 +8,9 @@ import {
   FETCH_VESTING_HISTORY,
   FETCH_VESTING_HISTORY_SUCCESS,
   FETCH_VESTING_HISTORY_ERROR,
+  FETCH_CLAIM_HISTORY,
+  FETCH_CLAIM_HISTORY_SUCCESS,
+  FETCH_CLAIM_HISTORY_ERROR,
 } from 'store/constants';
 
 const initialState = {
@@ -57,6 +60,21 @@ export default function(state = initialState, { type }) {
         isLoading: false,
       };
     case FETCH_VESTING_HISTORY_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case FETCH_CLAIM_HISTORY:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FETCH_CLAIM_HISTORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case FETCH_CLAIM_HISTORY_ERROR:
       return {
         ...state,
         isLoading: false,
