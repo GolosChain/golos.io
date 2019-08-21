@@ -1,19 +1,17 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import is from 'styled-is';
-import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'ramda';
 
 import SimpleInput from 'components/golos-ui/SimpleInput';
 import keyCodes from 'utils/keyCodes';
 import { getScrollElement } from 'helpers/window';
-import { buildAccountNameAutocomplete } from 'utils/StateFunctions';
 
 const MIN_SYMBOLS = 2;
 const MAX_VARIANTS = 5;
-const ITEM_HEIGHT = 32;
 
 const Wrapper = styled.label`
   position: relative;
@@ -117,35 +115,51 @@ const Dots = styled.div`
   }
 `;
 
+const AccountId = styled.div`
+  margin-top: 6px;
+  font-size: 14px;
+  color: #555;
+`;
+
 export default class AccountNameInput extends PureComponent {
-  state = {
-    focus: false,
-    open: false,
-    valid: Boolean(this.props.value) /*&& !utils.validateAccountName(this.props.value)*/,
-    index: null,
-    list: null,
-    autocompleteList: null,
-    popoverPos: null,
-    maxShowCount: MAX_VARIANTS,
+  static propTypes = {
+    value: PropTypes.string.isRequired,
+    suggestNames: PropTypes.func.isRequired,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onKeyUp: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   };
 
-  _loadIndex = 0;
-
-  _showIndex = null;
+  state = {
+    userId: this.props.value || '',
+    username: this.props.value || '',
+    isFocus: false,
+    isOpen: false,
+    index: null,
+    items: null,
+    autocompleteList: null,
+    popoverPos: null,
+  };
 
   repositionInterval = null;
+  _loadId = 0;
+  _loadedId = 0;
 
   componentDidMount() {
-    const { following, transferHistory } = this.props;
     this._mount = document.getElementById('__next');
     this.repositionInterval = setInterval(this.reposition, 100);
+  }
 
-    if (transferHistory) {
+  componentWillReceiveProps(nextProps, nextContext) {
+    const { userId } = this.state;
+
+    if (nextProps.value !== userId) {
       this.setState({
-        autocompleteList: buildAccountNameAutocomplete(transferHistory, following),
+        userId,
+        username: userId,
       });
-    } else {
-      // this.props.fetchTransferHistory();
     }
   }
 
@@ -164,23 +178,10 @@ export default class AccountNameInput extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (this.props.value !== props.value) {
-      this.setState({
-        valid: props.value /*!utils.validateAccountName(props.value)*/,
-      });
-    }
-    if (this.props.transferHistory !== props.transferHistory) {
-      this.setState({
-        autocompleteList: buildAccountNameAutocomplete(props.transferHistory, this.props.following),
-      });
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { open } = this.state;
+    const { isOpen } = this.state;
 
-    if (this.wrapper && !prevState.open && open) {
+    if (this.wrapper && !prevState.isOpen && isOpen) {
       if (!this._listen) {
         this._listen = true;
         window.addEventListener('scroll', this.repositionLazy);
@@ -192,20 +193,13 @@ export default class AccountNameInput extends PureComponent {
   }
 
   reposition = () => {
-    const { open, popoverPos, maxShowCount } = this.state;
+    const { isOpen, popoverPos } = this.state;
 
-    if (!open) {
+    if (!isOpen) {
       return;
     }
 
     const box = this.wrapper.getBoundingClientRect();
-
-    const freeSpace = window.innerHeight - box.bottom - 2;
-
-    const newShowCount = Math.min(
-      MAX_VARIANTS + 1,
-      Math.max(1, Math.floor(freeSpace / ITEM_HEIGHT))
-    );
 
     const pos = {
       top: getScrollElement().scrollTop + box.top + box.height - 1,
@@ -223,24 +217,18 @@ export default class AccountNameInput extends PureComponent {
         popoverPos: pos,
       });
     }
-
-    if (maxShowCount !== newShowCount) {
-      this.setState({
-        maxShowCount: newShowCount,
-      });
-    }
   };
 
   repositionLazy = throttle(this.reposition, 50);
 
   tryOpen() {
-    const { focus, list } = this.state;
+    const { isFocus, items } = this.state;
 
     const newState = {
-      open: focus && list && list.length,
+      isOpen: Boolean(isFocus && items && items.length),
     };
 
-    if (!newState.open) {
+    if (!newState.isOpen) {
       newState.index = null;
       newState.popoverPos = null;
     }
@@ -254,31 +242,42 @@ export default class AccountNameInput extends PureComponent {
         return;
       }
 
-      const loadIndex = ++this._loadIndex;
-
       try {
-        // load from blockchain
-        // const names = await this.loadAccounts(value);
+        const { suggestNames } = this.props;
+        const { isFocus } = this.state;
 
-        // load from transfer history and following list
-        const names = this.filterAccounts(value, this.state.autocompleteList || []);
+        const loadId = ++this._loadId;
 
-        if (!this._showIndex || this._showIndex < loadIndex) {
-          const { focus } = this.state;
+        const names = await suggestNames(value);
 
-          this._showIndex = loadIndex;
+        if (this._loadedId >= loadId) {
+          return;
+        }
 
-          const newState = {
-            open: focus && !isEmpty(names),
-            list: names,
-            index: 0,
-          };
+        this._loadedId = loadId;
 
-          if (!newState.open) {
-            newState.popoverPos = null;
+        this.setState({
+          isOpen: isFocus && !isEmpty(names),
+          items: names,
+          index: 0,
+        });
+
+        const { onChange } = this.props;
+        const { username } = this.state;
+
+        if (username === value) {
+          const account = names.find(item => item.username === username);
+
+          if (account) {
+            this.setState(
+              {
+                userId: account.userId,
+              },
+              () => {
+                onChange(account.userId);
+              }
+            );
           }
-
-          this.setState(newState);
         }
       } catch (err) {
         console.error(err);
@@ -288,7 +287,9 @@ export default class AccountNameInput extends PureComponent {
     { leading: false }
   );
 
-  onChange = e => {
+  onInputChange = e => {
+    const { onChange } = this.props;
+
     const value = e.target.value
       .trim()
       .toLowerCase()
@@ -298,26 +299,37 @@ export default class AccountNameInput extends PureComponent {
       return;
     }
 
-    this.props.onChange(value);
+    this.setState(
+      {
+        username: value,
+        userId: value,
+      },
+      () => {
+        onChange(value);
+      }
+    );
 
-    if (value.length >= MIN_SYMBOLS) {
-      this.load(value);
-    } else {
+    if (value.length < MIN_SYMBOLS) {
       this.setState({
-        open: false,
+        isOpen: false,
         index: null,
         popoverPos: null,
       });
+      return;
     }
+
+    this.load(value);
   };
 
   onFocus = e => {
+    const { value } = this.props;
+
     this.setState(
       {
-        focus: true,
+        isFocus: true,
       },
       () => {
-        this.load(this.props.value);
+        this.load(value);
       }
     );
 
@@ -329,8 +341,8 @@ export default class AccountNameInput extends PureComponent {
   onBlur = e => {
     if (!this._dontCloseUntil || this._dontCloseUntil < Date.now()) {
       this.setState({
-        focus: false,
-        open: false,
+        isFocus: false,
+        isOpen: false,
         index: null,
         popoverPos: null,
       });
@@ -342,9 +354,10 @@ export default class AccountNameInput extends PureComponent {
   };
 
   onKeyDown = e => {
-    const { open, list, index } = this.state;
+    const { onChange } = this.props;
+    const { isOpen, items, index } = this.state;
 
-    if (open) {
+    if (isOpen) {
       switch (e.which) {
         case keyCodes.UP:
         case keyCodes.DOWN:
@@ -361,30 +374,40 @@ export default class AccountNameInput extends PureComponent {
             if (index === null) {
               newIndex = 0;
             } else {
-              newIndex = Math.min(Math.min(MAX_VARIANTS, list.length) - 1, index + 1);
+              newIndex = Math.min(Math.min(MAX_VARIANTS, items.length) - 1, index + 1);
             }
           }
 
-          if (newIndex != null) {
-            this.setState({
-              index: newIndex,
-            });
-          }
+          this.setState({
+            index: newIndex,
+          });
           break;
 
         case keyCodes.ENTER:
           this.setState({
-            open: false,
+            isOpen: false,
             index: null,
             popoverPos: null,
           });
 
-          this.props.onChange(list[index]);
+          const selected = items[index];
+
+          this.setState(
+            {
+              userId: selected.userId,
+              username: selected.username,
+            },
+            () => {
+              onChange(selected.userId);
+            }
+          );
           break;
 
         case keyCodes.ESCAPE:
+          e.preventDefault();
+
           this.setState({
-            open: false,
+            isOpen: false,
             index: null,
             popoverPos: null,
           });
@@ -403,14 +426,24 @@ export default class AccountNameInput extends PureComponent {
     this._dontCloseUntil = Date.now() + 1000;
   };
 
-  onItemClick = accountName => {
+  onItemClick = ({ userId, username }) => {
+    const { onChange } = this.props;
+
     this.setState({
-      open: false,
+      isOpen: false,
       index: null,
       popoverPos: null,
     });
 
-    this.props.onChange(accountName);
+    this.setState(
+      {
+        userId,
+        username,
+      },
+      () => {
+        onChange(userId);
+      }
+    );
   };
 
   onRef = el => {
@@ -434,54 +467,54 @@ export default class AccountNameInput extends PureComponent {
     }
   };
 
-  filterAccounts = memoize((word, list) => list.filter(item => item.startsWith(word)));
-
   renderAutocomplete() {
-    const { list, index, popoverPos, maxShowCount } = this.state;
-
-    const showCount = Math.min(MAX_VARIANTS, list.length, maxShowCount);
+    const { items, index, popoverPos } = this.state;
 
     return (
       <Autocomplete style={popoverPos}>
-        {list.slice(0, showCount).map((accountName, i) => (
+        {items.slice(0, MAX_VARIANTS).map(({ userId, username }, i) => (
           <Item
-            key={accountName}
+            key={userId}
             selected={i === index}
             onMouseDown={this.onItemMouseDown}
-            onClick={() => this.onItemClick(accountName)}
+            onClick={() => this.onItemClick({ userId, username })}
           >
-            {accountName}
+            {username}
           </Item>
         ))}
-        {list.length > showCount && maxShowCount > MAX_VARIANTS ? <Dots /> : null}
+        {items.length > MAX_VARIANTS ? <Dots /> : null}
       </Autocomplete>
     );
   }
 
   render() {
-    const { block, value } = this.props;
-    const { open, focus, valid, popoverPos } = this.state;
+    const { block } = this.props;
+    const { isOpen, isFocus, username, userId, popoverPos } = this.state;
 
-    const isError = value && !focus && !valid;
+    const isError = (!username || !userId) && !isFocus;
 
     return (
-      <Wrapper block={block ? 1 : 0} ref={this.onRef}>
-        <SimpleInputStyled
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          {...this.props}
-          open={open ? 1 : 0}
-          error={isError ? 1 : 0}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-        />
-        <Sign open={open ? 1 : 0} error={isError ? 1 : 0} />
-        {open && popoverPos ? createPortal(this.renderAutocomplete(), this._mount) : null}
-      </Wrapper>
+      <>
+        <Wrapper block={block ? 1 : 0} ref={this.onRef}>
+          <SimpleInputStyled
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            {...this.props}
+            value={username}
+            open={isOpen ? 1 : 0}
+            error={isError ? 1 : 0}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            onChange={this.onInputChange}
+            onKeyDown={this.onKeyDown}
+          />
+          <Sign open={isOpen ? 1 : 0} error={isError ? 1 : 0} />
+          {isOpen && popoverPos ? createPortal(this.renderAutocomplete(), this._mount) : null}
+        </Wrapper>
+        <AccountId>Id: {userId}</AccountId>
+      </>
     );
   }
 }

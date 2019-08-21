@@ -1,20 +1,12 @@
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 
-import { currentUserSelector } from 'store/selectors/auth';
+import { suggestNames } from 'store/actions/gate';
+
 import AccountNameInput from './AccountNameInput';
 
 export default connect(
-  createSelector(
-    [currentUserSelector],
-    user => {
-      return {
-        following: '' /* follow.getIn(['getFollowingAsync', currentUsername, 'blog_result']) */,
-        transferHistory: '' /* user.get('transfer_history') */,
-      };
-    }
-  ),
+  null,
   {
-    // fetchTransferHistory: () => () => console.error('Unhandled action'),
+    suggestNames,
   }
 )(AccountNameInput);
