@@ -124,6 +124,7 @@ const AccountId = styled.div`
 export default class AccountNameInput extends PureComponent {
   static propTypes = {
     value: PropTypes.string.isRequired,
+    username: PropTypes.string,
     suggestNames: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
@@ -134,7 +135,7 @@ export default class AccountNameInput extends PureComponent {
 
   state = {
     userId: this.props.value || '',
-    username: this.props.value || '',
+    username: this.props.username || this.props.value || '',
     isFocus: false,
     isOpen: false,
     index: null,
