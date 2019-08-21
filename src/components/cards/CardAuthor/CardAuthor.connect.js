@@ -10,7 +10,9 @@ export default connect((state, props) => {
 
   if (!author) {
     author = entitySelector('users', props.authorId)(state);
-  } else {
+  }
+
+  if (author) {
     profile = entitySelector('profiles', author.id)(state);
   }
 

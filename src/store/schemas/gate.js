@@ -35,6 +35,9 @@ export const postSchema = new schema.Entity(
   'posts',
   {
     author: userSchema,
+    repost: {
+      author: userSchema,
+    },
   },
   {
     idAttribute: post =>
