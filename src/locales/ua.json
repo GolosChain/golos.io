@@ -999,7 +999,8 @@
       "sent": "Відправлені",
       "transaction_history": "Исторія транзакцій",
       "vesting_history": "Исторія Вестінга",
-      "genesis_history": "GOLOS Genesis"
+      "genesis_history": "GOLOS Genesis",
+      "claim": "Claim"
     }
   },
   "userkeys_jsx": {
