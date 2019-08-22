@@ -82,7 +82,7 @@ export default class ClaimLine extends Component {
   onClaimlClick = async () => {
     const { unclaimedBalance, claimToken } = this.props;
 
-    await claimToken(`${unclaimedBalance} GOLOS`);
+    await claimToken(`${parseFloat(unclaimedBalance).toFixed(3)} GOLOS`);
   };
 
   render() {
