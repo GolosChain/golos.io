@@ -286,7 +286,11 @@ export default class TransferDialog extends PureComponent {
       availableBalance = cyberBalance;
     }
 
-    let { value, error } = parseAmount(amount, availableBalance, !amountInFocus);
+    let { value, error } = parseAmount(amount, {
+      balance: availableBalance,
+      isFinal: !amountInFocus,
+    });
+
     if (isBadActor(target)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }

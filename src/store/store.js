@@ -9,8 +9,10 @@ import { apiMiddleware, rpcMiddleware, apiGateMiddleware } from 'store/middlewar
 
 import rootReducer from 'store/reducers';
 import { login, logout, getNotificationsCount } from 'store/actions/gate';
+import { userCyberStakeBalanceSelector } from 'store/selectors/wallet';
 import { getAuth } from 'utils/localStorage';
 import OnlineNotification from 'components/common/OnlineNotification';
+import { currentUserIdSelector } from './selectors/auth';
 
 function autoLogin() {
   let auth;
@@ -41,10 +43,20 @@ function onNotifications(notifications, { dispatch }) {
   }
 }
 
+function shouldUseBW({ getState }) {
+  const state = getState();
+  const userId = currentUserIdSelector(state);
+  const balance = userCyberStakeBalanceSelector(userId, 'staked')(state);
+
+  return balance < (process.env.BANDWIDTH_PROVIDE_THRESHOLDER || 100);
+}
+
 export default (state = {}) => {
   const middlewares = [
     thunkMiddleware,
-    apiMiddleware,
+    apiMiddleware({
+      shouldUseBW,
+    }),
     rpcMiddleware,
     apiGateMiddleware({
       autoLogin,

@@ -11,10 +11,10 @@ import { processError } from 'helpers/dialogs';
 
 import { MIN_VOICE_POWER } from 'constants/config';
 import { isBadActor } from 'utils/chainValidation';
+import { parseAmount } from 'helpers/currency';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
-import { parseAmount2 } from 'helpers/currency';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import AccountNameInput from 'components/common/AccountNameInput';
 import DelegationEdit from './DelegationEdit';
@@ -509,7 +509,12 @@ export default class DelegateDialog extends PureComponent {
     );
     const availableBalanceString = (availableBalance / MULTIPLIER).toFixed(3);
 
-    const { value, error } = parseAmount2(amount, availableBalance, !amountInFocus, MULTIPLIER);
+    const { value, error } = parseAmount(amount, {
+      balance: availableBalance,
+      isFinal: !amountInFocus,
+      multiplier: MULTIPLIER,
+      round: true,
+    });
 
     let errorMsg = error;
 

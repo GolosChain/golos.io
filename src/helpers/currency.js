@@ -20,12 +20,14 @@ const MIN_DELEGATION_AMOUNT_ERROR = 'Delegation difference is not enough';
 
 const queried = new Set();
 
-export function parseAmount(amount, balance, isFinal, decs = 3) {
+export function parseAmount(amount, { balance, isFinal, decs = 3, multiplier = 1, round = false }) {
   const amountFixed = amount.trim().replace(/\s+/, '');
-
-  const amountValue = parseFloat(amountFixed);
-
   let error;
+  let amountValue = parseFloat(amountFixed) * multiplier;
+
+  if (round) {
+    amountValue = Math.round(amountValue);
+  }
 
   const match = amountFixed.match(/\.(\d+)/);
 
@@ -45,33 +47,8 @@ export function parseAmount(amount, balance, isFinal, decs = 3) {
   };
 }
 
-export function parseAmount2(amount, balance, isFinal, multiplier) {
-  const amountFixed = amount.trim().replace(/\s+/, '');
-
-  const amountValue = Math.round(parseFloat(amountFixed) * multiplier);
-
-  let error;
-
-  const match = amountFixed.match(/\.(\d+)/);
-
-  if (match && match[1].length > 3) {
-    error = tt('currency.errors.three_rounding');
-  } else if (!/^\d*(?:\.\d*)?$/.test(amountFixed)) {
-    error = tt('currency.errors.wrong_format');
-  } else if (amountValue && amountValue > balance) {
-    error = tt('currency.errors.insufficient_funds');
-  } else if (amountFixed !== '' && amountValue === 0 && isFinal) {
-    error = tt('currency.errors.enter_amount');
-  }
-
-  return {
-    error,
-    value: error ? null : amountValue,
-  };
-}
-
 export function parseAmount3(amount, balance, minDelegationAmount, isFinal, multiplier) {
-  const { error, value } = parseAmount2(amount, balance, isFinal, multiplier);
+  const { error, value } = parseAmount(amount, { balance, isFinal, multiplier, round: true });
 
   return {
     error: value < minDelegationAmount ? MIN_DELEGATION_AMOUNT_ERROR : error,
