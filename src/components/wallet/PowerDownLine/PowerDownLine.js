@@ -114,14 +114,16 @@ export default class PowerDownLine extends Component {
       return null;
     }
 
-    const withdrawn = parseFloat(parsePayoutAmount(quantity) - toWithdraw).toFixed(6);
+    const withdrawn = parseFloat(
+      parsePayoutAmount(quantity) - parsePayoutAmount(toWithdraw)
+    ).toFixed(6);
 
     return (
       <Root>
         <Text>
           <Line>
             {tt('wallet.power_down_line', {
-              all: toWithdraw,
+              all: toWithdraw.split(' ')[0],
               done: withdrawn,
             }).replace(/\*\*/g, '')}
           </Line>
