@@ -70,7 +70,7 @@ const ScrollFixStyled = styled(ScrollFix)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 133px; /* 60px; TODO: before technical work */
+  height: 258px; /* 60px; TODO: before technical work */
   background: #fff;
   z-index: 15;
 
@@ -89,7 +89,7 @@ const ScrollFixStyled = styled(ScrollFix)`
 `;
 
 const HeaderStub = styled.div`
-  height: 133px; /* 60px; TODO: before technical work */
+  height: 258px; /* 60px; TODO: before technical work */
 `;
 
 const ContainerWrapper = styled.div`
@@ -550,25 +550,27 @@ export default class Header extends PureComponent {
       <Wrapper>
         <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
           <TechnicalWork>
-            <TechnicalContainerWrapper>
-              {tt('technical_work.start')}
-              <br />
-              <Interpolate
-                with={{
-                  channel: (
-                    <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>
-                  ),
-                  tasks: (
-                    <a href="https://github.com/GolosChain/golos.io/issues/new">
-                      {tt('technical_work.tasks')}
-                    </a>
-                  ),
-                }}
-              >
-                {tt('technical_work.want', {
-                  interpolate: false,
-                })}
-              </Interpolate>
+            <TechnicalContainerWrapper
+              dangerouslySetInnerHTML={{ __html: tt('technical_work.text') }}
+            >
+              {/*{tt('technical_work.start')}*/}
+              {/*<br />*/}
+              {/*<Interpolate*/}
+              {/*  with={{*/}
+              {/*    channel: (*/}
+              {/*      <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>*/}
+              {/*    ),*/}
+              {/*    tasks: (*/}
+              {/*      <a href="https://github.com/GolosChain/golos.io/issues/new">*/}
+              {/*        {tt('technical_work.tasks')}*/}
+              {/*      </a>*/}
+              {/*    ),*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  {tt('technical_work.want', {*/}
+              {/*    interpolate: false,*/}
+              {/*  })}*/}
+              {/*</Interpolate>*/}
             </TechnicalContainerWrapper>
           </TechnicalWork>
           <ContainerWrapper>

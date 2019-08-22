@@ -1294,6 +1294,7 @@
     "thanks": "Thank you for your understanding and support!",
     "bless": "Yours, Golos Team",
     "tasks": "create issues o github",
-    "channel": "channel"
+    "channel": "channel",
+    "text": "Dear CyberWay users and validators! <br/><br/>\nThere's a blockchain issue we're desperately trying to eliminate as soon as possible (the reason why the wrong block notes pop up sometimes within the log). One out if three sid-nodes is active atm while the explorer and golos.io are temporarily freezed.<br/><br/>\nThe bug is detected; yet it's really peculiar and we're trying to come up with the safest solution.<br/><br/>"
   }
 }
