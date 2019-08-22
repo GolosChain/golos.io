@@ -375,7 +375,12 @@ export default class ConvertDialog extends PureComponent {
 
     balanceByType = balanceByType.toFixed(precision);
 
-    let { value, error } = parseAmount(amount, balanceByType, !amountInFocus, precision);
+    let { value, error } = parseAmount(amount, {
+      balance: balanceByType,
+      isFinal: !amountInFocus,
+      decs: precision,
+    });
+
     if (isBadActor(recipient)) {
       error = tt('chainvalidation_js.use_caution_sending_to_this_account');
     }

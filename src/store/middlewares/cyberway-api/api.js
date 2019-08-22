@@ -9,14 +9,14 @@ import { currentUserSelector } from 'store/selectors/auth';
 
 export const CYBERWAY_API = 'CYBERWAY_API';
 
-export default ({ getState }) => next => async action => {
+export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
   if (!action || !action[CYBERWAY_API]) {
     return next(action);
   }
 
   let callApi = action[CYBERWAY_API];
 
-  if (process.env.PROVIDEBW_ENABLED) {
+  if (process.env.PROVIDEBW_ENABLED && shouldUseBW({ getState })) {
     callApi = defaults(callApi, {
       options: {
         broadcast: false,
@@ -71,7 +71,7 @@ export default ({ getState }) => next => async action => {
       options
     );
 
-    if (options.providebw) {
+    if (options && options.providebw) {
       const { signatures, serializedTransaction } = result;
 
       const paramsProvidebw = {

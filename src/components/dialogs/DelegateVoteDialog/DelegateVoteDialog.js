@@ -180,12 +180,11 @@ export default class DelegateVoteDialog extends PureComponent {
       },
     ];
 
-    const { value, error } = parseAmount(
-      amount,
-      stakedBalance,
-      !amountInFocus,
-      CURRENCIES[currency].decs
-    );
+    const { value, error } = parseAmount(amount, {
+      balance: stakedBalance,
+      isFinal: !amountInFocus,
+      decs: CURRENCIES[currency].decs,
+    });
 
     const allow = recipientName && value > 0 && !error && !loader && !disabled;
 
