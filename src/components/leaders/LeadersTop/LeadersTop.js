@@ -154,7 +154,7 @@ export default class LeadersTop extends PureComponent {
 
       try {
         if (query) {
-          await fetchLeaders({ query });
+          await fetchLeaders({ query, limit: 10 });
         } else {
           await fetchLeaders();
         }
@@ -206,8 +206,8 @@ export default class LeadersTop extends PureComponent {
                 <TableHeadItem>{tt('witnesses_jsx.rating')}</TableHeadItem>
                 <TableHeadItem />
               </TableHead>
-              {items.map((item, i) => (
-                <LeaderLine key={item.userId} index={query ? null : i + 1} item={item} />
+              {items.map(item => (
+                <LeaderLine key={item.userId} item={item} />
               ))}
               {isEnd || isError ? null : (
                 <LoaderBlock>

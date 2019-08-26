@@ -32,32 +32,19 @@ export const waitForTransaction = transactionId => {
   };
 };
 
-export const fetchLeaders = ({ sequenceKey, query } = {}) => {
-  let method;
-  let params;
-
-  if (query) {
-    method = 'content.findLeaders';
-    params = {
-      app: 'gls',
-      query,
-      communityId: 'gls',
-      limit: 10,
-    };
-  } else {
-    method = 'content.getLeadersTop';
-    params = {
-      app: 'gls',
-      communityId: 'gls',
-      limit: 20,
-      sequenceKey,
-    };
-  }
+export const fetchLeaders = ({ sequenceKey, query, limit = 20 } = {}) => {
+  const params = {
+    app: 'gls',
+    communityId: 'gls',
+    query,
+    limit,
+    sequenceKey,
+  };
 
   return {
     [CALL_GATE]: {
       types: [FETCH_LEADERS, FETCH_LEADERS_SUCCESS, FETCH_LEADERS_ERROR],
-      method,
+      method: 'content.getLeadersTop',
       params,
     },
     meta: {
