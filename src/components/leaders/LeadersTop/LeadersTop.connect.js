@@ -16,6 +16,7 @@ export default connect(
     return {
       isWitness: amIWitnessSelector(state),
       items: leaders.items,
+      query: leaders.query,
       isEnd: leaders.isEnd,
       isLoading: leaders.isLoading,
       isError: leaders.isError,

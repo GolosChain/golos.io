@@ -32,17 +32,19 @@ export const waitForTransaction = transactionId => {
   };
 };
 
-export const fetchLeaders = ({ sequenceKey } = {}) => {
+export const fetchLeaders = ({ sequenceKey, query, limit = 20 } = {}) => {
   const params = {
+    app: 'gls',
     communityId: 'gls',
-    limit: 20,
+    query,
+    limit,
     sequenceKey,
   };
 
   return {
     [CALL_GATE]: {
-      method: 'content.getLeadersTop',
       types: [FETCH_LEADERS, FETCH_LEADERS_SUCCESS, FETCH_LEADERS_ERROR],
+      method: 'content.getLeadersTop',
       params,
     },
     meta: {

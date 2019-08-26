@@ -208,7 +208,6 @@ const VoteButton = styled.button`
 
 export default class LeaderLine extends PureComponent {
   static propTypes = {
-    index: PropTypes.number.isRequired,
     item: PropTypes.shape({}).isRequired,
     voteWitness: PropTypes.func.isRequired,
     unvoteWitness: PropTypes.func.isRequired,
@@ -281,7 +280,7 @@ export default class LeaderLine extends PureComponent {
   }
 
   render() {
-    const { index, item } = this.props;
+    const { item } = this.props;
     const { isCollapsed } = this.state;
 
     let title = null;
@@ -295,7 +294,7 @@ export default class LeaderLine extends PureComponent {
       <>
         <Wrapper title={title} isDeactive={!item.active} collapsed={isCollapsed}>
           <WitnessNumberAndName>
-            <div>{index}</div>
+            <div>{item.position === null ? '-' : item.position + 1}</div>
             <Link route="profile" params={{ userId: item.username || item.userId }}>
               <a>{item.username || item.userId || 'hello'}</a>
             </Link>
