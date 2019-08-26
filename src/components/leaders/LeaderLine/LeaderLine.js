@@ -289,11 +289,9 @@ export default class LeaderLine extends PureComponent {
       return <WitnessInfoCeil>{item.rating}</WitnessInfoCeil>;
     }
 
-    return (
-      <WitnessInfoCeil title={item.rating}>
-        {((parseInt(item.rating, 10) / supplyNumber) * 100).toFixed(1)}%
-      </WitnessInfoCeil>
-    );
+    const percent = (parseInt(item.rating, 10) / supplyNumber) * 100;
+
+    return <WitnessInfoCeil title={item.rating}>{percent.toFixed(1)}%</WitnessInfoCeil>;
   }
 
   render() {
