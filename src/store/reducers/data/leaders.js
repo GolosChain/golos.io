@@ -26,15 +26,13 @@ export default function(state = initialState, { type, payload, meta }) {
       }
 
     case FETCH_LEADERS_SUCCESS:
-      const payloadItems = payload.items || payload.leaders;
-
       const items =
-        meta.sequenceKey && !meta.query ? state.items.concat(payloadItems) : payloadItems;
+        meta.sequenceKey && !meta.query ? state.items.concat(payload.items) : payload.items;
 
       return {
         ...state,
         items,
-        isEnd: payloadItems.length < meta.limit,
+        isEnd: payload.items.length < meta.limit,
         isLoading: false,
         isError: false,
         query: meta.query || null,
