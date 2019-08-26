@@ -8,7 +8,7 @@ import registration from './registration';
 import notifications from './notifications';
 import favorites from './favorites';
 import wallet from './wallet';
-import witness from './witness';
+import leaders from './leaders';
 import rates from './rates';
 import proposals from './proposals';
 import postVotes from './postVotes';
@@ -26,7 +26,7 @@ export default combineReducers({
   notifications,
   favorites,
   wallet,
-  witness,
+  leaders,
   rates,
   proposals,
   postVotes,

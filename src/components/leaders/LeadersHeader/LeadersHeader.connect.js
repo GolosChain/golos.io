@@ -1,11 +1,9 @@
 import { connect } from 'react-redux';
-import { openModal } from 'redux-modals-manager';
 
 import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 import { entitySelector } from 'store/selectors/common';
-import { SHOW_MODAL_BECOME_LOADER, SHOW_MODAL_MANAGE_COMMUNITY } from 'store/constants';
 
-import WitnessHeader from './WitnessHeader';
+import LeadersHeader from './LeadersHeader';
 
 export default connect(state => {
   const userId = currentUnsafeUserIdSelector(state);
@@ -18,4 +16,4 @@ export default connect(state => {
     isLoading: Boolean(userId && !profile),
     isWitness,
   };
-})(WitnessHeader);
+})(LeadersHeader);

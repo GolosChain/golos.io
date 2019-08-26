@@ -10,7 +10,7 @@ import LoadingIndicator from 'components/elements/LoadingIndicator';
 import Button from 'components/golos-ui/Button';
 import { fetchProposals } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
-import WitnessHeader from '../WitnessHeader';
+import LeadersHeader from '../LeadersHeader';
 import ProposalCard from '../ProposalCard';
 
 const WrapperForBackground = styled.div`
@@ -59,7 +59,7 @@ const LoaderBlock = styled.div`
   height: 60px;
 `;
 
-export default class WitnessProposals extends PureComponent {
+export default class LeaderProposals extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -134,7 +134,7 @@ export default class WitnessProposals extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <WitnessHeader
+          <LeadersHeader
             title={tt('witnesses_jsx.tabs.proposals')}
             actions={() =>
               isWitness ? (

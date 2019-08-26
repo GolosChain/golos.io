@@ -10,7 +10,7 @@ if (process.browser) {
   hide = Boolean(localStorage.getItem(STORE_KEY));
 }
 
-const ignoreRoutes = ['/welcome', '/faq', '/~witnesses', '/market'];
+const ignoreRoutes = ['/welcome', '/faq', '/~witnesses', '/leaders', '/validators', '/market'];
 
 export default class MobileAppButton extends PureComponent {
   render() {

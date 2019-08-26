@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { voteWitness, unvoteWitness } from 'store/actions/cyberway/ctrl';
 
-import WitnessesLine from './WitnessesLine';
+import LeaderLine from './LeaderLine';
 
 export default connect(
   null,
@@ -10,4 +10,4 @@ export default connect(
     voteWitness,
     unvoteWitness,
   }
-)(WitnessesLine);
+)(LeaderLine);
