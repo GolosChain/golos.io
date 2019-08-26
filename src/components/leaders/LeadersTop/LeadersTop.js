@@ -10,8 +10,8 @@ import { displayError } from 'utils/toastMessages';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import DialogManager from 'components/elements/common/DialogManager';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import WitnessHeader from 'components/witness/WitnessHeader';
-import WitnessesLine, { lineTemplate } from 'components/witness/WitnessesLine';
+import LeadersHeader from 'components/leaders/LeadersHeader';
+import LeaderLine, { lineTemplate } from 'components/leaders/LeaderLine';
 import Button from 'components/golos-ui/Button';
 
 const WrapperForBackground = styled.div`
@@ -63,7 +63,7 @@ const LoaderBlock = styled.div`
   height: 60px;
 `;
 
-export default class WitnessesTop extends PureComponent {
+export default class LeadersTop extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
     items: PropTypes.array.isRequired,
@@ -115,7 +115,7 @@ export default class WitnessesTop extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <WitnessHeader
+          <LeadersHeader
             title={tt('witnesses_jsx.top_witnesses')}
             subTitle={tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}
             actions={() => (
@@ -151,7 +151,7 @@ export default class WitnessesTop extends PureComponent {
                 <TableHeadItem />
               </TableHead>
               {items.map((item, i) => (
-                <WitnessesLine key={item.userId} index={i + 1} item={item} />
+                <LeaderLine key={item.userId} index={i + 1} item={item} />
               ))}
               {isEnd || isError ? null : (
                 <LoaderBlock>

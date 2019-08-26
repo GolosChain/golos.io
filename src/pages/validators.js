@@ -7,7 +7,7 @@ import is from 'styled-is';
 import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfile } from 'store/actions/gate';
-import WitnessHeader from 'components/witness/WitnessHeader';
+import LeadersHeader from 'components/leaders/LeadersHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
 import DialogManager from 'components/elements/common/DialogManager';
 import DelegateVoteDialog from 'components/dialogs/DelegateVoteDialog/DelegateVoteDialog.connect';
@@ -220,7 +220,7 @@ export default class ValidatorsPage extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <WitnessHeader
+          <LeadersHeader
             title={tt('validators_jsx.validators')}
             subTitle={
               <div>

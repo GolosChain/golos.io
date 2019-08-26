@@ -63,7 +63,7 @@ const Loader = styled(Icon).attrs({ name: 'refresh2' })`
   animation: rotate 1s linear infinite;
 `;
 
-export default class WitnessHeader extends PureComponent {
+export default class LeadersHeader extends PureComponent {
   static propTypes = {
     isWitness: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,

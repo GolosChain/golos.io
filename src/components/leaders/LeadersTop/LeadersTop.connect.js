@@ -7,19 +7,19 @@ import { amIWitnessSelector } from 'store/selectors/auth';
 import { fetchLeaders } from 'store/actions/gate';
 import { stopLeader } from 'store/actions/cyberway';
 
-import WitnessesTop from './WitnessesTop';
+import LeadersTop from './LeadersTop';
 
 export default connect(
   state => {
-    const witness = dataSelector('witness')(state);
+    const leaders = dataSelector('leaders')(state);
 
     return {
       isWitness: amIWitnessSelector(state),
-      items: witness.items,
-      isEnd: witness.isEnd,
-      isLoading: witness.isLoading,
-      isError: witness.isError,
-      sequenceKey: witness.sequenceKey,
+      items: leaders.items,
+      isEnd: leaders.isEnd,
+      isLoading: leaders.isLoading,
+      isError: leaders.isError,
+      sequenceKey: leaders.sequenceKey,
     };
   },
   {
@@ -27,4 +27,4 @@ export default connect(
     stopLeader,
     openBecomeLeaderDialog: () => openModal(SHOW_MODAL_BECOME_LOADER),
   }
-)(WitnessesTop);
+)(LeadersTop);

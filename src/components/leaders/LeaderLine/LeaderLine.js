@@ -206,7 +206,7 @@ const VoteButton = styled.button`
 //   `};
 // `;
 
-export default class WitnessesLine extends PureComponent {
+export default class LeaderLine extends PureComponent {
   static propTypes = {
     index: PropTypes.number.isRequired,
     item: PropTypes.shape({}).isRequired,

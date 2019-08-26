@@ -6,7 +6,7 @@ import { dataSelector } from 'store/selectors/common';
 import { amIWitnessSelector } from 'store/selectors/auth';
 import { fetchProposals } from 'store/actions/gate';
 
-import WitnessProposals from './WitnessProposals';
+import LeaderProposals from './LeaderProposals';
 
 export default connect(
   state => {
@@ -25,4 +25,4 @@ export default connect(
     fetchProposals,
     openManageCommunityDialog: () => openModal(SHOW_MODAL_MANAGE_COMMUNITY),
   }
-)(WitnessProposals);
+)(LeaderProposals);

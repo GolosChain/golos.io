@@ -84,7 +84,7 @@ export default class Menu extends PureComponent {
     //   height: 19,
     // },
     {
-      link: '/~witnesses',
+      link: '/leaders',
       icon: 'delegates',
       text: tt('navigation.leaders'),
       width: 22,
@@ -151,7 +151,7 @@ export default class Menu extends PureComponent {
     //   height: 19,
     // },
     {
-      link: '/~witnesses',
+      link: '/leaders',
       icon: 'delegates',
       text: tt('navigation.leaders'),
       width: 22,
