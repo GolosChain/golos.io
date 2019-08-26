@@ -208,6 +208,7 @@ const VoteButton = styled.button`
 
 export default class LeaderLine extends PureComponent {
   static propTypes = {
+    supply: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     item: PropTypes.shape({}).isRequired,
     voteWitness: PropTypes.func.isRequired,
     unvoteWitness: PropTypes.func.isRequired,
@@ -279,6 +280,20 @@ export default class LeaderLine extends PureComponent {
     );
   }
 
+  renderRating() {
+    const { item, supply } = this.props;
+
+    const supplyNumber = parseInt(supply, 10);
+
+    if (!supplyNumber) {
+      return <WitnessInfoCeil>{item.rating}</WitnessInfoCeil>;
+    }
+
+    const percent = (parseInt(item.rating, 10) / supplyNumber) * 100;
+
+    return <WitnessInfoCeil title={item.rating}>{percent.toFixed(1)}%</WitnessInfoCeil>;
+  }
+
   render() {
     const { item } = this.props;
     const { isCollapsed } = this.state;
@@ -309,7 +324,7 @@ export default class LeaderLine extends PureComponent {
             </VoteButton>
           </VoteButtonCeil>
           <WitnessInfoCeil>{this.renderPostLink()}</WitnessInfoCeil>
-          <WitnessInfoCeil>{item.rating}</WitnessInfoCeil>
+          {this.renderRating()}
           <WitnessInfoCeil>
             <CloseOpenButton collapsed={isCollapsed} onClick={this.onToggleClick} />
           </WitnessInfoCeil>
