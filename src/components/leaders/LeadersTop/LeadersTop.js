@@ -191,7 +191,7 @@ export default class LeadersTop extends PureComponent {
             )}
           />
           <FilterBlock>
-            <FilterText>Найти по имени аккаунта</FilterText>
+            <FilterText>{tt('witnesses_jsx.find_by_username')}</FilterText>
             <FilterInput value={filterText} onChange={this.onFilterChange} />
           </FilterBlock>
           <InfinityScrollHelper
