@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import throttle from 'lodash/throttle';
 import { ToggleFeature } from '@flopflip/react-redux';
 
 import { BECOME_WITNESS } from 'shared/feature-flags';
@@ -13,6 +14,7 @@ import LoadingIndicator from 'components/elements/LoadingIndicator';
 import LeadersHeader from 'components/leaders/LeadersHeader';
 import LeaderLine, { lineTemplate } from 'components/leaders/LeaderLine';
 import Button from 'components/golos-ui/Button';
+import { Input } from 'components/golos-ui/Form';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -24,8 +26,25 @@ const WrapperForBackground = styled.div`
 
 const Wrapper = styled.div`
   max-width: 1150px;
-  padding-bottom: 24px;
+  padding-bottom: 20px;
   margin: 0 auto 0;
+`;
+
+const FilterBlock = styled.label`
+  display: flex;
+  align-items: center;
+  margin: 4px 0 12px;
+  text-transform: none;
+`;
+
+const FilterText = styled.span`
+  margin-right: 8px;
+  font-size: 16px;
+  color: #393636;
+`;
+
+const FilterInput = styled(Input)`
+  width: auto;
 `;
 
 const TableWrapper = styled.div`
@@ -82,6 +101,14 @@ export default class LeadersTop extends PureComponent {
     await store.dispatch(fetchLeaders());
   }
 
+  state = {
+    filterText: this.props.query || '',
+  };
+
+  componentWillUnmount() {
+    this.fetchFilteredLeadersLazy.cancel();
+  }
+
   onNeedLoadMore = async () => {
     const { sequenceKey, fetchLeaders } = this.props;
 
@@ -109,8 +136,41 @@ export default class LeadersTop extends PureComponent {
     }
   };
 
+  onFilterChange = e => {
+    this.setState(
+      {
+        filterText: e.target.value,
+      },
+      this.fetchFilteredLeadersLazy
+    );
+  };
+
+  fetchFilteredLeadersLazy = throttle(
+    async () => {
+      const { fetchLeaders } = this.props;
+      const { filterText } = this.state;
+
+      const query = filterText.trim();
+
+      try {
+        if (query) {
+          await fetchLeaders({ query });
+        } else {
+          await fetchLeaders();
+        }
+      } catch (err) {
+        displayError(tt('g.error'), err);
+      }
+    },
+    200,
+    {
+      leading: false,
+    }
+  );
+
   render() {
-    const { isWitness, items, isEnd, isLoading, isError } = this.props;
+    const { isWitness, items, isEnd, isLoading, isError, query } = this.props;
+    const { filterText } = this.state;
 
     return (
       <WrapperForBackground>
@@ -130,28 +190,24 @@ export default class LeadersTop extends PureComponent {
               </ToggleFeature>
             )}
           />
-          <InfinityScrollHelper disabled={isEnd || isLoading} onNeedLoadMore={this.onNeedLoadMore}>
+          <FilterBlock>
+            <FilterText>Найти по имени аккаунта</FilterText>
+            <FilterInput value={filterText} onChange={this.onFilterChange} />
+          </FilterBlock>
+          <InfinityScrollHelper
+            disabled={Boolean(isEnd || isLoading || query)}
+            onNeedLoadMore={this.onNeedLoadMore}
+          >
             <TableWrapper>
               <TableHead>
                 <TableHeadItem>{tt('witnesses_jsx.witness')}</TableHeadItem>
                 <TableHeadItem />
-                {/*<PercentHeadItem>%</PercentHeadItem>*/}
                 <TableHeadItem>{tt('witnesses_jsx.information')}</TableHeadItem>
                 <TableHeadItem>{tt('witnesses_jsx.rating')}</TableHeadItem>
-                {/*<MissedBlocksHeadItem>*/}
-                {/*  <div>{tt('witnesses_jsx.missed_1')}</div>*/}
-                {/*  <div>{tt('witnesses_jsx.missed_2')}</div>*/}
-                {/*</MissedBlocksHeadItem>*/}
-                {/*<LastBlockHeadItem>*/}
-                {/*  <div>{tt('witnesses_jsx.last_block1')}</div>*/}
-                {/*  <div>{tt('witnesses_jsx.last_block2')}</div>*/}
-                {/*</LastBlockHeadItem>*/}
-                {/*<PriceFeedHeadItem>{tt('witnesses_jsx.price_feed')}</PriceFeedHeadItem>*/}
-                {/*<VotesHeadItem>{tt('witnesses_jsx.version')}</VotesHeadItem>*/}
                 <TableHeadItem />
               </TableHead>
               {items.map((item, i) => (
-                <LeaderLine key={item.userId} index={i + 1} item={item} />
+                <LeaderLine key={item.userId} index={query ? null : i + 1} item={item} />
               ))}
               {isEnd || isError ? null : (
                 <LoaderBlock>
@@ -159,10 +215,6 @@ export default class LeadersTop extends PureComponent {
                 </LoaderBlock>
               )}
             </TableWrapper>
-            {/*<VoteForAnyWitness*/}
-            {/*  witnessVotes={witnessVotes}*/}
-            {/*  accountWitnessVote={this.accountWitnessVote}*/}
-            {/*/>*/}
           </InfinityScrollHelper>
         </Wrapper>
       </WrapperForBackground>

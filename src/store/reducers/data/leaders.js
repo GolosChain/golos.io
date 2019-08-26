@@ -5,13 +5,14 @@ const initialState = {
   isLoading: false,
   isError: false,
   isEnd: false,
+  query: null,
   sequenceKey: null,
 };
 
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_LEADERS:
-      if (meta.sequenceKey) {
+      if (meta.sequenceKey || meta.query) {
         return {
           ...state,
           isLoading: true,
@@ -25,15 +26,18 @@ export default function(state = initialState, { type, payload, meta }) {
       }
 
     case FETCH_LEADERS_SUCCESS:
-      // eslint-disable-next-line no-case-declarations
-      const items = meta.sequenceKey ? state.items.concat(payload.items) : payload.items;
+      const payloadItems = payload.items || payload.leaders;
+
+      const items =
+        meta.sequenceKey && !meta.query ? state.items.concat(payloadItems) : payloadItems;
 
       return {
         ...state,
         items,
-        isEnd: payload.items.length < meta.limit,
+        isEnd: payloadItems.length < meta.limit,
         isLoading: false,
         isError: false,
+        query: meta.query || null,
         sequenceKey: payload.sequenceKey,
       };
 

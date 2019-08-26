@@ -208,7 +208,7 @@ const VoteButton = styled.button`
 
 export default class LeaderLine extends PureComponent {
   static propTypes = {
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     item: PropTypes.shape({}).isRequired,
     voteWitness: PropTypes.func.isRequired,
     unvoteWitness: PropTypes.func.isRequired,
