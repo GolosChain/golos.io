@@ -10,7 +10,6 @@ import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 // import PostPayout from 'components/common/PostPayout';
-import DislikeAlert from 'components/dialogs/DislikeAlert';
 import DialogManager from 'components/elements/common/DialogManager';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
@@ -24,7 +23,6 @@ import {
   // makeTooltip,
   // usersListForTooltip,
 } from './helpers';
-import { showPayoutDialog } from '../../../store/actions/modals';
 
 const MOBILE_WIDTH = 890;
 
@@ -158,6 +156,7 @@ export default class VotePanelAbstract extends PureComponent {
     getVoters: PropTypes.func.isRequired,
     openVotersDialog: PropTypes.func.isRequired,
     showPayoutDialog: PropTypes.func.isRequired,
+    showDislikeAlert: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -305,7 +304,7 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onDislikeClick = async () => {
-    const { entity, isRich } = this.props;
+    const { entity, isRich, showDislikeAlert } = this.props;
     const { showSlider } = this.state;
 
     if (showSlider) {
@@ -321,7 +320,7 @@ export default class VotePanelAbstract extends PureComponent {
 
       window.addEventListener('click', this.onAwayClick);
       window.addEventListener('touchstart', this.onAwayClick);
-    } else if (await this.showDislikeAlert()) {
+    } else if (await showDislikeAlert()) {
       this.vote(-1);
     }
   };
@@ -379,10 +378,10 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onOkVoteClick = async () => {
-    const { sliderAction, votePercent } = this.state;
+    const { sliderAction, votePercent, showDislikeAlert } = this.state;
 
     if (sliderAction === 'dislike') {
-      if (!(await this.showDislikeAlert())) {
+      if (!(await showDislikeAlert())) {
         return;
       }
     }
@@ -433,17 +432,6 @@ export default class VotePanelAbstract extends PureComponent {
 
     window.removeEventListener('click', this.onAwayClick);
     window.removeEventListener('touchstart', this.onAwayClick);
-  }
-
-  showDislikeAlert() {
-    return new Promise(resolve => {
-      DialogManager.showDialog({
-        component: DislikeAlert,
-        onClose(yes) {
-          resolve(yes);
-        },
-      });
-    });
   }
 
   renderSlider() {

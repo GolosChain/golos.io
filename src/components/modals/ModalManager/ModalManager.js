@@ -18,6 +18,7 @@ import {
   SHOW_MODAL_VOTERS,
   SHOW_MODAL_QR_KEY,
   SHOW_MODAL_PAYOUT_INFO,
+  SHOW_MODAL_DISLIKE_ALERT,
 } from 'store/constants/modalTypes';
 import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -88,6 +89,7 @@ const modalsMap = new Map([
   [SHOW_MODAL_VOTERS, dynamic(() => import('components/dialogs/VotersDialog'))],
   [SHOW_MODAL_QR_KEY, dynamic(() => import('components/dialogs/QrKeyView'))],
   [SHOW_MODAL_PAYOUT_INFO, dynamic(() => import('components/dialogs/PayoutInfoDialog'))],
+  [SHOW_MODAL_DISLIKE_ALERT, dynamic(() => import('components/dialogs/DislikeAlert'))],
 ]);
 
 export default class ModalManager extends PureComponent {
