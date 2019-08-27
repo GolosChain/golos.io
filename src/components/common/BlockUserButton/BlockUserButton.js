@@ -4,7 +4,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { showLoginModal } from 'store/actions/modals/index';
+import { showLoginModal } from 'store/actions/modals';
 
 const Wrapper = styled.button`
   ${is('disable')`
