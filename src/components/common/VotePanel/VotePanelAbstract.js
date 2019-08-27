@@ -16,7 +16,6 @@ import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
-import PayoutInfoDialog from '../PayoutInfoDialog';
 
 import {
   // USERS_NUMBER_IN_TOOLTIP,
@@ -25,6 +24,7 @@ import {
   // makeTooltip,
   // usersListForTooltip,
 } from './helpers';
+import { showPayoutDialog } from '../../../store/actions/modals';
 
 const MOBILE_WIDTH = 890;
 
@@ -157,6 +157,7 @@ export default class VotePanelAbstract extends PureComponent {
     vote: PropTypes.func.isRequired,
     getVoters: PropTypes.func.isRequired,
     openVotersDialog: PropTypes.func.isRequired,
+    showPayoutDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -400,15 +401,9 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onPayoutClick = () => {
-    // eslint-disable-next-line react/prop-types
-    const { data } = this.props;
+    const { data, showPayoutDialog } = this.props;
 
-    DialogManager.showDialog({
-      component: PayoutInfoDialog,
-      props: {
-        postLink: `${data.get('author')}/${data.get('permlink')}`,
-      },
-    });
+    showPayoutDialog(`${data.get('author')}/${data.get('permlink')}`);
   };
 
   onResize = () => {

@@ -6,7 +6,7 @@ import { dataSelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { userVestingBalanceSelector } from 'store/selectors/wallet';
 import { vote } from 'store/actions/complex/votes';
-import { openVotersDialog } from 'store/actions/modals';
+import { openVotersDialog, showPayoutDialog } from 'store/actions/modals';
 import { waitForTransaction, getVoters } from 'store/actions/gate';
 import { payoutSum } from 'utils/payout';
 
@@ -42,6 +42,7 @@ export default connect(
     waitForTransaction,
     getVoters,
     openVotersDialog,
+    showPayoutDialog,
     loginIfNeed: () => () => console.error('Unhandled action'),
   }
 );

@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import Icon from 'components/golos-ui/Icon';
-import PayoutInfo from '../PayoutInfo';
 
-const Root = styled.div`
+import Icon from 'components/golos-ui/Icon';
+import PayoutInfo from 'components/common/PayoutInfo';
+
+const Wrapper = styled.div`
   position: relative;
 `;
 
@@ -21,11 +22,13 @@ const CloseIcon = styled(Icon)`
 
 export default class PayoutInfoDialog extends PureComponent {
   render() {
+    const { close } = this.props;
+
     return (
-      <Root>
-        <CloseIcon name="cross" onClick={this.props.onClose} />
+      <Wrapper>
+        <CloseIcon name="cross" onClick={close} />
         <PayoutInfo {...this.props} />
-      </Root>
+      </Wrapper>
     );
   }
 }
