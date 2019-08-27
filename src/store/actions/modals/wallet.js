@@ -2,7 +2,7 @@ import { openModal } from 'redux-modals-manager';
 
 import { SHOW_MODAL_TRANSFER, SHOW_MODAL_DELEGATE, SHOW_MODAL_CONVERT } from 'store/constants';
 import { currentUserIdSelector } from 'store/selectors/auth';
-import { showLoginModal } from './login';
+import { showLoginOldDialog } from './login';
 
 export const openTransferDialog = (
   recipientName = '',
@@ -11,7 +11,7 @@ export const openTransferDialog = (
 ) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
-  if (!userId && !(await showLoginModal())) {
+  if (!userId && !(await dispatch(showLoginOldDialog()))) {
     return false;
   }
 

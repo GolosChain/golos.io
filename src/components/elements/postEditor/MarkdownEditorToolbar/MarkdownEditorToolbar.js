@@ -41,6 +41,7 @@ const PLUS_ACTIONS = [
 export default class MarkdownEditorToolbar extends React.PureComponent {
   static propTypes = {
     showLinkOptionsDialog: PropTypes.func.isRequired,
+    showAddImageDialog: PropTypes.func.isRequired,
   };
 
   rootRef = createRef();
@@ -546,11 +547,14 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     cm.focus();
   }
 
-  addImage = () => {
-    DialogManager.showDialog({
-      component: AddImageDialog,
-      onClose: this._onAddImageClose,
-    });
+  addImage = async () => {
+    const { showAddImageDialog } = this.props;
+
+    const data = await showAddImageDialog();
+
+    debugger;
+
+    this._onAddImageClose(data);
   };
 
   drawVideo = async () => {

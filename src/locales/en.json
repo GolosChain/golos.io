@@ -574,12 +574,6 @@
     "authorize_for": "Authorize to complete the action",
     "enter_your_username": "Enter your username",
     "keep_me_logged_in": "Keep me logged in",
-    "login_by_owner_key": {
-      "first": "This password is bound to your account's owner key and can not be used to login to this site.",
-      "reset_keys": "update your password",
-      "second": "However, you can use it to",
-      "third": "to obtain a more secure set of keys"
-    },
     "password_or_active": "Password or active key",
     "password_or_owner": "Password or owner key",
     "password_or_posting": "Password or posting key",

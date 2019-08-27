@@ -132,12 +132,6 @@ const LoginButton = styled(Button)`
   margin-bottom: 0;
 `;
 
-const OwnerLoginWarning = styled(ErrorBlock)`
-  max-width: 400px;
-  font-size: 16px;
-  line-height: 1.2rem;
-`;
-
 export default class LoginForm extends Component {
   static propTypes = {
     currentUsername: PropTypes.string,
@@ -149,9 +143,8 @@ export default class LoginForm extends Component {
     loginOperation: PropTypes.object,
     strictAuthType: PropTypes.bool,
     loginError: PropTypes.string,
-    loginCanceled: PropTypes.func.isRequired,
-    login: PropTypes.func,
-    onClose: PropTypes.func,
+    login: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   state = {
@@ -196,13 +189,8 @@ export default class LoginForm extends Component {
     return stateUsername;
   }
 
-  confirmClose = () => {
-    this.props.loginCanceled();
-    return true;
-  };
-
   submit = async () => {
-    const { login, isConfirm, onClose } = this.props;
+    const { login, isConfirm, close } = this.props;
     const { username, password, passwordWarningShowed } = this.state;
 
     if (
@@ -235,7 +223,7 @@ export default class LoginForm extends Component {
         saveAuth(auth.user, auth.actualKey);
       }
 
-      onClose({ status: MODAL_CONFIRM });
+      close({ status: MODAL_CONFIRM });
     } catch (err) {
       displayError('Login failed:', err);
 
@@ -264,8 +252,8 @@ export default class LoginForm extends Component {
   };
 
   onCrossClick = () => {
-    this.props.loginCanceled();
-    this.props.onClose();
+    const { close } = this.props;
+    close();
   };
 
   onLoginChange = e => {
@@ -284,19 +272,12 @@ export default class LoginForm extends Component {
     this.clearError();
   };
 
-  onResetKeysClick = () => {
-    const { username, password } = this.state;
-    this.props.openResetKeysDialog(username, password);
-    this.onCrossClick();
-  };
-
   render() {
-    const { onClose, loginError, isConfirm, forceSave, operationType, className } = this.props;
+    const { close, loginError, isConfirm, operationType, className } = this.props;
     const { username, password, submitting } = this.state;
 
     let loginErr = null;
     let passwordErr = null;
-    let isLoginByOwnerKey = false;
 
     const lockUsername = isConfirm && username;
 
@@ -305,8 +286,6 @@ export default class LoginForm extends Component {
         passwordErr = tt('g.incorrect_password');
       } else if (loginError === 'active_login_blocked') {
         passwordErr = tt('loginform_jsx.active_key_error');
-      } else if (loginError === 'owner_login_blocked') {
-        isLoginByOwnerKey = true;
       } else {
         loginErr = translateError(loginError);
       }
@@ -324,7 +303,7 @@ export default class LoginForm extends Component {
 
     return (
       <Wrapper className={className}>
-        {onClose ? (
+        {close ? (
           <CloseButton onClick={this.onCrossClick}>
             <Icon name="cross_thin" width={16} height={16} />
           </CloseButton>
@@ -360,19 +339,7 @@ export default class LoginForm extends Component {
             onChange={this.onPasswordChange}
           />
           <ErrorBlock>{passwordErr}</ErrorBlock>
-          {isLoginByOwnerKey && (
-            <OwnerLoginWarning>
-              <p>{tt('loginform_jsx.login_by_owner_key.first')}</p>
-              <p>
-                {tt('loginform_jsx.login_by_owner_key.second')}{' '}
-                <a onClick={this.onResetKeysClick}>
-                  {tt('loginform_jsx.login_by_owner_key.reset_keys')}
-                </a>{' '}
-                {tt('loginform_jsx.login_by_owner_key.third')}
-              </p>
-            </OwnerLoginWarning>
-          )}
-          <LoginButton type="submit" disabled={submitting || isLoginByOwnerKey}>
+          <LoginButton type="submit" disabled={submitting}>
             {isConfirm ? tt('g.authorize') : tt('g.login')}
           </LoginButton>
         </Form>

@@ -8,6 +8,7 @@ import { last } from 'ramda';
 import {
   MODAL_CANCEL,
   SHOW_MODAL_LOGIN,
+  SHOW_MODAL_LOGIN_OLD,
   SHOW_MODAL_SIGNUP,
   SHOW_MODAL_BECOME_LOADER,
   SHOW_MODAL_MANAGE_COMMUNITY,
@@ -23,6 +24,7 @@ import {
   SHOW_MODAL_FOLLOWERS,
   SHOW_MODAL_LINK_OPTIONS,
   SHOW_MODAL_DELEGATE_VOTE,
+  SHOW_MODAL_ADD_IMAGE,
 } from 'store/constants/modalTypes';
 import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -33,7 +35,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 600;
+  z-index: 500;
 `;
 
 const ModalContainer = styled.div`
@@ -83,6 +85,7 @@ const ModalBackground = styled.div`
 
 const modalsMap = new Map([
   [SHOW_MODAL_LOGIN, dynamic(() => import('components/modals/Login'))],
+  [SHOW_MODAL_LOGIN_OLD, dynamic(() => import('containers/login/LoginForm'))],
   [SHOW_MODAL_SIGNUP, dynamic(() => import('components/modals/SignUp'))],
   [SHOW_MODAL_BECOME_LOADER, dynamic(() => import('components/modals/BecomeLeader'))],
   [SHOW_MODAL_MANAGE_COMMUNITY, dynamic(() => import('components/modals/ManageCommunity'))],
@@ -98,6 +101,7 @@ const modalsMap = new Map([
   [SHOW_MODAL_FOLLOWERS, dynamic(() => import('components/dialogs/FollowersDialog'))],
   [SHOW_MODAL_LINK_OPTIONS, dynamic(() => import('components/dialogs/LinkOptionsDialog'))],
   [SHOW_MODAL_DELEGATE_VOTE, dynamic(() => import('components/dialogs/DelegateVoteDialog'))],
+  [SHOW_MODAL_ADD_IMAGE, dynamic(() => import('components/dialogs/AddImageDialog'))],
 ]);
 
 export default class ModalManager extends PureComponent {

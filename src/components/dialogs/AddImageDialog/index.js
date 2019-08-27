@@ -13,31 +13,31 @@ import Input from 'components/elements/common/Input';
 
 export default class AddImageDialog extends React.PureComponent {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   onInputKeyDown = e => {
-    if (e.which === keyCodes.ENTER) {
-      const { onClose } = this.props;
+    const { close } = this.props;
 
+    if (e.which === keyCodes.ENTER) {
       e.preventDefault();
-      onClose({
+      close({
         url: e.target.value,
       });
     }
   };
 
   onCloseClick = () => {
-    const { onClose } = this.props;
-    onClose();
+    const { close } = this.props;
+    close();
   };
 
   onDrop = files => {
-    const { onClose } = this.props;
+    const { close } = this.props;
     const file = files[0];
 
     if (validateImageFile(file)) {
-      onClose({ file });
+      close({ file });
     }
   };
 
