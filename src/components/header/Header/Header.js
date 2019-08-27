@@ -551,7 +551,7 @@ export default class Header extends PureComponent {
         <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
           <TechnicalWork>
             <TechnicalContainerWrapper>
-              {tt('technical_work.start')}
+              {tt('technical_work.dears')}
               <br />
               <Interpolate
                 with={{
