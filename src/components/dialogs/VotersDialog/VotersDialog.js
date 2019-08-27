@@ -54,7 +54,7 @@ export default class VotersDialog extends PureComponent {
     sequenceKey: PropTypes.string,
 
     getVoters: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -81,14 +81,14 @@ export default class VotersDialog extends PureComponent {
     this.loadMore();
   };
 
-  renderUsers = () => {
-    const { users, currentUserId, onClose } = this.props;
+  renderUsers() {
+    const { users, currentUserId, close } = this.props;
     return users.map(({ name, userId, avatar, percent, isSubscribed }) => {
       const user = name || userId;
 
       return (
         <UserItem key={name}>
-          <UserLink userId={user} title={user} onClick={onClose}>
+          <UserLink userId={user} title={user} onClick={close}>
             <Avatar avatarUrl={avatar} />
             <Name>{user}</Name>
           </UserLink>
@@ -102,15 +102,15 @@ export default class VotersDialog extends PureComponent {
         </UserItem>
       );
     });
-  };
+  }
 
   render() {
-    const { isLoading, isLikes, isEnd, onClose } = this.props;
+    const { isLoading, isLikes, isEnd, close } = this.props;
     return (
       <Dialog>
         <Header>
           <Title>{tt(`dialog.${isLikes ? 'liked' : 'disliked'}`)}</Title>
-          <IconClose onClick={onClose} />
+          <IconClose onClick={close} />
         </Header>
         <Content>
           <InfinityScrollHelper

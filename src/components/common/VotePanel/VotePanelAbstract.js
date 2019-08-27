@@ -12,7 +12,6 @@ import Slider from 'components/golos-ui/Slider';
 // import PostPayout from 'components/common/PostPayout';
 import DislikeAlert from 'components/dialogs/DislikeAlert';
 import DialogManager from 'components/elements/common/DialogManager';
-import VotersDialog from 'components/dialogs/VotersDialog';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
 import Popover from '../Popover';
@@ -157,6 +156,7 @@ export default class VotePanelAbstract extends PureComponent {
     waitForTransaction: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
     getVoters: PropTypes.func.isRequired,
+    openVotersDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -198,7 +198,7 @@ export default class VotePanelAbstract extends PureComponent {
   }
 
   onLikesNumberClick = async () => {
-    const { entity, getVoters } = this.props;
+    const { entity, getVoters, openVotersDialog } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -213,14 +213,15 @@ export default class VotePanelAbstract extends PureComponent {
         return displayError('Cannot load voters list', err);
       }
 
-      return this.openVotersDialog(data, entity.id, true);
+      openVotersDialog({ data, id: entity.id, isLikes: true });
+      return;
     }
 
     return ToastsManager.err('Cannot load voters list');
   };
 
   onDislikesNumberClick = async () => {
-    const { entity, getVoters } = this.props;
+    const { entity, getVoters, openVotersDialog } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -235,7 +236,8 @@ export default class VotePanelAbstract extends PureComponent {
         return displayError('Cannot load voters list', err);
       }
 
-      return this.openVotersDialog(data, entity.id, false);
+      openVotersDialog({ data, id: entity.id, isLikes: false });
+      return;
     }
     return ToastsManager.err('Cannot load voters list');
   };
@@ -321,17 +323,6 @@ export default class VotePanelAbstract extends PureComponent {
     } else if (await this.showDislikeAlert()) {
       this.vote(-1);
     }
-  };
-
-  openVotersDialog = (data, id, isLikes) => {
-    DialogManager.showDialog({
-      component: VotersDialog,
-      props: {
-        data,
-        id,
-        isLikes,
-      },
-    });
   };
 
   vote = async fraction => {
