@@ -2,7 +2,7 @@ import { openModal } from 'redux-modals-manager';
 
 import { SHOW_MODAL_TRANSFER, SHOW_MODAL_DELEGATE, SHOW_MODAL_CONVERT } from 'store/constants';
 import { currentUserIdSelector } from 'store/selectors/auth';
-import { showLoginModal } from 'store/actions/modals';
+import { showLoginModal } from './login';
 
 export const openTransferDialog = (
   recipientName = '',

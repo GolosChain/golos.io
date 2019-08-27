@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { currentUserIdSelector } from 'store/selectors/auth';
-import { openTransferDialog, openDelegateDialog, openConvertDialog } from 'store/actions/dialogs';
+import { openTransferDialog, openDelegateDialog, openConvertDialog } from 'store/actions/modals';
 
 import RightActions from './RightActions';
 

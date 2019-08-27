@@ -2,26 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
-
 import tt from 'counterpart';
-import { SHOW_MODAL_LOGIN } from 'store/constants/modalTypes';
+
 import Flex from 'components/golos-ui/Flex';
 import Button from 'components/golos-ui/Button';
-import DialogManager from 'components/elements/common/DialogManager';
-import QrKeyView from 'components/elements/QrKeyView';
 
 const QR_SIZES = 58;
 const QR_MARGIN = 18;
 
 const Wrapper = styled.div``;
-
-// const ImageQR = styled.img`
-//   flex: 0;
-//   width: ${QR_SIZES}px;
-//   height: ${QR_SIZES}px;
-//   cursor: pointer;
-//   margin-right: ${QR_MARGIN}px;
-// `;
 
 const KeyInfo = styled.div`
   flex: 1 0;
@@ -89,7 +78,8 @@ export default class ShowKey extends Component {
     pubkey: PropTypes.string.isRequired,
     privateKey: PropTypes.string,
     authType: PropTypes.string.isRequired,
-    openModal: PropTypes.func.isRequired,
+    showLoginDialog: PropTypes.func.isRequired,
+    showQrKeyDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -107,8 +97,9 @@ export default class ShowKey extends Component {
   };
 
   handleShowLogin = async () => {
-    const { openModal, authType, profile } = this.props;
-    const { auth } = await openModal(SHOW_MODAL_LOGIN, {
+    const { authType, profile, showLoginDialog } = this.props;
+
+    const { auth } = await showLoginDialog({
       isConfirm: true,
       keyRole: authType,
       lockUsername: true,
@@ -121,18 +112,15 @@ export default class ShowKey extends Component {
   };
 
   handleShowQr = () => {
-    const { authType, pubkey, privateKey, profile } = this.props;
+    const { authType, pubkey, privateKey, profile, showQrKeyDialog } = this.props;
     const { showPrivate } = this.state;
 
     const key = showPrivate ? privateKey : pubkey;
 
-    DialogManager.showDialog({
-      component: QrKeyView,
-      props: {
-        type: authType,
-        text: `${profile.userId} ${key}`,
-        isPrivate: showPrivate,
-      },
+    showQrKeyDialog({
+      type: authType,
+      text: `${profile.userId} ${key}`,
+      isPrivate: showPrivate,
     });
   };
 

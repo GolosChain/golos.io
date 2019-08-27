@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { openTransferDialog } from 'store/actions/dialogs';
+import { openTransferDialog } from 'store/actions/modals';
 
 import CommentFooter from './CommentFooter';
 

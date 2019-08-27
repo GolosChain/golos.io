@@ -5,7 +5,7 @@ import qrImage from 'qr-image';
 
 import Button from 'components/golos-ui/Button';
 
-const Root = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 500px;
@@ -28,7 +28,7 @@ const Footer = styled.div`
 
 export default class QrKeyView extends PureComponent {
   onClose = () => {
-    this.props.onClose();
+    this.props.close();
   };
 
   render() {
@@ -39,7 +39,7 @@ export default class QrKeyView extends PureComponent {
     const dataURI = `data:image/png;base64,${pngBuffer.toString('base64')}`;
 
     return (
-      <Root>
+      <Wrapper>
         <Header>
           {isPrivate
             ? tt('userkeys_jsx.private_something_key', { key: type })
@@ -50,7 +50,7 @@ export default class QrKeyView extends PureComponent {
         <Footer>
           <Button onClick={this.onClose}>{tt('g.close')}</Button>
         </Footer>
-      </Root>
+      </Wrapper>
     );
   }
 }
