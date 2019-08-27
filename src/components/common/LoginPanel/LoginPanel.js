@@ -122,7 +122,7 @@ const LoginButton = styled(Button)`
   margin-bottom: 0;
 `;
 
-export default class LoginForm extends Component {
+export default class LoginPanel extends Component {
   static propTypes = {
     isConfirm: PropTypes.bool,
     keyRole: PropTypes.oneOf(['owner', 'active', 'posting']),

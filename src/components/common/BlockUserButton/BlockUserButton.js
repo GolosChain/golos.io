@@ -4,8 +4,6 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { showLoginModal } from 'store/actions/modals/index';
-
 const Wrapper = styled.button`
   ${is('disable')`
     pointer-events: none;
@@ -45,9 +43,7 @@ export default class BlockUserButton extends Component {
     }
     try {
       if (!currentUsername) {
-        if (!(await showLoginModal())) {
-          return;
-        }
+        throw new Error('Unauthorized');
       }
 
       if (isBlocked) {

@@ -9,7 +9,6 @@ import { currentUserSelector } from 'store/selectors/auth';
 // import { currentUsernameSelector } from 'store/selectors/auth';
 // import { onVote } from 'app/redux/actions/vote';
 // import { showNotification } from 'app/redux/actions/ui';
-// import { openTransferDialog } from 'app/redux/actions/dialogs';
 import { waitForTransaction, fetchPost, fetchPostComments } from 'store/actions/gate';
 import { deleteComment } from 'store/actions/complex/content';
 

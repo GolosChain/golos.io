@@ -128,7 +128,7 @@ export default class DelegateDialog extends PureComponent {
     stopDelegateTokens: PropTypes.func.isRequired,
     getVestingParams: PropTypes.func.isRequired,
     convertTokensToVesting: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -255,8 +255,8 @@ export default class DelegateDialog extends PureComponent {
   };
 
   onCloseClick = () => {
-    const { onClose } = this.props;
-    onClose();
+    const { close } = this.props;
+    close();
   };
 
   onOkClick = async () => {
@@ -308,13 +308,13 @@ export default class DelegateDialog extends PureComponent {
   };
 
   confirmClose() {
-    const { onClose } = this.props;
+    const { close } = this.props;
     const { amount, target } = this.state;
 
     if (amount.trim() || target) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
-          onClose();
+          close();
         }
       });
 

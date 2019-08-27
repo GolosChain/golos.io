@@ -1,1 +1,1 @@
-export { default } from './CommentFooter';
+export { default } from './CommentFooter.connect';
