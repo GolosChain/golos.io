@@ -186,9 +186,6 @@
     "title": "Repost this post",
     "too_long": "Repost body can't exceed %(count)s symbols."
   },
-  "dialogs_reset_keys": {
-    "title": "Reset %(user)s's Password"
-  },
   "dialogs_transfer": {
     "amount": "Amount",
     "amount_placeholder": "Available %(amount)s",

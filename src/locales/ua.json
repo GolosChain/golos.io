@@ -157,9 +157,6 @@
     "title": "Поділитися цим постом",
     "too_long": "Тіло репосту не може бути більше ніж %(count)s символів."
   },
-  "dialogs_reset_keys": {
-    "title": "Скинути пароль користувача %(user)s"
-  },
   "dialogs_transfer": {
     "amount": "Скільки",
     "amount_placeholder": "Доступно %(amount)s",

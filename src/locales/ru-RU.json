@@ -187,9 +187,6 @@
     "title": "Поделиться этим постом",
     "too_long": "Тело репоста не может превышать %(count)s символов."
   },
-  "dialogs_reset_keys": {
-    "title": "Сбросить пароль пользователя %(user)s"
-  },
   "dialogs_transfer": {
     "amount": "Сколько",
     "amount_placeholder": "Доступно %(amount)s",
