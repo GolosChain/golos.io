@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
@@ -7,7 +8,6 @@ import './index.scss';
 import Icon from 'components/golos-ui/Icon';
 import DialogManager from 'components/elements/common/DialogManager';
 import AddImageDialog from 'components/dialogs/AddImageDialog';
-import LinkOptionsDialog from 'components/dialogs/LinkOptionsDialog';
 import IconWrapper from 'components/common/IconWrapper';
 import KEYS from 'utils/keyCodes';
 import { uploadImage } from 'utils/uploadImages';
@@ -39,6 +39,10 @@ const PLUS_ACTIONS = [
 ];
 
 export default class MarkdownEditorToolbar extends React.PureComponent {
+  static propTypes = {
+    showLinkOptionsDialog: PropTypes.func.isRequired,
+  };
+
   rootRef = createRef();
 
   constructor(props) {
@@ -485,7 +489,8 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
     }
   }
 
-  draw = () => {
+  draw = async () => {
+    const { showLinkOptionsDialog } = this.props;
     const selection = this._cm.getSelection();
 
     const props = {
@@ -506,15 +511,11 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
       }
     }
 
-    DialogManager.showDialog({
-      component: LinkOptionsDialog,
-      props,
-      onClose: data => {
-        if (!this._unmount && data) {
-          this._cm.replaceSelection(`[${data.text}](${data.link})`);
-        }
-      },
-    });
+    const data = await showLinkOptionsDialog(props);
+
+    if (!this._unmount && data) {
+      this._cm.replaceSelection(`[${data.text}](${data.link})`);
+    }
   };
 
   _insertLink(url, isImage) {

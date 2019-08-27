@@ -1,1 +1,1 @@
-export { default } from './MarkdownEditorToolbar';
+export { default } from './MarkdownEditorToolbar.connect';

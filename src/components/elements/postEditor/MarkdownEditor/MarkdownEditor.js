@@ -192,7 +192,6 @@ export default class MarkdownEditor extends PureComponent {
                   uploadImage={uploadImage}
                   SM={SimpleMDE}
                   mobile
-                  wrapperRef={wrapperRef}
                 />
               </PanelWrapper>,
               wrapperRef.current

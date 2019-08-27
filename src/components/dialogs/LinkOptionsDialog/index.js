@@ -8,7 +8,7 @@ import Input from 'components/elements/common/Input';
 
 export default class LinkOptionsDialog extends React.PureComponent {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   linkRef = createRef();
@@ -68,7 +68,7 @@ export default class LinkOptionsDialog extends React.PureComponent {
   }
 
   _onCloseClick = () => {
-    this.props.onClose();
+    this.props.close();
   };
 
   _onOkClick = () => {
@@ -79,7 +79,7 @@ export default class LinkOptionsDialog extends React.PureComponent {
     } else if (!link) {
       this.linkRef.current.focus();
     } else {
-      this.props.onClose({
+      this.props.close({
         text: text,
         link: link,
       });
