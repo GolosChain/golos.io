@@ -15,6 +15,7 @@ export const fetchReplies = ({ userId, sequenceKey }) => {
     limit: FEED_PAGE_SIZE,
     sequenceKey: sequenceKey || null,
     userId,
+    app: 'gls',
   };
 
   return {
