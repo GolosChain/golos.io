@@ -7,6 +7,7 @@ import {
   SHOW_MODAL_DISLIKE_ALERT,
   SHOW_MODAL_UNFOLLOW_ALERT,
   SHOW_MODAL_FOLLOWERS,
+  SHOW_MODAL_DELEGATE_VOTE,
 } from 'store/constants';
 
 export function openVotersDialog(params) {
@@ -31,4 +32,8 @@ export function showUnfollowAlert(targetUserId) {
 
 export function showFollowersDialog({ userId, type }) {
   return openModal(SHOW_MODAL_FOLLOWERS, { userId, type });
+}
+
+export function showDelegateVoteDialog(params) {
+  return openModal(SHOW_MODAL_DELEGATE_VOTE, params);
 }

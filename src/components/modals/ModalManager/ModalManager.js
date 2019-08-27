@@ -22,6 +22,7 @@ import {
   SHOW_MODAL_UNFOLLOW_ALERT,
   SHOW_MODAL_FOLLOWERS,
   SHOW_MODAL_LINK_OPTIONS,
+  SHOW_MODAL_DELEGATE_VOTE,
 } from 'store/constants/modalTypes';
 import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -96,6 +97,7 @@ const modalsMap = new Map([
   [SHOW_MODAL_UNFOLLOW_ALERT, dynamic(() => import('components/dialogs/UnfollowDialog'))],
   [SHOW_MODAL_FOLLOWERS, dynamic(() => import('components/dialogs/FollowersDialog'))],
   [SHOW_MODAL_LINK_OPTIONS, dynamic(() => import('components/dialogs/LinkOptionsDialog'))],
+  [SHOW_MODAL_DELEGATE_VOTE, dynamic(() => import('components/dialogs/DelegateVoteDialog'))],
 ]);
 
 export default class ModalManager extends PureComponent {
