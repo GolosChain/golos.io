@@ -5,6 +5,7 @@ import {
   SHOW_MODAL_QR_KEY,
   SHOW_MODAL_PAYOUT_INFO,
   SHOW_MODAL_DISLIKE_ALERT,
+  SHOW_MODAL_UNFOLLOW_ALERT,
 } from 'store/constants';
 
 export function openVotersDialog(params) {
@@ -18,6 +19,11 @@ export function showQrKeyDialog(params) {
 export function showPayoutDialog(postLink) {
   return openModal(SHOW_MODAL_PAYOUT_INFO, { postLink });
 }
+
 export function showDislikeAlert(postLink) {
   return openModal(SHOW_MODAL_DISLIKE_ALERT, { postLink });
+}
+
+export function showUnfollowAlert(targetUserId) {
+  return openModal(SHOW_MODAL_UNFOLLOW_ALERT, { targetUserId });
 }

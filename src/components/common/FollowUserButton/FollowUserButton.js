@@ -7,8 +7,6 @@ import is from 'styled-is';
 
 import { displayError } from 'utils/toastMessages';
 import { showLoginModal } from 'store/actions/modals';
-import DialogManager from 'components/elements/common/DialogManager';
-import UnfollowDialog from 'components/dialogs/UnfollowDialog';
 
 const Wrapper = styled.button`
   ${is('disable')`
@@ -77,18 +75,9 @@ export default class FollowUserButton extends Component {
     }
   };
 
-  showUnfollowAlert() {
-    const { targetUserId } = this.props;
-
-    return new Promise(resolve => {
-      DialogManager.showDialog({
-        component: UnfollowDialog,
-        props: {
-          targetUserId,
-        },
-        onClose: resolve,
-      });
-    });
+  async showUnfollowAlert() {
+    const { targetUserId, showUnfollowAlert } = this.props;
+    return await showUnfollowAlert(targetUserId);
   }
 
   render() {

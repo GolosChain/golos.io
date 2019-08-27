@@ -67,8 +67,8 @@ export default class UnfollowDialog extends Component {
   }
 
   onCloseClick = isActionConfirmed => {
-    const { onClose } = this.props;
-    onClose(isActionConfirmed === CONFIRMED_ID);
+    const { close } = this.props;
+    close(isActionConfirmed === CONFIRMED_ID);
   };
 
   onOkClick = () => {

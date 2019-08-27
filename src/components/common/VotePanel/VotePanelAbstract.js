@@ -10,7 +10,6 @@ import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 // import PostPayout from 'components/common/PostPayout';
-import DialogManager from 'components/elements/common/DialogManager';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
 import Popover from '../Popover';
