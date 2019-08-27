@@ -5,7 +5,6 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon';
-import { openTransferDialog } from 'components/userProfile/common/RightActions/showDialogs';
 
 import VotePanel from 'components/common/VotePanel';
 import ReplyBlock from 'components/common/ReplyBlock';
@@ -149,15 +148,14 @@ export default class CommentFooter extends Component {
     isOwner: PropTypes.bool.isRequired,
     replyRef: PropTypes.shape({}).isRequired,
     showReply: PropTypes.bool.isRequired,
-    currentUsername: PropTypes.string,
     onReplyClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
+    openTransferDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     commentRef: {},
     contentLink: '',
-    currentUsername: '',
   };
 
   state = {
@@ -194,13 +192,9 @@ export default class CommentFooter extends Component {
   };
 
   onDonateClick = async () => {
-    const { comment, currentUsername } = this.props;
-    await openTransferDialog(
-      currentUsername,
-      comment.author,
-      'donate',
-      `${window.location.origin}/${comment.id}`
-    );
+    const { comment, openTransferDialog } = this.props;
+
+    await openTransferDialog(comment.author, 'donate', `${window.location.origin}/${comment.id}`);
   };
 
   render() {

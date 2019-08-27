@@ -117,7 +117,7 @@ export default class ConvertDialog extends PureComponent {
     cyberBalance: PropTypes.number,
     stakedBalance: PropTypes.number,
 
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
     withdrawTokens: PropTypes.func.isRequired,
     withdrawStake: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
@@ -202,8 +202,8 @@ export default class ConvertDialog extends PureComponent {
   };
 
   onCloseClick = () => {
-    const { onClose } = this.props;
-    onClose();
+    const { close } = this.props;
+    close();
   };
 
   onOkClick = async () => {
@@ -213,7 +213,7 @@ export default class ConvertDialog extends PureComponent {
       withdrawStake,
       transferToken,
       convertTokensToVesting,
-      onClose,
+      close,
     } = this.props;
     const { amount, type, loader, disabled, saveTo, recipient } = this.state;
 
@@ -257,7 +257,7 @@ export default class ConvertDialog extends PureComponent {
         loader: false,
       });
 
-      onClose();
+      close();
     } catch (err) {
       this.setState({
         loader: false,
@@ -299,12 +299,12 @@ export default class ConvertDialog extends PureComponent {
 
   confirmClose() {
     const { amount, saveTo, recipient } = this.state;
-    const { onClose } = this.props;
+    const { close } = this.props;
 
     if (amount.trim() || (saveTo ? recipient.trim() : false)) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
-          onClose();
+          close();
         }
       });
 

@@ -12,6 +12,9 @@ import {
   SHOW_MODAL_BECOME_LOADER,
   SHOW_MODAL_MANAGE_COMMUNITY,
   SHOW_MODAL_REPOST,
+  SHOW_MODAL_TRANSFER,
+  SHOW_MODAL_DELEGATE,
+  SHOW_MODAL_CONVERT,
 } from 'store/constants/modalTypes';
 import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -76,6 +79,9 @@ const modalsMap = new Map([
   [SHOW_MODAL_BECOME_LOADER, dynamic(() => import('components/modals/BecomeLeader'))],
   [SHOW_MODAL_MANAGE_COMMUNITY, dynamic(() => import('components/modals/ManageCommunity'))],
   [SHOW_MODAL_REPOST, dynamic(() => import('components/dialogs/RepostDialog'))],
+  [SHOW_MODAL_TRANSFER, dynamic(() => import('components/dialogs/TransferDialog'))],
+  [SHOW_MODAL_DELEGATE, dynamic(() => import('components/dialogs/DelegateDialog'))],
+  [SHOW_MODAL_CONVERT, dynamic(() => import('components/dialogs/ConvertDialog'))],
 ]);
 
 export default class ModalManager extends PureComponent {
