@@ -17,7 +17,6 @@ import { VotePanelCompact } from 'components/common/VotePanel';
 import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
-import CurationPercent from 'components/common/CurationPercent';
 
 const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
@@ -373,12 +372,12 @@ export default class PostCardCompact extends PureComponent {
   };
 
   renderHeader() {
-    const { permLink, post, reblogData, isRepost } = this.props;
+    const { post, isRepost } = this.props;
 
     let created;
 
     if (isRepost) {
-      created = reblogData.date;
+      created = post.repost.time;
     } else {
       created = post.meta.time;
     }
@@ -470,7 +469,7 @@ export default class PostCardCompact extends PureComponent {
   }
 
   renderDetails() {
-    const { post, author, isRepost, reblogData } = this.props;
+    const { post, author, repostAuthor, isRepost } = this.props;
 
     const category = detransliterate(post.tag || 'test');
     const categoryTooltip = tt('aria_label.category', { category });
@@ -482,11 +481,11 @@ export default class PostCardCompact extends PureComponent {
             <Link
               route="profile"
               params={{
-                userId: reblogData.repostAuthor || 'unknown',
+                userId: repostAuthor || 'unknown',
               }}
             >
               <AuthorLink>
-                <AuthorName>{reblogData.repostAuthor}</AuthorName>
+                <AuthorName>{repostAuthor?.username || 'unknown'}</AuthorName>
               </AuthorLink>
             </Link>
             <RepostArrowIcon />
