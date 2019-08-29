@@ -11,6 +11,7 @@ export default connect(
   (state, props) => {
     const post = entitySelector('posts', props.id)(state);
     const author = entitySelector('users', post.author)(state);
+    const repostAuthor = entitySelector('users', post?.repost?.userId)(state);
     const favoritePosts = dataSelector(['favorites', 'postsList'])(state) || [];
     const isFavorite = favoritePosts.some(favoritePost => favoritePost === props.id);
 
@@ -25,11 +26,13 @@ export default connect(
     return {
       post,
       author,
+      repostAuthor,
       stats: {}, // TODO: Fix
       isMobile: UIModeSelector('screenType')(state) === 'mobile',
       isFavorite,
       hideNsfw,
       warnNsfw,
+      isRepost: post?.repost?.isRepost,
     };
   },
   {

@@ -18,6 +18,7 @@ import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
 import CurationPercent from 'components/common/CurationPercent';
+import CardAuthor from '../CardAuthor/CardAuthor.connect';
 
 const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
@@ -320,6 +321,36 @@ const DotsIcon = styled(Icon).attrs({
   }
 `;
 
+const RepostBody = styled(Body)`
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e1e1e1;
+`;
+
+const RepostBlock = styled.div``;
+
+const HeaderRepost = styled(Header)`
+  padding: 0 0 10px;
+
+  ${is('postInFeed')`
+    position: relative;
+  `};
+`;
+
+const HeaderLine = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 2px 18px;
+  pointer-events: none;
+
+  & > * {
+    pointer-events: initial;
+  }
+
+  @media (min-width: 361px) and (max-width: 400px) {
+    padding: 2px 10px;
+  }
+`;
+
 export default class PostCardCompact extends PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -373,12 +404,12 @@ export default class PostCardCompact extends PureComponent {
   };
 
   renderHeader() {
-    const { permLink, post, reblogData, isRepost } = this.props;
+    const { post } = this.props;
 
     let created;
 
-    if (isRepost) {
-      created = reblogData.date;
+    if (post?.repost?.isRepost) {
+      created = post.repost?.time;
     } else {
       created = post.meta.time;
     }
@@ -470,7 +501,7 @@ export default class PostCardCompact extends PureComponent {
   }
 
   renderDetails() {
-    const { post, author, isRepost, reblogData } = this.props;
+    const { post, author, repostAuthor, isRepost } = this.props;
 
     const category = detransliterate(post.tag || 'test');
     const categoryTooltip = tt('aria_label.category', { category });
@@ -482,11 +513,11 @@ export default class PostCardCompact extends PureComponent {
             <Link
               route="profile"
               params={{
-                userId: reblogData.repostAuthor || 'unknown',
+                userId: repostAuthor || 'unknown',
               }}
             >
               <AuthorLink>
-                <AuthorName>{reblogData.repostAuthor}</AuthorName>
+                <AuthorName>{repostAuthor?.username || 'unknown'}</AuthorName>
               </AuthorLink>
             </Link>
             <RepostArrowIcon />
