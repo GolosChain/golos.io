@@ -267,8 +267,7 @@ export default class ResetKey extends PureComponent {
               </RulesBlock>
               {delay ? (
                 <DelayWarning>
-                  Ваш аккаунт имеет ограничение на owner ключ. Пароль может быть изменен только с
-                  временной задержкой в {secondsToDays(delay)} дней.
+                  {tt('reset_key.delay_warning', { delay: secondsToDays(delay) })}
                 </DelayWarning>
               ) : null}
               <Field name="userId">
