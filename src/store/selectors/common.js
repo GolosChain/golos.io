@@ -39,8 +39,13 @@ export const entitiesArraySelector = type =>
   );
 
 // Возвращает конкретную сушность по указанному типу (type) сущности и её id
-export const entitySelector = (type, id) =>
-  createDeepEqualSelector([entitiesSelector(type)], entities => entities[id]);
+export const entitySelector = (type, id) => {
+  if (!id) {
+    return () => {};
+  }
+
+  return createDeepEqualSelector([entitiesSelector(type)], entities => entities[id]);
+};
 
 export const modeSelector = state => state.ui.mode;
 

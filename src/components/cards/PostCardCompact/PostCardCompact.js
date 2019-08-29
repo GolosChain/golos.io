@@ -377,7 +377,7 @@ export default class PostCardCompact extends PureComponent {
     let created;
 
     if (isRepost) {
-      created = post.repost?.time;
+      created = post.repost.time;
     } else {
       created = post.meta.time;
     }
