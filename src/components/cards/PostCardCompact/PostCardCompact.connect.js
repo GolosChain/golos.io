@@ -11,7 +11,7 @@ export default connect(
   (state, props) => {
     const post = entitySelector('posts', props.id)(state);
     const author = entitySelector('users', post.author)(state);
-    const repostAuthor = entitySelector('users', post?.repost?.userId)(state);
+    const repostAuthor = entitySelector('users', post.repost?.userId)(state);
     const favoritePosts = dataSelector(['favorites', 'postsList'])(state) || [];
     const isFavorite = favoritePosts.some(favoritePost => favoritePost === props.id);
 
@@ -32,7 +32,7 @@ export default connect(
       isFavorite,
       hideNsfw,
       warnNsfw,
-      isRepost: post?.repost?.isRepost,
+      isRepost: post.repost?.isRepost,
     };
   },
   {
