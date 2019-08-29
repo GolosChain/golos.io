@@ -3703,7 +3703,7 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@1.4.0:
+cyber-client@^1.4.0:
   version "1.4.0"
   resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.4.0.tgz#1e1e812adc586bf3c78f357406063fda1dab6a07"
   integrity sha512-4FXUnNLyDsg6y/+MvHDS7pH4GNoh+7Axk9KbKl26EIG1LjJjJPkzhDCDcsaQIY38dItmI7Rx45R+l4PHm6Uf3A==
