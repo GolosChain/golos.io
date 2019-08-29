@@ -1,8 +1,6 @@
 import cyber from 'cyber-client';
 
-import { logout } from 'store/actions/gate/auth';
 import { CYBERWAY_API, CYBERWAY_RPC } from 'store/middlewares/cyberway-api';
-
 import {
   UPDATE_AUTH,
   UPDATE_AUTH_SUCCESS,
@@ -12,6 +10,7 @@ import {
   FETCH_ACCOUNT_ERROR,
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector } from 'store/selectors/auth';
+import { logout } from 'store/actions/gate/auth';
 
 const PARENT_PERMISSION = {
   posting: 'active',
@@ -36,7 +35,7 @@ export const fetchAccountPermissions = () => async (dispatch, getState) => {
   });
 };
 
-export const changePassword = (password, publicKeys, availableRoles) => async (
+export const changePassword = ({ ownerKey, publicKeys, availableRoles, delaySec }) => async (
   dispatch,
   getState
 ) => {
@@ -45,6 +44,7 @@ export const changePassword = (password, publicKeys, availableRoles) => async (
   if (!userId) {
     throw new Error('Unauthorized');
   }
+
   const updateAuthActions = availableRoles.map(role =>
     cyber.basic.prepareAction(
       'cyber',
@@ -69,18 +69,28 @@ export const changePassword = (password, publicKeys, availableRoles) => async (
     )
   );
 
-  const keys = cyber.getActualAuth(userId, password, 'owner');
+  cyber.initProvider(ownerKey);
 
-  cyber.initProvider(keys.actualKey);
+  const trx = {
+    actions: updateAuthActions,
+  };
 
-  dispatch({
+  if (delaySec) {
+    trx.delay_sec = delaySec;
+  }
+
+  const results = await dispatch({
     [CYBERWAY_API]: {
       types: [UPDATE_AUTH, UPDATE_AUTH_SUCCESS, UPDATE_AUTH_ERROR],
       contract: 'basic',
-      method: 'sendActions',
-      params: updateAuthActions,
+      method: 'sendTransaction',
+      params: trx,
     },
   });
 
-  dispatch(logout());
+  if (!delaySec) {
+    dispatch(logout());
+  }
+
+  return results;
 };

@@ -16,18 +16,10 @@ export default authProtection()(
   connect(
     (state, props) => {
       const profile = profileSelector(props.userId)(state);
-      const accountData = dataSelector(['chain', 'account'])(state) || {};
       const settingsData = dataSelector('settings')(state);
-
-      let publicKeys = {};
-
-      if (!isEmpty(accountData)) {
-        publicKeys = getAccountPermissions(accountData.permissions);
-      }
 
       return {
         profile,
-        publicKeys,
         settingsData,
       };
     },

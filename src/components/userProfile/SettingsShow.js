@@ -21,7 +21,6 @@ const CardStyled = styled(Card)`
 export default class SettingsShow extends PureComponent {
   static propTypes = {
     profile: profileType.isRequired,
-    publicKeys: PropTypes.shape({}).isRequired,
     options: PropTypes.shape({}).isRequired,
     isFetching: PropTypes.bool.isRequired,
     isRich: PropTypes.bool,
@@ -35,15 +34,7 @@ export default class SettingsShow extends PureComponent {
   };
 
   render() {
-    const {
-      profile,
-      publicKeys,
-      options,
-      isFetching,
-      isRich,
-      onSubmitBlockchain,
-      onSubmitGate,
-    } = this.props;
+    const { profile, options, isFetching, isRich, onSubmitBlockchain, onSubmitGate } = this.props;
 
     return (
       <CardStyled>
@@ -74,7 +65,7 @@ export default class SettingsShow extends PureComponent {
             /> */}
           </TabContainer>
           <TabContainer id="keysTab" title={tt('settings_jsx.tabs.keys')}>
-            <Keys profile={profile} publicKeys={publicKeys} />
+            <Keys profile={profile} />
           </TabContainer>
         </Tabs>
       </CardStyled>

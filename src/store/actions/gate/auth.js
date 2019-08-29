@@ -65,6 +65,8 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
   try {
     const { actualKey } = cyber.getActualAuth(username, privateKey, keyRole);
 
+    console.log('AAAA', { username, privateKey, keyRole, actualKey });
+
     if (needGateAuthorize) {
       const { secret } = await dispatch(getAuthSecret());
 

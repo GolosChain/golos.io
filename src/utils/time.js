@@ -8,3 +8,7 @@ export function fixDate(ts) {
   }
   return ts;
 }
+
+export function secondsToDays(seconds) {
+  return (seconds / 60 / 60 / 24).toFixed(1).replace(/\.0$/, '');
+}
