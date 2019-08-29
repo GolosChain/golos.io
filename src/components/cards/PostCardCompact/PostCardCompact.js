@@ -17,8 +17,6 @@ import { VotePanelCompact } from 'components/common/VotePanel';
 import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
-import CurationPercent from 'components/common/CurationPercent';
-import CardAuthor from '../CardAuthor/CardAuthor.connect';
 
 const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
@@ -318,36 +316,6 @@ const DotsIcon = styled(Icon).attrs({
 
   @media (max-width: 500px) {
     width: 34px;
-  }
-`;
-
-const RepostBody = styled(Body)`
-  margin-bottom: 10px;
-  border-bottom: 1px solid #e1e1e1;
-`;
-
-const RepostBlock = styled.div``;
-
-const HeaderRepost = styled(Header)`
-  padding: 0 0 10px;
-
-  ${is('postInFeed')`
-    position: relative;
-  `};
-`;
-
-const HeaderLine = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 2px 18px;
-  pointer-events: none;
-
-  & > * {
-    pointer-events: initial;
-  }
-
-  @media (min-width: 361px) and (max-width: 400px) {
-    padding: 2px 10px;
   }
 `;
 
