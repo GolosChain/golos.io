@@ -372,11 +372,11 @@ export default class PostCardCompact extends PureComponent {
   };
 
   renderHeader() {
-    const { post } = this.props;
+    const { post, isRepost } = this.props;
 
     let created;
 
-    if (post?.repost?.isRepost) {
+    if (isRepost) {
       created = post.repost?.time;
     } else {
       created = post.meta.time;
