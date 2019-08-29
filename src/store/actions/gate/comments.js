@@ -50,6 +50,7 @@ export const fetchPostComments = ({
     limit: FEED_PAGE_SIZE,
     sequenceKey,
     ...contentId,
+    app: 'gls',
   };
 
   return dispatch({
@@ -72,6 +73,7 @@ export const fetchUserComments = ({ userId, sequenceKey = null, sortBy = SORT_BY
     limit: FEED_PAGE_SIZE,
     sequenceKey,
     userId,
+    app: 'gls',
   };
 
   return {
