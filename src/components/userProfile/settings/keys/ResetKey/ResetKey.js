@@ -7,9 +7,8 @@ import { isEmpty } from 'ramda';
 import { Form, Field } from 'react-final-form';
 import cyber from 'cyber-client';
 import { generateKeys } from 'cyber-client/lib/auth';
-import ToastsManager from 'toasts-manager';
 
-import { displayError } from 'utils/toastMessages';
+import { displaySuccess, displayError } from 'utils/toastMessages';
 import { getNecessaryDelay } from 'utils/permissions';
 import { secondsToDays } from 'utils/time';
 import SplashLoader from 'components/golos-ui/SplashLoader';
@@ -194,7 +193,7 @@ export default class ResetKey extends PureComponent {
     const ownerKey = this.extractOwnerKey(values.password);
 
     if (!ownerKey) {
-      ToastsManager.error(`Owner key can't be extracted`);
+      displayError(`Owner key can't be extracted`);
       return;
     }
 
@@ -220,9 +219,9 @@ export default class ResetKey extends PureComponent {
     }
 
     if (delay) {
-      ToastsManager.info(`Password will be updated in ${secondsToDays(delay)} days`);
+      displaySuccess(`Password will be updated in ${secondsToDays(delay)} days`);
     } else {
-      ToastsManager.info('Password Updated');
+      displaySuccess('Password Updated');
     }
   };
 
