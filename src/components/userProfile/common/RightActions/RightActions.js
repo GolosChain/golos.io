@@ -8,7 +8,6 @@ import { ToggleFeature } from '@flopflip/react-redux';
 import Icon from 'components/golos-ui/Icon';
 
 import { RIGHTACTIONS_BUY_OR_SELL, RIGHTACTIONS_DELEGATE } from 'shared/feature-flags';
-import { openTransferDialog, openDelegateDialog, openConvertDialog } from './showDialogs';
 
 const Wrapper = styled.div``;
 
@@ -57,20 +56,25 @@ export default class RightActions extends PureComponent {
     userId: PropTypes.string.isRequired,
     loggedUserId: PropTypes.string.isRequired,
     isOwner: PropTypes.bool.isRequired,
+    openTransferDialog: PropTypes.func.isRequired,
+    openDelegateDialog: PropTypes.func.isRequired,
+    openConvertDialog: PropTypes.func.isRequired,
   };
 
   onTransferClick = async () => {
-    const { userId, loggedUserId } = this.props;
+    const { userId, loggedUserId, openTransferDialog } = this.props;
     const recipientName = userId !== loggedUserId ? userId : null;
-    await openTransferDialog(loggedUserId, recipientName);
+
+    await openTransferDialog(recipientName);
   };
 
   onDelegateClick = async () => {
-    const { userId } = this.props;
+    const { userId, openDelegateDialog } = this.props;
     await openDelegateDialog(userId);
   };
 
   onConvertClick = async () => {
+    const { openConvertDialog } = this.props;
     await openConvertDialog();
   };
 

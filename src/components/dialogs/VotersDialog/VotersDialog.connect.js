@@ -5,7 +5,7 @@ import { dataSelector, statusSelector } from 'store/selectors/common';
 import { getVoters } from 'store/actions/gate';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
-import VotersDialog from 'components/dialogs/VotersDialog/VotersDialog';
+import VotersDialog from './VotersDialog';
 
 const MAX_VOTE_PERCENT = 10000;
 

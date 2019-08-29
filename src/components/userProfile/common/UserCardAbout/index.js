@@ -1,1 +1,1 @@
-export { default } from './UserCardAbout';
+export { default } from './UserCardAbout.connect';

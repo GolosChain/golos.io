@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
@@ -12,8 +13,6 @@ import Icon from 'components/golos-ui/Icon';
 import { CardTitle } from 'components/golos-ui/Card';
 import CollapsingCard from 'components/golos-ui/CollapsingCard';
 
-import DialogManager from 'components/elements/common/DialogManager';
-import FollowersDialog from 'components/dialogs/FollowersDialog';
 import UserStatus from '../UserStatus';
 
 const CollapsingCardStyled = styled(CollapsingCard)`
@@ -186,29 +185,24 @@ const IconTriangle = styled(Icon).attrs({
 export default class UserCardAbout extends PureComponent {
   static propTypes = {
     profile: profileType.isRequired,
+    showFollowersDialog: PropTypes.func.isRequired,
   };
 
   onShowFollowers = () => {
-    const { profile } = this.props;
+    const { profile, showFollowersDialog } = this.props;
 
-    DialogManager.showDialog({
-      component: FollowersDialog,
-      props: {
-        userId: profile.userId,
-        type: 'followers',
-      },
+    showFollowersDialog({
+      userId: profile.userId,
+      type: 'followers',
     });
   };
 
   onShowFollowing = () => {
-    const { profile } = this.props;
+    const { profile, showFollowersDialog } = this.props;
 
-    DialogManager.showDialog({
-      component: FollowersDialog,
-      props: {
-        userId: profile.userId,
-        type: 'following',
-      },
+    showFollowersDialog({
+      userId: profile.userId,
+      type: 'following',
     });
   };
 

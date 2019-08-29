@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { blockUser, unblockUser } from 'store/actions/cyberway/social';
+import { showLoginOldDialog } from '/store/actions/modals';
 import { statusSelector } from 'store/selectors/common';
 import { currentUsernameSelector } from 'store/selectors/auth';
 
@@ -19,5 +20,6 @@ export default connect(
   {
     blockUser,
     unblockUser,
+    showLoginOldDialog,
   }
 )(BlockUserButton);

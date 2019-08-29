@@ -109,7 +109,7 @@ export default class TransferDialog extends PureComponent {
     balance: PropTypes.string.isRequired,
     cyberBalance: PropTypes.string.isRequired,
 
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
   };
 
@@ -189,12 +189,12 @@ export default class TransferDialog extends PureComponent {
   };
 
   onCloseClick = () => {
-    const { onClose } = this.props;
-    onClose();
+    const { close } = this.props;
+    close();
   };
 
   onOkClick = async () => {
-    const { type, donatePostUrl, transferToken, onClose } = this.props;
+    const { type, donatePostUrl, transferToken, close } = this.props;
     const { target, amount, currency, note, loader, disabled } = this.state;
 
     if (loader || disabled) {
@@ -225,7 +225,7 @@ export default class TransferDialog extends PureComponent {
     try {
       await transferToken(target, tokensAmount, currency, memo);
       this.unblockDialog();
-      onClose();
+      close();
     } catch (err) {
       this.unblockDialog();
       processError(err);
@@ -233,13 +233,13 @@ export default class TransferDialog extends PureComponent {
   };
 
   confirmClose() {
-    const { onClose } = this.props;
+    const { close } = this.props;
     const { target, note, amount } = this.state;
 
     if (target || note.trim() || amount.trim()) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
-          onClose();
+          close();
         }
       });
 

@@ -69,7 +69,7 @@ export default class DelegateVoteDialog extends PureComponent {
 
     stakedBalance: PropTypes.number.isRequired,
 
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
     delegateVote: PropTypes.func.isRequired,
   };
 
@@ -117,12 +117,12 @@ export default class DelegateVoteDialog extends PureComponent {
   };
 
   onCloseClick = () => {
-    const { onClose } = this.props;
-    onClose();
+    const { close } = this.props;
+    close();
   };
 
   onOkClick = async () => {
-    const { delegateVote, onClose } = this.props;
+    const { delegateVote, close } = this.props;
     const { recipientName, amount, currency, loader, disabled } = this.state;
 
     if (loader || disabled) {
@@ -139,7 +139,7 @@ export default class DelegateVoteDialog extends PureComponent {
       await delegateVote(recipientName, `${tokensAmount} ${currency}`);
       displaySuccess(tt('dialogs_transfer.delegatevote.transfer_success'));
       this.unblockDialog();
-      onClose();
+      close();
     } catch (err) {
       this.unblockDialog();
       processError(err);
@@ -147,13 +147,13 @@ export default class DelegateVoteDialog extends PureComponent {
   };
 
   confirmClose() {
-    const { onClose } = this.props;
+    const { close } = this.props;
     const { recipientName, amount } = this.state;
 
     if (recipientName || amount.trim()) {
       DialogManager.dangerConfirm(tt('dialogs_transfer.confirm_dialog_close')).then(y => {
         if (y) {
-          onClose();
+          close();
         }
       });
 

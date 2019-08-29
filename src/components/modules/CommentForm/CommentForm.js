@@ -9,7 +9,7 @@ import { displayError } from 'utils/toastMessages';
 
 import DialogManager from 'components/elements/common/DialogManager';
 import Icon from 'components/elements/Icon';
-import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor/MarkdownEditor';
+import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor';
 import CommentFooter from 'components/elements/postEditor/CommentFooter';
 import PreviewButton from 'components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer/MarkdownViewer';

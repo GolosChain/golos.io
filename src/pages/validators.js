@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import tt from 'counterpart';
 import styled from 'styled-components';
@@ -7,10 +8,9 @@ import is from 'styled-is';
 import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfile } from 'store/actions/gate';
+import { showDelegateVoteDialog } from 'store/actions/modals';
 import LeadersHeader from 'components/leaders/LeadersHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
-import DialogManager from 'components/elements/common/DialogManager';
-import DelegateVoteDialog from 'components/dialogs/DelegateVoteDialog/DelegateVoteDialog.connect';
 
 export const lineTemplate = '270px 70px minmax(360px, auto)';
 
@@ -147,9 +147,13 @@ const REFRESH_INTERVAL = 60 * 1000;
   state => ({
     profiles: entitiesSelector('profiles')(state),
   }),
-  { fetchProfile }
+  { fetchProfile, showDelegateVoteDialog }
 )
 export default class ValidatorsPage extends PureComponent {
+  static propTypes = {
+    showDelegateVoteDialog: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     profiles: [],
   };
@@ -204,13 +208,9 @@ export default class ValidatorsPage extends PureComponent {
   }
 
   onDelegateVoteClick = (recipientName, recipientUsername) => () => {
-    DialogManager.showDialog({
-      component: DelegateVoteDialog,
-      props: {
-        recipientName,
-        recipientUsername,
-      },
-    });
+    const { showDelegateVoteDialog } = this.props;
+
+    showDelegateVoteDialog({ recipientName, recipientUsername });
   };
 
   render() {

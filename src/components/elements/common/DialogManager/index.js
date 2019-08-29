@@ -5,7 +5,6 @@ import tt from 'counterpart';
 
 import KEYS from 'utils/keyCodes';
 import CommonDialog from 'components/dialogs/CommonDialog';
-import LoginForm from 'containers/login/LoginForm';
 
 let queue = [];
 let instance = null;
@@ -102,29 +101,6 @@ export default class DialogManager extends React.PureComponent {
         },
         onClose: resolve,
       });
-    });
-  }
-
-  static showLogin({
-    username,
-    forceSave,
-    isConfirm,
-    operationType,
-    loginOperation,
-    strictAuthType,
-    onClose,
-  } = {}) {
-    return DialogManager.showDialog({
-      component: LoginForm,
-      props: {
-        username,
-        isConfirm,
-        forceSave,
-        operationType,
-        loginOperation,
-        strictAuthType,
-      },
-      onClose,
     });
   }
 

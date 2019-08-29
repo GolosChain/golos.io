@@ -46,7 +46,7 @@ export default class FollowersDialog extends PureComponent {
     isLoading: PropTypes.bool.isRequired,
     profile: profileType.isRequired,
     getSubscriptions: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -56,7 +56,7 @@ export default class FollowersDialog extends PureComponent {
   }
 
   async load({ sequenceKey = null, closeOnError }) {
-    const { userId, type, getSubscriptions, getSubscribers, onClose } = this.props;
+    const { userId, type, getSubscriptions, getSubscribers, close } = this.props;
 
     try {
       if (type === 'followers') {
@@ -68,7 +68,7 @@ export default class FollowersDialog extends PureComponent {
       displayError(err);
 
       if (closeOnError) {
-        onClose();
+        close();
       }
     }
   }
@@ -84,11 +84,12 @@ export default class FollowersDialog extends PureComponent {
   };
 
   renderUser = ({ userId, username, avatarUrl, isSubscribed }) => {
+    const { close } = this.props;
     const user = username || userId;
 
     return (
       <UserItem key={userId}>
-        <UserLink userId={user} title={user} onClick={this.props.onClose}>
+        <UserLink userId={user} title={user} onClick={close}>
           <Avatar avatarUrl={avatarUrl} />
           <Name>{user}</Name>
         </UserLink>
@@ -98,7 +99,7 @@ export default class FollowersDialog extends PureComponent {
   };
 
   render() {
-    const { type, profile, items, isLoading, isEnd, onClose } = this.props;
+    const { type, profile, items, isLoading, isEnd, close } = this.props;
     let totalCount;
 
     if (type === 'followers') {
@@ -111,7 +112,7 @@ export default class FollowersDialog extends PureComponent {
       <DialogStyled>
         <Header>
           <Title>{tt(`user_profile.${type}_count`, { count: totalCount })}</Title>
-          <IconClose onClick={onClose} />
+          <IconClose onClick={close} />
         </Header>
         <Content>
           <InfinityScrollHelper

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { unvoteWitness, voteWitness } from 'store/actions/cyberway';
+import { showLoginOldDialog } from 'store/actions/modals';
 import { statusSelector } from 'store/selectors/common';
 import { currentUsernameSelector } from 'store/selectors/auth';
 
@@ -19,5 +20,6 @@ export default connect(
   {
     voteWitness,
     unvoteWitness,
+    showLoginOldDialog,
   }
 )(VoteWitnessButton);

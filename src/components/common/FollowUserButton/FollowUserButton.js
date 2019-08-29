@@ -6,9 +6,6 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { displayError } from 'utils/toastMessages';
-import { showLoginModal } from 'store/actions/modals';
-import DialogManager from 'components/elements/common/DialogManager';
-import UnfollowDialog from 'components/dialogs/UnfollowDialog';
 
 const Wrapper = styled.button`
   ${is('disable')`
@@ -25,6 +22,7 @@ export default class FollowUserButton extends Component {
     followUser: PropTypes.func.isRequired,
     unfollowUser: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
+    showLoginOldDialog: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     targetUserId: PropTypes.string.isRequired,
     buttonClicked: PropTypes.func,
@@ -48,6 +46,7 @@ export default class FollowUserButton extends Component {
       fetchProfile,
       currentUserId,
       buttonClicked,
+      showLoginOldDialog,
     } = this.props;
 
     if (buttonClicked) {
@@ -55,7 +54,7 @@ export default class FollowUserButton extends Component {
     }
     try {
       if (!currentUserId) {
-        if (!(await showLoginModal())) {
+        if (!(await showLoginOldDialog())) {
           return;
         }
       }
@@ -77,18 +76,9 @@ export default class FollowUserButton extends Component {
     }
   };
 
-  showUnfollowAlert() {
-    const { targetUserId } = this.props;
-
-    return new Promise(resolve => {
-      DialogManager.showDialog({
-        component: UnfollowDialog,
-        props: {
-          targetUserId,
-        },
-        onClose: resolve,
-      });
-    });
+  async showUnfollowAlert() {
+    const { targetUserId, showUnfollowAlert } = this.props;
+    return await showUnfollowAlert(targetUserId);
   }
 
   render() {

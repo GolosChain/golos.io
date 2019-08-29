@@ -4,13 +4,11 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { FormattedDate } from 'react-intl';
 
-import { openTransferDialog } from 'components/userProfile/common/RightActions/showDialogs';
-
 import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
 import Userpic from 'components/common/Userpic';
-import Follow from 'components/common/Follow';
+// import Follow from 'components/common/Follow';
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,14 +39,6 @@ const Avatar = styled.div`
 
 const AuthorInfo = styled.div`
   padding: 0 20px 0 10px;
-`;
-
-const AuthorName = styled.div`
-  color: #393636;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 25px;
 `;
 
 const Account = styled.a`
@@ -90,6 +80,7 @@ const Cake = styled.div`
   font-size: 16px;
   letter-spacing: -0.26px;
   line-height: 24px;
+
   ${CakeText}, ${AboutText} {
     color: #959595;
   }
@@ -125,21 +116,22 @@ const IconStyled = styled(Icon)`
   margin-right: 6px;
 `;
 
-const FollowButton = styled(Follow)`
-  min-width: 167px;
-  min-height: 34px;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-top: 20px;
-  }
-`;
+// const FollowButton = styled(Follow)`
+//   min-width: 167px;
+//   min-height: 34px;
+//
+//   @media (max-width: 768px) {
+//     width: 100%;
+//     margin-top: 20px;
+//   }
+// `;
 
 export default class AboutPanel extends Component {
   static propTypes = {
     post: PropTypes.shape({}).isRequired,
     profile: PropTypes.shape({}).isRequired,
     currentUserId: PropTypes.string,
+    openTransferDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -147,8 +139,9 @@ export default class AboutPanel extends Component {
   };
 
   openDonateDialog = async () => {
-    const { post, currentUserId } = this.props;
-    await openTransferDialog(currentUserId, post.author, 'donate', `/${post.id}`);
+    const { post, openTransferDialog } = this.props;
+
+    await openTransferDialog(post.author, 'donate', `/${post.id}`);
   };
 
   render() {

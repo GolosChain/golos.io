@@ -10,14 +10,10 @@ import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 // import PostPayout from 'components/common/PostPayout';
-import DislikeAlert from 'components/dialogs/DislikeAlert';
-import DialogManager from 'components/elements/common/DialogManager';
-import VotersDialog from 'components/dialogs/VotersDialog';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { confirmVote } from 'helpers/votes';
 import Popover from '../Popover';
 import PayoutInfo from '../PayoutInfo';
-import PayoutInfoDialog from '../PayoutInfoDialog';
 
 import {
   // USERS_NUMBER_IN_TOOLTIP,
@@ -157,6 +153,9 @@ export default class VotePanelAbstract extends PureComponent {
     waitForTransaction: PropTypes.func.isRequired,
     vote: PropTypes.func.isRequired,
     getVoters: PropTypes.func.isRequired,
+    openVotersDialog: PropTypes.func.isRequired,
+    showPayoutDialog: PropTypes.func.isRequired,
+    showDislikeAlert: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -198,7 +197,7 @@ export default class VotePanelAbstract extends PureComponent {
   }
 
   onLikesNumberClick = async () => {
-    const { entity, getVoters } = this.props;
+    const { entity, getVoters, openVotersDialog } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -213,14 +212,15 @@ export default class VotePanelAbstract extends PureComponent {
         return displayError('Cannot load voters list', err);
       }
 
-      return this.openVotersDialog(data, entity.id, true);
+      openVotersDialog({ data, id: entity.id, isLikes: true });
+      return;
     }
 
     return ToastsManager.err('Cannot load voters list');
   };
 
   onDislikesNumberClick = async () => {
-    const { entity, getVoters } = this.props;
+    const { entity, getVoters, openVotersDialog } = this.props;
 
     if (entity?.type) {
       const data = {
@@ -235,7 +235,8 @@ export default class VotePanelAbstract extends PureComponent {
         return displayError('Cannot load voters list', err);
       }
 
-      return this.openVotersDialog(data, entity.id, false);
+      openVotersDialog({ data, id: entity.id, isLikes: false });
+      return;
     }
     return ToastsManager.err('Cannot load voters list');
   };
@@ -302,7 +303,7 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onDislikeClick = async () => {
-    const { entity, isRich } = this.props;
+    const { entity, isRich, showDislikeAlert } = this.props;
     const { showSlider } = this.state;
 
     if (showSlider) {
@@ -318,20 +319,9 @@ export default class VotePanelAbstract extends PureComponent {
 
       window.addEventListener('click', this.onAwayClick);
       window.addEventListener('touchstart', this.onAwayClick);
-    } else if (await this.showDislikeAlert()) {
+    } else if (await showDislikeAlert()) {
       this.vote(-1);
     }
-  };
-
-  openVotersDialog = (data, id, isLikes) => {
-    DialogManager.showDialog({
-      component: VotersDialog,
-      props: {
-        data,
-        id,
-        isLikes,
-      },
-    });
   };
 
   vote = async fraction => {
@@ -387,10 +377,10 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onOkVoteClick = async () => {
-    const { sliderAction, votePercent } = this.state;
+    const { sliderAction, votePercent, showDislikeAlert } = this.state;
 
     if (sliderAction === 'dislike') {
-      if (!(await this.showDislikeAlert())) {
+      if (!(await showDislikeAlert())) {
         return;
       }
     }
@@ -409,15 +399,9 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onPayoutClick = () => {
-    // eslint-disable-next-line react/prop-types
-    const { data } = this.props;
+    const { data, showPayoutDialog } = this.props;
 
-    DialogManager.showDialog({
-      component: PayoutInfoDialog,
-      props: {
-        postLink: `${data.get('author')}/${data.get('permlink')}`,
-      },
-    });
+    showPayoutDialog(`${data.get('author')}/${data.get('permlink')}`);
   };
 
   onResize = () => {
@@ -447,17 +431,6 @@ export default class VotePanelAbstract extends PureComponent {
 
     window.removeEventListener('click', this.onAwayClick);
     window.removeEventListener('touchstart', this.onAwayClick);
-  }
-
-  showDislikeAlert() {
-    return new Promise(resolve => {
-      DialogManager.showDialog({
-        component: DislikeAlert,
-        onClose(yes) {
-          resolve(yes);
-        },
-      });
-    });
   }
 
   renderSlider() {

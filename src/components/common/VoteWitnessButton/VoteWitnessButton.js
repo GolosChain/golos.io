@@ -4,8 +4,6 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { showLoginModal } from 'store/actions/modals';
-
 const Wrapper = styled.button`
   ${is('disable')`
     pointer-events: none;
@@ -20,6 +18,7 @@ export default class VoteWitnessButton extends Component {
     isLoading: PropTypes.bool.isRequired,
     voteWitness: PropTypes.func.isRequired,
     unvoteWitness: PropTypes.func.isRequired,
+    showLoginOldDialog: PropTypes.func.isRequired,
     targetUserId: PropTypes.string.isRequired,
     buttonClicked: PropTypes.func,
     UnvoteComp: PropTypes.element,
@@ -38,6 +37,7 @@ export default class VoteWitnessButton extends Component {
       unvoteWitness,
       currentUsername,
       buttonClicked,
+      showLoginOldDialog,
     } = this.props;
 
     if (buttonClicked) {
@@ -45,7 +45,7 @@ export default class VoteWitnessButton extends Component {
     }
     try {
       if (!currentUsername) {
-        if (!(await showLoginModal())) {
+        if (!(await showLoginOldDialog())) {
           return;
         }
       }

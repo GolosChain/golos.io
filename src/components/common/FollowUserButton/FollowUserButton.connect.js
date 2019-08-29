@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { pin, unpin } from 'store/actions/cyberway/social';
 import { waitForTransaction } from 'store/actions/gate';
+import { showUnfollowAlert, showLoginOldDialog } from 'store/actions/modals';
 import { fetchProfile } from 'store/actions/gate/user';
 import { statusSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
@@ -27,5 +28,7 @@ export default connect(
     unfollowUser: unpin,
     fetchProfile,
     waitForTransaction,
+    showUnfollowAlert,
+    showLoginOldDialog,
   }
 )(FollowUserButton);

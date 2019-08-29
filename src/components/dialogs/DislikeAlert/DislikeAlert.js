@@ -31,11 +31,13 @@ const Item = styled.li`
 
 export default class DislikeAlert extends PureComponent {
   onOkClick = () => {
-    this.props.onClose(true);
+    const { close } = this.props;
+    close(true);
   };
 
   onClose = () => {
-    this.props.onClose();
+    const { close } = this.props;
+    close();
   };
 
   render() {

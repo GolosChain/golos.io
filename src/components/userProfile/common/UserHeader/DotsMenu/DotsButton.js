@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Icon from 'components/golos-ui/Icon/index';
 
-import DotsMenu from 'components/userProfile/common/UserHeader/DotsMenu/DotsMenu';
+import DotsMenu from 'components/userProfile/common/UserHeader/DotsMenu';
 
 const Wrapper = styled.div`
   position: relative;

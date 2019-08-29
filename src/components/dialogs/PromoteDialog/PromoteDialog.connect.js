@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // import { fetchPathStateAction } from 'app/redux/actions/fetch';
 // import { sanitizeCardPostData } from 'app/redux/selectors/post/commonPost';
 
-import RepostDialog from './PromoteDialog';
+import PromoteDialog from './PromoteDialog';
 
 export default connect(
   (state, props) => {
@@ -45,4 +45,4 @@ export default connect(
   }),
   null,
   { forwardRef: true }
-)(RepostDialog);
+)(PromoteDialog);
