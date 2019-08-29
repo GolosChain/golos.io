@@ -156,17 +156,18 @@ export default class ResetKey extends PureComponent {
 
   extractOwnerKey = password => {
     const { userId, username, publicKeys } = this.props;
+    const ownerKey = publicKeys?.owner;
 
     let keyPair = cyber.getActualAuth(userId, password, 'owner');
 
-    if (keyPair.publicKey === publicKeys.owner) {
+    if (!ownerKey || keyPair.publicKey === ownerKey) {
       return keyPair.actualKey;
     }
 
     if (username) {
       keyPair = cyber.getActualAuth(username, password, 'owner');
 
-      if (keyPair.publicKey === publicKeys.owner) {
+      if (!ownerKey || keyPair.publicKey === ownerKey) {
         return keyPair.actualKey;
       }
     }
@@ -177,6 +178,11 @@ export default class ResetKey extends PureComponent {
   onSubmitChangePassword = async values => {
     const { permissions, publicKeys, changePassword } = this.props;
     const { generatedKeys } = this.state;
+
+    if (!publicKeys) {
+      displayError('Keys is not found');
+      return;
+    }
 
     const availableRoles = Object.keys(publicKeys);
     const pubKeys = {};

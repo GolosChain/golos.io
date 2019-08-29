@@ -12,7 +12,12 @@ export default connect(
     const userId = currentUserIdSelector(state);
     const user = entitySelector('users', userId)(state);
     const permissions = dataSelector(['chain', 'account'])(state)?.permissions || null;
-    const publicKeys = permissions ? getAccountPermissions(permissions) : {};
+
+    let publicKeys = null;
+
+    if (permissions) {
+      publicKeys = getAccountPermissions(permissions);
+    }
 
     return {
       userId,
