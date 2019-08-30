@@ -13,6 +13,12 @@ import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import TransferLink from '../TransferLink';
 
 const Root = styled.div`
+  opacity: 0.7;
+
+  ${is('isIrreversible')`
+    opacity: 1;
+  `};
+
   &:nth-child(even) {
     background: #f8f8f8;
   }
@@ -20,14 +26,14 @@ const Root = styled.div`
 
 const Line = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 20px;
 `;
 
 const LineIcon = styled(Icon)`
   flex-shrink: 0;
   width: 24px;
-  height: 80px;
+  height: 24px;
   color: ${props => props.color || '#b7b7ba'};
 `;
 
@@ -124,6 +130,7 @@ const Value = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  flex-basis: 150px;
   align-items: flex-end;
   width: auto;
   height: 80px;
@@ -156,13 +163,21 @@ const CURRENCY_COLOR = {
 };
 
 function TransferLine({ userId, transfer }) {
-  const { memo, quantity, sym, receiver, sender, timestamp, trxId } = transfer;
+  const { memo, quantity, sym, receiver, sender, timestamp, trxId, isIrreversible } = transfer;
 
   const samePerson = receiver.userId === sender.userId;
   const isSent = sender.userId === userId;
   const isReceive = receiver.userId === userId && !samePerson;
 
-  const icon = sym === 'GOLOS' ? 'logo' : 'brilliant';
+  let icon = 'brilliant';
+  let tooltipText = null;
+  if (!isIrreversible) {
+    icon = 'clock';
+    tooltipText = tt('g.pending_transaction');
+  } else if (sym === 'GOLOS') {
+    icon = 'logo';
+  }
+
   const color = isReceive ? CURRENCY_COLOR[sym] : null;
 
   const memoIconText = null; // TODO
@@ -171,9 +186,9 @@ function TransferLine({ userId, transfer }) {
   const receiverId = receiver.username || receiver.userId;
 
   return (
-    <Root>
+    <Root isIrreversible={isIrreversible}>
       <Line>
-        <LineIcon name={icon} color={color} />
+        <LineIcon name={icon} color={color} data-tooltip={tooltipText} />
         <Who>
           <WhoName>
             {isReceive ? (

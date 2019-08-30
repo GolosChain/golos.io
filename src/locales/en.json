@@ -324,6 +324,7 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "pending_transaction": "The transaction is awaiting confirmation",
     "retry": "Retry",
     "section_not_found": "Section not found",
     "transaction_wait_failed": "Waiting for transaction failed",

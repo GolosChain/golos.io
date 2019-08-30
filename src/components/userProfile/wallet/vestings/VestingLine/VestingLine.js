@@ -2,12 +2,19 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import is from 'styled-is';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 
 const Root = styled.div`
+  opacity: 0.7;
+
+  ${is('isIrreversible')`
+    opacity: 1;
+  `};
+
   &:nth-child(even) {
     background: #f8f8f8;
   }
@@ -15,14 +22,14 @@ const Root = styled.div`
 
 const Line = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 20px;
 `;
 
 const LineIcon = styled(Icon)`
   flex-shrink: 0;
   width: 24px;
-  height: 80px;
+  height: 24px;
   color: ${props => props.color || '#b7b7ba'};
 `;
 
@@ -61,6 +68,7 @@ const Value = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  flex-basis: 150px;
   align-items: flex-end;
   width: auto;
   height: 80px;
@@ -89,7 +97,7 @@ const Currency = styled.div`
 `;
 
 function VestingLine({ vesting }) {
-  const { diff, trxId, timestamp } = vesting;
+  const { diff, trxId, timestamp, isIrreversible } = vesting;
 
   const isPowerUp = !diff.GESTS.startsWith('-');
 
@@ -98,10 +106,17 @@ function VestingLine({ vesting }) {
     ? tt('user_wallet.content.power_up')
     : tt('user_wallet.content.power_down');
 
+  let icon = 'logo';
+  let tooltipText = null;
+  if (!isIrreversible) {
+    icon = 'clock';
+    tooltipText = tt('g.pending_transaction');
+  }
+
   return (
-    <Root>
+    <Root isIrreversible={isIrreversible}>
       <Line>
-        <LineIcon name="logo" color={color} />
+        <LineIcon name={icon} color={color} data-toggle={tooltipText} />
         <Who>
           <WhoTitle>{title}</WhoTitle>
           <WhoBottom>
