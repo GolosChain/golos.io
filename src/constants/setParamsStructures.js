@@ -5,6 +5,8 @@ export const FIELD_TYPES = {
 export const CONTRACTS = [
   {
     contractName: 'publish',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.publication_contract#operaciya-deistvie-setparams',
     structures: [
       {
         name: 'st_max_vote_changes',
@@ -49,6 +51,8 @@ export const CONTRACTS = [
   },
   {
     contractName: 'ctrl',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.ctrl_contract#operaciya-deistvie-setparams',
     structures: [
       {
         name: 'ctrl_token',
@@ -83,6 +87,8 @@ export const CONTRACTS = [
   },
   {
     contractName: 'referral',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.referral_contract#operaciya-deistvie-setparams',
     structures: [
       {
         name: 'breakout_parametrs',
@@ -104,6 +110,8 @@ export const CONTRACTS = [
   },
   {
     contractName: 'emit',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.emit_contract#operaciya-deistvie-setparams',
     structures: [
       {
         name: 'inflation_rate',
@@ -138,6 +146,8 @@ export const CONTRACTS = [
   },
   {
     contractName: 'vesting',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.vesting_contract#operaciya-deistvie-setparams',
     structures: [
       {
         name: 'vesting_withdraw',
@@ -174,6 +184,8 @@ export const CONTRACTS = [
   },
   {
     contractName: 'charge',
+    link:
+      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.charge_contract#operaciya-deistvie-setrestorer',
     structures: [
       {
         name: 'setrestorer',

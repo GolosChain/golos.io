@@ -1252,5 +1252,17 @@
   },
   "reset_key": {
     "delay_warning": "Your account has owner key restriction. Password can be changed only with time delay in %(delay)s days."
+  },
+  "community_settings": {
+    "title": "Community Settings",
+    "choose_contract": "Choose contract to edit:",
+    "contracts": {
+      "publish": "The smart contract golos.publication provides work with posts, including the ability for users to perform the following actions: publish posts, leave comments, vote for posts and close posts, and also provides payment of remuneration to post authors.",
+      "ctrl": "The smart contract golos.ctrl contains the logic for selecting delegates, including the procedure for registering an account as a delegate, the procedure for voting for a delegate, as well as determining the list of the most rated delegates.",
+      "referral": "The golos.referral smart contract contains the logic of the referral program, which provides for the reward of users who invited their friends or third parties to register in the Voice application through social networks (for example, by viewing publications of third-party authors or by posting their own posts on the blockchain). The logic of the referral program defines one user as a referrer in relation to another (referral). The smart contract contains an algorithm for calculating the remuneration for the post, as well as an algorithm for terminating the action of the referral program, including completion at the initiative of the referral user through the purchase of his account.",
+      "emit": "The smart contract golos.emit ensures the generation of new tokens and their distribution over the reward pools in accordance with its settings - the set parameter values.",
+      "vesting": "The smart contract golos.vesting provides binding of the vest to the token created by the cyber.token smart contract.",
+      "charge": "The smart contract golos.charge performs an application function - it allows you to limit the activity of users in creating posts, comments, and also in voting for posts. Direct interaction of the user with the golos.charge smart contact does not occur, access to operations-actions occurs through the smart publishing contract."
+    }
   }
 }

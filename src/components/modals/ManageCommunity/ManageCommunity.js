@@ -1,8 +1,9 @@
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import tt from 'counterpart';
 
-import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
+import SplashLoader from 'components/golos-ui/SplashLoader';
 import { displayError } from 'utils/toastMessages';
 
 import ChooseContract from './ChooseContract';
@@ -108,7 +109,7 @@ export default class ManageCommunity extends PureComponent {
 
     return (
       <Wrapper>
-        <HeaderTitle>Параметры сообщества</HeaderTitle>
+        <HeaderTitle>{tt('community_settings.title')}</HeaderTitle>
         {this.renderContent()}
         {!currentSettings ? <SplashLoader /> : null}
       </Wrapper>

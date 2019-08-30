@@ -41,12 +41,14 @@ const Contract = styled.button`
 `;
 
 const ContractName = styled.h3`
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-size: 20px;
   font-weight: 600;
 `;
 
-const ContractDescription = styled.div``;
+const ContractDescription = styled.div`
+  line-height: 1.2em;
+`;
 
 const FooterButtons = styled.div`
   padding: 8px 30px 0;
@@ -78,9 +80,7 @@ export default class ChooseContract extends PureComponent {
       <Contract onClick={() => this.onClick(contractName)}>
         <ContractName>{contractName}</ContractName>
         <ContractDescription>
-          {contractName} is lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
-          commodi eveniet ipsa nam porro, quaerat repellendus saepe sequi ullam ut, vero vitae
-          voluptatem voluptates. Animi deleniti laboriosam suscipit tempora voluptates!
+          {tt(['community_settings', 'contracts', contractName])}
         </ContractDescription>
       </Contract>
     </Item>
@@ -90,7 +90,7 @@ export default class ChooseContract extends PureComponent {
     return (
       <>
         <Wrapper>
-          <Hint>Choose contract to change settings:</Hint>
+          <Hint>{tt('community_settings.choose_contract')}</Hint>
           <List>{CONTRACTS.map(this.renderContractLine)}</List>
         </Wrapper>
         <FooterButtons>
