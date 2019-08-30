@@ -101,14 +101,15 @@ function VestingLine({ vesting }) {
 
   const isPowerUp = !diff.GESTS.startsWith('-');
 
-  const color = isPowerUp ? '#f57c02' : null;
   const title = isPowerUp
     ? tt('user_wallet.content.power_up')
     : tt('user_wallet.content.power_down');
 
+  let color = isPowerUp ? '#f57c02' : null;
   let icon = 'logo';
   let tooltipText = null;
   if (!isIrreversible) {
+    color = null;
     icon = 'clock';
     tooltipText = tt('g.pending_transaction');
   }

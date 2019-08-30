@@ -169,16 +169,16 @@ function TransferLine({ userId, transfer }) {
   const isSent = sender.userId === userId;
   const isReceive = receiver.userId === userId && !samePerson;
 
+  let color = isReceive ? CURRENCY_COLOR[sym] : null;
   let icon = 'brilliant';
   let tooltipText = null;
   if (!isIrreversible) {
+    color = null;
     icon = 'clock';
     tooltipText = tt('g.pending_transaction');
   } else if (sym === 'GOLOS') {
     icon = 'logo';
   }
-
-  const color = isReceive ? CURRENCY_COLOR[sym] : null;
 
   const memoIconText = null; // TODO
 
