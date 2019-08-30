@@ -2,11 +2,11 @@ import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
-import tt from 'counterpart';
 
 const Root = styled.div`
   opacity: 0.7;

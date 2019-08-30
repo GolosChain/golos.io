@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'next/router';
 import styled from 'styled-components';
-import tt from 'counterpart';
 import is from 'styled-is';
+import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
