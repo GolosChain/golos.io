@@ -98,11 +98,11 @@ const Currency = styled.div`
 function ClaimLine({ claim }) {
   const { quantity, trxId, timestamp, sym, isIrreversible } = claim;
 
-  const color = '#2879ff';
-
+  let color = '#2879ff';
   let icon = 'logo';
   let tooltipText = null;
   if (!isIrreversible) {
+    color = null;
     icon = 'clock';
     tooltipText = tt('g.pending_transaction');
   }

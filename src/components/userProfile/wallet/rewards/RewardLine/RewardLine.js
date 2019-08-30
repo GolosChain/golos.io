@@ -93,8 +93,8 @@ const Currency = styled.div`
 
 export default function RewardLine({ reward }) {
   const { trxId, timestamp, tokenType, type, contentId, quantity, isIrreversible } = reward;
-  const color = '#f57c02';
 
+  let color = '#f57c02';
   let icon = 'logo';
   switch (type) {
     case 'curators':
@@ -107,6 +107,7 @@ export default function RewardLine({ reward }) {
 
   let tooltipText = null;
   if (!isIrreversible) {
+    color = null;
     icon = 'clock';
     tooltipText = tt('g.pending_transaction');
   }
