@@ -1,1 +1,1 @@
-export { default } from './Current';
+export { default } from './Current.connect';

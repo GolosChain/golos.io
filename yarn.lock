@@ -3703,10 +3703,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@^1.3.0:
-  version "1.3.0"
-  resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.3.0.tgz#8f14b510616437ab6c742213ced0e634fce5b43e"
-  integrity sha512-BKqdlAtHrLiWb4k+CuhQL9z46Zpl+Ak+tmdkV08Ah1YuRFCGvIA4TxYYErsNiK+MyT6DhYu0ThTbkrbwcg/WTg==
+cyber-client@^1.4.0:
+  version "1.4.0"
+  resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.4.0.tgz#1e1e812adc586bf3c78f357406063fda1dab6a07"
+  integrity sha512-4FXUnNLyDsg6y/+MvHDS7pH4GNoh+7Axk9KbKl26EIG1LjJjJPkzhDCDcsaQIY38dItmI7Rx45R+l4PHm6Uf3A==
   dependencies:
     "@babel/runtime" "^7.2.0"
     cyberwayjs "^20.0.0-beta7"

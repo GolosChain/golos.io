@@ -7,8 +7,10 @@ import { isEmpty } from 'ramda';
 import { Form, Field } from 'react-final-form';
 import cyber from 'cyber-client';
 import { generateKeys } from 'cyber-client/lib/auth';
-import ToastsManager from 'toasts-manager';
 
+import { displaySuccess, displayError } from 'utils/toastMessages';
+import { getNecessaryDelay } from 'utils/permissions';
+import { secondsToDays } from 'utils/time';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { CardContent } from 'components/golos-ui/Card';
 import {
@@ -88,10 +90,15 @@ const CheckboxLabel = styled.div`
   color: #959595;
 `;
 
+const DelayWarning = styled.div`
+  margin: 0 0 16px;
+  color: #f00;
+`;
+
 export default class ResetKey extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    publicKeys: PropTypes.shape({}).isRequired,
+    username: PropTypes.string,
     changePassword: PropTypes.func.isRequired,
   };
 
@@ -108,8 +115,6 @@ export default class ResetKey extends PureComponent {
   }
 
   validatePassword = password => {
-    const { userId, publicKeys } = this.props;
-
     if (!password) {
       return tt('g.required');
     }
@@ -119,8 +124,9 @@ export default class ResetKey extends PureComponent {
     }
 
     try {
-      const keyPair = cyber.getActualAuth(userId, password, 'owner');
-      if (keyPair.publicKey !== publicKeys.owner) {
+      const ownerKey = this.extractOwnerKey(password);
+
+      if (!ownerKey) {
         return tt('chain_errors.tx_missing_owner_auth');
       }
     } catch (err) {
@@ -147,19 +153,35 @@ export default class ResetKey extends PureComponent {
     confirmSaved: !values.confirmSaved ? tt('g.required') : undefined,
   });
 
-  // TODO clear account auths
-  // getAccountAuths = account =>
-  //   ['posting', 'active', 'owner'].reduce((acc, key) => {
-  //     const auths = account.getIn([key, 'account_auths']);
-  //     if (!auths.isEmpty()) {
-  //       acc.push(auths);
-  //     }
-  //     return acc;
-  //   }, []);
+  extractOwnerKey = password => {
+    const { userId, username, publicKeys } = this.props;
+    const ownerKey = publicKeys?.owner;
+
+    let keyPair = cyber.getActualAuth(userId, password, 'owner');
+
+    if (!ownerKey || keyPair.publicKey === ownerKey) {
+      return keyPair.actualKey;
+    }
+
+    if (username) {
+      keyPair = cyber.getActualAuth(username, password, 'owner');
+
+      if (!ownerKey || keyPair.publicKey === ownerKey) {
+        return keyPair.actualKey;
+      }
+    }
+
+    return null;
+  };
 
   onSubmitChangePassword = async values => {
-    const { publicKeys, changePassword } = this.props;
+    const { permissions, publicKeys, changePassword } = this.props;
     const { generatedKeys } = this.state;
+
+    if (!publicKeys) {
+      displayError('Keys is not found');
+      return;
+    }
 
     const availableRoles = Object.keys(publicKeys);
     const pubKeys = {};
@@ -168,14 +190,43 @@ export default class ResetKey extends PureComponent {
       pubKeys[role] = generatedKeys[role].publicKey;
     }
 
-    const result = await changePassword(values.password, pubKeys, availableRoles);
-    if (result) {
-      ToastsManager.info(`${values.username} Password Updated`);
+    const ownerKey = this.extractOwnerKey(values.password);
+
+    if (!ownerKey) {
+      displayError(`Owner key can't be extracted`);
+      return;
+    }
+
+    let delay;
+
+    try {
+      delay = getNecessaryDelay(permissions, 'owner');
+    } catch (err) {
+      displayError(err);
+      return;
+    }
+
+    try {
+      await changePassword({
+        ownerKey,
+        publicKeys: pubKeys,
+        availableRoles,
+        delaySec: delay,
+      });
+    } catch (err) {
+      displayError(err);
+      return;
+    }
+
+    if (delay) {
+      displaySuccess(`Password will be updated in ${secondsToDays(delay)} days`);
+    } else {
+      displaySuccess('Password Updated');
     }
   };
 
   render() {
-    const { userId } = this.props;
+    const { userId, permissions } = this.props;
     const { generatedKeys } = this.state;
 
     let newWif = '';
@@ -188,9 +239,13 @@ export default class ResetKey extends PureComponent {
       newWif,
     };
 
-    // TODO clear account auths
-    // const accountAuths = this.getAccountAuths(account);
-    const hasAuths = false; // accountAuths.length > 0;
+    let delay;
+
+    if (permissions) {
+      try {
+        delay = getNecessaryDelay(permissions, 'owner');
+      } catch {}
+    }
 
     return (
       <Form
@@ -215,6 +270,11 @@ export default class ResetKey extends PureComponent {
                   <Li>{tt('password_rules.p7')}</Li>
                 </Ol>
               </RulesBlock>
+              {delay ? (
+                <DelayWarning>
+                  {tt('reset_key.delay_warning', { delay: secondsToDays(delay) })}
+                </DelayWarning>
+              ) : null}
               <Field name="userId">
                 {({ input, meta }) => (
                   <FieldBlock>
@@ -274,19 +334,6 @@ export default class ResetKey extends PureComponent {
                   </FieldBlock>
                 )}
               </Field>
-              {hasAuths && (
-                <Field name="clearAccountAuths">
-                  {({ input, meta }) => (
-                    <FieldBlock mini>
-                      <CheckboxInput
-                        {...input}
-                        title={<CheckboxLabel>{tt('g.clear_accounts_auths')}</CheckboxLabel>}
-                      />
-                      <FormErrorStyled meta={meta} />
-                    </FieldBlock>
-                  )}
-                </Field>
-              )}
               <Field name="confirmCheck">
                 {({ input, meta }) => (
                   <FieldBlock mini>

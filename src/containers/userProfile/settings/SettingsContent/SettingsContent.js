@@ -26,7 +26,6 @@ export default class SettingsContent extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
     profile: profileType.isRequired,
-    publicKeys: PropTypes.shape({}).isRequired,
     settingsData: PropTypes.shape({}).isRequired,
     isRich: PropTypes.bool,
 
@@ -108,7 +107,7 @@ export default class SettingsContent extends PureComponent {
   };
 
   renderContent() {
-    const { profile, publicKeys, isRich, settingsData } = this.props;
+    const { profile, isRich, settingsData } = this.props;
     const { isLoading, error } = this.state;
 
     if (error) {
@@ -118,7 +117,6 @@ export default class SettingsContent extends PureComponent {
     return (
       <SettingsShow
         profile={profile}
-        publicKeys={publicKeys}
         options={settingsData}
         isRich={isRich}
         isFetching={isLoading}
