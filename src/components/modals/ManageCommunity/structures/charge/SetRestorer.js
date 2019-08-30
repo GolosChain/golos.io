@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults, isPositiveInteger } from 'utils/common';
+import { defaults, isPositiveInteger, fieldsToString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
@@ -32,7 +32,7 @@ const InputSmall = styled(Input)`
 `;
 
 export default class SetRestorer extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
 
   onFieldChange = (e, fieldName) => {
     this.setState(
