@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
+import { defaults, fieldsToString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
@@ -28,7 +28,7 @@ const DEFAULT = {
 };
 
 export default class CashoutWindow extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
 
   onWindowChange = e => {
     this.setState(
