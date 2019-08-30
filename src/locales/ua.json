@@ -285,6 +285,7 @@
     "total_paid": "Всього виплачено"
   },
   "g": {
+    "pending_transaction": "Транзакція очікує підтвердження",
     "APP_NAME": "Голос",
     "APP_NAME_support": "%(APP_NAME)s підтримка",
     "account_id": "ID акаунта",

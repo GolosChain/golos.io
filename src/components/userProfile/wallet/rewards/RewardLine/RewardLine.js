@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import is from 'styled-is';
 
 import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
@@ -9,6 +10,12 @@ import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 import RewardContentLink from '../RewardContentLink';
 
 const Root = styled.div`
+  opacity: 0.7;
+
+  ${is('isIrreversible')`
+    opacity: 1;
+  `};
+
   &:nth-child(even) {
     background: #f8f8f8;
   }
@@ -16,14 +23,14 @@ const Root = styled.div`
 
 const Line = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 20px;
 `;
 
 const LineIcon = styled(Icon)`
   flex-shrink: 0;
   width: 24px;
-  height: 80px;
+  height: 24px;
   color: ${props => props.color || '#b7b7ba'};
 `;
 
@@ -56,6 +63,7 @@ const Value = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  flex-basis: 150px;
   align-items: flex-end;
   width: auto;
   height: 80px;
@@ -84,7 +92,7 @@ const Currency = styled.div`
 `;
 
 export default function RewardLine({ reward }) {
-  const { trxId, timestamp, tokenType, type, contentId, quantity } = reward;
+  const { trxId, timestamp, tokenType, type, contentId, quantity, isIrreversible } = reward;
   const color = '#f57c02';
 
   let icon = 'logo';
@@ -97,15 +105,21 @@ export default function RewardLine({ reward }) {
       break;
   }
 
+  let tooltipText = null;
+  if (!isIrreversible) {
+    icon = 'clock';
+    tooltipText = tt('g.pending_transaction');
+  }
+
   const CURRENCY_TRANSLATE = {
     liquid: tt('token_names.LIQUID_TOKEN'),
     vesting: tt('token_names.VESTING_TOKEN'),
   };
 
   return (
-    <Root>
+    <Root isIrreversible={isIrreversible}>
       <Line>
-        <LineIcon name={icon} color={color} />
+        <LineIcon name={icon} color={color} data-tooltip={tooltipText} />
         <Who>
           {contentId ? <RewardContentLink contentId={contentId} /> : null}
           <WhoBottom>

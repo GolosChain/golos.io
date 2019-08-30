@@ -17,14 +17,14 @@ const Root = styled.div`
 
 const Line = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 20px;
 `;
 
 const LineIcon = styled(Icon)`
   flex-shrink: 0;
   width: 24px;
-  height: 80px;
+  height: 24px;
   color: ${props => props.color || '#b7b7ba'};
 `;
 
@@ -111,6 +111,7 @@ const Value = styled.div`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  flex-basis: 150px;
   align-items: flex-end;
   width: auto;
   height: 80px;
