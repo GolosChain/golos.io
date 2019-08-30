@@ -2,16 +2,15 @@
 import tt from 'counterpart';
 
 export function normalizeCyberwayErrorMessage(err) {
-  if (!err || !err.message) {
+  if (!err || !err.message || !err.data) {
     return 'Internal Error';
   }
 
   let { message } = err;
 
   // if error from bc
-  const providebwMessage = err?.error?.details?.[0]?.message;
-  if (providebwMessage) {
-    message = providebwMessage;
+  if (err.data) {
+    message = err.data.error?.details?.[0]?.message;
   }
 
   message = message.replace(/\n/g, ' ').trim();
