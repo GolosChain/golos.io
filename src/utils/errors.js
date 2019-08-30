@@ -10,7 +10,7 @@ export function normalizeCyberwayErrorMessage(err) {
 
   // if error from bc
   if (err.data) {
-    message = err.data.error?.details?.[0]?.message;
+    message = err.data.error?.details?.[0]?.message || 'Blockchain Error';
   }
 
   message = message.replace(/\n/g, ' ').trim();
