@@ -131,7 +131,7 @@ export default class ContactSettings extends PureComponent {
 
     if (
       !hasChanges ||
-      (await DialogManager.dangerConfirm('Внесенные изменения будут сброшены.\n\nВы уверены?'))
+      (await DialogManager.dangerConfirm(tt('community_settings.confirm_reset')))
     ) {
       onStepChange({
         step: STEPS.INITIAL,
@@ -195,11 +195,13 @@ export default class ContactSettings extends PureComponent {
     return (
       <ContractGroup>
         <ContractNameWrapper>
-          <ContractName>Contract: {contractName}</ContractName>
+          <ContractName>
+            {tt('community_settings.contract')}: {contractName}
+          </ContractName>
           {link ? (
             <DescriptionLink target="_blank" href={link}>
               <LinkIcon name="external-link" />
-              Описание
+              {tt('community_settings.description')}
             </DescriptionLink>
           ) : null}
         </ContractNameWrapper>
@@ -227,11 +229,11 @@ export default class ContactSettings extends PureComponent {
         <FooterButtons>
           {hasChanges ? (
             <Button disabled={isSaving || isInvalid} onClick={this.onSaveClick}>
-              Создать предложение
+              {tt('community_settings.create_proposal')}
             </Button>
           ) : null}
           <Button light onClick={this.onCancelClick}>
-            Назад
+            {tt('g.back')}
           </Button>
         </FooterButtons>
         {isSaving ? <SplashLoader /> : null}

@@ -1255,7 +1255,11 @@
   },
   "community_settings": {
     "title": "Community Settings",
+    "contract": "Contract",
     "choose_contract": "Choose contract to edit:",
+    "description": "Description",
+    "create_proposal": "Create proposal",
+    "confirm_reset": "Changes will be reset.\n\nAre you sure?",
     "contracts": {
       "publish": "The smart contract golos.publication provides work with posts, including the ability for users to perform the following actions: publish posts, leave comments, vote for posts and close posts, and also provides payment of remuneration to post authors.",
       "ctrl": "The smart contract golos.ctrl contains the logic for selecting delegates, including the procedure for registering an account as a delegate, the procedure for voting for a delegate, as well as determining the list of the most rated delegates.",
