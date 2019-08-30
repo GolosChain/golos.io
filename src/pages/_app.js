@@ -170,8 +170,6 @@ export default class GolosApp extends App {
   render() {
     const { Component, pageProps, router, store } = this.props;
 
-    const isSSR = store.getState().ui.mode.isSSR;
-
     const adapterArgs = {
       clientSideId: '',
       user: { key: '' },
@@ -201,7 +199,7 @@ export default class GolosApp extends App {
                         {router.route === '/submit' ? null : <ScrollUpstairsButton />}
                         <MobileAppButton />
                       </div>
-                      {isSSR ? null : <TooltipManager />}
+                      <TooltipManager />
                       <UIStoreSync />
                       <ModalManager passStore={store} />
                       <DialogManager />
