@@ -6,6 +6,7 @@ import tt from 'counterpart';
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
 import { Input } from 'components/golos-ui/Form';
+import Icon from 'components/golos-ui/Icon';
 import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
 import { Router } from 'shared/routes';
@@ -30,8 +31,29 @@ const ContractGroup = styled.div`
   margin: 0 0 8px;
 `;
 
-const ContractName = styled.h2`
+const ContractNameWrapper = styled.h2`
+  display: flex;
+  align-items: center;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
   border-bottom: 1px solid #000;
+`;
+
+const ContractName = styled.span`
+  flex-grow: 1;
+  flex-shrink: 0;
+`;
+
+const DescriptionLink = styled.a`
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: normal;
+`;
+
+const LinkIcon = styled(Icon)`
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
 `;
 
 const Structures = styled.ul`
@@ -109,7 +131,7 @@ export default class ContactSettings extends PureComponent {
 
     if (
       !hasChanges ||
-      (await DialogManager.dangerConfirm('Внесенные изменения будут сброшены.\n\nВы уверены?'))
+      (await DialogManager.dangerConfirm(tt('community_settings.confirm_reset')))
     ) {
       onStepChange({
         step: STEPS.INITIAL,
@@ -166,13 +188,24 @@ export default class ContactSettings extends PureComponent {
     const { data } = this.props;
     const { symbol } = this.state;
 
-    const { contractName, structures } = CONTRACTS.find(
+    const { contractName, link, structures } = CONTRACTS.find(
       contact => contact.contractName === data.contractName
     );
 
     return (
       <ContractGroup>
-        <ContractName>Contract: {contractName}</ContractName>
+        <ContractNameWrapper>
+          <ContractName>
+            {tt('community_settings.contract')}: {contractName}
+          </ContractName>
+          {link ? (
+            <DescriptionLink target="_blank" href={link}>
+              <LinkIcon name="external-link" />
+              {tt('community_settings.description')}
+            </DescriptionLink>
+          ) : null}
+        </ContractNameWrapper>
+
         {data.contractName === 'vesting' ? (
           <VestingParams>
             Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
@@ -196,11 +229,11 @@ export default class ContactSettings extends PureComponent {
         <FooterButtons>
           {hasChanges ? (
             <Button disabled={isSaving || isInvalid} onClick={this.onSaveClick}>
-              Создать предложение
+              {tt('community_settings.create_proposal')}
             </Button>
           ) : null}
           <Button light onClick={this.onCancelClick}>
-            Назад
+            {tt('g.back')}
           </Button>
         </FooterButtons>
         {isSaving ? <SplashLoader /> : null}
