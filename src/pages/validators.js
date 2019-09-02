@@ -66,7 +66,6 @@ const ellipsisStyles = `
 
 const WitnessInfoCeil = styled.div`
   display: flex;
-  /*flex-direction: row;*/
   align-self: center;
   padding-left: 16px;
 `;
