@@ -107,3 +107,11 @@ export const proposalSchema = new schema.Entity(
     idAttribute: proposal => formatProposalId(proposal.author.userId, proposal.proposalId),
   }
 );
+
+export const validatorSchema = new schema.Entity(
+  'validators',
+  {},
+  {
+    idAttribute: validator => validator.id,
+  }
+);

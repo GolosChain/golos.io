@@ -8,6 +8,7 @@ import {
 } from 'store/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { userProfileSchema } from 'store/schemas/gate';
+import { entitySelector } from 'store/selectors/common';
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchProfile = userId => dispatch => {
@@ -25,6 +26,13 @@ export const fetchProfile = userId => dispatch => {
     },
     meta: params,
   });
+};
+
+export const fetchProfileIfNeeded = userId => (dispatch, getState) => {
+  if (!entitySelector('profiles', userId)(getState())) {
+    return dispatch(fetchProfile(userId));
+  }
+  return null;
 };
 
 export const suggestNames = text => ({

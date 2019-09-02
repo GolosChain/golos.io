@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import { parseAmount } from 'helpers/currency';
+import { displaySuccess, displayError } from 'utils/toastMessages';
+import { Link } from 'shared/routes';
+import { CURRENCIES } from 'shared/constants';
+
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
-
-import { parseAmount } from 'helpers/currency';
-import { processError } from 'helpers/dialogs';
-import { displaySuccess } from 'utils/toastMessages';
-import { Link } from 'shared/routes';
-
+import Slider from 'components/golos-ui/Slider';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
-
-import { CURRENCIES } from 'shared/constants';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
@@ -45,6 +43,10 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
+const SectionSlider = styled.div`
+  width: 50%;
+`;
+
 const Label = styled.div`
   display: flex;
   align-items: center;
@@ -61,36 +63,47 @@ const ErrorLine = styled.div`
   animation: fade-in 0.15s;
 `;
 
+const SliderWrapper = styled.div`
+  margin-bottom: 3px;
+`;
+
+const RecallAmount = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`;
+
 export default class DelegateVoteDialog extends PureComponent {
   static propTypes = {
+    type: PropTypes.string,
     recipientName: PropTypes.string.isRequired,
     recipientUsername: PropTypes.string.isRequired,
-    amount: PropTypes.string,
+    hint: PropTypes.string,
 
     stakedBalance: PropTypes.number.isRequired,
 
     close: PropTypes.func.isRequired,
     delegateVote: PropTypes.func.isRequired,
+    recallvote: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    type: 'delegatevote',
+    hint: null,
   };
 
   constructor(props) {
     super(props);
 
     let recipientName = '';
-
     if (props.recipientName) {
       recipientName = props.recipientName;
     }
 
-    let amount = '';
-
-    if (props.amount) {
-      amount = props.amount;
-    }
-
     this.state = {
       recipientName,
-      amount,
+      amount: '',
+      recallAmount: 1,
+      recallPercent: 1,
       currency: CURRENCIES.CYBER.id,
       amountInFocus: false,
       loader: false,
@@ -122,8 +135,8 @@ export default class DelegateVoteDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const { delegateVote, close } = this.props;
-    const { recipientName, amount, currency, loader, disabled } = this.state;
+    const { type, delegateVote, recallvote, close } = this.props;
+    const { recipientName, amount, recallPercent, currency, loader, disabled } = this.state;
 
     if (loader || disabled) {
       return;
@@ -136,15 +149,72 @@ export default class DelegateVoteDialog extends PureComponent {
     });
 
     try {
-      await delegateVote(recipientName, `${tokensAmount} ${currency}`);
-      displaySuccess(tt('dialogs_transfer.delegatevote.transfer_success'));
+      if (type === 'recallvote') {
+        await recallvote(recipientName, currency, recallPercent);
+      } else {
+        await delegateVote(recipientName, `${tokensAmount} ${currency}`);
+      }
+      displaySuccess(tt(`dialogs_transfer.delegatevote.success_${type}`));
       this.unblockDialog();
       close();
     } catch (err) {
       this.unblockDialog();
-      processError(err);
+      displayError(tt(`dialogs_transfer.delegatevote.failed_${type}`), err);
     }
   };
+
+  onSliderChange = value => {
+    const { stakedBalance } = this.props;
+
+    this.setState({
+      recallAmount: value,
+      recallPercent: Math.round((value / 10000 / stakedBalance) * 100),
+    });
+  };
+
+  canSend = () => {
+    const { type, stakedBalance } = this.props;
+    const {
+      recipientName,
+      amount,
+      recallPercent,
+      currency,
+      loader,
+      disabled,
+      amountInFocus,
+    } = this.state;
+
+    const { value, error } = parseAmount(amount, {
+      balance: stakedBalance,
+      isFinal: !amountInFocus,
+      decs: CURRENCIES[currency].decs,
+    });
+
+    if (error || loader || disabled) {
+      return false;
+    }
+
+    if (!recipientName) {
+      return false;
+    }
+
+    if (type === 'delegatevote') {
+      return value > 0;
+    }
+
+    if (type === 'recallvote') {
+      return recallPercent >= 1 && recallPercent <= 100;
+    }
+
+    return false;
+  };
+
+  unblockDialog() {
+    this.setState({
+      loader: false,
+      disabled: false,
+    });
+  }
 
   confirmClose() {
     const { close } = this.props;
@@ -162,16 +232,9 @@ export default class DelegateVoteDialog extends PureComponent {
     return true;
   }
 
-  unblockDialog() {
-    this.setState({
-      loader: false,
-      disabled: false,
-    });
-  }
-
   render() {
-    const { stakedBalance, recipientUsername } = this.props;
-    const { recipientName, amount, currency, loader, disabled, amountInFocus } = this.state;
+    const { type, stakedBalance, recipientUsername, hint } = this.props;
+    const { amount, recallAmount, currency, loader, amountInFocus } = this.state;
 
     const buttons = [
       {
@@ -180,19 +243,17 @@ export default class DelegateVoteDialog extends PureComponent {
       },
     ];
 
-    const { value, error } = parseAmount(amount, {
+    const { error } = parseAmount(amount, {
       balance: stakedBalance,
       isFinal: !amountInFocus,
       decs: CURRENCIES[currency].decs,
     });
 
-    const allow = recipientName && value > 0 && !error && !loader && !disabled;
-
     return (
       <DialogFrameStyled
         title={
           <span>
-            {tt('dialogs_transfer.delegatevote.title')}{' '}
+            {tt(`dialogs_transfer.delegatevote.title_${type}`)}{' '}
             <Link route="profile" params={{ userId: recipientUsername }}>
               {recipientUsername}
             </Link>
@@ -206,33 +267,50 @@ export default class DelegateVoteDialog extends PureComponent {
             onClick: this.onCloseClick,
           },
           {
-            text: tt('dialogs_transfer.delegatevote.transfer_button'),
+            text: tt(`dialogs_transfer.delegatevote.button_${type}`),
             primary: true,
-            disabled: !allow,
+            disabled: !this.canSend(),
             onClick: this.onOkClick,
           },
         ]}
         onCloseClick={this.onCloseClick}
       >
         <Content>
-          <SubHeader>{tt('dialogs_transfer.delegatevote.tip')}</SubHeader>
+          {hint ? <SubHeader>{hint}</SubHeader> : null}
           <Body>
-            <Section>
-              <Label>{tt('dialogs_transfer.amount')}</Label>
-              <ComplexInput
-                placeholder={tt('dialogs_transfer.amount_placeholder', {
-                  amount: stakedBalance.toFixed(CURRENCIES[currency].decs),
-                })}
-                spellCheck="false"
-                value={amount}
-                autoFocus
-                activeId={currency}
-                buttons={buttons}
-                onChange={this.onAmountChange}
-                onFocus={this.onAmountFocus}
-                onBlur={this.onAmountBlur}
-              />
-            </Section>
+            {type === 'recallvote' ? (
+              <SectionSlider>
+                <SliderWrapper>
+                  <Slider
+                    value={recallAmount}
+                    min={1}
+                    max={stakedBalance * 10000}
+                    showCaptions
+                    percentsInCaption
+                    hideHandleValue
+                    onChange={this.onSliderChange}
+                  />
+                </SliderWrapper>
+                <RecallAmount>{recallAmount / 10000} CYBER</RecallAmount>
+              </SectionSlider>
+            ) : (
+              <Section>
+                <Label>{tt('dialogs_transfer.amount')}</Label>
+                <ComplexInput
+                  placeholder={tt('dialogs_transfer.amount_placeholder', {
+                    amount: stakedBalance.toFixed(CURRENCIES[currency].decs),
+                  })}
+                  spellCheck="false"
+                  value={amount}
+                  autoFocus
+                  activeId={currency}
+                  buttons={buttons}
+                  onChange={this.onAmountChange}
+                  onFocus={this.onAmountFocus}
+                  onBlur={this.onAmountBlur}
+                />
+              </Section>
+            )}
           </Body>
           <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>
         </Content>
