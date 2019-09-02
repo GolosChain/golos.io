@@ -7,12 +7,12 @@ import is from 'styled-is';
 
 import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
-import { fetchProfile } from 'store/actions/gate';
+import { fetchProfile, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
 import LeadersHeader from 'components/leaders/LeadersHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
 
-export const lineTemplate = '270px 70px minmax(360px, auto)';
+export const lineTemplate = '270px 170px minmax(360px, auto)';
 
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
@@ -65,6 +65,8 @@ const ellipsisStyles = `
 `;
 
 const WitnessInfoCeil = styled.div`
+  display: flex;
+  /*flex-direction: row;*/
   align-self: center;
   padding-left: 16px;
 `;
@@ -88,7 +90,7 @@ const WitnessNumberAndName = styled(WitnessInfoCeil)`
 `;
 
 const VoteButtonCeil = styled(WitnessInfoCeil)`
-  justify-self: center;
+  justify-content: space-around;
   padding: 0;
 `;
 
@@ -96,8 +98,8 @@ const VoteButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   background-color: #fff;
   border: 1px solid rgba(57, 54, 54, 0.3);
   border-radius: 50%;
@@ -107,6 +109,10 @@ const VoteButton = styled.button`
     ${({ upvoted }) =>
       upvoted ? 'background-color: #0e69ff' : 'border: 1px solid rgba(57, 54, 54, 0.6)'};
   }
+
+  ${is('unvote')`
+    transform: scale(1, -1);
+  `};
 
   ${is('upvoted')`
     background-color: #2879ff;
@@ -147,7 +153,7 @@ const REFRESH_INTERVAL = 60 * 1000;
   state => ({
     profiles: entitiesSelector('profiles')(state),
   }),
-  { fetchProfile, showDelegateVoteDialog }
+  { fetchProfile, getValidators, showDelegateVoteDialog }
 )
 export default class ValidatorsPage extends PureComponent {
   static propTypes = {
@@ -175,25 +181,13 @@ export default class ValidatorsPage extends PureComponent {
   }
 
   async _refreshData() {
-    const { fetchProfile } = this.props;
+    const { fetchProfile, getValidators } = this.props;
 
     try {
-      const response = await fetch(
-        `${process.env.CYBERWAY_HTTP_URL}/v1/chain/get_producer_schedule`,
-        {
-          method: 'POST',
-        }
-      );
+      const { producers } = await getValidators();
 
-      const data = await response.json();
-
-      const producers = data.active.producers.map(producer => ({
-        id: producer.producer_name,
-        signKey: producer.block_signing_key,
-      }));
-
-      const profilesPromises = data.active.producers.map(async producer => {
-        return await fetchProfile(producer.producer_name);
+      const profilesPromises = producers.map(producer => {
+        return fetchProfile(producer.id);
       });
 
       await Promise.all(profilesPromises);
@@ -207,10 +201,16 @@ export default class ValidatorsPage extends PureComponent {
     }
   }
 
-  onDelegateVoteClick = (recipientName, recipientUsername) => () => {
+  onDelegateVoteClick = (type, recipientName, recipientUsername, stakedAmount) => () => {
     const { showDelegateVoteDialog } = this.props;
 
-    showDelegateVoteDialog({ recipientName, recipientUsername });
+    showDelegateVoteDialog({
+      type,
+      recipientName,
+      recipientUsername,
+      stakedAmount,
+      hint: tt(`dialogs_transfer.delegatevote.hint_validator_${type}`),
+    });
   };
 
   render() {
@@ -235,7 +235,7 @@ export default class ValidatorsPage extends PureComponent {
           <TableWrapper>
             <TableHead>
               <TableHeadItem>{tt('validators_jsx.validator')}</TableHeadItem>
-              <TableHeadItem />
+              <TableHeadItem>{tt('validators_jsx.your_votes')}</TableHeadItem>
               <TableHeadItem>{tt('validators_jsx.public_key')}</TableHeadItem>
             </TableHead>
             {producers.map((producer, index) => {
@@ -250,12 +250,28 @@ export default class ValidatorsPage extends PureComponent {
                     </Link>
                   </WitnessNumberAndName>
                   <VoteButtonCeil>
+                    {producer.voteQuantity ? (
+                      <VoteButton
+                        // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
+                        // upvoted={item.hasVote ? 1 : 0}
+                        onClick={this.onDelegateVoteClick(
+                          'recallvote',
+                          producer.id,
+                          validatorId,
+                          producer.voteQuantity
+                        )}
+                        unvote
+                      >
+                        <Icon name="chevron" size="10" />
+                      </VoteButton>
+                    ) : null}
+                    {producer.voteQuantity || null}
                     <VoteButton
                       // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
                       // upvoted={item.hasVote ? 1 : 0}
-                      onClick={this.onDelegateVoteClick(producer.id, validatorId)}
+                      onClick={this.onDelegateVoteClick('delegatevote', producer.id, validatorId)}
                     >
-                      <Icon name="witness-logo" size="16" />
+                      <Icon name="chevron" size="10" />
                     </VoteButton>
                   </VoteButtonCeil>
                   <WitnessInfoCeil>{producer.signKey}</WitnessInfoCeil>

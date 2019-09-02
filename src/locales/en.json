@@ -264,11 +264,16 @@
       "withdraw": "Withdraw"
     },
     "delegatevote": {
-      "title": "Vote for validator",
-      "tip": "By transferring the desired amount of CYBER STAKE you raise his position",
-      "transfer_button": "Transfer",
-      "transfer_success": "Transfer successfully completed!",
-      "transfer_failed": "Transfer failed!"
+      "title_delegatevote": "Delegate CYBER STAKE",
+      "title_recallvote": "Undelegate CYBER STAKE",
+      "hint_validator_delegatevote": "By transferring the desired amount of CYBER STAKE you raise his position",
+      "hint_validator_recallvote": "Taking the desired amount of CYBER STAKE, you lower his position",
+      "button_delegatevote": "Transfer",
+      "button_recallvote": "Undelegate",
+      "success_delegatevote": "Transfer successfully completed!",
+      "success_recallvote": "Undelegate successfully completed!",
+      "failed_delegatevote": "Transfer failed",
+      "failed_recallvote": "Undelegate failed"
     }
   },
   "editor_toolbar": {
@@ -1199,6 +1204,7 @@
   "validators_jsx": {
     "validators": "Validators List",
     "validator": "Validators",
+    "your_votes": "You delegated",
     "public_key": "Public key",
     "last_update": "Last update at"
   },

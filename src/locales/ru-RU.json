@@ -265,11 +265,16 @@
       "withdraw": "Вывести"
     },
     "delegatevote": {
-      "title": "Проголосовать за валидатора",
-      "tip": "Переводя желаемое количество CYBER STAKE вы поднимаете его позицию",
-      "transfer_button": "Передать",
-      "transfer_success": "Перевод успешно совершен!",
-      "transfer_failed": "Перевод не удался!"
+      "title_delegatevote": "Делегировать CYBER STAKE",
+      "title_recallvote": "Разделегировать CYBER STAKE",
+      "hint_validator_delegatevote": "Делегирую желаемое количество CYBER STAKE вы поднимаете его позицию",
+      "hint_validator_recallvote": "Разделегируя желаемое количество CYBER STAKE вы опускаете его позицию",
+      "button_delegatevote": "Делегировать",
+      "button_recallvote": "Разделегировать",
+      "success_delegatevote": "Делегирование успешно совершено!",
+      "success_recallvote": "Разделегирование успешно совершено!",
+      "failed_delegatevote": "Делегирование не удалось",
+      "failed_recallvote": "Разделегирование не удалось"
     }
   },
   "editor_toolbar": {
@@ -1206,6 +1211,7 @@
   "validators_jsx": {
     "validators": "Список валидаторов",
     "validator": "Валидаторы",
+    "your_votes": "Вы делегировали",
     "public_key": "Публичный ключ",
     "last_update": "Последнее обновление"
   },

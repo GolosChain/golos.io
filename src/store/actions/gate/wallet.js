@@ -29,9 +29,13 @@ import {
   FETCH_CLAIM_HISTORY,
   FETCH_CLAIM_HISTORY_SUCCESS,
   FETCH_CLAIM_HISTORY_ERROR,
+  FETCH_VALIDATORS,
+  FETCH_VALIDATORS_SUCCESS,
+  FETCH_VALIDATORS_ERROR,
 } from 'store/constants';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
+import { validatorSchema } from 'store/schemas/gate';
 
 export const getBalance = userId => {
   if (!userId) {
@@ -249,5 +253,18 @@ export const getClaimHistory = ({ userId, sequenceKey = null }) => {
       params,
     },
     meta: params,
+  };
+};
+
+export const getValidators = () => {
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_VALIDATORS, FETCH_VALIDATORS_SUCCESS, FETCH_VALIDATORS_ERROR],
+      method: 'wallet.getValidators',
+      params: {},
+      schema: {
+        producers: [validatorSchema],
+      },
+    },
   };
 };
