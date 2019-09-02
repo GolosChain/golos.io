@@ -7,7 +7,7 @@ import is from 'styled-is';
 
 import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
-import { fetchProfile, getValidators } from 'store/actions/gate';
+import { fetchProfileIfNeeded, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
 import LeadersHeader from 'components/leaders/LeadersHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
@@ -153,10 +153,12 @@ const REFRESH_INTERVAL = 60 * 1000;
   state => ({
     profiles: entitiesSelector('profiles')(state),
   }),
-  { fetchProfile, getValidators, showDelegateVoteDialog }
+  { fetchProfileIfNeeded, getValidators, showDelegateVoteDialog }
 )
 export default class ValidatorsPage extends PureComponent {
   static propTypes = {
+    getValidators: PropTypes.func.isRequired,
+    fetchProfileIfNeeded: PropTypes.func.isRequired,
     showDelegateVoteDialog: PropTypes.func.isRequired,
   };
 
@@ -181,13 +183,13 @@ export default class ValidatorsPage extends PureComponent {
   }
 
   async _refreshData() {
-    const { fetchProfile, getValidators } = this.props;
+    const { fetchProfileIfNeeded, getValidators } = this.props;
 
     try {
       const { producers } = await getValidators();
 
       const profilesPromises = producers.map(producer => {
-        return fetchProfile(producer.id);
+        return fetchProfileIfNeeded(producer.id);
       });
 
       await Promise.all(profilesPromises);
