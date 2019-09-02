@@ -159,7 +159,9 @@ export default class LeadersTop extends PureComponent {
           await fetchLeaders();
         }
       } catch (err) {
-        displayError(tt('g.error'), err);
+        if (err.message !== 'AbortError') {
+          displayError(tt('g.error'), err);
+        }
       }
     },
     200,
