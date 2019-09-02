@@ -42,13 +42,6 @@ export const recallvote = (recipientName, sym, percent) => async (dispatch, getS
     throw new Error('Unauthorized');
   }
 
-  console.log({
-    grantor_name: userId,
-    recipient_name: recipientName,
-    token_code: sym,
-    pct: percent * 100,
-  });
-
   return dispatch({
     [CYBERWAY_API]: {
       contract: CONTRACT_NAME,

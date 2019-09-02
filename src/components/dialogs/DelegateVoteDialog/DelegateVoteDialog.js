@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import ComplexInput from 'components/golos-ui/ComplexInput';
-import SplashLoader from 'components/golos-ui/SplashLoader';
-
 import { parseAmount } from 'helpers/currency';
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import { Link } from 'shared/routes';
+import { CURRENCIES } from 'shared/constants';
 
+import ComplexInput from 'components/golos-ui/ComplexInput';
+import SplashLoader from 'components/golos-ui/SplashLoader';
+import Slider from 'components/golos-ui/Slider';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
-
-import { CURRENCIES } from 'shared/constants';
-import Slider from '../../golos-ui/Slider';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
