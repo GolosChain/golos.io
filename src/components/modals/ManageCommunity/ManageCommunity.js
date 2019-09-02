@@ -7,10 +7,12 @@ import SplashLoader from 'components/golos-ui/SplashLoader';
 import { displayError } from 'utils/toastMessages';
 
 import ChooseContract from './ChooseContract';
+import ChooseAction from './ChooseAction';
 import ContactSettings from './ContactSettings';
 
 export const STEPS = {
   INITIAL: 'INITIAL',
+  CHOOSE_ACTION: 'CHOOSE_ACTION',
   CHANGE_PARAMS: 'CHANGE_PARAMS',
 };
 
@@ -89,6 +91,8 @@ export default class ManageCommunity extends PureComponent {
         return (
           <ChooseContract data={stepData} onStepChange={this.onStepChange} onClose={this.onClose} />
         );
+      case STEPS.CHOOSE_ACTION:
+        return <ChooseAction data={stepData} onStepChange={this.onStepChange} />;
       case STEPS.CHANGE_PARAMS:
         return (
           <ContactSettings

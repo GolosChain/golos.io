@@ -7,7 +7,7 @@ import tt from 'counterpart';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { parsePercent } from 'utils/common';
 import Button from 'components/golos-ui/Button';
-import { CONTRACTS, FIELD_TYPES } from 'constants/setParamsStructures';
+import { CONTRACTS, FIELD_TYPES } from 'constants/communitySettings';
 
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
@@ -361,12 +361,15 @@ export default class ProposalCard extends PureComponent {
         <Field>
           <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
         </Field>
-        <ChangesBlock>
-          <FieldTitle>Changes:</FieldTitle>
-          <ChangesList>
-            {proposal.changes.map((struct, i) => this.renderChangeLine(struct, contract, i))}
-          </ChangesList>
-        </ChangesBlock>
+        {proposal.data ? <pre>{JSON.stringify(proposal.data, null, 2)}</pre> : null}
+        {proposal.changes ? (
+          <ChangesBlock>
+            <FieldTitle>Changes:</FieldTitle>
+            <ChangesList>
+              {proposal.changes.map((struct, i) => this.renderChangeLine(struct, contract, i))}
+            </ChangesList>
+          </ChangesBlock>
+        ) : null}
         {this.renderApproveState()}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
         {this.renderFooter()}

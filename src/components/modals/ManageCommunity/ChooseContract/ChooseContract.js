@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { CONTRACTS } from 'constants/setParamsStructures';
+import { CONTRACTS } from 'constants/communitySettings';
 import Button from 'components/golos-ui/Button';
 
 import { STEPS } from '../ManageCommunity';
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const Hint = styled.h2`
+const StepTitle = styled.h2`
   margin-bottom: 12px;
   font-size: 18px;
   font-weight: initial;
@@ -62,12 +62,23 @@ export default class ChooseContract extends PureComponent {
   onClick = contractName => {
     const { onStepChange } = this.props;
 
-    onStepChange({
-      step: STEPS.CHANGE_PARAMS,
-      data: {
-        contractName,
-      },
-    });
+    const contract = CONTRACTS.find(contract => contract.contractName === contractName);
+
+    if (contract.actions.length === 1) {
+      onStepChange({
+        step: STEPS.CHANGE_PARAMS,
+        data: {
+          contractName,
+        },
+      });
+    } else {
+      onStepChange({
+        step: STEPS.CHOOSE_ACTION,
+        data: {
+          contractName,
+        },
+      });
+    }
   };
 
   onCancelClick = () => {
@@ -90,7 +101,7 @@ export default class ChooseContract extends PureComponent {
     return (
       <>
         <Wrapper>
-          <Hint>{tt('community_settings.choose_contract')}</Hint>
+          <StepTitle>{tt('community_settings.choose_contract')}</StepTitle>
           <List>{CONTRACTS.map(this.renderContractLine)}</List>
         </Wrapper>
         <FooterButtons>

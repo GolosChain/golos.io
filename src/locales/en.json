@@ -1263,7 +1263,9 @@
     "title": "Community Settings",
     "contract": "Contract",
     "choose_contract": "Choose contract to edit:",
+    "choose_action": "Choose action:",
     "description": "Description",
+    "action": "Action",
     "create_proposal": "Create proposal",
     "confirm_reset": "Changes will be reset.\n\nAre you sure?",
     "contracts": {
