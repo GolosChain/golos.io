@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
+import { withRouter } from 'next/router';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
 import { Link } from 'shared/routes';
@@ -319,6 +320,7 @@ const DotsIcon = styled(Icon).attrs({
   }
 `;
 
+@withRouter
 export default class PostCardCompact extends PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -469,10 +471,19 @@ export default class PostCardCompact extends PureComponent {
   }
 
   renderDetails() {
-    const { post, author, repostAuthor, isRepost } = this.props;
+    const { post, author, repostAuthor, isRepost, router } = this.props;
 
-    const category = detransliterate(post.tag || 'test');
-    const categoryTooltip = tt('aria_label.category', { category });
+    const firstTag = post.content?.tags?.[0];
+    let category = null;
+    let categoryUrl = null;
+
+    if (firstTag) {
+      category = detransliterate(firstTag);
+
+      const asPath = router.asPath.replace(/\?.*$/, '');
+      const currentFeed = !['/hot', '/trending'].includes(asPath) ? asPath : '/created';
+      categoryUrl = `${currentFeed}?tags=${firstTag}`;
+    }
 
     return (
       <DetailsBlock>
@@ -497,12 +508,13 @@ export default class PostCardCompact extends PureComponent {
             <AuthorRating>{repLog10(author?.stats?.reputation)}</AuthorRating>
           </AuthorLink>
         </Link>
-        <Link route="home" passHref>
-          {/* original url: `${currentFeed}?tags=${category}` */}
-          <CategoryLink aria-label={categoryTooltip}>
-            <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
-          </CategoryLink>
-        </Link>
+        {category ? (
+          <Link to={categoryUrl} passHref>
+            <CategoryLink aria-label={tt('aria_label.category', { category })}>
+              <CategoryLinkIn>{tt('g.in')}</CategoryLinkIn> {category}
+            </CategoryLink>
+          </Link>
+        ) : null}
       </DetailsBlock>
     );
   }
