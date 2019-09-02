@@ -45,46 +45,39 @@ export const changePassword = ({ ownerKey, publicKeys, availableRoles, delaySec 
     throw new Error('Unauthorized');
   }
 
-  const updateAuthActions = availableRoles.map(role =>
-    cyber.basic.prepareAction(
-      'cyber',
-      'updateauth',
-      { accountName: userId, permission: 'owner' },
-      {
-        account: userId,
-        permission: role,
-        parent: PARENT_PERMISSION[role],
-        auth: {
-          threshold: 1,
-          keys: [
-            {
-              weight: 1,
-              key: publicKeys[role],
-            },
-          ],
-          accounts: [],
-          waits: [],
-        },
-      }
-    )
-  );
+  const actions = availableRoles.map(role => ({
+    contractAccount: 'cyber',
+    actionName: 'updateauth',
+    actor: { accountName: userId, permission: 'owner' },
+    data: {
+      account: userId,
+      permission: role,
+      parent: PARENT_PERMISSION[role],
+      auth: {
+        threshold: 1,
+        keys: [
+          {
+            weight: 1,
+            key: publicKeys[role],
+          },
+        ],
+        accounts: [],
+        waits: [],
+      },
+    },
+  }));
 
   cyber.initProvider(ownerKey);
-
-  const trx = {
-    actions: updateAuthActions,
-  };
-
-  if (delaySec) {
-    trx.delay_sec = delaySec;
-  }
 
   const results = await dispatch({
     [CYBERWAY_API]: {
       types: [UPDATE_AUTH, UPDATE_AUTH_SUCCESS, UPDATE_AUTH_ERROR],
       contract: 'basic',
-      method: 'sendTransaction',
-      params: trx,
+      method: 'executeActions',
+      params: actions,
+      options: {
+        delaySec,
+      },
     },
   });
 

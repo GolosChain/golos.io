@@ -16,14 +16,19 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
 
   let callApi = action[CYBERWAY_API];
 
-  if (process.env.PROVIDEBW_ENABLED && shouldUseBW({ getState })) {
-    callApi = defaults(callApi, {
-      options: {
+  if (
+    process.env.PROVIDEBW_ENABLED &&
+    callApi.options?.providebw !== false &&
+    shouldUseBW({ getState })
+  ) {
+    callApi = {
+      ...callApi,
+      options: defaults(callApi.options, {
         broadcast: false,
         providebw: true,
         bwprovider: 'gls',
-      },
-    });
+      }),
+    };
   }
 
   const actionWithoutCall = { ...action };
