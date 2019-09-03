@@ -1202,6 +1202,8 @@
     }
   },
   "validators_jsx": {
+    "remove_vote": "Vote against",
+    "vote": "Vote for",
     "validators": "Validators List",
     "validator": "Validators",
     "your_votes": "You delegated",

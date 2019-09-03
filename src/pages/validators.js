@@ -251,10 +251,10 @@ export default class ValidatorsPage extends PureComponent {
                     </Link>
                   </WitnessNumberAndName>
                   <VoteButtonCeil>
-                    {producer.voteQuantity ? (
+                    {parseFloat(producer.voteQuantity) ? (
                       <VoteButton
-                        // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
-                        // upvoted={item.hasVote ? 1 : 0}
+                        aria-label={tt('validators_jsx.remove_vote')}
+                        data-tooltip={tt('validators_jsx.remove_vote')}
                         onClick={this.onDelegateVoteClick(
                           'recallvote',
                           producer.id,
@@ -266,10 +266,10 @@ export default class ValidatorsPage extends PureComponent {
                         <Icon name="chevron" size="10" />
                       </VoteButton>
                     ) : null}
-                    {producer.voteQuantity || null}
+                    {parseFloat(producer.voteQuantity) || null}
                     <VoteButton
-                      // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
-                      // upvoted={item.hasVote ? 1 : 0}
+                      aria-label={tt('validators_jsx.vote')}
+                      data-tooltip={tt('validators_jsx.vote')}
                       onClick={this.onDelegateVoteClick('delegatevote', producer.id, validatorId)}
                     >
                       <Icon name="chevron" size="10" />

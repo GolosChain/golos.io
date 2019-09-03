@@ -11,6 +11,7 @@ import replies from './replies';
 import tags from './tags';
 import contentMetas from './contentMetas';
 import proposals from './proposals';
+import validators from './validators';
 
 export default combineReducers({
   posts,
@@ -24,4 +25,5 @@ export default combineReducers({
   tags,
   contentMetas,
   proposals,
+  validators,
 });
