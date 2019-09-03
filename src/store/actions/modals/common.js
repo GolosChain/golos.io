@@ -18,8 +18,8 @@ export function showQrKeyDialog(params) {
   return openModal(SHOW_MODAL_QR_KEY, params);
 }
 
-export function showPayoutDialog(postLink) {
-  return openModal(SHOW_MODAL_PAYOUT_INFO, { postLink });
+export function showPayoutDialog(entity) {
+  return openModal(SHOW_MODAL_PAYOUT_INFO, { entity });
 }
 
 export function showDislikeAlert(postLink) {

@@ -399,9 +399,9 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onPayoutClick = () => {
-    const { data, showPayoutDialog } = this.props;
+    const { showPayoutDialog, entity } = this.props;
 
-    showPayoutDialog(`${data.get('author')}/${data.get('permlink')}`);
+    showPayoutDialog(entity);
   };
 
   onResize = () => {
