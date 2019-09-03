@@ -15,13 +15,17 @@ export default connect(
         const { type, id } = props.entity;
 
         if (type === 'comment') {
-          let replies = entitySelector('replies', id)(state);
+          let comment = entitySelector('replies', id)(state);
 
-          if (!replies) {
-            replies = entitySelector('postComments', id)(state);
+          if (!comment) {
+            comment = entitySelector('postComments', id)(state);
           }
 
-          return replies;
+          if (!comment) {
+            comment = entitySelector('profileComments', id)(state);
+          }
+
+          return comment;
         }
 
         return entitySelector('posts', id)(state);
