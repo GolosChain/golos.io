@@ -254,11 +254,11 @@ export default class ProposalCard extends PureComponent {
     );
   }
 
-  renderChangeLine = ({ structureName, values }, contract, i) => {
+  renderChangeLine = ({ structureName, values }, contract, actionInfo, i) => {
     let structure;
 
-    if (contract) {
-      structure = contract.structures.find(struct => struct.name === structureName);
+    if (actionInfo) {
+      structure = actionInfo.structures.find(struct => struct.name === structureName);
     }
 
     return (
@@ -272,12 +272,16 @@ export default class ProposalCard extends PureComponent {
             </>
           )}
         </ChangeStructureName>
-        {this.renderChanges(structureName, structure, values)}
+        {this.renderChanges(structure, values)}
       </ChangesLine>
     );
   };
 
-  renderChanges(structureName, structure, values) {
+  renderChanges(structure, values) {
+    if (!structure) {
+      return <Changes>{JSON.stringify(values, null, 2)}</Changes>;
+    }
+
     const fields = [];
 
     const fieldNames = Object.keys(values);
@@ -326,6 +330,12 @@ export default class ProposalCard extends PureComponent {
     const [, contractName] = proposal.code.split('.');
     const contract = CONTRACTS.find(contract => contract.contractName === contractName);
 
+    let actionInfo = null;
+
+    if (contract) {
+      actionInfo = contract.actions.find(({ actionName }) => actionName === proposal.actionName);
+    }
+
     return (
       <Wrapper>
         <Field>
@@ -361,15 +371,17 @@ export default class ProposalCard extends PureComponent {
         <Field>
           <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
         </Field>
-        {proposal.data ? <pre>{JSON.stringify(proposal.data, null, 2)}</pre> : null}
-        {proposal.changes ? (
-          <ChangesBlock>
-            <FieldTitle>Changes:</FieldTitle>
+        <ChangesBlock>
+          <FieldTitle>Changes:</FieldTitle>
+          {proposal.data ? this.renderChanges(actionInfo, proposal.data) : null}
+          {proposal.changes && proposal.changes.length ? (
             <ChangesList>
-              {proposal.changes.map((struct, i) => this.renderChangeLine(struct, contract, i))}
+              {proposal.changes.map((struct, i) =>
+                this.renderChangeLine(struct, contract, actionInfo, i)
+              )}
             </ChangesList>
-          </ChangesBlock>
-        ) : null}
+          ) : null}
+        </ChangesBlock>
         {this.renderApproveState()}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
         {this.renderFooter()}
