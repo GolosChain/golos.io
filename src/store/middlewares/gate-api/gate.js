@@ -102,7 +102,8 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
           result = await addTimeout(
             client.callApi(method, params, userId),
             method,
-            SSR_REQUEST_TIMEOUT
+            SSR_REQUEST_TIMEOUT,
+            params
           );
         }
 
@@ -160,7 +161,7 @@ export default ({ autoLogin, onNotifications }) => ({ getState, dispatch }) => n
   };
 };
 
-function addTimeout(promise, methodName, timeoutMs) {
+function addTimeout(promise, methodName, timeoutMs, params) {
   return new Promise((resolve, reject) => {
     const startTs = Date.now();
 
@@ -171,7 +172,10 @@ function addTimeout(promise, methodName, timeoutMs) {
       result => {
         if (isTimeouted) {
           const time = Date.now() - startTs;
-          console.error(`Request failed: Calling ${methodName} took too long (${time}ms)`);
+          console.error(
+            `Request failed: Calling ${methodName} took too long (${time}ms), params:\n`,
+            JSON.stringify(params, null, 2)
+          );
         } else {
           clearTimeout(timeoutId);
           resolve(result);

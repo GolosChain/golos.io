@@ -3,13 +3,14 @@ import styled from 'styled-components';
 
 const Wrapper = styled.li`
   margin: 10px 0 20px;
+  list-style: none;
 `;
 
 const StructureLine = styled.div``;
 
-const StructureName = styled.h2`
+const StructureName = styled.h4`
   display: inline-block;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 export default function StructureWrapper({ title, hasChanges, children }) {

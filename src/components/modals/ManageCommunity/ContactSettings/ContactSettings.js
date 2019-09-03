@@ -11,7 +11,7 @@ import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
 import { Router } from 'shared/routes';
 
-import { CONTRACTS } from 'constants/setParamsStructures';
+import { CONTRACTS } from 'constants/communitySettings';
 import { STRUCTURES } from '../structures';
 import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
@@ -56,6 +56,14 @@ const LinkIcon = styled(Icon)`
   margin-right: 5px;
 `;
 
+const ActionWrapper = styled.div``;
+
+const ActionName = styled.h3``;
+
+const Description = styled.div`
+  margin: 4px 0 9px;
+`;
+
 const Structures = styled.ul`
   margin: 8px 0;
 `;
@@ -70,6 +78,7 @@ const FooterButtons = styled.div`
 
 export default class ContactSettings extends PureComponent {
   static propTypes = {
+    data: PropTypes.shape({}).isRequired,
     setParams: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -157,23 +166,23 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, { name, title, fields = {} }) => {
+  renderStructure = (contractName, actionName, { name, title, fields = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
-    const StructureComponent = STRUCTURES[contractName]?.[name];
+    const StructureComponent = STRUCTURES[contractName]?.[actionName]?.[name];
+    const values = currentSettings?.[contractName]?.[actionName]?.[name];
 
     if (!StructureComponent) {
       console.warn(`No component for type ${name}`);
       return;
     }
 
-    const values = currentSettings?.[contractName]?.[name] || {};
-
     return (
       <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
         {currentSettings ? (
           <StructureComponent
+            actionName={actionName}
             structureName={name}
             fields={fields}
             initialValues={values}
@@ -184,13 +193,65 @@ export default class ContactSettings extends PureComponent {
     );
   };
 
+  renderAction = (contractName, { name, description, fields, structures }) => {
+    const { currentSettings } = this.props;
+    let content;
+
+    if (fields) {
+      const StructureComponent = STRUCTURES[contractName]?.[name];
+      const values = currentSettings?.[contractName]?.[name];
+
+      if (StructureComponent) {
+        content = (
+          <>
+            {description ? <Description>{description}</Description> : null}
+            <StructureComponent
+              actionName={name}
+              fields={fields}
+              initialValues={values}
+              onChange={data => this.onChange(name, data)}
+            />
+          </>
+        );
+      } else {
+        content = (
+          <>
+            <div>Unknown structure: {name}</div>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+          </>
+        );
+      }
+    } else {
+      content = (
+        <Structures>
+          {structures.map(structure => this.renderStructure(contractName, name, structure))}
+        </Structures>
+      );
+    }
+
+    return (
+      <ActionWrapper>
+        <ActionName>
+          {tt('community_settings.action')}: {name}
+        </ActionName>
+        {content}
+      </ActionWrapper>
+    );
+  };
+
   renderContract = () => {
     const { data } = this.props;
     const { symbol } = this.state;
 
-    const { contractName, link, structures } = CONTRACTS.find(
+    const { contractName, link, actions } = CONTRACTS.find(
       contact => contact.contractName === data.contractName
     );
+
+    let action = actions[0];
+
+    if (data.actionName) {
+      action = actions.find(({ name }) => name === data.actionName);
+    }
 
     return (
       <ContractGroup>
@@ -205,15 +266,12 @@ export default class ContactSettings extends PureComponent {
             </DescriptionLink>
           ) : null}
         </ContractNameWrapper>
-
         {data.contractName === 'vesting' ? (
           <VestingParams>
             Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
           </VestingParams>
         ) : null}
-        <Structures>
-          {structures.map(structure => this.renderStructure(contractName, structure))}
-        </Structures>
+        {this.renderAction(contractName, action)}
       </ContractGroup>
     );
   };
