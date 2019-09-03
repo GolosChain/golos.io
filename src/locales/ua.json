@@ -1095,6 +1095,8 @@
     }
   },
   "validators_jsx": {
+    "remove_vote": "Голосувати проти",
+    "vote": "Голосувати за",
     "validators": "Список валідаторів",
     "validator": "Валідатори",
     "your_votes": "Ви делегували",
