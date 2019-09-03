@@ -251,7 +251,7 @@ export default class ValidatorsPage extends PureComponent {
                     </Link>
                   </WitnessNumberAndName>
                   <VoteButtonCeil>
-                    {producer.voteQuantity ? (
+                    {parseFloat(producer.voteQuantity) ? (
                       <VoteButton
                         // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
                         // upvoted={item.hasVote ? 1 : 0}
@@ -266,7 +266,7 @@ export default class ValidatorsPage extends PureComponent {
                         <Icon name="chevron" size="10" />
                       </VoteButton>
                     ) : null}
-                    {producer.voteQuantity || null}
+                    {parseFloat(producer.voteQuantity) || null}
                     <VoteButton
                       // title={tt(item.hasVote ? 'witnesses_jsx.remove_vote' : 'witnesses_jsx.vote')}
                       // upvoted={item.hasVote ? 1 : 0}
