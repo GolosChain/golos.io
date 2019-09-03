@@ -76,7 +76,7 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
       options
     );
 
-    if (options && options.providebw) {
+    if (options && options.providebw && !options.msig) {
       const { signatures, serializedTransaction } = result;
 
       const paramsProvidebw = {
