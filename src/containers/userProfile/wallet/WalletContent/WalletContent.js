@@ -46,16 +46,12 @@ export default class WalletContent extends Component {
   }
 
   render() {
-    const { userId } = this.props;
+    const { userId, profile } = this.props;
 
     return (
       <Card>
         <Head>
-          <title>
-            {tt('meta.title.profile.wallet', {
-              name: userId,
-            })}
-          </title>
+          <title>{tt('meta.title.profile.wallet', { name: profile.username })}</title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
         <PowerDownLine userId={userId} />

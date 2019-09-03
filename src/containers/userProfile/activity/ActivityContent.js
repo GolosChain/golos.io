@@ -5,7 +5,6 @@ import tt from 'counterpart';
 import Head from 'next/head';
 import throttle from 'lodash/throttle';
 import ToastsManager from 'toasts-manager';
-import { withRouter } from 'next/router';
 
 import { ACTIVITIES_FILTER_TYPES } from 'constants/activities';
 
@@ -74,10 +73,8 @@ const TABS = [
   },
 ];
 
-@withRouter
 export default class ActivityContent extends PureComponent {
   static propTypes = {
-    router: PropTypes.shape().isRequired,
     isLoading: PropTypes.bool.isRequired,
     section2: PropTypes.string.isRequired,
     order: PropTypes.array.isRequired,
@@ -178,13 +175,13 @@ export default class ActivityContent extends PureComponent {
   }
 
   render() {
-    const { userId, router, isLoading, tabLoading, tabId } = this.props;
+    const { profile, isLoading, tabLoading, tabId } = this.props;
 
     const tabLinks = TABS.map(({ id, title }) => ({
       text: tt(title),
       route: 'profileSection',
       params: {
-        userId: router.query.userId,
+        userId: profile.username,
         section: 'activity',
         section2: id === 'all' ? undefined : id,
       },
@@ -193,7 +190,7 @@ export default class ActivityContent extends PureComponent {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.activity', { name: userId })}</title>
+          <title>{tt('meta.title.profile.activity', { name: profile.username })}</title>
         </Head>
         <Header>{tt('g.activity')}</Header>
         <Card auto ref={this.rootRef}>

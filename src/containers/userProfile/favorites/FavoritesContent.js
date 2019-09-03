@@ -76,16 +76,12 @@ export default class FavoritesContent extends Component {
   }
 
   render() {
-    const { userId } = this.props;
+    const { profile } = this.props;
 
     return (
       <>
         <Head>
-          <title>
-            {tt('meta.title.profile.favorites', {
-              name: userId,
-            })}
-          </title>
+          <title>{tt('meta.title.profile.favorites', { name: profile.username })}</title>
         </Head>
         <Header>{tt('g.favorites')}</Header>
         <CardsListWrapper noGaps>{this.renderFavoritesList()}</CardsListWrapper>
