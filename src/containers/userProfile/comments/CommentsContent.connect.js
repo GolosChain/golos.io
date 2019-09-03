@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { statusSelector, profileSelector } from 'store/selectors/common';
 import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 import { UIModeSelector } from 'store/selectors/ui';
-import { fetchUserComments, fetchPost } from 'store/actions/gate/comments';
+import { fetchUserComments } from 'store/actions/gate/comments';
 
 import CommentsContent from './CommentsContent';
 
