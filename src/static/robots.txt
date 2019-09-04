@@ -1,6 +1,5 @@
 Host: https://golos.io
 User-agent: *
-Disallow: /favicons
 Disallow: /assets/
 Disallow: /xss/test
 Disallow: /yandex_dc913847e717bca6.html
