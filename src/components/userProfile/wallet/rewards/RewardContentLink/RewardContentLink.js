@@ -10,7 +10,6 @@ import { formatContentId } from 'store/schemas/gate';
 const ContentTitleLink = styled.a`
   display: inline;
   color: #333;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-decoration: underline;
