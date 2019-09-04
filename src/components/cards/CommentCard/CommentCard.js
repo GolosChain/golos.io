@@ -183,7 +183,6 @@ const Reply = styled.div`
 const TogglerWrapper = styled.div`
   display: flex;
   align-items: center;
-  overflow: hidden;
 `;
 
 const EmptyCloseOpenButton = styled.div`
