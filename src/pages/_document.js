@@ -30,16 +30,8 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    // TODO: doesn't work
-    // const lang = pathOr(
-    //   'en',
-    //   ['__NEXT_DATA__', 'props', 'initialProps', 'initialLanguage'],
-    //   this.props
-    // );
-    const lang = 'ru';
-
     return (
-      <html lang={lang}>
+      <html lang="ru">
         <Head>
           <meta charSet="utf-8" />
           <meta
@@ -59,10 +51,7 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="GOLOS.io Блоги" />
           <meta property="og:title" content="GOLOS.io Блоги" />
-          <meta
-            property="og:description"
-            content="Голос - социальная сеть, построенная на публичном блокчейне. Вознаграждение пользователей осуществляется за счет дополнительной эмиссии токенов. При этом распределением токенов управляют текущие пользователи сети через голосование за лучший контент."
-          />
+          <meta property="og:description" content={tt('meta.description', { locale: 'ru' })} />
           <meta property="og:image" content="https://golos.io/images/golos-share.png" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@goloschain" />
