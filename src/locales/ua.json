@@ -471,6 +471,7 @@
     "trending_topics": "Популярні",
     "turn_back": "Повернутися назад",
     "type": "Тип",
+    "uncollapse": "Розгорнути",
     "understand_that_APP_NAME_cannot_recover_password": "Я розумію, що %(APP_NAME)s не зможе відновити втрачений пароль",
     "unfollow": "Відписатися",
     "unknown": "Невідомий",
@@ -792,8 +793,8 @@
       "transfer": "Переказ коштів",
       "unsubscribe": "Відписка від блогу",
       "vote": "Голос за",
-      "witnessCancelVote": "Скасування голосу за делегатський ноду",
-      "witnessVote": "Голос за делегатський ноду"
+      "witnessCancelVote": "Скасування голосу за лідера",
+      "witnessVote": "Голос за лідера"
     },
     "private_post_display_settings": "Налаштування відображення приватних постів",
     "profile_about": "Про себе",
@@ -1075,6 +1076,7 @@
     "information": "Інформація",
     "find_by_username": "Знайти по імені акаунта",
     "no_price_feed": "Лідер не опублікував прайс фід",
+    "rating": "Рейтинг",
     "remove_vote": "Зняти голос",
     "top_witnesses": "Топ лідерів",
     "vote": "Проголосувати",
