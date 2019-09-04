@@ -237,7 +237,9 @@ export default class ConvertDialog extends PureComponent {
           `send to: ${saveTo ? recipient : currentUserId}`
         );
       } else if (type === TYPES.POWER) {
-        const convertedAmount = await convertTokensToVesting(tokensQuantity);
+        const convertedAmount = await convertTokensToVesting(
+          tokensQuantity.toFixed(CURRENCIES.GOLOS.decs)
+        );
         await withdrawTokens(convertedAmount.split(' ')[0]);
 
         ToastsManager.info(tt('dialogs_transfer.operation_started'));
