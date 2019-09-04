@@ -3,8 +3,6 @@
   "short_name": "Golos",
   "start_url": "/",
   "display": "standalone",
-  "name": "Golos",
-  "short_name": "Golos",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
