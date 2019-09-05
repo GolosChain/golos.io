@@ -222,7 +222,7 @@ export default class ValidatorsPage extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <ValidatorsHeader
+          <PageHeader
             title={tt('validators_jsx.validators')}
             subTitle={
               <div>
