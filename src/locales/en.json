@@ -102,7 +102,8 @@
   },
   "chain_errors": {
     "tx_missing_owner_auth": "Entered the wrong owner key",
-    "cashout_window": "The time for voting is over"
+    "cashout_window": "The time for voting is over",
+    "incorrect_delegate_proxy_level": "Cannot delegate to this user"
   },
   "chainvalidation_js": {
     "account_name_should": "Account name should ",
