@@ -8,7 +8,7 @@ import tt from 'counterpart';
 
 import { visuallyHidden } from 'helpers/styles';
 import { profileType } from 'types/common';
-import { displaySuccess } from 'utils/toastMessages';
+import { displaySuccess, displayError } from 'utils/toastMessages';
 import { transformContacts } from 'utils/transforms';
 
 import { SettingsShow } from 'components/userProfile';
@@ -77,9 +77,9 @@ export default class SettingsContent extends PureComponent {
       const result = await updateProfileMeta(meta);
       await waitForTransaction(result.transaction_id);
       await fetchProfile(userId);
+      displaySuccess(tt('settings.update_success'));
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('updateMetaData failed:', err);
+      displayError(err);
 
       // eslint-disable-next-line no-throw-literal
       throw {
@@ -93,17 +93,15 @@ export default class SettingsContent extends PureComponent {
 
     try {
       await updateSettings(options);
+      displaySuccess(tt('settings.update_success'));
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('updateSettings failed:', err);
+      displayError(err);
 
       // eslint-disable-next-line no-throw-literal
       throw {
         [FORM_ERROR]: err,
       };
     }
-
-    displaySuccess(tt('settings.update_success'));
   };
 
   renderContent() {

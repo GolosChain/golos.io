@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import tt from 'counterpart';
+import { mergeDeepRight } from 'ramda';
 
 import { USER_GENDER } from 'constants/config';
 import { profileType } from 'types/common';
@@ -106,150 +107,171 @@ function renderSocialField(placeholder, input, meta, icon) {
   );
 }
 
-const Account = ({ profile, onSubmitBlockchain }) => (
-  <Form
-    initialValues={{
-      userId: profile.userId,
-      contacts: {},
-      ...profile.personal,
-    }}
-    validate={validate}
-    onSubmit={onSubmitBlockchain}
-  >
-    {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
-      <form onSubmit={handleSubmit}>
-        {submitting && <SplashLoader />}
-        <CardContent column>
-          <Field name="userId">
-            {({ input }) => (
-              <FormGroupRow justify="space-between">
-                <LabelRow>{tt('settings_jsx.profile_userid')}</LabelRow>
-                <UserName>@{input.value}</UserName>
-              </FormGroupRow>
-            )}
-          </Field>
-          <Field name="name">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_name')}</Label>
-                <Input
-                  {...input}
-                  autocomplete="name"
-                  type="text"
-                  placeholder={tt('settings_jsx.account.placeholders.name')}
-                />
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <Field name="gender">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_gender.title')}</Label>
-                <Select {...input} placeholder={tt('settings_jsx.account.placeholders.gender')}>
-                  {USER_GENDER.map(i => (
-                    <option key={i} value={i}>
-                      {tt(`settings_jsx.profile_gender.genders.${i}`)}
-                    </option>
-                  ))}
-                </Select>
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <Field name="email">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_email')}</Label>
-                <Input {...input} autocomplete="email" type="text" />
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <Field name="location">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_location')}</Label>
-                <Input
-                  {...input}
-                  type="text"
-                  placeholder={tt('settings_jsx.account.placeholders.location')}
-                />
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <Field name="about">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_about')}</Label>
-                <Textarea
-                  {...input}
-                  placeholder={tt('settings_jsx.account.placeholders.about')}
-                  rows={6}
-                />
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <Field name="website">
-            {({ input, meta }) => (
-              <FormGroup>
-                <Label>{tt('settings_jsx.profile_website')}</Label>
-                <Input
-                  {...input}
-                  type="text"
-                  spellCheck="false"
-                  placeholder={tt('settings_jsx.account.placeholders.website')}
-                />
-                <FormError meta={meta} />
-              </FormGroup>
-            )}
-          </Field>
-          <FormGroup>
-            <Label>{tt('settings_jsx.social_networks')}</Label>
-            <Field name="contacts.facebook">
-              {({ input, meta }) =>
-                renderSocialField(
-                  tt('settings_jsx.account.placeholders.social_facebook'),
-                  input,
-                  meta,
-                  {
-                    name: 'facebook',
-                    width: 13,
-                    height: 24,
-                  }
-                )
-              }
+const checkForInitialValues = (initialValues, newValues) => {
+  const data = {};
+
+  for (const key of Object.keys(initialValues)) {
+    if (typeof initialValues[key] === 'object' && newValues[key] === null) {
+      data[key] = checkForInitialValues(initialValues[key], newValues[key]);
+    } else if (typeof initialValues[key] === 'object' && typeof newValues[key] === 'undefined') {
+      data[key] = checkForInitialValues(initialValues[key], newValues[key]);
+    } else {
+      data[key] =
+        newValues === undefined || typeof newValues[key] === 'undefined' ? null : newValues[key];
+    }
+  }
+
+  return mergeDeepRight(data, newValues || {});
+};
+
+const Account = ({ profile, onSubmitBlockchain }) => {
+  const initialValues = {
+    userId: profile.userId,
+    contacts: {},
+    ...profile.personal,
+  };
+
+  const onSubmit = newValues => {
+    const data = checkForInitialValues(initialValues, newValues);
+    onSubmitBlockchain(data);
+  };
+
+  return (
+    <Form initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
+      {({ handleSubmit, submitError, form, submitting, pristine, hasValidationErrors }) => (
+        <form onSubmit={handleSubmit}>
+          {submitting && <SplashLoader />}
+          <CardContent column>
+            <Field name="userId">
+              {({ input }) => (
+                <FormGroupRow justify="space-between">
+                  <LabelRow>{tt('settings_jsx.profile_userid')}</LabelRow>
+                  <UserName>@{input.value}</UserName>
+                </FormGroupRow>
+              )}
             </Field>
-            <Field name="contacts.vkontakte">
-              {({ input, meta }) =>
-                renderSocialField(
-                  tt('settings_jsx.account.placeholders.social_vkontakte'),
-                  input,
-                  meta,
-                  {
-                    name: 'vk',
-                    width: 28,
-                    height: 18,
-                  }
-                )
-              }
+            <Field name="name">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_name')}</Label>
+                  <Input
+                    {...input}
+                    autocomplete="name"
+                    type="text"
+                    placeholder={tt('settings_jsx.account.placeholders.name')}
+                  />
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
             </Field>
-            <Field name="contacts.instagram">
-              {({ input, meta }) =>
-                renderSocialField(
-                  tt('settings_jsx.account.placeholders.social_instagram'),
-                  input,
-                  meta,
-                  {
-                    name: 'instagram',
-                    size: 23,
-                  }
-                )
-              }
+            <Field name="gender">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_gender.title')}</Label>
+                  <Select {...input} placeholder={tt('settings_jsx.account.placeholders.gender')}>
+                    {USER_GENDER.map(i => (
+                      <option key={i} value={i}>
+                        {tt(`settings_jsx.profile_gender.genders.${i}`)}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
             </Field>
-            {/*
+            <Field name="email">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_email')}</Label>
+                  <Input {...input} autocomplete="email" type="text" />
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
+            </Field>
+            <Field name="location">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_location')}</Label>
+                  <Input
+                    {...input}
+                    type="text"
+                    placeholder={tt('settings_jsx.account.placeholders.location')}
+                  />
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
+            </Field>
+            <Field name="about">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_about')}</Label>
+                  <Textarea
+                    {...input}
+                    placeholder={tt('settings_jsx.account.placeholders.about')}
+                    rows={6}
+                  />
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
+            </Field>
+            <Field name="website">
+              {({ input, meta }) => (
+                <FormGroup>
+                  <Label>{tt('settings_jsx.profile_website')}</Label>
+                  <Input
+                    {...input}
+                    type="text"
+                    spellCheck="false"
+                    placeholder={tt('settings_jsx.account.placeholders.website')}
+                  />
+                  <FormError meta={meta} />
+                </FormGroup>
+              )}
+            </Field>
+            <FormGroup>
+              <Label>{tt('settings_jsx.social_networks')}</Label>
+              <Field name="contacts.facebook">
+                {({ input, meta }) =>
+                  renderSocialField(
+                    tt('settings_jsx.account.placeholders.social_facebook'),
+                    input,
+                    meta,
+                    {
+                      name: 'facebook',
+                      width: 13,
+                      height: 24,
+                    }
+                  )
+                }
+              </Field>
+              <Field name="contacts.vkontakte">
+                {({ input, meta }) =>
+                  renderSocialField(
+                    tt('settings_jsx.account.placeholders.social_vkontakte'),
+                    input,
+                    meta,
+                    {
+                      name: 'vk',
+                      width: 28,
+                      height: 18,
+                    }
+                  )
+                }
+              </Field>
+              <Field name="contacts.instagram">
+                {({ input, meta }) =>
+                  renderSocialField(
+                    tt('settings_jsx.account.placeholders.social_instagram'),
+                    input,
+                    meta,
+                    {
+                      name: 'instagram',
+                      size: 23,
+                    }
+                  )
+                }
+              </Field>
+              {/*
               <Field name="twitter">
                 {({ input, meta }) =>
                   renderSocialField(
@@ -265,27 +287,28 @@ const Account = ({ profile, onSubmitBlockchain }) => (
                 }
               </Field>
               */}
-          </FormGroup>
-          {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+            </FormGroup>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
 
-          {submitError && <div>{submitError}</div>}
-        </CardContent>
-        <FormFooter>
-          <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
-            {tt('settings_jsx.reset')}
-          </FormFooterButton>
-          <FormFooterButton
-            type="submit"
-            primary
-            disabled={submitting || pristine || hasValidationErrors}
-          >
-            {tt('settings_jsx.update')}
-          </FormFooterButton>
-        </FormFooter>
-      </form>
-    )}
-  </Form>
-);
+            {submitError && <div>{submitError}</div>}
+          </CardContent>
+          <FormFooter>
+            <FormFooterButton onClick={form.reset} disabled={submitting || pristine}>
+              {tt('settings_jsx.reset')}
+            </FormFooterButton>
+            <FormFooterButton
+              type="submit"
+              primary
+              disabled={submitting || pristine || hasValidationErrors}
+            >
+              {tt('settings_jsx.update')}
+            </FormFooterButton>
+          </FormFooter>
+        </form>
+      )}
+    </Form>
+  );
+};
 
 Account.propTypes = {
   profile: profileType.isRequired,
