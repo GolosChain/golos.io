@@ -5,12 +5,13 @@ import tt from 'counterpart';
 import { ToggleFeature } from '@flopflip/react-redux';
 
 import { PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
+import { fetchProposals } from 'store/actions/gate';
+import { displayError } from 'utils/toastMessages';
+
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import Button from 'components/golos-ui/Button';
-import { fetchProposals } from 'store/actions/gate';
-import { displayError } from 'utils/toastMessages';
-import LeadersHeader from '../LeadersHeader';
+import PageHeader from 'components/common/PageHeader';
 import ProposalCard from '../ProposalCard';
 
 const WrapperForBackground = styled.div`
@@ -134,7 +135,7 @@ export default class LeaderProposals extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <LeadersHeader
+          <PageHeader
             title={tt('witnesses_jsx.tabs.proposals')}
             actions={() =>
               isWitness ? (
