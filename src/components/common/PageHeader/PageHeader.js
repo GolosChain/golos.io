@@ -63,7 +63,7 @@ const Loader = styled(Icon).attrs({ name: 'refresh2' })`
   animation: rotate 1s linear infinite;
 `;
 
-export default class ValidatorsHeader extends PureComponent {
+export default class PageHeader extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     hideActions: PropTypes.bool.isRequired,

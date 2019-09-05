@@ -9,7 +9,7 @@ import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfileIfNeeded, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
-import ValidatorsHeader from 'components/validators/ValidatorsHeader';
+import PageHeader from 'components/common/PageHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
 import Button from 'components/golos-ui/Button';
 

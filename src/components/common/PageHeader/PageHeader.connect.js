@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 import { entitySelector } from 'store/selectors/common';
 
-import ValidatorsHeader from './ValidatorsHeader';
+import PageHeader from './PageHeader';
 
 export default connect(state => {
   const userId = currentUnsafeUserIdSelector(state);
@@ -13,4 +13,4 @@ export default connect(state => {
     hideActions: !userId,
     isLoading: Boolean(userId && !profile),
   };
-})(ValidatorsHeader);
+})(PageHeader);
