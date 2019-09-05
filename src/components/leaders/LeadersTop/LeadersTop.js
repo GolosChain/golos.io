@@ -11,7 +11,7 @@ import { displayError } from 'utils/toastMessages';
 import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import DialogManager from 'components/elements/common/DialogManager';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
-import LeadersHeader from 'components/leaders/LeadersHeader';
+import PageHeader from 'components/common/PageHeader';
 import LeaderLine, { lineTemplate } from 'components/leaders/LeaderLine';
 import Button from 'components/golos-ui/Button';
 import { Input } from 'components/golos-ui/Form';
@@ -177,7 +177,7 @@ export default class LeadersTop extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <LeadersHeader
+          <PageHeader
             title={tt('witnesses_jsx.top_witnesses')}
             subTitle={tt('witnesses_jsx.you_can_vote_for_maximum_of_witnesses')}
             actions={() => (

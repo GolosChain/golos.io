@@ -9,8 +9,9 @@ import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfileIfNeeded, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
-import LeadersHeader from 'components/leaders/LeadersHeader';
+import PageHeader from 'components/common/PageHeader';
 import Icon from 'components/golos-ui/Icon/Icon';
+import Button from 'components/golos-ui/Button';
 
 export const lineTemplate = '270px 170px minmax(360px, auto)';
 
@@ -221,7 +222,7 @@ export default class ValidatorsPage extends PureComponent {
     return (
       <WrapperForBackground>
         <Wrapper>
-          <LeadersHeader
+          <PageHeader
             title={tt('validators_jsx.validators')}
             subTitle={
               <div>
@@ -232,6 +233,11 @@ export default class ValidatorsPage extends PureComponent {
                   : null}
               </div>
             }
+            actions={() => (
+              <Button onClick={this.onDelegateVoteClick('delegatevote')}>
+                {tt('validators_jsx.vote')}
+              </Button>
+            )}
           />
           <TableWrapper>
             <TableHead>

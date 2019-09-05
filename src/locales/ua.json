@@ -78,7 +78,8 @@
   },
   "chain_errors": {
     "tx_missing_owner_auth": "Введено невірний головний ключ",
-    "cashout_window": "Час для голосування закінчилося"
+    "cashout_window": "Час для голосування закінчилося",
+    "incorrect_delegate_proxy_level": "Не можна делегувати даному користувачеві"
   },
   "chainvalidation_js": {
     "account_name_should": "Ім'я акаунта має бути ",

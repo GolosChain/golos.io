@@ -13,6 +13,7 @@ import SplashLoader from 'components/golos-ui/SplashLoader';
 import Slider from 'components/golos-ui/Slider';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
+import AccountNameInput from 'components/common/AccountNameInput';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
@@ -41,6 +42,10 @@ const Body = styled.div`
 
 const Section = styled.div`
   margin-bottom: 10px;
+`;
+
+const SectionVertical = styled.div`
+  flex-direction: column;
 `;
 
 const SectionSlider = styled.div`
@@ -94,7 +99,7 @@ export default class DelegateVoteDialog extends PureComponent {
   constructor(props) {
     super(props);
 
-    let recipientName = '';
+    let recipientName = null;
     if (props.recipientName) {
       recipientName = props.recipientName;
     }
@@ -232,9 +237,21 @@ export default class DelegateVoteDialog extends PureComponent {
     return true;
   }
 
+  onRecipientNameChange = value => {
+    this.setState({
+      recipientName: value,
+    });
+  };
+
   render() {
-    const { type, stakedBalance, recipientUsername, hint } = this.props;
-    const { amount, recallAmount, currency, loader, amountInFocus } = this.state;
+    const {
+      type,
+      stakedBalance,
+      recipientName: recipientNameProp,
+      recipientUsername,
+      hint,
+    } = this.props;
+    const { recipientName, amount, recallAmount, currency, loader, amountInFocus } = this.state;
 
     const buttons = [
       {
@@ -253,10 +270,15 @@ export default class DelegateVoteDialog extends PureComponent {
       <DialogFrameStyled
         title={
           <span>
-            {tt(`dialogs_transfer.delegatevote.title_${type}`)}{' '}
-            <Link route="profile" params={{ userId: recipientUsername }}>
-              {recipientUsername}
-            </Link>
+            {tt(`dialogs_transfer.delegatevote.title_${type}`)}
+            {recipientUsername ? (
+              <>
+                {' '}
+                <Link route="profile" params={{ userId: recipientUsername }}>
+                  {recipientUsername}
+                </Link>
+              </>
+            ) : null}
           </span>
         }
         titleSize={20}
@@ -294,22 +316,37 @@ export default class DelegateVoteDialog extends PureComponent {
                 <RecallAmount>{recallAmount / 10000} CYBER</RecallAmount>
               </SectionSlider>
             ) : (
-              <Section>
-                <Label>{tt('dialogs_transfer.amount')}</Label>
-                <ComplexInput
-                  placeholder={tt('dialogs_transfer.amount_placeholder', {
-                    amount: stakedBalance.toFixed(CURRENCIES[currency].decs),
-                  })}
-                  spellCheck="false"
-                  value={amount}
-                  autoFocus
-                  activeId={currency}
-                  buttons={buttons}
-                  onChange={this.onAmountChange}
-                  onFocus={this.onAmountFocus}
-                  onBlur={this.onAmountBlur}
-                />
-              </Section>
+              <SectionVertical>
+                {!recipientNameProp ? (
+                  <Section>
+                    <Label>{tt('dialogs_transfer.to')}</Label>
+                    <AccountNameInput
+                      name="account"
+                      block
+                      autoFocus
+                      placeholder={tt('dialogs_transfer.to_placeholder')}
+                      value={recipientName || ''}
+                      onChange={this.onRecipientNameChange}
+                    />
+                  </Section>
+                ) : null}
+                <Section>
+                  <Label>{tt('dialogs_transfer.amount')}</Label>
+                  <ComplexInput
+                    placeholder={tt('dialogs_transfer.amount_placeholder', {
+                      amount: stakedBalance.toFixed(CURRENCIES[currency].decs),
+                    })}
+                    spellCheck="false"
+                    value={amount}
+                    autoFocus
+                    activeId={currency}
+                    buttons={buttons}
+                    onChange={this.onAmountChange}
+                    onFocus={this.onAmountFocus}
+                    onBlur={this.onAmountBlur}
+                  />
+                </Section>
+              </SectionVertical>
             )}
           </Body>
           <ErrorBlock>{error ? <ErrorLine>{error}</ErrorLine> : null}</ErrorBlock>

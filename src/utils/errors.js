@@ -23,6 +23,10 @@ export function normalizeCyberwayErrorMessage(err) {
       return tt('chain_errors.cashout_window');
     }
 
+    if (message.includes('incorrect proxy levels: grantor 1, agent 1')) {
+      return tt('chain_errors.incorrect_delegate_proxy_level');
+    }
+
     return match[1].trim();
   }
 

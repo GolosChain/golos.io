@@ -63,11 +63,10 @@ const Loader = styled(Icon).attrs({ name: 'refresh2' })`
   animation: rotate 1s linear infinite;
 `;
 
-export default class LeadersHeader extends PureComponent {
+export default class PageHeader extends PureComponent {
   static propTypes = {
-    isWitness: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    hideLeaderActions: PropTypes.bool.isRequired,
+    hideActions: PropTypes.bool.isRequired,
     actions: PropTypes.func,
   };
 
@@ -76,9 +75,9 @@ export default class LeadersHeader extends PureComponent {
   };
 
   renderButtons() {
-    const { hideLeaderActions, isLoading, actions } = this.props;
+    const { hideActions, isLoading, actions } = this.props;
 
-    if (hideLeaderActions || !actions) {
+    if (hideActions || !actions) {
       return null;
     }
 
