@@ -195,8 +195,8 @@ export default class VotePanel extends VotePanelAbstract {
           <LikeBlock active={entity.votes.hasUpVote || sliderAction === 'like'} vertical={vertical}>
             <LikeWrapper
               name="vote-panel__upvote"
-              data-tooltip={tt('g.like')}
-              aria-label={tt('g.like')}
+              data-tooltip={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
+              aria-label={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
               ref={this.likeRef}
               vertical={vertical}
               onClick={this.onLikeClick}
@@ -223,8 +223,8 @@ export default class VotePanel extends VotePanelAbstract {
           >
             <LikeWrapper
               name="vote-panel__downvote"
-              data-tooltip={tt('g.dislike')}
-              aria-label={tt('g.dislike')}
+              data-tooltip={tt(entity.votes.hasDownVote ? 'g.undislike' : 'g.dislike')}
+              aria-label={tt(entity.votes.hasDownVote ? 'g.undislike' : 'g.dislike')}
               ref={this.dislikeRef}
               vertical={vertical}
               negative

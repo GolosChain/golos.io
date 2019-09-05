@@ -118,8 +118,8 @@ export default class VotePanelCompact extends VotePanelAbstract {
         <UpVoteContainer ref={this.rootRef}>
           <UpVoteBlock
             role="button"
-            data-tooltip={tt('g.like')}
-            aria-label={tt('g.like')}
+            data-tooltip={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
+            aria-label={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
             onClick={this.onLikeClick}
           >
             <UpVoteIcon

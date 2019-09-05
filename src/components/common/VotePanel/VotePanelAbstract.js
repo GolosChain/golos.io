@@ -443,17 +443,26 @@ export default class VotePanelAbstract extends PureComponent {
       <SliderBlock style={{ top: verticalOffset }}>
         <SliderBlockTip left={`${tipLeft}px`} />
         <OkIcon
+          role="button"
           name="check"
           red={sliderAction === 'dislike' ? 1 : 0}
+          aria-label={tt('g.vote')}
           data-tooltip={tt('g.vote')}
           onClick={this.onOkVoteClick}
         />
         <SliderStyled
+          role="button"
           value={votePercent}
           red={sliderAction === 'dislike'}
           onChange={this.onPercentChange}
         />
-        <CancelIcon name="cross" data-tooltip={tt('g.cancel')} onClick={this.onCancelVoteClick} />
+        <CancelIcon
+          role="button"
+          name="cross"
+          data-tooltip={tt('g.cancel')}
+          aria-label={tt('g.cancel')}
+          onClick={this.onCancelVoteClick}
+        />
       </SliderBlock>
     );
   }
