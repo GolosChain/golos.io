@@ -1,4 +1,5 @@
 import u from 'updeep';
+import { map } from 'ramda';
 
 import {
   FETCH_USER_BALANCE,
@@ -20,6 +21,7 @@ import {
   FETCH_CLAIM_HISTORY,
   FETCH_CLAIM_HISTORY_SUCCESS,
   FETCH_CLAIM_HISTORY_ERROR,
+  EXEC_PROPOSAL_SUCCESS,
 } from 'store/constants';
 
 const initialState = {
@@ -225,6 +227,27 @@ export default function(state = initialState, { type, payload, meta, error }) {
 
     case FETCH_CLAIM_HISTORY_ERROR:
       return u.updateIn(['users', meta.userId, 'claim'], { isLoading: false }, state);
+
+    case EXEC_PROPOSAL_SUCCESS:
+      const { proposer, proposalId } = meta;
+
+      return {
+        ...state,
+        users: map(user => {
+          if (!user?.balances?.vestingDelegationProposals?.length) {
+            return user;
+          }
+
+          return u.updateIn(
+            ['balances', 'vestingDelegationProposals'],
+            list =>
+              list.filter(
+                proposal => !(proposal.proposer === proposer && proposal.proposalId === proposalId)
+              ),
+            user
+          );
+        }, state.users),
+      };
 
     default:
       return state;

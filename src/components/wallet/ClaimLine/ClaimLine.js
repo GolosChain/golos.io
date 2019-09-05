@@ -13,7 +13,7 @@ const Text = styled.div`
 
 const Line = styled.div`
   line-height: 20px;
-  font-size: 14px;
+  font-size: 16px;
   color: #393636;
 
   @media (max-width: 500px) {
@@ -35,6 +35,7 @@ const ActionIcon = styled(Icon)`
 `;
 
 const Amount = styled.span`
+  margin-left: 2px;
   font-weight: bold;
 `;
 
@@ -42,7 +43,7 @@ const Root = styled.div`
   display: flex;
   align-items: center;
   padding: 9px 0;
-  border: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
   border-radius: 7px 7px 0 0;
   background: #f8f8f8;
 
@@ -100,7 +101,7 @@ export default class ClaimLine extends Component {
       <Root>
         <Text>
           <Line>
-            {tt('wallet.claim_balance')} <Amount>{`${unclaimedBalance} GOLOS`}</Amount>
+            {tt('wallet.claim_balance')}: <Amount>{`${unclaimedBalance} GOLOS`}</Amount>
           </Line>
         </Text>
         <ButtonWrapper>

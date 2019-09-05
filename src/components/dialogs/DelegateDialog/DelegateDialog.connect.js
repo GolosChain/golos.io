@@ -16,7 +16,7 @@ export default connect(
     const vestingParams = dataSelector(['contractParams', 'vesting'])(state);
 
     return {
-      userId,
+      currentUserId: userId,
       currentUsername,
       power: vesting.total,
       powerDelegated: vesting.outDelegate,

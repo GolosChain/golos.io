@@ -9,6 +9,7 @@ import Card from 'components/golos-ui/Card';
 import WalletShow from 'components/userProfile/WalletShow';
 import PowerDownLine from 'components/wallet/PowerDownLine';
 import ClaimLine from 'components/wallet/ClaimLine';
+import VestingDelegationProposals from 'components/wallet/VestingDelegationProposals';
 
 const Header = styled.h1`
   ${visuallyHidden};
@@ -46,17 +47,20 @@ export default class WalletContent extends Component {
     const { userId, profile } = this.props;
 
     return (
-      <Card>
+      <>
         <Head>
           <title>
             {tt('meta.title.profile.wallet', { name: profile.username || profile.userId })}
           </title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
-        <PowerDownLine userId={userId} />
-        <ClaimLine userId={userId} />
-        {this.renderContent()}
-      </Card>
+        <VestingDelegationProposals userId={userId} />
+        <Card>
+          <PowerDownLine userId={userId} />
+          <ClaimLine userId={userId} />
+          {this.renderContent()}
+        </Card>
+      </>
     );
   }
 }

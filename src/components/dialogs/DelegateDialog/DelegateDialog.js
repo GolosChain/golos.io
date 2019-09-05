@@ -7,8 +7,8 @@ import tt from 'counterpart';
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import { CheckboxInput } from 'components/golos-ui/Form';
-import { processError } from 'helpers/dialogs';
 
+import { displayError, displaySuccess } from 'utils/toastMessages';
 import { MIN_VOICE_POWER } from 'constants/config';
 import { isBadActor } from 'utils/chainValidation';
 import { parseAmount } from 'helpers/currency';
@@ -17,16 +17,16 @@ import DialogManager from 'components/elements/common/DialogManager';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import AccountNameInput from 'components/common/AccountNameInput';
+
 import DelegationEdit from './DelegationEdit';
 import DelegationsList from './DelegationsList';
-import ReceiveRewards from './ReceiveRewards';
+// import ReceiveRewards from './ReceiveRewards';
 
 const TYPES = {
   DELEGATE: 'DELEGATE',
   CANCEL: 'CANCEL',
 };
 
-const DEFAULT_DELEGATED_VESTING_INTEREST_RATE = 25;
 const MULTIPLIER = 1000;
 
 const DialogFrameStyled = styled(DialogFrame)`
@@ -120,8 +120,9 @@ const LoaderWrapper = styled.div`
 
 export default class DelegateDialog extends PureComponent {
   static propTypes = {
+    currentUserId: PropTypes.string,
     currentUsername: PropTypes.string.isRequired,
-    recipientName: PropTypes.string.isRequired,
+    recipientUserId: PropTypes.string,
     power: PropTypes.number.isRequired,
     vestingParams: PropTypes.shape({}).isRequired,
     delegateTokens: PropTypes.func.isRequired,
@@ -134,10 +135,12 @@ export default class DelegateDialog extends PureComponent {
   constructor(props) {
     super(props);
 
+    const { currentUserId, recipientUserId } = this.props;
+
     let target = '';
 
-    if (props.recipientName && props.recipientName !== props.currentUsername) {
-      target = props.recipientName;
+    if (recipientUserId && (!currentUserId || recipientUserId !== currentUserId)) {
+      target = recipientUserId;
     }
 
     this.state = {
@@ -151,27 +154,16 @@ export default class DelegateDialog extends PureComponent {
       delegationData: null,
       editAccountName: null,
       autoFocusValue: Boolean(target),
-      isReceiveReward: false,
-      rewardRate: DEFAULT_DELEGATED_VESTING_INTEREST_RATE,
-      payoutStrategy: 0,
     };
   }
 
   componentDidMount() {
-    const { getVestingParams } = this.props;
-
     // TODO
+    // const { getVestingParams } = this.props;
     // getVestingParams();
 
     this.loadDelegationsData();
   }
-
-  setStrategy = strategy => () => {
-    const { payoutStrategy } = this.state;
-    if (payoutStrategy !== strategy) {
-      this.setState({ payoutStrategy: strategy });
-    }
-  };
 
   onDelegationCancel = async (to, quantity) => {
     const { stopDelegateTokens } = this.props;
@@ -242,18 +234,6 @@ export default class DelegateDialog extends PureComponent {
     });
   };
 
-  isReceiveRewardChange = checked => {
-    this.setState({
-      isReceiveReward: checked,
-    });
-  };
-
-  onRewardRateChange = value => {
-    this.setState({
-      rewardRate: value,
-    });
-  };
-
   onCloseClick = () => {
     const { close } = this.props;
     close();
@@ -261,15 +241,7 @@ export default class DelegateDialog extends PureComponent {
 
   onOkClick = async () => {
     const { delegateTokens, convertTokensToVesting } = this.props;
-    const {
-      target,
-      amount,
-      loader,
-      disabled,
-      isReceiveReward,
-      rewardRate,
-      payoutStrategy,
-    } = this.state;
+    const { target, amount, loader, disabled } = this.state;
 
     if (loader || disabled) {
       return;
@@ -281,20 +253,17 @@ export default class DelegateDialog extends PureComponent {
     });
 
     let percent;
-    if (isReceiveReward) {
-      percent = rewardRate;
-    }
 
     try {
       const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
       const convertedAmount = await convertTokensToVesting(tokensQuantity);
-      await delegateTokens(target, convertedAmount.split(' ')[0], percent, payoutStrategy);
+      await delegateTokens(target, convertedAmount.split(' ')[0], percent);
 
       this.setState({
         loader: false,
       });
 
-      DialogManager.info(tt('dialogs_transfer.operation_success'));
+      displaySuccess(tt('dialogs_transfer.operation_success'));
 
       this.loadDelegationsData();
     } catch (err) {
@@ -303,7 +272,7 @@ export default class DelegateDialog extends PureComponent {
         disabled: false,
       });
 
-      processError(err);
+      displayError(tt('g.error'), err);
     }
   };
 
@@ -372,82 +341,47 @@ export default class DelegateDialog extends PureComponent {
         disabled: false,
         loader: false,
       });
-      processError(err);
+      displayError(tt('g.error'), err);
     }
   }
 
   renderDelegateBody({ availableBalanceString }) {
-    const { vestingParams } = this.props;
-    const {
-      target,
-      amount,
-      autoFocusValue,
-      isReceiveReward,
-      rewardRate,
-      payoutStrategy,
-    } = this.state;
-
-    const isReceiveRewardAvailable = vestingParams.maxInterest !== 0;
+    const { target, amount, autoFocusValue } = this.state;
 
     return (
-      <>
-        <Columns>
-          <Column>
-            <Section>
-              <Label>{tt('dialogs_transfer.to')}</Label>
-              <AccountNameInput
-                name="account"
-                block
-                placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
-                autoFocus={!autoFocusValue}
-                value={target}
-                onChange={this.onTargetChange}
-              />
-            </Section>
-          </Column>
-          <Column>
-            <Section>
-              <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
-              <ComplexInput
-                placeholder={tt('dialogs_transfer.amount_placeholder', {
-                  amount: availableBalanceString,
-                })}
-                spellCheck="false"
-                value={amount}
-                activeId="power"
-                buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
-                autoFocus={autoFocusValue}
-                onChange={this.onAmountChange}
-                onFocus={this.onAmountFocus}
-                onBlur={this.onAmountBlur}
-              />
-            </Section>
-          </Column>
-        </Columns>
-        <Columns>
-          {isReceiveRewardAvailable && (
-            <Column>
-              <Section>
-                <CheckboxInput
-                  value={isReceiveReward}
-                  title={tt('dialogs_transfer.delegate_vesting.tabs.delegate.receive_rewards')}
-                  onChange={this.isReceiveRewardChange}
-                />
-              </Section>
-            </Column>
-          )}
-        </Columns>
-        <Columns>
-          {isReceiveReward && (
-            <ReceiveRewards
-              rewardRate={rewardRate}
-              payoutStrategy={payoutStrategy}
-              onRewardRateChange={this.onRewardRateChange}
-              setStrategy={this.setStrategy}
+      <Columns>
+        <Column>
+          <Section>
+            <Label>{tt('dialogs_transfer.to')}</Label>
+            <AccountNameInput
+              name="account"
+              block
+              placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
+              autoFocus={!autoFocusValue}
+              value={target}
+              onChange={this.onTargetChange}
             />
-          )}
-        </Columns>
-      </>
+          </Section>
+        </Column>
+        <Column>
+          <Section>
+            <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
+            <ComplexInput
+              placeholder={tt('dialogs_transfer.amount_placeholder', {
+                amount: availableBalanceString,
+              })}
+              spellCheck="false"
+              value={amount}
+              activeId="power"
+              buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
+              autoFocus={autoFocusValue}
+              onChange={this.onAmountChange}
+              onFocus={this.onAmountFocus}
+              onBlur={this.onAmountBlur}
+            />
+          </Section>
+        </Column>
+      </Columns>
     );
   }
 
