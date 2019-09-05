@@ -553,22 +553,23 @@ export default class Header extends PureComponent {
             <TechnicalContainerWrapper>
               {tt('technical_work.dears')}
               <br />
-              <Interpolate
-                with={{
-                  channel: (
-                    <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>
-                  ),
-                  tasks: (
-                    <a href="https://github.com/GolosChain/golos.io/issues/new">
-                      {tt('technical_work.tasks')}
-                    </a>
-                  ),
-                }}
-              >
-                {tt('technical_work.want', {
-                  interpolate: false,
-                })}
-              </Interpolate>
+              {tt('technical_work.text_pause')}
+              {/*<Interpolate*/}
+              {/*  with={{*/}
+              {/*    channel: (*/}
+              {/*      <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>*/}
+              {/*    ),*/}
+              {/*    tasks: (*/}
+              {/*      <a href="https://github.com/GolosChain/golos.io/issues/new">*/}
+              {/*        {tt('technical_work.tasks')}*/}
+              {/*      </a>*/}
+              {/*    ),*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  {tt('technical_work.want', {*/}
+              {/*    interpolate: false,*/}
+              {/*  })}*/}
+              {/*</Interpolate>*/}
               <br />
               {tt('technical_work.bless')}
             </TechnicalContainerWrapper>

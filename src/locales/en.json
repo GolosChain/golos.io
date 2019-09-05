@@ -1259,7 +1259,8 @@
     "bless": "Yours, Golos Team",
     "tasks": "create issues o github",
     "channel": "channel",
-    "text": "Dear CyberWay users and validators! <br/><br/>\nErrors related to the functioning of the Cyberway Blockchain have been resolved, we ask validators to update the node to version 2.0.1.<br/>\nAt the moment, we are engaged in the restoration of services.<br/><br/> Thank you for your understanding and support! <br/> Yours, Golos Team"
+    "text": "Dear CyberWay users and validators! <br/><br/>\nErrors related to the functioning of the Cyberway Blockchain have been resolved, we ask validators to update the node to version 2.0.1.<br/>\nAt the moment, we are engaged in the restoration of services.<br/><br/> Thank you for your understanding and support! <br/> Yours, Golos Team",
+    "text_pause": "Due to technical problems, the site has been suspended."
   },
   "reset_key": {
     "delay_warning": "Your account has owner key restriction. Password can be changed only with time delay in %(delay)s days."
