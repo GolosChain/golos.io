@@ -66,7 +66,7 @@ const Loader = styled(Icon).attrs({ name: 'refresh2' })`
 export default class ValidatorsHeader extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    hideLeaderActions: PropTypes.bool.isRequired,
+    hideActions: PropTypes.bool.isRequired,
     actions: PropTypes.func,
   };
 
@@ -75,9 +75,9 @@ export default class ValidatorsHeader extends PureComponent {
   };
 
   renderButtons() {
-    const { hideLeaderActions, isLoading, actions } = this.props;
+    const { hideActions, isLoading, actions } = this.props;
 
-    if (hideLeaderActions || !actions) {
+    if (hideActions || !actions) {
       return null;
     }
 

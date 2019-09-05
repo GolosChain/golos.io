@@ -10,7 +10,7 @@ export default connect(state => {
   const profile = entitySelector('profiles', userId)(state);
 
   return {
-    hideLeaderActions: !userId,
+    hideActions: !userId,
     isLoading: Boolean(userId && !profile),
   };
 })(ValidatorsHeader);
