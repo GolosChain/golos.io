@@ -13,7 +13,7 @@ import SplashLoader from 'components/golos-ui/SplashLoader';
 import Slider from 'components/golos-ui/Slider';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
-import AccountNameInput from '../../common/AccountNameInput/AccountNameInput.connect';
+import AccountNameInput from 'components/common/AccountNameInput';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
