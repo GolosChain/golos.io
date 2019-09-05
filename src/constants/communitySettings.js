@@ -127,40 +127,42 @@ export const CONTRACTS = [
     contractName: 'emit',
     link:
       'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.emit_contract#operaciya-deistvie-setparams',
-    actions: {
-      name: 'setparams',
-      structures: [
-        {
-          name: 'inflation_rate',
-          title: 'Инфляция',
-          fields: {
-            start: 'Start',
-            stop: 'Stop',
-            narrowing: 'Narrowing',
+    actions: [
+      {
+        name: 'setparams',
+        structures: [
+          {
+            name: 'inflation_rate',
+            title: 'Инфляция',
+            fields: {
+              start: 'Start',
+              stop: 'Stop',
+              narrowing: 'Narrowing',
+            },
           },
-        },
-        {
-          name: 'reward_pools',
-          title: 'Пул наград',
-        },
-        {
-          name: 'emit_token',
-          title: 'Токен эмиссии',
-        },
-        {
-          name: 'emit_interval',
-          title: 'Интервал эмиссии',
-        },
-        {
-          name: 'bwprovider',
-          title: 'Bandwidth provider',
-          fields: {
-            actor: 'Актор',
-            permission: 'Уровень разрешений',
+          {
+            name: 'reward_pools',
+            title: 'Пул наград',
           },
-        },
-      ],
-    },
+          {
+            name: 'emit_token',
+            title: 'Токен эмиссии',
+          },
+          {
+            name: 'emit_interval',
+            title: 'Интервал эмиссии',
+          },
+          {
+            name: 'bwprovider',
+            title: 'Bandwidth provider',
+            fields: {
+              actor: 'Актор',
+              permission: 'Уровень разрешений',
+            },
+          },
+        ],
+      },
+    ],
   },
   {
     contractName: 'vesting',
