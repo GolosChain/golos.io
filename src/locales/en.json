@@ -675,7 +675,7 @@
       "unsubscribe": "Unsubscribed from your blog",
       "upvote": "Liked your post \"%(content)s\"",
       "upvote_comment": "Liked your comment \"%(content)s\"",
-      "witnessCancelVote": "Has removed your voice from your delegate node",
+      "witnessCancelVote": "Has removed vote from you as leader",
       "witnessVote": "Voted for you as a leader"
     },
     "online": {
@@ -690,7 +690,7 @@
       "transfer": "%(user)s has transferred to your account %(amount)s 💸",
       "unsubscribe": "%(user)s unsubscribed from your blog 😔",
       "upvote": "%(user)s liked your entry %(content)s 👍",
-      "witnessCancelVote": "%(user)s has removed your voice from your leader node 🙈",
+      "witnessCancelVote": "%(user)s has removed vote from you as leader 🙈",
       "witnessVote": "%(user)s voted for you as a leader 🔥"
     }
   },
