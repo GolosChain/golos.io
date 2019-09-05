@@ -1,4 +1,4 @@
-import { postSchema, formatContentId } from 'store/schemas/gate';
+import { postSchema } from 'store/schemas/gate';
 import { POSTS_FETCH_LIMIT } from 'shared/constants';
 import {
   FETCH_POST,
@@ -8,15 +8,16 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
 } from 'store/constants/actionTypes';
-import { entitySelector } from 'store/selectors/common';
 import { currentUnsafeServerUserIdSelector } from 'store/selectors/auth';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
-export const fetchPost = contentId => {
+export const fetchPost = ({ userId, username, permlink }) => {
   const params = {
     app: 'gls',
     contentType: 'raw',
-    ...contentId,
+    userId,
+    username,
+    permlink,
   };
 
   return {
@@ -28,13 +29,6 @@ export const fetchPost = contentId => {
     },
     meta: params,
   };
-};
-
-export const fetchPostIfNeeded = contentId => (dispatch, getState) => {
-  if (!entitySelector('posts', formatContentId(contentId))(getState())) {
-    return dispatch(fetchPost(contentId));
-  }
-  return null;
 };
 
 export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null }) => (

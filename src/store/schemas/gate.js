@@ -19,7 +19,7 @@ export const userSchema = new schema.Entity(
   'users',
   {},
   {
-    idAttribute: user => user.userId || user.id,
+    idAttribute: user => user.userId,
   }
 );
 

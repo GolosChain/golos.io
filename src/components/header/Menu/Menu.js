@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'shared/routes';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import SmartLink from 'components/common/SmartLink';
 import Icon from 'components/golos-ui/Icon';
 import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
@@ -63,7 +63,11 @@ export default class Menu extends PureComponent {
 
   loggedInItems = [
     {
-      link: `/@${this.props.userId}/wallet`,
+      route: 'profileSection',
+      params: {
+        userId: this.props.userId,
+        section: 'wallet',
+      },
       icon: 'wallet2',
       text: tt('g.wallet'),
       width: 18,
@@ -105,7 +109,11 @@ export default class Menu extends PureComponent {
       height: 26,
     },
     {
-      link: `/@${this.props.userId}/settings`,
+      route: 'profileSection',
+      params: {
+        userId: this.props.userId,
+        section: 'settings',
+      },
       icon: 'settings-cogwheel',
       text: tt('g.settings'),
       width: 22,
@@ -198,7 +206,18 @@ export default class Menu extends PureComponent {
       <Ul>
         {menuItems.map(
           (
-            { link = '', icon, text, hideOnDesktop = false, onClick, width, height, isButton },
+            {
+              link = '',
+              route,
+              params,
+              icon,
+              text,
+              hideOnDesktop = false,
+              onClick,
+              width,
+              height,
+              isButton,
+            },
             i
           ) => (
             <Fragment key={i}>
@@ -212,14 +231,14 @@ export default class Menu extends PureComponent {
                       {text}
                     </MenuButton>
                   ) : (
-                    <Link route={link} passHref>
+                    <SmartLink route={route || link} params={params}>
                       <MenuLink target={link.startsWith('//') ? '_blank' : null}>
                         <IconWrapper>
                           <IconStyled name={icon} width={width} height={height} />
                         </IconWrapper>
                         {text}
                       </MenuLink>
-                    </Link>
+                    </SmartLink>
                   )}
                 </Li>
               )}

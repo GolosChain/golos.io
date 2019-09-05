@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { Link } from 'shared/routes';
-import { displayError } from 'utils/toastMessages';
+import SmartLink from 'components/common/SmartLink';
 import Userpic from 'components/common/Userpic';
 import ChargersInfo from './ChargersInfo';
 
@@ -98,13 +97,13 @@ export default class AccountInfo extends PureComponent {
   };
 
   render() {
-    const { chargers, username, userId } = this.props;
+    const { chargers, userId, username } = this.props;
     const { isShowChargersPopup } = this.state;
 
     const votingPower = chargers?.votes ? parseFloat(chargers.votes).toFixed(2) : 0;
 
     return (
-      <Link route="profile" params={{ userId: username }} passHref>
+      <SmartLink route="profile" params={{ userId, username }}>
         <AccountInfoBlock>
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>
@@ -126,7 +125,7 @@ export default class AccountInfo extends PureComponent {
             {/*{isShowChargersPopup && <ChargersInfoStyled chargers={chargers} />}*/}
           </AccountText>
         </AccountInfoBlock>
-      </Link>
+      </SmartLink>
     );
   }
 }

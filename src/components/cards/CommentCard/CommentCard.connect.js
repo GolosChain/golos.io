@@ -28,7 +28,7 @@ export default connect(
       comment,
       author,
       username: currentUser?.username,
-      isOwner: Boolean(currentUser && currentUser.userId === author.id),
+      isOwner: Boolean(currentUser && currentUser.userId === author.userId),
     })
   ),
   // createSelector(

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Link } from 'shared/routes';
+import SmartLink from 'components/common/SmartLink';
 import Icon from 'components/golos-ui/Icon';
 import { breakWordStyles } from 'helpers/styles';
 
@@ -101,11 +101,11 @@ const UserName = styled.a`
   }
 `;
 
-export function UserLink({ userId, ...props }) {
+export function UserLink({ userId, username, ...props }) {
   return (
-    <Link route="profile" params={{ userId }} passHref>
+    <SmartLink route="profile" params={{ userId, username }}>
       <UserName {...props} />
-    </Link>
+    </SmartLink>
   );
 }
 

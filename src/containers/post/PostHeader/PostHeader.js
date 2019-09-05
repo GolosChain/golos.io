@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import PropTypes from 'prop-types';
 
-import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
 // import { ButtonBlock } from 'components/golos-ui/Button';
 import { TagLink } from 'components/golos-ui/Tag';
 
+import SmartLink from 'components/common/SmartLink';
 import Userpic from 'components/common/Userpic';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import PopoverBody from 'containers/post/PopoverBody';
@@ -42,10 +42,10 @@ const Wrapper = styled.div`
   }
 `;
 
-const ALink = styled(({ route, children, ...props }) => (
-  <Link route={route} passHref>
+const ALink = styled(({ route, params, children, ...props }) => (
+  <SmartLink route={route} params={params}>
     <a {...props}>{children}</a>
-  </Link>
+  </SmartLink>
 ))``;
 
 const Avatar = styled(({ route, ...props }) =>
@@ -262,21 +262,25 @@ export default class PostHeader extends Component {
         <UserInfoWrapper>
           {authorProfile ? (
             <Avatar aria-label={tt('aria_label.avatar')} onClick={this.onUserInfoClick}>
-              <UserpicStyled userId={author?.id} size={50} />
+              <UserpicStyled userId={author?.userId} size={50} />
               {showPopover && (
                 <>
                   <PopoverBackgroundShade show={showPopover} />
                   <AvatarBox popoverOffsetTop={50} userPicSize={50}>
                     <PopoverStyled closePopover={this.closePopover} show>
-                      <PopoverBody userId={author?.id} closePopover={this.closePopover} />
+                      <PopoverBody userId={author?.userId} closePopover={this.closePopover} />
                     </PopoverStyled>
                   </AvatarBox>
                 </>
               )}
             </Avatar>
           ) : (
-            <Avatar route={`/@${author?.id}`} aria-label={tt('aria_label.avatar')}>
-              <UserpicStyled userId={author?.id} size={50} />
+            <Avatar
+              route="profile"
+              params={{ userId: author.userId, username: author.username }}
+              aria-label={tt('aria_label.avatar')}
+            >
+              <UserpicStyled userId={author?.userId} size={50} />
             </Avatar>
           )}
           <InfoBlock>

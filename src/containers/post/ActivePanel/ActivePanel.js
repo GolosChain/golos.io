@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import PropTypes from 'prop-types';
 
 import Icon from 'components/golos-ui/Icon';
 
@@ -322,7 +321,7 @@ export default class ActivePanel extends Component {
             </DotsMoreWrapper>
           </>
         ) : null}
-        <ReplyBlockStyled count={post.children} link={post.id} text={tt('g.reply')} />
+        <ReplyBlockStyled count={post.children} post={post} text={tt('g.reply')} />
       </Wrapper>
     );
   }

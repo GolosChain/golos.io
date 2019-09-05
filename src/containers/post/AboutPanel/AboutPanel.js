@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { FormattedDate } from 'react-intl';
 
-import { Link } from 'shared/routes';
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
 import Userpic from 'components/common/Userpic';
+import SmartLink from 'components/common/SmartLink';
 // import Follow from 'components/common/Follow';
 
 const Wrapper = styled.div`
@@ -154,16 +154,16 @@ export default class AboutPanel extends Component {
       return null;
     }
 
-    const authorId = profile?.username || author;
-
     return (
       <Wrapper>
         <Avatar>
           <Userpic userId={author} size={50} ariaLabel={tt('aria_label.avatar')} />
           <AuthorInfo>
-            <Link route="profile" params={{ userId: authorId }} passHref>
-              <Account aria-label={tt('aria_label.username')}>@{authorId}</Account>
-            </Link>
+            <SmartLink route="profile" params={{ userId: author, username: profile?.username }}>
+              <Account aria-label={tt('aria_label.username')}>
+                @{profile?.username || author}
+              </Account>
+            </SmartLink>
           </AuthorInfo>
           <Divider />
         </Avatar>

@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 
-// import { toggleCommentInputFocus } from 'app/redux/actions/ui';
+import { entitySelector } from 'store/selectors/common';
 
 import ReplyBlock from './ReplyBlock';
 
-export default connect(null)(ReplyBlock);
+export default connect((state, props) => ({
+  author: entitySelector('users', props.post.author)(state),
+}))(ReplyBlock);

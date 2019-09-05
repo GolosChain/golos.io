@@ -16,7 +16,7 @@ import Icon from 'components/golos-ui/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import { VotePanelCompact } from 'components/common/VotePanel';
 import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
-import { ReplyBlock } from 'components/common/ReplyBlock';
+import ReplyBlock from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
 
 const MOBILE_THRESHOLD = 500;
@@ -527,7 +527,7 @@ export default class PostCardCompact extends PureComponent {
       <Footer>
         <VotePanelCompact entity={post} splitter={Splitter} />
         <Splitter />
-        <ReplyBlock mini count={post.stats.commentsCount} link={post.id} />
+        <ReplyBlock mini count={post.stats.commentsCount} post={post} />
         {this.renderRepostButton()}
         <Filler />
         <MenuWrapper>

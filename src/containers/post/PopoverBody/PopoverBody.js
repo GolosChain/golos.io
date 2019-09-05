@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import tt from 'counterpart';
-import { Link } from 'shared/routes';
 
 import Icon from 'components/golos-ui/Icon';
 
 import { breakWordStyles } from 'helpers/styles';
 import { repLog10 } from 'utils/ParsersAndFormatters';
 
+import SmartLink from 'components/common/SmartLink';
 import Userpic from 'components/common/Userpic';
 import { ClosePopoverButton } from 'components/post/PopoverAdditionalStyles';
 import Mute from 'components/common/Mute';
@@ -136,7 +136,7 @@ const PostsTitle = styled.div`
   text-transform: uppercase;
 `;
 
-const PostTitle = styled(Link)`
+const PostTitle = styled(SmartLink)`
   margin-left: 12px;
   color: #333;
   font: 16px Roboto, sans-serif;
@@ -204,17 +204,17 @@ export default class PopoverBody extends Component {
         </ClosePopoverButton>
         <Block>
           <AuthorTitle>
-            <Link route="profile" params={{ userId: profileId }} passHref>
+            <SmartLink route="profile" params={{ username, userId }}>
               <AuthorInfoBlock>
                 <AuthorName>{personal.name || profileId}</AuthorName>
                 <AuthorAccount aria-label={tt('aria_label.username')}>@{profileId}</AuthorAccount>
               </AuthorInfoBlock>
-            </Link>
-            <Link route="profile" params={{ userId: profileId }} passHref>
+            </SmartLink>
+            <SmartLink route="profile" params={{ username, userId }}>
               <AvatarLink aria-label={tt('aria_label.avatar')} rating={reputation}>
                 <Userpic userId={userId} size={USER_ICON_SIZE} />
               </AvatarLink>
-            </Link>
+            </SmartLink>
           </AuthorTitle>
           <UserStatus profile={profile} popover />
           {Boolean(personal.about) && <About>{personal.about}</About>}

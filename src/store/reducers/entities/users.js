@@ -13,13 +13,10 @@ export default function(state = initialState, { type, payload, meta }) {
     newState = {
       ...newState,
       ...map(
-        user =>
-          // Rename field 'userId' -> 'id'
-          omit(['userId'], {
-            ...user,
-            id: user.userId,
-            username: (user.username || user.userId).replace(/@golos$/, ''),
-          }),
+        user => ({
+          ...user,
+          username: user.username ? user.username.replace(/@golos$/, '') : null,
+        }),
         users
       ),
     };

@@ -7,7 +7,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
-import { Link } from 'shared/routes';
+import SmartLink from 'components/common/SmartLink';
 // import { detransliterate } from 'utils/ParsersAndFormatters';
 import extractContent from 'utils/bodyProcessing/extractContent';
 import { proxyImage } from 'utils/images';
@@ -15,7 +15,7 @@ import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import { TagLink } from 'components/golos-ui/Tag';
 import VotePanel from 'components/common/VotePanel';
-import { ReplyBlock } from 'components/common/ReplyBlock';
+import ReplyBlock from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import SmartLazyLoad from 'components/common/SmartLazyLoad';
@@ -471,7 +471,7 @@ export default class PostCard extends PureComponent {
 
     if (isOwner) {
       return (
-        <Link route="post" params={{ ...post.contentId, mode: 'edit' }} passHref>
+        <SmartLink route="post" params={{ ...post.contentId, mode: 'edit' }}>
           <ToolbarEditAction name="post-card__edit">
             <IconWrapper
               enabled
@@ -482,7 +482,7 @@ export default class PostCard extends PureComponent {
               <Icon name="pen" width={23} height={23} />
             </IconWrapper>
           </ToolbarEditAction>
-        </Link>
+        </SmartLink>
       );
     }
     return null;
@@ -646,13 +646,13 @@ export default class PostCard extends PureComponent {
     }
 
     return (
-      <Link
+      <SmartLink
         route="post"
         params={{
-          userId: author.username,
+          userId: author.userId,
+          username: author.username,
           permlink: post.contentId.permlink,
         }}
-        passHref
       >
         <BodyLink compact={compact ? 1 : 0} onClick={onClick}>
           {imageLink ? (
@@ -665,7 +665,7 @@ export default class PostCard extends PureComponent {
             <PostContent dangerouslySetInnerHTML={{ __html: content.desc }} />
           </Body>
         </BodyLink>
-      </Link>
+      </SmartLink>
     );
   }
 
@@ -687,7 +687,7 @@ export default class PostCard extends PureComponent {
           isLink
           compact={compact}
           count={post.stats.commentsCount}
-          link={post.id}
+          post={post}
           text={tt('g.reply')}
         />
       </Footer>

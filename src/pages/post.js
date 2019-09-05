@@ -8,9 +8,12 @@ export default class Post extends Component {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
+    console.log('KEEK', query);
+
     const post = await store.dispatch(
       fetchPagePost({
-        user: query.userId,
+        userId: query.userId,
+        username: query.username,
         permlink: query.permlink,
       })
     );

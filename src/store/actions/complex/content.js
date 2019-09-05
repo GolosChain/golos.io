@@ -122,14 +122,14 @@ export const deleteComment = contentId => {
   return deletemssg(data);
 };
 
-export const fetchPagePost = contentId => async dispatch => {
+export const fetchPagePost = ({ userId, username, permlink }) => async dispatch => {
   dispatch({
     type: FETCH_PAGE_POST,
     payload: {},
   });
 
   try {
-    const post = await dispatch(fetchPost(contentId));
+    const post = await dispatch(fetchPost({ userId, username, permlink }));
 
     dispatch({
       type: FETCH_PAGE_POST_SUCCESS,

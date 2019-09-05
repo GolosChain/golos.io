@@ -11,9 +11,10 @@ import { userProfileSchema } from 'store/schemas/gate';
 import { entitySelector } from 'store/selectors/common';
 
 // eslint-disable-next-line import/prefer-default-export
-export const fetchProfile = userId => dispatch => {
+export const fetchProfile = ({ userId, username }) => dispatch => {
   const params = {
-    user: userId,
+    userId,
+    username,
     app: 'gls',
   };
 
