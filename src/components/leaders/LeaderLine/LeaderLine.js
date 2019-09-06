@@ -9,6 +9,7 @@ import Icon from 'components/golos-ui/Icon';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import links from 'utils/Links';
 import CloseOpenButton from 'components/cards/CloseOpenButton';
+import SmartLink from 'components/common/SmartLink';
 
 export const lineTemplate = '170px 70px 300px 180px minmax(60px, auto)';
 
@@ -310,9 +311,9 @@ export default class LeaderLine extends PureComponent {
         <Wrapper title={title} isDeactive={!item.active} collapsed={isCollapsed}>
           <WitnessNumberAndName>
             <div>{item.position === null ? '-' : item.position + 1}</div>
-            <Link route="profile" params={{ userId: item.username || item.userId }}>
-              <a>{item.username || item.userId || 'hello'}</a>
-            </Link>
+            <SmartLink route="profile" params={{ userId: item.userId, username: item.username }}>
+              <a>{item.username || item.userId}</a>
+            </SmartLink>
           </WitnessNumberAndName>
           <VoteButtonCeil>
             <VoteButton

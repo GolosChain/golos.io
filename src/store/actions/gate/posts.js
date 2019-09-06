@@ -31,18 +31,22 @@ export const fetchPost = ({ userId, username, permlink }) => {
   };
 };
 
-export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null }) => (
-  dispatch,
-  getState
-) => {
-  const userId = currentUnsafeServerUserIdSelector(getState());
+export const fetchPosts = ({
+  type,
+  userId,
+  username,
+  feedType,
+  sequenceKey = null,
+  tags = null,
+}) => (dispatch, getState) => {
+  const currentUserId = currentUnsafeServerUserIdSelector(getState());
 
   const newParams = {
     app: 'gls',
     contentType: 'raw',
     sortBy: 'timeDesc',
     limit: POSTS_FETCH_LIMIT,
-    userId,
+    userId: currentUserId,
   };
 
   if (type === 'community') {
@@ -64,10 +68,12 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
     }
   } else if (type === 'user') {
     newParams.type = 'byUser';
-    newParams.userId = id;
+    newParams.userId = userId;
+    newParams.username = username;
   } else if (type === 'subscriptions') {
     newParams.type = 'subscriptions';
-    newParams.userId = id;
+    newParams.userId = userId;
+    newParams.username = username;
   } else {
     throw new Error('Invalid fetch posts type');
   }
@@ -78,10 +84,6 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
 
   if (tags && tags.length) {
     newParams.tags = tags;
-  }
-
-  if (!userId && !id) {
-    delete newParams.userId;
   }
 
   return dispatch({

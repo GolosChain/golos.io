@@ -267,8 +267,8 @@ export default class CommentFooter extends Component {
           <CommentReplyBlock
             // TODO: Fix counter
             count={count}
-            link={contentLink}
             text={tt('g.reply')}
+            postContentId={comment.parent.post.contentId}
             onReplyClick={onReplyClick}
           />
         </CommentRightButtons>

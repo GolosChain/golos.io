@@ -5,7 +5,6 @@ import tt from 'counterpart';
 
 import { parseAmount } from 'helpers/currency';
 import { displaySuccess, displayError } from 'utils/toastMessages';
-import { Link } from 'shared/routes';
 import { CURRENCIES } from 'shared/constants';
 
 import ComplexInput from 'components/golos-ui/ComplexInput';
@@ -14,6 +13,7 @@ import Slider from 'components/golos-ui/Slider';
 import DialogFrame from 'components/dialogs/DialogFrame';
 import DialogManager from 'components/elements/common/DialogManager';
 import AccountNameInput from 'components/common/AccountNameInput';
+import SmartLink from 'components/common/SmartLink';
 
 const DialogFrameStyled = styled(DialogFrame)`
   flex-basis: 616px;
@@ -274,9 +274,12 @@ export default class DelegateVoteDialog extends PureComponent {
             {recipientUsername ? (
               <>
                 {' '}
-                <Link route="profile" params={{ userId: recipientUsername }}>
+                <SmartLink
+                  route="profile"
+                  params={{ userId: recipientNameProp, username: recipientUsername }}
+                >
                   {recipientUsername}
-                </Link>
+                </SmartLink>
               </>
             ) : null}
           </span>

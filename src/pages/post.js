@@ -8,8 +8,6 @@ export default class Post extends Component {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
-    console.log('KEEK', query);
-
     const post = await store.dispatch(
       fetchPagePost({
         userId: query.userId,
@@ -28,7 +26,7 @@ export default class Post extends Component {
       };
     }
 
-    await store.dispatch(fetchProfile(post.contentId.userId)).catch(() => {
+    await store.dispatch(fetchProfile({ userId: post.contentId.userId })).catch(() => {
       // TODO: Temporary catch!
       // eslint-disable-next-line no-console
       console.error(`Profile [${post.contentId.userId}] not found`);

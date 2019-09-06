@@ -25,7 +25,7 @@ export default class BlogContent extends Component {
     await store.dispatch(
       fetchPosts({
         type: 'user',
-        id: profileProps.userId,
+        userId: profileProps.userId,
       })
     );
   }
@@ -36,7 +36,7 @@ export default class BlogContent extends Component {
     if (!isFetching && !isEnd) {
       fetchPosts({
         type: 'user',
-        id: userId,
+        userId,
         sequenceKey,
       });
     }

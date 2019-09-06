@@ -76,7 +76,7 @@ export default class SettingsContent extends PureComponent {
     try {
       const result = await updateProfileMeta(meta);
       await waitForTransaction(result.transaction_id);
-      await fetchProfile(userId);
+      await fetchProfile({ userId });
       displaySuccess(tt('settings.update_success'));
     } catch (err) {
       displayError(err);

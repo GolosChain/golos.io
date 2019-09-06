@@ -124,7 +124,7 @@ const Root = styled.div`
 export default function ReplyBlock({
   compact,
   count,
-  post,
+  postContentId,
   author,
   isLink,
   text,
@@ -133,7 +133,7 @@ export default function ReplyBlock({
   onReplyClick,
 }) {
   const postLinkParams = {
-    ...post.contentId,
+    ...postContentId,
     username: author?.username,
   };
 
@@ -190,7 +190,7 @@ export default function ReplyBlock({
 ReplyBlock.propTypes = {
   compact: PropTypes.bool,
   count: PropTypes.number,
-  post: PropTypes.shape({}).isRequired,
+  postContentId: PropTypes.shape({}).isRequired,
   author: PropTypes.shape({}).isRequired,
   text: PropTypes.string,
   mini: PropTypes.bool,

@@ -16,8 +16,6 @@ export default function SmartLink({ route, params, hash, children }) {
       delete finalParams.username;
     }
 
-    console.log(params, '->', finalParams);
-
     return (
       <Link route={finalRoute} params={finalParams} hash={hash} passHref>
         {children}

@@ -18,6 +18,7 @@ import { VotePanelCompact } from 'components/common/VotePanel';
 import CompactPostCardMenu from 'components/common/CompactPostCardMenu';
 import ReplyBlock from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
+import SmartLink from 'components/common/SmartLink';
 
 const MOBILE_THRESHOLD = 500;
 const PREVIEW_WIDTH = 148;
@@ -374,7 +375,7 @@ export default class PostCardCompact extends PureComponent {
   };
 
   renderHeader() {
-    const { post, isRepost } = this.props;
+    const { post, author, isRepost } = this.props;
 
     let created;
 
@@ -391,11 +392,11 @@ export default class PostCardCompact extends PureComponent {
           <HeaderRight>
             <ViewCount contentUrl={post.id} micro />
             {/*<CurationPercent postLink={permLink} micro />*/}
-            <Link route="post" params={post.contentId} passHref>
+            <SmartLink route="post" params={{ ...post.contentId, username: author.username }}>
               <DateLink>
                 <TimeAgoWrapper date={created} />
               </DateLink>
-            </Link>
+            </SmartLink>
           </HeaderRight>
         </HeaderWrapper>
       </Header>
@@ -403,7 +404,7 @@ export default class PostCardCompact extends PureComponent {
   }
 
   renderBody() {
-    const { post, stats, isRepost, repostHtml, warnNsfw, isMobile } = this.props;
+    const { post, author, stats, isRepost, repostHtml, warnNsfw, isMobile } = this.props;
 
     if (!post.content.body?.raw) {
       console.error('Repost without body:', post);
@@ -425,17 +426,19 @@ export default class PostCardCompact extends PureComponent {
 
     const text = post.content.body.preview || content.desc;
 
+    const postLinkParams = { ...post.contentId, username: author.username };
+
     return (
       <BodyBlock onClick={this.props.onClick}>
         {imageLink ? (
-          <Link route="post" params={post.contentId} passHref>
+          <SmartLink route="post" params={postLinkParams}>
             <ImageLink onClick={this.props.onClick}>
               <PostImage alt={tt('aria_label.post_image')} src={imageLink} />
             </ImageLink>
-          </Link>
+          </SmartLink>
         ) : null}
         <Body>
-          <Link route="post" params={post.contentId} passHref>
+          <SmartLink route="post" params={postLinkParams}>
             <BodyLink onClick={this.props.onClick}>
               {isRepost ? <PostContent repost dangerouslySetInnerHTML={repostHtml} /> : null}
               <PostTitle>{post.content.title}</PostTitle>
@@ -445,7 +448,7 @@ export default class PostCardCompact extends PureComponent {
                 }}
               />
             </BodyLink>
-          </Link>
+          </SmartLink>
         </Body>
       </BodyBlock>
     );
@@ -489,25 +492,26 @@ export default class PostCardCompact extends PureComponent {
       <DetailsBlock>
         {isRepost ? (
           <>
-            <Link
+            <SmartLink
               route="profile"
               params={{
-                userId: repostAuthor || 'unknown',
+                userId: repostAuthor.userId,
+                username: repostAuthor.username,
               }}
             >
               <AuthorLink>
-                <AuthorName>{repostAuthor?.username || 'unknown'}</AuthorName>
+                <AuthorName>{repostAuthor.username || repostAuthor.userId}</AuthorName>
               </AuthorLink>
-            </Link>
+            </SmartLink>
             <RepostArrowIcon />
           </>
         ) : null}
-        <Link route="profile" params={{ userId: post.author || 'unknown' }} passHref>
+        <SmartLink route="profile" params={{ userId: author.userId, username: author.username }}>
           <AuthorLink>
             <AuthorName>{author?.username || post.author}</AuthorName>
             <AuthorRating>{repLog10(author?.stats?.reputation)}</AuthorRating>
           </AuthorLink>
-        </Link>
+        </SmartLink>
         {category ? (
           <Link to={categoryUrl} passHref>
             <CategoryLink aria-label={tt('aria_label.category', { category })}>
@@ -527,7 +531,7 @@ export default class PostCardCompact extends PureComponent {
       <Footer>
         <VotePanelCompact entity={post} splitter={Splitter} />
         <Splitter />
-        <ReplyBlock mini count={post.stats.commentsCount} post={post} />
+        <ReplyBlock mini count={post.stats.commentsCount} postContentId={post.contentId} />
         {this.renderRepostButton()}
         <Filler />
         <MenuWrapper>

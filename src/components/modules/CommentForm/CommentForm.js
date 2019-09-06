@@ -477,10 +477,8 @@ export default class CommentForm extends Component {
 
   render() {
     const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
-
     const { text, emptyBody, isPreview, uploadingCount, isLoading } = this.state;
-
-    const allowPost = uploadingCount === 0 && !emptyBody;
+    // const allowPost = uploadingCount === 0 && !emptyBody;
 
     return (
       <>

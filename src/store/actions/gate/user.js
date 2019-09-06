@@ -31,7 +31,7 @@ export const fetchProfile = ({ userId, username }) => dispatch => {
 
 export const fetchProfileIfNeeded = userId => (dispatch, getState) => {
   if (!entitySelector('profiles', userId)(getState())) {
-    return dispatch(fetchProfile(userId));
+    return dispatch(fetchProfile({ userId }));
   }
   return null;
 };

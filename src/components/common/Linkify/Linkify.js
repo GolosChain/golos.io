@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'mocks/react-router';
 import styled from 'styled-components';
+
+import SmartLink from '../SmartLink';
 
 const Wrapper = styled.span`
   & a {
@@ -61,11 +62,16 @@ function addLinkToUser(str) {
     if (position > prevPosition) {
       parts.push(str.substring(prevPosition, position));
     }
+
     if (validateAccountName(accountName.substring(1)) === null) {
       parts.push(
-        <Link key={position} to={`/${accountName}`}>
+        <SmartLink
+          key={position}
+          route="profile"
+          params={{ username: accountName.replace(/^@/, '') }}
+        >
           {accountName}
-        </Link>
+        </SmartLink>
       );
     } else {
       parts.push(accountName);

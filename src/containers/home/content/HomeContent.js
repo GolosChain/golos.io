@@ -56,9 +56,9 @@ export default class HomeContent extends Component {
     loggedUserId: null,
   };
 
-  static async getInitialProps({ store, asPath, query: { tags, userId } }) {
+  static async getInitialProps({ store, asPath, query: { tags, userId, username } }) {
     const feedType = Routes.findAndGetUrls(asPath).route.name;
-    const type = userId ? 'subscriptions' : 'community';
+    const type = userId || username ? 'subscriptions' : 'community';
     const selectedTags = tags ? tags.split(',') : [];
 
     const fetchPostsData = {
@@ -67,9 +67,8 @@ export default class HomeContent extends Component {
       tags: selectedTags,
     };
 
-    if (userId) {
-      fetchPostsData.id = userId;
-    }
+    fetchPostsData.userId = userId;
+    fetchPostsData.username = username;
 
     try {
       await store.dispatch(fetchPosts(fetchPostsData));
@@ -77,8 +76,6 @@ export default class HomeContent extends Component {
       // eslint-disable-next-line no-console
       console.warn(err);
     }
-
-    let username;
 
     if (userId) {
       let state = store.getState();
@@ -89,7 +86,7 @@ export default class HomeContent extends Component {
 
       if (!username) {
         try {
-          await store.dispatch(fetchProfile(userId));
+          await store.dispatch(fetchProfile({ userId }));
           state = store.getState();
           username =
             entitySelector('profiles', userId)(state)?.username ||
@@ -123,7 +120,7 @@ export default class HomeContent extends Component {
         };
 
         if (userId) {
-          params.id = userId;
+          params.userId = userId;
         }
 
         await fetchPosts(params);
@@ -155,7 +152,7 @@ export default class HomeContent extends Component {
       };
 
       if (userId) {
-        params.id = userId;
+        params.userId = userId;
       }
 
       fetchPosts(params);

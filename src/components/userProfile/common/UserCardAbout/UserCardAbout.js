@@ -5,13 +5,13 @@ import is from 'styled-is';
 import tt from 'counterpart';
 import { FormattedDate } from 'react-intl';
 
-import { Link } from 'shared/routes';
 import { profileType } from 'types/common';
 import { makeSocialLink, sanitizeUrl } from 'helpers/urls';
 
 import Icon from 'components/golos-ui/Icon';
 import { CardTitle } from 'components/golos-ui/Card';
 import CollapsingCard from 'components/golos-ui/CollapsingCard';
+import SmartLink from 'components/common/SmartLink';
 
 import UserStatus from '../UserStatus';
 
@@ -248,7 +248,10 @@ export default class UserCardAbout extends PureComponent {
     return (
       <SizedRow>
         <Column>
-          <Link route="profile" params={{ userId: profile.userId }} passHref>
+          <SmartLink
+            route="profile"
+            params={{ userId: profile.userId, username: profile.username }}
+          >
             <ColumnLink>
               <Bold>{postsCount}</Bold>
               <Title>
@@ -257,13 +260,12 @@ export default class UserCardAbout extends PureComponent {
                 })}
               </Title>
             </ColumnLink>
-          </Link>
+          </SmartLink>
         </Column>
         <Column>
-          <Link
+          <SmartLink
             route="profileSection"
-            params={{ userId: profile.userId, section: 'comments' }}
-            passHref
+            params={{ userId: profile.userId, username: profile.username, section: 'comments' }}
           >
             <ColumnLink>
               <Bold>{commentsCount}</Bold>
@@ -273,7 +275,7 @@ export default class UserCardAbout extends PureComponent {
                 })}
               </Title>
             </ColumnLink>
-          </Link>
+          </SmartLink>
         </Column>
       </SizedRow>
     );

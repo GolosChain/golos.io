@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import { Link } from 'app/shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 

@@ -5,12 +5,12 @@ import tt from 'counterpart';
 import Interpolate from 'react-interpolate-component';
 import { Toast } from 'toasts-manager';
 
-import { Link } from 'shared/routes';
 import { breakWordStyles } from 'helpers/styles';
 import { getPropsForInterpolation } from 'helpers/notifications';
 
 import Avatar from 'components/common/Avatar';
 import Icon from 'components/golos-ui/Icon';
+import SmartLink from 'components/common/SmartLink';
 
 const LeftSide = styled.div`
   display: flex;
@@ -54,9 +54,9 @@ export default class OnlineNotification extends PureComponent {
     if (actor) {
       leftSide = (
         <LeftSide>
-          <Link route="profile" params={{ userId: actor.userId }}>
+          <SmartLink route="profile" params={{ userId: actor.userId, username: actor.username }}>
             <Avatar avatarUrl={actor.avatarUrl} size={40} />
-          </Link>
+          </SmartLink>
         </LeftSide>
       );
     }

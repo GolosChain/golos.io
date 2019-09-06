@@ -5,12 +5,12 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 
-import { Link } from 'shared/routes';
 import { entitiesSelector } from 'store/selectors/common';
 import { fetchProfileIfNeeded, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
 import PageHeader from 'components/common/PageHeader';
-import Icon from 'components/golos-ui/Icon/Icon';
+import SmartLink from 'components/common/SmartLink';
+import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
 
 export const lineTemplate = '270px 170px minmax(360px, auto)';
@@ -151,7 +151,7 @@ const REFRESH_INTERVAL = 60 * 1000;
 
 @connect(
   state => ({
-    profiles: entitiesSelector('profiles')(state),
+    users: entitiesSelector('users')(state),
   }),
   { fetchProfileIfNeeded, getValidators, showDelegateVoteDialog }
 )
@@ -160,10 +160,7 @@ export default class ValidatorsPage extends PureComponent {
     getValidators: PropTypes.func.isRequired,
     fetchProfileIfNeeded: PropTypes.func.isRequired,
     showDelegateVoteDialog: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    profiles: [],
+    users: PropTypes.shape({}).isRequired,
   };
 
   state = {
@@ -216,7 +213,7 @@ export default class ValidatorsPage extends PureComponent {
   };
 
   render() {
-    const { profiles } = this.props;
+    const { users } = this.props;
     const { producers, producersUpdateTime } = this.state;
 
     return (
@@ -246,15 +243,15 @@ export default class ValidatorsPage extends PureComponent {
               <TableHeadItem>{tt('validators_jsx.public_key')}</TableHeadItem>
             </TableHead>
             {producers.map((producer, index) => {
-              const validatorId = profiles[producer.id]?.username || producer.id;
+              const username = users[producer.id]?.username;
 
               return (
                 <WrapperLine collapsed key={producer.id}>
                   <WitnessNumberAndName>
                     <div>{index + 1}</div>
-                    <Link route="profile" params={{ userId: validatorId }}>
-                      <a>{validatorId}</a>
-                    </Link>
+                    <SmartLink route="profile" params={{ userId: producer.id, username: username }}>
+                      <a>{username || producer.id}</a>
+                    </SmartLink>
                   </WitnessNumberAndName>
                   <VoteButtonCeil>
                     {parseFloat(producer.voteQuantity) ? (
@@ -264,7 +261,7 @@ export default class ValidatorsPage extends PureComponent {
                         onClick={this.onDelegateVoteClick(
                           'recallvote',
                           producer.id,
-                          validatorId,
+                          username,
                           producer.voteQuantity
                         )}
                         unvote
@@ -276,7 +273,7 @@ export default class ValidatorsPage extends PureComponent {
                     <VoteButton
                       aria-label={tt('validators_jsx.vote')}
                       data-tooltip={tt('validators_jsx.vote')}
-                      onClick={this.onDelegateVoteClick('delegatevote', producer.id, validatorId)}
+                      onClick={this.onDelegateVoteClick('delegatevote', producer.id, username)}
                     >
                       <Icon name="chevron" size="10" />
                     </VoteButton>

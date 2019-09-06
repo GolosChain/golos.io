@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'next/router';
-import { Link } from 'shared/routes';
+
+import SmartLink from 'components/common/SmartLink';
 
 const SPLITTER_SYMBOLS = ['/', '?', '#'];
 
@@ -74,7 +75,7 @@ class RouteListener extends Component {
  *    в противном случае все эти урлы будут являться не соотвествующими исходной ссылке.
  */
 export default Comp => props => (
-  <Link route={props.route} params={props.params} passHref>
+  <SmartLink route={props.route} params={props.params}>
     <RouteListener {...props} route={undefined} params={undefined} Comp={Comp} />
-  </Link>
+  </SmartLink>
 );

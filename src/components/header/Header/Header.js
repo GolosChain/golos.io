@@ -521,7 +521,7 @@ export default class Header extends PureComponent {
   }
 
   renderMenu() {
-    const { userId, screenType } = this.props;
+    const { userId, username, screenType } = this.props;
     const { isMenuOpen } = this.state;
 
     const isDesktop = screenType === 'desktop';
@@ -533,6 +533,7 @@ export default class Header extends PureComponent {
           <Menu
             isMobile={isMobile}
             userId={userId}
+            username={username}
             onClose={this.onMenuToggle}
             onLoginClick={this.onLoginClick}
             onLogoutClick={this.onLogoutClick}

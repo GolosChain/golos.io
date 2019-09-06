@@ -61,73 +61,88 @@ export default class Menu extends PureComponent {
     onLogoutClick: PropTypes.func.isRequired,
   };
 
-  loggedInItems = [
-    {
-      route: 'profileSection',
-      params: {
-        userId: this.props.userId,
-        section: 'wallet',
+  constructor(props) {
+    super(props);
+
+    this.loggedInItems = this.getLoggedInItems();
+  }
+
+  getLoggedInItems() {
+    const { userId, username, onLogoutClick } = this.props;
+
+    const userLinkParams = {
+      userId: userId,
+      username: username,
+    };
+
+    return [
+      {
+        route: 'profileSection',
+        params: {
+          ...userLinkParams,
+          section: 'wallet',
+        },
+        icon: 'wallet2',
+        text: tt('g.wallet'),
+        width: 18,
+        height: 18,
       },
-      icon: 'wallet2',
-      text: tt('g.wallet'),
-      width: 18,
-      height: 18,
-    },
-    // {
-    //   link: '/market',
-    //   icon: 'transfer',
-    //   text: tt('g.market'),
-    //   width: 20,
-    //   height: 16,
-    // },
-    // {
-    //   link: '//explorer.golos.io',
-    //   icon: 'golos_explorer',
-    //   text: 'Golos Explorer',
-    //   width: 32,
-    //   height: 19,
-    // },
-    {
-      link: '/leaders',
-      icon: 'delegates',
-      text: tt('navigation.leaders'),
-      width: 22,
-      height: 16,
-    },
-    {
-      link: '/validators',
-      icon: 'delegates',
-      text: tt('navigation.validators'),
-      width: 22,
-      height: 16,
-    },
-    {
-      link: tt('link_to.telegram'),
-      icon: 'technical-support',
-      text: tt('navigation.technical_support'),
-      width: 25,
-      height: 26,
-    },
-    {
-      route: 'profileSection',
-      params: {
-        userId: this.props.userId,
-        section: 'settings',
+      // {
+      //   link: '/market',
+      //   icon: 'transfer',
+      //   text: tt('g.market'),
+      //   width: 20,
+      //   height: 16,
+      // },
+      // {
+      //   link: '//explorer.golos.io',
+      //   icon: 'golos_explorer',
+      //   text: 'Golos Explorer',
+      //   width: 32,
+      //   height: 19,
+      // },
+      {
+        link: '/leaders',
+        icon: 'delegates',
+        text: tt('navigation.leaders'),
+        width: 22,
+        height: 16,
       },
-      icon: 'settings-cogwheel',
-      text: tt('g.settings'),
-      width: 22,
-      height: 22,
-    },
-    {
-      icon: 'logout',
-      text: tt('g.logout'),
-      onClick: this.props.onLogoutClick,
-      width: 18,
-      height: 19,
-      isButton: true,
-    },
-  ];
+      {
+        link: '/validators',
+        icon: 'delegates',
+        text: tt('navigation.validators'),
+        width: 22,
+        height: 16,
+      },
+      {
+        link: tt('link_to.telegram'),
+        icon: 'technical-support',
+        text: tt('navigation.technical_support'),
+        width: 25,
+        height: 26,
+      },
+      {
+        route: 'profileSection',
+        params: {
+          ...userLinkParams,
+          section: 'settings',
+        },
+        icon: 'settings-cogwheel',
+        text: tt('g.settings'),
+        width: 22,
+        height: 22,
+      },
+      {
+        icon: 'logout',
+        text: tt('g.logout'),
+        onClick: onLogoutClick,
+        width: 18,
+        height: 19,
+        isButton: true,
+      },
+    ];
+  }
 
   loggedOutItems = [
     // {
