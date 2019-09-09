@@ -312,7 +312,7 @@ export default class LeaderLine extends PureComponent {
           <WitnessNumberAndName>
             <div>{item.position === null ? '-' : item.position + 1}</div>
             <SmartLink route="profile" params={{ userId: item.userId, username: item.username }}>
-              <a>{item.username || item.userId}</a>
+              <a>{item.username ? `@${item.username}` : item.userId}</a>
             </SmartLink>
           </WitnessNumberAndName>
           <VoteButtonCeil>

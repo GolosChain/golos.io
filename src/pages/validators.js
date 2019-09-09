@@ -250,7 +250,7 @@ export default class ValidatorsPage extends PureComponent {
                   <WitnessNumberAndName>
                     <div>{index + 1}</div>
                     <SmartLink route="profile" params={{ userId: producer.id, username: username }}>
-                      <a>{username || producer.id}</a>
+                      <a>{username ? `@${username}` : producer.id}</a>
                     </SmartLink>
                   </WitnessNumberAndName>
                   <VoteButtonCeil>
