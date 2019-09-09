@@ -107,7 +107,7 @@ export default class AccountInfo extends PureComponent {
         <AccountInfoBlock>
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>
-            <AccountName>{username}</AccountName>
+            <AccountName>{username || userId}</AccountName>
             <AccountPowerBlock
               onMouseEnter={this.handleMouseHover}
               onMouseLeave={this.handleMouseHover}

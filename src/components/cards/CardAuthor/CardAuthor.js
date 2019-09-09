@@ -106,7 +106,7 @@ export default class CardAuthor extends Component {
   static propTypes = {
     author: PropTypes.shape({
       userId: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
+      username: PropTypes.string,
     }).isRequired,
     profile: profileType,
     contentLink: PropTypes.string,
@@ -239,7 +239,9 @@ export default class CardAuthor extends Component {
           )}
           <PostDesc>
             <AuthorLine>
-              <AuthorName {...profileLinkProps}>{author?.username}</AuthorName>
+              {author ? (
+                <AuthorName {...profileLinkProps}>{author.username || author.userId}</AuthorName>
+              ) : null}
             </AuthorLine>
             <PostDate {...postLinkProps}>
               <TimeAgoWrapper date={created} />

@@ -284,7 +284,9 @@ export default class PostHeader extends Component {
             </Avatar>
           )}
           <InfoBlock>
-            <AuthorName aria-label={tt('aria_label.username')}>{author.username}</AuthorName>
+            <AuthorName aria-label={tt('aria_label.username')}>
+              {author.username || author.userId}
+            </AuthorName>
             <TimeAgoWrapper date={meta.time} />
           </InfoBlock>
         </UserInfoWrapper>
