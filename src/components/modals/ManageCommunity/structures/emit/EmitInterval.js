@@ -1,14 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
+import { defaults, fieldsToString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  value: 21,
-};
+import { ErrorLine, DefaultText, InputLine } from '../elements';
 
 const Fields = styled.label`
   text-transform: none;
@@ -20,7 +16,7 @@ const InputSmall = styled(Input)`
 `;
 
 export default class EmitInterval extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
     this.setState(
@@ -48,11 +44,15 @@ export default class EmitInterval extends PureComponent {
   };
 
   render() {
+    const { defaults } = this.props;
     const { value, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall value={value} onChange={this.onChange} />
+        <InputLine>
+          <InputSmall value={value} onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

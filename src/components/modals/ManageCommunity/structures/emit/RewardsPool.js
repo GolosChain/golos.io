@@ -6,15 +6,7 @@ import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
 import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  pools: [
-    {
-      name: '',
-      percent: 0,
-    },
-  ],
-};
+import { prop } from 'ramda';
 
 const Pool = styled.div`
   display: flex;
@@ -45,7 +37,7 @@ const InputSmall = styled(Input)`
 `;
 
 const PercentInput = styled(Input)`
-  width: 50px;
+  width: 60px;
   padding: 9px 8px;
   margin-right: 10px;
   text-align: right;
@@ -55,7 +47,15 @@ export default class RewardsPool extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { pools } = defaults(props.initialValues, DEFAULT);
+    const pools = [];
+    const already = {};
+
+    for (const pool of (props.initialValues.pools || []).concat(props.defaults.pools)) {
+      if (!already[pool.name]) {
+        already[pool.name] = true;
+        pools.push(pool);
+      }
+    }
 
     const formattedPools = pools.map(pool => ({
       name: pool.name,
@@ -71,6 +71,7 @@ export default class RewardsPool extends PureComponent {
     const { onChange } = this.props;
 
     const pools = [];
+    let sum = 0;
 
     for (const pool of this.state.pools) {
       const name = pool.name.trim();
@@ -82,10 +83,18 @@ export default class RewardsPool extends PureComponent {
         return;
       }
 
+      sum += Number(percent);
+
       pools.push({
         name,
         percent,
       });
+    }
+
+    if (sum !== 10000) {
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
+      return;
     }
 
     this.setState({ isInvalid: false });

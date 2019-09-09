@@ -214,24 +214,47 @@ export const CONTRACTS = [
           },
           {
             name: 'reward_pools',
-            title: 'Пул наград',
-          },
-          {
-            name: 'emit_token',
-            title: 'Токен эмиссии',
-          },
-          {
-            name: 'emit_interval',
-            title: 'Интервал эмиссии',
-          },
-          {
-            name: 'bwprovider',
-            title: 'Bandwidth provider',
-            fields: {
-              actor: 'Актор',
-              permission: 'Уровень разрешений',
+            title: 'Пулы вознаграждений (в сумме все пулы должны составлять 100%)',
+            defaults: {
+              pools: [
+                {
+                  name: 'gls.ctrl',
+                  percent: '666',
+                },
+                {
+                  name: 'gls.publish',
+                  percent: '6667',
+                },
+                {
+                  name: 'gls.vesting',
+                  percent: '2667',
+                },
+                // {
+                //   name: 'gls.worker',
+                //   percent: '0',
+                // },
+              ],
             },
           },
+          // {
+          //   name: 'emit_token',
+          //   title: 'Токен эмиссии',
+          // },
+          {
+            name: 'emit_interval',
+            title: 'Интервал эмиссии (сек) (от 1 до 65535)',
+            defaults: {
+              value: 900,
+            },
+          },
+          // {
+          //   name: 'bwprovider',
+          //   title: 'Bandwidth provider',
+          //   fields: {
+          //     actor: 'Актор',
+          //     permission: 'Уровень разрешений',
+          //   },
+          // },
         ],
       },
     ],

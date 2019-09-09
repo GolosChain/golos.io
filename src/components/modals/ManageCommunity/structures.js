@@ -2,12 +2,12 @@ import MaxVoteChanges from './structures/publish/MaxVoteChanges';
 import CashoutWindow from './structures/publish/CashoutWindow';
 import MaxBeneficiaries from './structures/publish/MaxBeneficiaries';
 import MaxCommentDepth from './structures/publish/MaxCommentDepth';
-// import SocialAcc from './structures/publish/SocialAcc';
-// import ReferralAcc from './structures/publish/ReferralAcc';
 import CuratorPercent from './structures/publish/CuratorPercent';
-import BwProvider from './structures/publish/BwProvider';
 import MinAbsRShares from './structures/publish/MinAbsRShares';
 import PublishSetRules from './structures/publish/PublishSetRules';
+// import SocialAcc from './structures/publish/SocialAcc';
+// import ReferralAcc from './structures/publish/ReferralAcc';
+// import BwProvider from './structures/publish/BwProvider';
 
 import CtrlToken from './structures/ctrl/CtrlToken';
 import MultisigAcc from './structures/ctrl/MultisigAcc';
@@ -22,8 +22,8 @@ import PercentParams from './structures/referral/PercentParams';
 
 import InflationRate from './structures/emit/InflationRate';
 import RewardsPool from './structures/emit/RewardsPool';
-import EmitToken from './structures/emit/EmitToken';
 import EmitInterval from './structures/emit/EmitInterval';
+// import EmitToken from './structures/emit/EmitToken';
 
 import VestingWithdraw from './structures/vesting/VestingWithdraw';
 import VestingAmount from './structures/vesting/VestingAmount';
@@ -67,9 +67,9 @@ export const STRUCTURES = {
     setparams: {
       inflation_rate: InflationRate,
       reward_pools: RewardsPool,
-      emit_token: EmitToken,
       emit_interval: EmitInterval,
-      bwprovider: BwProvider,
+      // emit_token: EmitToken,
+      // bwprovider: BwProvider,
     },
   },
   vesting: {
@@ -77,7 +77,7 @@ export const STRUCTURES = {
       vesting_withdraw: VestingWithdraw,
       vesting_amount: VestingAmount,
       vesting_delegation: VestingDelegation,
-      vesting_bwprovider: BwProvider,
+      // vesting_bwprovider: BwProvider,
     },
   },
   charge: {
