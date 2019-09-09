@@ -5,7 +5,7 @@ import { defaults, parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
-import ErrorLine from '../../ErrorLine';
+import ErrorLine from '../elements/ErrorLine';
 
 const DEFAULT = {
   pools: [

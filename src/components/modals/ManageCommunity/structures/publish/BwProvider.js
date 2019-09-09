@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
 
-import ErrorLine from '../../ErrorLine';
+import ErrorLine from '../elements/ErrorLine';
 import { FieldSubTitle, InputSmall } from '../elements';
 
 const DEFAULT = {

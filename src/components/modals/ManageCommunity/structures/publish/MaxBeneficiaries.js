@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../../ErrorLine';
+import ErrorLine from '../elements/ErrorLine';
 import { InputLine, DefaultText } from '../elements';
 
 const Fields = styled.label`

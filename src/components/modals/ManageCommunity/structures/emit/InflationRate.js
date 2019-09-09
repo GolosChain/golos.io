@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
+import {
+  defaults,
+  fieldsToString,
+  parsePercentString,
+  parsePercent,
+  isPositiveInteger,
+} from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../../ErrorLine';
-
-const DEFAULT = {
-  start: 1500,
-  stop: 95,
-  narrowing: 250000,
-};
+import { InputLine, DefaultText } from '../elements';
+import ErrorLine from '../elements/ErrorLine';
 
 const Fields = styled.label`
   text-transform: none;
@@ -29,7 +30,16 @@ const InputSmall = styled(Input)`
 `;
 
 export default class InflationRate extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  constructor(props) {
+    super(props);
+
+    const state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
+
+    state.stop = parsePercent(state.stop);
+    state.start = parsePercent(state.start);
+
+    this.state = state;
+  }
 
   onStartChange = e => {
     this.setState({ start: e.target.value }, this.triggerChange);
@@ -45,19 +55,24 @@ export default class InflationRate extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
+    const { narrowing } = this.state;
 
-    const super_majority = parseInt(this.state.super_majority, 10);
-    const majority = parseInt(this.state.majority, 10);
-    const minority = parseInt(this.state.minority, 10);
+    const start = parsePercentString(this.state.start);
+    const stop = parsePercentString(this.state.stop);
 
-    if (
-      !super_majority ||
-      Number.isNaN(super_majority) ||
-      !majority ||
-      Number.isNaN(majority) ||
-      !minority ||
-      Number.isNaN(minority)
-    ) {
+    if (Number.isNaN(start) || Number.isNaN(stop) || !isPositiveInteger(narrowing)) {
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
+      return;
+    }
+
+    if (Number(narrowing) === 0 && Number(start) !== Number(stop)) {
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
+      return;
+    }
+
+    if (Number(start) < Number(stop)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -65,24 +80,33 @@ export default class InflationRate extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      super_majority,
-      majority,
-      minority,
+      start,
+      stop,
+      narrowing,
     });
   };
 
   render() {
-    const { fields } = this.props;
+    const { fields, defaults } = this.props;
     const { start, stop, narrowing, isInvalid } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>{fields.start}:</FieldSubTitle>
-        <InputSmall value={start} onChange={this.onStartChange} />
+        <InputLine>
+          <InputSmall value={start} onChange={this.onStartChange} />
+          <DefaultText>(по умолчанию: {parsePercent(defaults.start)}%)</DefaultText>
+        </InputLine>
         <FieldSubTitle>{fields.stop}:</FieldSubTitle>
-        <InputSmall value={stop} onChange={this.onStopChange} />
+        <InputLine>
+          <InputSmall value={stop} onChange={this.onStopChange} />
+          <DefaultText>(по умолчанию: {parsePercent(defaults.stop)}%)</DefaultText>
+        </InputLine>
         <FieldSubTitle>{fields.narrowing}:</FieldSubTitle>
-        <InputSmall value={narrowing} onChange={this.onNarrowingChange} />
+        <InputLine>
+          <InputSmall value={narrowing} onChange={this.onNarrowingChange} />
+          <DefaultText>(по умолчанию: {defaults.narrowing})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

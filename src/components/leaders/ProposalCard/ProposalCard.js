@@ -100,7 +100,7 @@ export default class ProposalCard extends PureComponent {
       proposalId: PropTypes.string.isRequired,
       author: PropTypes.shape({
         userId: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
+        username: PropTypes.string,
         avatarUrl: PropTypes.string,
       }).isRequired,
       code: PropTypes.string.isRequired,
@@ -186,7 +186,7 @@ export default class ProposalCard extends PureComponent {
       }
     }
 
-    return a.username.localeCompare(b.username);
+    return (a.userId || a.username).localeCompare(b.username || b.userId);
   };
 
   renderApproveState() {

@@ -8,7 +8,7 @@ import { displayError } from 'utils/toastMessages';
 
 import ChooseContract from './ChooseContract';
 import ChooseAction from './ChooseAction';
-import ContactSettings from './ContactSettings';
+import ContractSettings from './ContractSettings';
 
 export const STEPS = {
   INITIAL: 'INITIAL',
@@ -95,7 +95,7 @@ export default class ManageCommunity extends PureComponent {
         return <ChooseAction data={stepData} onStepChange={this.onStepChange} />;
       case STEPS.CHANGE_PARAMS:
         return (
-          <ContactSettings
+          <ContractSettings
             ref={this.settingsRef}
             data={stepData}
             currentSettings={currentSettings}

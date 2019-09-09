@@ -195,11 +195,21 @@ export const CONTRACTS = [
         structures: [
           {
             name: 'inflation_rate',
-            title: 'Инфляция',
+            title: 'Параметры инфляции',
             fields: {
-              start: 'Start',
-              stop: 'Stop',
-              narrowing: 'Narrowing',
+              start: 'Верхний уровень (%) (от 0 до 655.35%)',
+              stop: 'Нижний уровень (%) (от 0 до 655.35%)',
+              narrowing:
+                'Скорость уменьшения % инфляции, (сек для уменьшения на 0.01%) (от‌ ‌0‌ ‌до‌ ‌4млрд‌)',
+            },
+            defaults: {
+              start: '1399',
+              stop: '95',
+              narrowing: '250000',
+            },
+            fieldsTypes: {
+              start: FIELD_TYPES.PERCENT,
+              stop: FIELD_TYPES.PERCENT,
             },
           },
           {

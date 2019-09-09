@@ -76,7 +76,7 @@ const FooterButtons = styled.div`
   }
 `;
 
-export default class ContactSettings extends PureComponent {
+export default class ContractSettings extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({}).isRequired,
     setParams: PropTypes.func.isRequired,
@@ -193,7 +193,7 @@ export default class ContactSettings extends PureComponent {
     );
   };
 
-  renderAction = (contractName, { name, description, fields = {}, defaults = {}, structures }) => {
+  renderAction = (contractName, { name, description, fields, defaults = {}, structures }) => {
     const { currentSettings } = this.props;
     let content;
 
@@ -202,6 +202,8 @@ export default class ContactSettings extends PureComponent {
       const values = currentSettings?.[contractName]?.[name];
 
       if (StructureComponent) {
+        console.log('AAA', StructureComponent);
+
         content = (
           <>
             {description ? <Description>{description}</Description> : null}

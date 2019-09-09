@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Input } from 'components/golos-ui/Form';
 
 export { default as FunctionParameter } from './FunctionParameter';
+export { default as ErrorLine } from './ErrorLine';
 
 export const InputLine = styled.div`
   display: flex;
