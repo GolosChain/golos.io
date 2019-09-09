@@ -166,12 +166,12 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, actionName, { name, title, fields = {} }) => {
+  renderStructure = (contractName, actionName, { name, title, fields = {}, defaults = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
     const StructureComponent = STRUCTURES[contractName]?.[actionName]?.[name];
-    const values = currentSettings?.[contractName]?.[actionName]?.[name];
+    const values = currentSettings?.[contractName]?.[actionName]?.[name] || {};
 
     if (!StructureComponent) {
       console.warn(`No component for type ${name}`);
@@ -183,8 +183,8 @@ export default class ContactSettings extends PureComponent {
         {currentSettings ? (
           <StructureComponent
             actionName={actionName}
-            structureName={name}
             fields={fields}
+            defaults={defaults}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
           />

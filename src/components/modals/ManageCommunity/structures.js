@@ -6,6 +6,7 @@ import SocialAcc from './structures/publish/SocialAcc';
 import ReferralAcc from './structures/publish/ReferralAcc';
 import CuratorPercent from './structures/publish/CuratorPercent';
 import BwProvider from './structures/publish/BwProvider';
+import MinAbsRShares from './structures/publish/MinAbsRShares';
 
 import CtrlToken from './structures/ctrl/CtrlToken';
 import MultisigAcc from './structures/ctrl/MultisigAcc';
@@ -36,10 +37,11 @@ export const STRUCTURES = {
       st_cashout_window: CashoutWindow,
       st_max_beneficiaries: MaxBeneficiaries,
       st_max_comment_depth: MaxCommentDepth,
-      st_social_acc: SocialAcc,
-      st_referral_acc: ReferralAcc,
+      // st_social_acc: SocialAcc,
+      // st_referral_acc: ReferralAcc,
       st_curators_prcnt: CuratorPercent,
-      st_bwprovider: BwProvider,
+      // st_bwprovider: BwProvider,
+      st_min_abs_rshares: MinAbsRShares,
     },
   },
   ctrl: {

@@ -5,11 +5,7 @@ import { defaults, parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
-
-const DEFAULT = {
-  min_curators_prcnt: 2500,
-  max_curators_prcnt: 7500,
-};
+import { InputLine, DefaultText } from '../elements';
 
 const Fields = styled.label`
   text-transform: none;
@@ -31,7 +27,10 @@ export default class CuratorPercent extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { min_curators_prcnt, max_curators_prcnt } = defaults(this.props.initialValues, DEFAULT);
+    const { min_curators_prcnt, max_curators_prcnt } = defaults(
+      this.props.initialValues,
+      this.props.defaults
+    );
 
     this.state = {
       min: parsePercent(min_curators_prcnt),
@@ -84,15 +83,21 @@ export default class CuratorPercent extends PureComponent {
   };
 
   render() {
-    const { fields } = this.props;
+    const { fields, defaults } = this.props;
     const { min, max, isInvalid } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>{fields.min_curators_prcnt}</FieldSubTitle>
-        <InputSmall type="number" value={min} min="0" max="100" onChange={this.onMinChange} />
+        <InputLine>
+          <InputSmall type="number" value={min} min="0" max="100" onChange={this.onMinChange} />
+          <DefaultText>(по умолчанию: {parsePercent(defaults.min_curators_prcnt)})</DefaultText>
+        </InputLine>
         <FieldSubTitle>{fields.max_curators_prcnt}</FieldSubTitle>
-        <InputSmall type="number" value={max} min="0" max="100" onChange={this.onMaxChange} />
+        <InputLine>
+          <InputSmall type="number" value={max} min="0" max="100" onChange={this.onMaxChange} />
+          <DefaultText>(по умолчанию: {parsePercent(defaults.max_curators_prcnt)})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

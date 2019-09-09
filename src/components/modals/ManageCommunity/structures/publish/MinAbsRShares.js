@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults, fieldsToString } from 'utils/common';
+import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
@@ -16,7 +16,7 @@ const InputSmall = styled(Input)`
   padding-right: 4px;
 `;
 
-export default class MaxCommentDepth extends PureComponent {
+export default class MinAbsRShares extends PureComponent {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
@@ -33,7 +33,7 @@ export default class MaxCommentDepth extends PureComponent {
 
     const value = parseInt(this.state.value, 10);
 
-    if (Number.isNaN(value) || value < 0 || value > 255) {
+    if (!isPositiveInteger(value)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -52,7 +52,7 @@ export default class MaxCommentDepth extends PureComponent {
     return (
       <Fields>
         <InputLine>
-          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+          <InputSmall type="number" value={value} min="0" onChange={this.onChange} />
           <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
         </InputLine>
         {isInvalid ? <ErrorLine /> : null}

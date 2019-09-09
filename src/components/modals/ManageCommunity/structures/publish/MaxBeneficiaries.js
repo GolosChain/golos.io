@@ -5,10 +5,7 @@ import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
-
-const DEFAULT = {
-  value: 100,
-};
+import { InputLine, DefaultText } from '../elements';
 
 const Fields = styled.label`
   text-transform: none;
@@ -20,7 +17,7 @@ const InputSmall = styled(Input)`
 `;
 
 export default class MaxBeneficiaries extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = defaults(this.props.initialValues, this.props.defaults);
 
   onChange = e => {
     this.setState(
@@ -50,11 +47,15 @@ export default class MaxBeneficiaries extends PureComponent {
   };
 
   render() {
+    const { defaults } = this.props;
     const { value, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+        <InputLine>
+          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

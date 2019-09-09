@@ -13,23 +13,40 @@ export const CONTRACTS = [
         structures: [
           {
             name: 'st_max_vote_changes',
-            title: 'Максимальное количество смен голоса',
+            title: 'Максимальное количество смен голоса за пост (от 0 до 255)',
+            defaults: {
+              value: 5,
+            },
           },
           {
             name: 'st_cashout_window',
-            title: 'Окно выплат',
+            title: 'Окно выплат за пост',
             fields: {
-              window: 'Окно (сек)',
-              upvote_lockout: 'Upvote Lockout (сек)',
+              window: 'Окно (сек) (от 0 до 4 млрд)',
+              upvote_lockout:
+                'Длительность запрета на смену голоса (сек) (не может быть больше окна выплат)',
+            },
+            defaults: {
+              window: 604800,
+              upvote_lockout: 60,
             },
           },
-          { name: 'st_max_beneficiaries', title: 'Максимум бенефициаров' },
+          {
+            name: 'st_max_beneficiaries',
+            title: 'Максимум бенефициаров-авторов поста (от 0 до 255)',
+            defaults: {
+              value: 64,
+            },
+          },
           {
             name: 'st_max_comment_depth',
-            title: 'Вложенность комментариев',
+            title: 'Вложенность комментариев (от 1 до 65535)',
+            defaults: {
+              value: 127,
+            },
           },
-          { name: 'st_social_acc', title: 'Социальный аккаунт' },
-          { name: 'st_referral_acc', title: 'Реферальный аккаунт' },
+          // { name: 'st_social_acc', title: 'Социальный аккаунт' },
+          // { name: 'st_referral_acc', title: 'Реферальный аккаунт' },
           {
             name: 'st_curators_prcnt',
             title: 'Проценты кураторской выплаты',
@@ -37,17 +54,28 @@ export const CONTRACTS = [
               min_curators_prcnt: 'Минимум (%)',
               max_curators_prcnt: 'Максимум (%)',
             },
+            defaults: {
+              min_curators_prcnt: 5000,
+              max_curators_prcnt: 10000,
+            },
             fieldsTypes: {
               max_curators_prcnt: FIELD_TYPES.PERCENT,
               min_curators_prcnt: FIELD_TYPES.PERCENT,
             },
           },
+          // {
+          //   name: 'st_bwprovider',
+          //   title: 'Предоставление bandwidth',
+          //   fields: {
+          //     actor: 'Актор',
+          //     permission: 'Уровень разрешений',
+          //   },
+          // },
           {
-            name: 'st_bwprovider',
-            title: 'Предоставление bandwidth',
-            fields: {
-              actor: 'Актор',
-              permission: 'Уровень разрешений',
+            name: 'st_min_abs_rshares',
+            title: 'Минимальное значение rshares, позволяющее аккаунтам голосовать (от 0 до 2^64)',
+            defaults: {
+              value: 30000000,
             },
           },
         ],
