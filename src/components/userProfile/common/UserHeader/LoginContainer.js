@@ -40,7 +40,7 @@ export default function LoginContainer({ targetUser, power }) {
 
   return (
     <Wrapper>
-      <Login>@{targetUser.username || targetUser.userId}</Login>
+      <Login>{targetUser.username ? `@${targetUser.username}` : targetUser.userId}</Login>
       {userStatus && (
         <StatusContainer>
           <Icon name={userStatus} width={15} height={15} />
