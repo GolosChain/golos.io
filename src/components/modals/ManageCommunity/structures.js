@@ -48,12 +48,12 @@ export const STRUCTURES = {
   },
   ctrl: {
     setparams: {
-      ctrl_token: CtrlToken,
-      multisig_acc: MultisigAcc,
-      multisig_perms: MultisigPerms,
       max_witnesses: MaxWitnesses,
       max_witnesses_votes: MaxWitnessesVotes,
-      update_auth: UpdateAuth,
+      // ctrl_token: CtrlToken,
+      // multisig_acc: MultisigAcc,
+      // multisig_perms: MultisigPerms,
+      // update_auth: UpdateAuth,
     },
   },
   referral: {

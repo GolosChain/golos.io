@@ -124,35 +124,45 @@ export const CONTRACTS = [
       {
         name: 'setparams',
         structures: [
+          // {
+          //   name: 'ctrl_token',
+          //   title: 'Управляющий токен',
+          // },
+          // {
+          //   name: 'multisig_acc',
+          //   title: 'Multi-sig аккаунт',
+          // },
+          // {
+          //   name: 'multisig_perms',
+          //   title: 'Multi-sig разрешения',
+          //   fields: {
+          //     super_majority: 'Super majority',
+          //     majority: 'Majority',
+          //     minority: 'Minority',
+          //   },
+          // },
           {
-            name: 'ctrl_token',
-            title: 'Управляющий токен',
-          },
-          {
-            name: 'multisig_acc',
-            title: 'Multi-sig аккаунт',
-          },
-          {
-            name: 'multisig_perms',
-            title: 'Multi-sig разрешения',
-            fields: {
-              super_majority: 'Super majority',
-              majority: 'Majority',
-              minority: 'Minority',
+            name: 'max_witnesses',
+            title: 'Максимальное количество лидеров (от 1 до 65535)',
+            defaults: {
+              max: 21,
             },
           },
           {
-            name: 'max_witnesses',
-            title: 'Максимальное количество делегатов',
-          },
-          {
             name: 'max_witnesses_votes',
-            title: 'Максимальное количество голосов за делегатов',
+            title:
+              'Максимальное количество голосов за делегатов (от 1 до 65535) (изменение данного значения потребует изменение контракта ctrl)',
+            defaults: {
+              max: 30,
+            },
           },
-          {
-            name: 'update_auth',
-            title: 'Период обновления авторизации',
-          },
+          // {
+          //   name: 'update_auth',
+          //   title: 'Период обновления авторизации',
+          //   defaults: {
+          //     value: 300,
+          //   },
+          // },
         ],
       },
     ],

@@ -6,6 +6,10 @@ import { Input } from 'components/golos-ui/Form';
 export { default as FunctionParameter } from './FunctionParameter';
 export { default as ErrorLine } from './ErrorLine';
 
+export const Fields = styled.label`
+  text-transform: none;
+`;
+
 export const InputLine = styled.div`
   display: flex;
   align-items: center;

@@ -1,26 +1,11 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
+import { defaults, fieldsToString } from 'utils/common';
 
-import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  max: 5,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, InputLine, DefaultText, InputSmall, ErrorLine } from '../elements';
 
 export default class MaxWitnesses extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
     this.setState(
@@ -48,11 +33,15 @@ export default class MaxWitnesses extends PureComponent {
   };
 
   render() {
+    const { defaults } = this.props;
     const { max, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall value={max} onChange={this.onChange} />
+        <InputLine>
+          <InputSmall value={max} onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.max})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
