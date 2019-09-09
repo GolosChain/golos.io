@@ -8,7 +8,7 @@ import Userpic from 'components/common/Userpic';
 
 export default class DialogFrame extends PureComponent {
   static propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     icon: PropTypes.string,
     className: PropTypes.string,
     buttons: PropTypes.array,

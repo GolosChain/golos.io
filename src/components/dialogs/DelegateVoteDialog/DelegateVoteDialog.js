@@ -80,8 +80,8 @@ const RecallAmount = styled.div`
 export default class DelegateVoteDialog extends PureComponent {
   static propTypes = {
     type: PropTypes.string,
-    recipientName: PropTypes.string.isRequired,
-    recipientUsername: PropTypes.string.isRequired,
+    recipientName: PropTypes.string,
+    recipientUsername: PropTypes.string,
     hint: PropTypes.string,
 
     stakedBalance: PropTypes.number.isRequired,
