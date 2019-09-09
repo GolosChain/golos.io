@@ -100,7 +100,9 @@ export default class BlogContent extends Component {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.blog', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.blog', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.blog')}</Header>
         <CardsListWrapper noGaps={layout === 'compact'}>{this.renderCardsList()}</CardsListWrapper>

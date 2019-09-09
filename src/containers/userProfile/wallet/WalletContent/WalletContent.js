@@ -48,7 +48,9 @@ export default class WalletContent extends Component {
     return (
       <Card>
         <Head>
-          <title>{tt('meta.title.profile.wallet', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.wallet', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
         <PowerDownLine userId={userId} />

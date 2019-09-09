@@ -97,7 +97,9 @@ export default class CommentsContent extends Component {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.comments', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.comments', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.comments')}</Header>
         <CardsListWrapper>{this.renderList()}</CardsListWrapper>

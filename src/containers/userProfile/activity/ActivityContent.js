@@ -190,7 +190,9 @@ export default class ActivityContent extends PureComponent {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.activity', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.activity', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.activity')}</Header>
         <Card auto ref={this.rootRef}>

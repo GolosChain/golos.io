@@ -130,7 +130,9 @@ export default class SettingsContent extends PureComponent {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.settings', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.settings', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.settings')}</Header>
         {this.renderContent()}

@@ -79,7 +79,7 @@ const ChargersInfoStyled = styled(ChargersInfo)`
 export default class AccountInfo extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     chargers: PropTypes.shape({
       votes: PropTypes.number,
       posts: PropTypes.number,
