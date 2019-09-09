@@ -28,7 +28,8 @@ const Item = styled.li`
 `;
 
 const PseudoLink = styled.a`
-  padding: 8px 6px;
+  display: block;
+  padding: 4px 6px;
   margin-left: -6px;
   cursor: pointer;
 `;

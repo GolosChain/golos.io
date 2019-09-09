@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
 import ErrorLine from '../../ErrorLine';
+import { FieldSubTitle, InputSmall } from '../elements';
 
 const DEFAULT = {
   actor: '',
@@ -13,18 +13,6 @@ const DEFAULT = {
 
 const Fields = styled.label`
   text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
 `;
 
 export default class BwProvider extends PureComponent {

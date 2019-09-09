@@ -2,11 +2,12 @@ import MaxVoteChanges from './structures/publish/MaxVoteChanges';
 import CashoutWindow from './structures/publish/CashoutWindow';
 import MaxBeneficiaries from './structures/publish/MaxBeneficiaries';
 import MaxCommentDepth from './structures/publish/MaxCommentDepth';
-import SocialAcc from './structures/publish/SocialAcc';
-import ReferralAcc from './structures/publish/ReferralAcc';
+// import SocialAcc from './structures/publish/SocialAcc';
+// import ReferralAcc from './structures/publish/ReferralAcc';
 import CuratorPercent from './structures/publish/CuratorPercent';
 import BwProvider from './structures/publish/BwProvider';
 import MinAbsRShares from './structures/publish/MinAbsRShares';
+import PublishSetRules from './structures/publish/PublishSetRules';
 
 import CtrlToken from './structures/ctrl/CtrlToken';
 import MultisigAcc from './structures/ctrl/MultisigAcc';
@@ -43,6 +44,7 @@ export const STRUCTURES = {
       // st_bwprovider: BwProvider,
       st_min_abs_rshares: MinAbsRShares,
     },
+    setrules: PublishSetRules,
   },
   ctrl: {
     setparams: {
