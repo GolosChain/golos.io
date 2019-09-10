@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
 
-import { defaults, fieldsToString } from 'utils/common';
+import { defaults } from 'utils/common';
 
 import { ErrorLine, Fields, InputSmall, InputLine, DefaultText } from '../elements';
 
 export default class VestingAmount extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
+  constructor(props) {
+    super(props);
+
+    const state = defaults(this.props.initialValues, this.props.defaults);
+    state.min_amount = integerToVesting(state.min_amount);
+    this.state = state;
+  }
 
   onChange = e => {
     this.setState(
@@ -19,13 +25,25 @@ export default class VestingAmount extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const min_amount = this.state.min_amount.trim();
+    const minAmountStr = this.state.min_amount.trim();
 
-    if (!min_amount || !/^\d+$/.test(min_amount)) {
+    if (!/^\d+(?:\.\d{1,6})?$/.test(minAmountStr)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
     }
+
+    const minAmountFloat = Number(minAmountStr);
+
+    const min_amount = Math.floor(minAmountFloat * 1000000);
+
+    if (Number.isNaN(min_amount)) {
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
+      return;
+    }
+
+    console.log('min_amount', min_amount);
 
     this.setState({ isInvalid: false });
     onChange({
@@ -41,10 +59,14 @@ export default class VestingAmount extends PureComponent {
       <Fields>
         <InputLine>
           <InputSmall value={min_amount} onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.min_amount})</DefaultText>
+          <DefaultText>(по умолчанию: {integerToVesting(defaults.min_amount)})</DefaultText>
         </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
   }
+}
+
+function integerToVesting(val) {
+  return (val / 1000000).toFixed(6);
 }

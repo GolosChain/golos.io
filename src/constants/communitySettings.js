@@ -293,7 +293,7 @@ export const CONTRACTS = [
             name: 'vesting_amount',
             title: 'Минимальное значение вестинга для вывода в ликвидные токены (от 0 до 2^53)',
             defaults: {
-              min_amount: 10500,
+              min_amount: 10500000000,
             },
           },
           {
