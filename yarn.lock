@@ -9785,7 +9785,7 @@ react-interpolate-component@^0.12.0:
     invariant "^2.2.2"
     object-assign "^4.1.1"
 
-react-intl@^2.8.0:
+react-intl@^2.9.0:
   version "2.9.0"
   resolved "https://npm.golos.io/react-intl/-/react-intl-2.9.0.tgz#c97c5d17d4718f1575fdbd5a769f96018a3b1843"
   integrity sha512-27jnDlb/d2A7mSJwrbOBnUgD+rPep+abmoJE511Tf8BnoONIAUehy/U1zZCHGO17mnOwMWxqN4qC0nW11cD6rA==
