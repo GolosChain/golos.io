@@ -42,7 +42,7 @@ export const transferToken = (recipient, amount, symbol, memo) => async (dispatc
     });
 
     if (processed?.id) {
-      await waitForWalletTransaction(processed.id);
+      await dispatch(waitForWalletTransaction(processed.id));
       await Promise.all([
         dispatch(getBalance(userId)),
         dispatch(getTransfersHistory({ userId, direction: 'out' })),
@@ -78,7 +78,7 @@ export const claimToken = quantity => async (dispatch, getState) => {
     });
 
     if (processed?.id) {
-      await waitForWalletTransaction(processed.id);
+      await dispatch(waitForWalletTransaction(processed.id));
       await Promise.all([
         dispatch(getBalance(userId)),
         dispatch(getTransfersHistory({ userId, direction: 'in' })),
