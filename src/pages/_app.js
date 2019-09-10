@@ -5,7 +5,6 @@ import App from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import withRedux from 'next-redux-wrapper';
-import tt from 'counterpart';
 import { ThemeProvider } from 'styled-components';
 import { ConfigureFlopFlip } from '@flopflip/react-redux';
 import adapter from '@flopflip/memory-adapter';
@@ -26,7 +25,7 @@ import { setServerAccountName } from 'store/actions/gate/auth';
 import { getActualRates, getVestingSupplyAndBalance } from 'store/actions/gate';
 import defaultTheme from 'themes';
 import ModalManager from 'components/modals/ModalManager';
-import { LOCALE_COOKIE_KEY, AMPLITUDE_SESSION, readOnlyMode } from 'constants/config';
+import { LOCALE_COOKIE_KEY, AMPLITUDE_SESSION } from 'constants/config';
 import featureFlags from 'shared/feature-flags';
 import Translator from 'shared/Translator';
 import Header from 'components/header/Header';
@@ -37,7 +36,6 @@ import MobileAppButton from 'components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'components/elements/common/DialogManager';
 import ScrollUpstairsButton from 'components/common/ScrollUpstairsButton';
 import NotifyToast from 'components/common/NotifyToast';
-import CloseButton from 'components/common/CloseButton';
 import ContentErrorBoundary from 'containers/ContentErrorBoundary';
 import UIStoreSync from 'components/common/UIStoreSync';
 import ScrollFix from 'components/common/ScrollFix';
@@ -96,10 +94,6 @@ export default class GolosApp extends App {
     };
   }
 
-  state = {
-    showCallout: true,
-  };
-
   componentWillMount() {
     if (process.browser) {
       window.INIT_TIMESSTAMP = Date.now();
@@ -125,46 +119,6 @@ export default class GolosApp extends App {
     console.log('CUSTOM ERROR HANDLING', error);
     // This is needed to render errors correctly in development / production
     super.componentDidCatch(error, errorInfo);
-  }
-
-  renderCallout() {
-    // const { error, flash } = this.props;
-    // const alert = error || flash.get('alert');
-    // const warning = flash.get('warning');
-    // const success = flash.get('success');
-    const alert = null;
-    const warning = null;
-    const success = null;
-
-    let callout = null;
-
-    if (this.state.showCallout && (alert || warning || success)) {
-      callout = (
-        <div className="App__announcement row">
-          <div className="column">
-            <div className="callout">
-              <CloseButton onClick={() => this.setState({ showCallout: false })} />
-              <p>{alert || warning || success}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (readOnlyMode && this.state.showCallout) {
-      callout = (
-        <div className="App__announcement row">
-          <div className="column">
-            <div className="callout warning">
-              <CloseButton onClick={() => this.setState({ showCallout: false })} />
-              <p>{tt('g.read_only_mode')}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return callout;
   }
 
   render() {
@@ -193,7 +147,6 @@ export default class GolosApp extends App {
                   <ScrollFix>
                     <ContentErrorBoundary>
                       <div className="App__content">
-                        {this.renderCallout()}
                         <Component {...pageProps} />
                         {router.route === '/submit' ? null : <Footer />}
                         {router.route === '/submit' ? null : <ScrollUpstairsButton />}

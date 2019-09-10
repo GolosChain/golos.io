@@ -23,24 +23,3 @@
   filter: none;
   -webkit-filter: none;
 }
-
-.App__announcement {
-  padding-right: 40px;
-
-  .logo-icon {
-    height: 1.8rem !important;
-    width: 1.8rem !important;
-    padding-top: 5px;
-    padding-left: 5px;
-    border: 1px solid #fff;
-    background-color: #fff;
-    border-radius: 50%;
-    margin-right: 1rem;
-  }
-
-  .link {
-    color: #fff;
-    display: inline-block;
-    margin-left: 1rem;
-  }
-}
