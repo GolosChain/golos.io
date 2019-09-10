@@ -546,7 +546,7 @@ export default class UserHeader extends Component {
               </Details>
               {isOwner && isSettingsPage && this.renderCoverDropDown()}
             </ContainerWrapperInner>
-            <OnlineStatusStyled username={profile.username} />
+            {profile.username ? <OnlineStatusStyled username={profile.username} /> : null}
           </ContainerWrapper>
         </Wrapper>
         <MobileUserHeader>
