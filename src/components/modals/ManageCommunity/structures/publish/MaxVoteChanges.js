@@ -1,26 +1,20 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import { defaults } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
+import { defaults, fieldsToString } from 'utils/common';
 
-import ErrorLine from '../../ErrorLine';
-
-const DEFAULT = {
-  value: 3,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
 
 export default class MaxVoteChanges extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  static propTypes = {
+    actionName: PropTypes.string.isRequired,
+    initialValues: PropTypes.shape({}).isRequired,
+    fields: PropTypes.shape({}).isRequired,
+    defaults: PropTypes.shape({}).isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
+
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
     this.setState(
@@ -49,11 +43,15 @@ export default class MaxVoteChanges extends PureComponent {
   };
 
   render() {
+    const { defaults } = this.props;
     const { value, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+        <InputLine>
+          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

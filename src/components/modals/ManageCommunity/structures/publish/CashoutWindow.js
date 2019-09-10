@@ -1,34 +1,11 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
-import { defaults, fieldsToString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
+import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
 
-import ErrorLine from '../../ErrorLine';
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
-
-const DEFAULT = {
-  window: 120,
-  upvote_lockout: 15,
-};
+import { Fields, FieldSubTitle, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
 
 export default class CashoutWindow extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onWindowChange = e => {
     this.setState(
@@ -51,10 +28,16 @@ export default class CashoutWindow extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
+    if (!isPositiveInteger(this.state.window) || !isPositiveInteger(this.state.upvote_lockout)) {
+      this.setState({ isInvalid: true });
+      onChange('INVALID');
+      return;
+    }
+
     const cashoutWindow = parseInt(this.state.window, 10);
     const lockout = parseInt(this.state.upvote_lockout, 10);
 
-    if (Number.isNaN(cashoutWindow) || Number.isNaN(lockout) || cashoutWindow < 0 || lockout < 0) {
+    if (cashoutWindow < 0 || lockout < 0 || cashoutWindow >= lockout) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -68,20 +51,26 @@ export default class CashoutWindow extends PureComponent {
   };
 
   render() {
-    const { fields } = this.props;
+    const { fields, defaults } = this.props;
     const { window, upvote_lockout, isInvalid } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>{fields.window}</FieldSubTitle>
-        <InputSmall type="number" value={window} min="0" onChange={this.onWindowChange} />
+        <InputLine>
+          <InputSmall type="number" value={window} min="0" onChange={this.onWindowChange} />
+          <DefaultText>(по умолчанию: {defaults.window})</DefaultText>
+        </InputLine>
         <FieldSubTitle>{fields.upvote_lockout}</FieldSubTitle>
-        <InputSmall
-          type="number"
-          value={upvote_lockout}
-          min="0"
-          onChange={this.onUpvoteLockoutChange}
-        />
+        <InputLine>
+          <InputSmall
+            type="number"
+            value={upvote_lockout}
+            min="0"
+            onChange={this.onUpvoteLockoutChange}
+          />
+          <DefaultText>(по умолчанию: {defaults.upvote_lockout})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

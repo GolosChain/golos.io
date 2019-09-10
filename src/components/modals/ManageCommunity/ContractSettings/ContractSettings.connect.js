@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { waitForTransaction } from 'store/actions/gate';
 import { setParams, setChargeRestorer } from 'store/actions/cyberway';
 
-import ContactSettings from './ContactSettings';
+import ContractSettings from './ContractSettings';
 
 export default connect(
   null,
@@ -16,4 +16,4 @@ export default connect(
   {
     forwardRef: true,
   }
-)(ContactSettings);
+)(ContractSettings);

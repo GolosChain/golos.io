@@ -2,28 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
-
-import ErrorLine from '../../ErrorLine';
-
-const DEFAULT = {
-  min_amount: 0,
-  min_remainder: 0,
-  return_time: 0,
-  min_time: 0,
-  max_delegators: 0,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
+import { Fields, Input, FieldSubTitle, ErrorLine } from '../elements';
 
 const NumberInput = styled(Input).attrs({ type: 'number', min: '0' })`
   width: 130px;
@@ -31,7 +10,7 @@ const NumberInput = styled(Input).attrs({ type: 'number', min: '0' })`
 `;
 
 export default class VestingDelegation extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onFieldChange = (e, fieldName) => {
     this.setState(
@@ -49,14 +28,12 @@ export default class VestingDelegation extends PureComponent {
     const min_remainder = this.state.min_remainder.trim();
     const return_time = this.state.return_time.trim();
     const min_time = this.state.min_time.trim();
-    const max_delegators = this.state.max_delegators.trim();
 
     if (
       !isPositiveInteger(min_amount) ||
       !isPositiveInteger(min_remainder) ||
       !isPositiveInteger(return_time) ||
-      !isPositiveInteger(min_time) ||
-      !isPositiveInteger(max_delegators)
+      !isPositiveInteger(min_time)
     ) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
@@ -69,20 +46,13 @@ export default class VestingDelegation extends PureComponent {
       min_remainder,
       return_time,
       min_time,
-      max_delegators,
+      max_delegators: Number(this.state.max_delegators),
     });
   };
 
   render() {
     const { fields } = this.props;
-    const {
-      min_amount,
-      min_remainder,
-      return_time,
-      min_time,
-      max_delegators,
-      isInvalid,
-    } = this.state;
+    const { min_amount, min_remainder, return_time, min_time, isInvalid } = this.state;
 
     return (
       <Fields>
@@ -113,11 +83,6 @@ export default class VestingDelegation extends PureComponent {
           min="0"
           value={min_time}
           onChange={e => this.onFieldChange(e, 'min_time')}
-        />
-        <FieldSubTitle>{fields.max_delegators}:</FieldSubTitle>
-        <NumberInput
-          value={max_delegators}
-          onChange={e => this.onFieldChange(e, 'max_delegators')}
         />
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

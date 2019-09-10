@@ -1,23 +1,12 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults, parsePercent, parsePercentString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../../ErrorLine';
+import { Fields, InputSmall, ErrorLine } from '../elements';
 
 const DEFAULT = {
   max_percent: 5000,
 };
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
 
 export default class PercentParams extends PureComponent {
   constructor(props) {

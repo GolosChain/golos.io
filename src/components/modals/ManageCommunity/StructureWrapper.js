@@ -6,7 +6,9 @@ const Wrapper = styled.li`
   list-style: none;
 `;
 
-const StructureLine = styled.div``;
+const StructureLine = styled.div`
+  margin-bottom: 6px;
+`;
 
 const StructureName = styled.h4`
   display: inline-block;

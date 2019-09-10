@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import withRedux from 'next-redux-wrapper';
@@ -176,7 +176,7 @@ export default class GolosApp extends App {
     };
 
     return (
-      <Container>
+      <>
         <Head>
           <title>Golos.io</title>
         </Head>
@@ -212,7 +212,7 @@ export default class GolosApp extends App {
             </ThemeProvider>
           </Translator>
         </Provider>
-      </Container>
+      </>
     );
   }
 }

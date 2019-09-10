@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 
-import { defaults, fieldsToString } from 'utils/common';
+import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
 
-import { ErrorLine, Fields, InputLine, InputSmall, DefaultText } from '../elements';
+import { Fields, InputLine, InputSmall, DefaultText, ErrorLine } from '../elements';
 
-export default class MaxWitnessesVotes extends PureComponent {
+export default class MinAbsRShares extends PureComponent {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
     this.setState(
       {
-        max: e.target.value,
+        value: e.target.value,
       },
       this.triggerChange
     );
@@ -18,9 +18,10 @@ export default class MaxWitnessesVotes extends PureComponent {
 
   triggerChange = () => {
     const { onChange } = this.props;
-    const max = parseInt(this.state.max, 10);
 
-    if (!max || Number.isNaN(max)) {
+    const value = parseInt(this.state.value, 10);
+
+    if (!isPositiveInteger(value)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -28,19 +29,19 @@ export default class MaxWitnessesVotes extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      max,
+      value,
     });
   };
 
   render() {
     const { defaults } = this.props;
-    const { max, isInvalid } = this.state;
+    const { value, isInvalid } = this.state;
 
     return (
       <Fields>
         <InputLine>
-          <InputSmall value={max} onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.max})</DefaultText>
+          <InputSmall type="number" value={value} min="0" onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
         </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>

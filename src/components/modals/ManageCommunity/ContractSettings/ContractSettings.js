@@ -23,10 +23,6 @@ const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const VestingParams = styled.div`
-  margin-top: 8px;
-`;
-
 const ContractGroup = styled.div`
   margin: 0 0 8px;
 `;
@@ -76,7 +72,7 @@ const FooterButtons = styled.div`
   }
 `;
 
-export default class ContactSettings extends PureComponent {
+export default class ContractSettings extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({}).isRequired,
     setParams: PropTypes.func.isRequired,
@@ -85,7 +81,6 @@ export default class ContactSettings extends PureComponent {
   };
 
   state = {
-    symbol: '',
     isSaving: false,
     hasChanges: false,
     updates: {},
@@ -93,7 +88,7 @@ export default class ContactSettings extends PureComponent {
 
   onSaveClick = async () => {
     const { data, setParams, setChargeRestorer, waitForTransaction, onClose } = this.props;
-    const { updates, symbol } = this.state;
+    const { updates } = this.state;
 
     this.setState({
       isSaving: true,
@@ -110,7 +105,7 @@ export default class ContactSettings extends PureComponent {
         let params = null;
 
         if (contractName === 'vesting') {
-          params = { symbol };
+          params = { symbol: '6,GOLOS' };
         }
 
         ({ transaction_id } = await setParams({ contractName, updates, params }));
@@ -160,18 +155,12 @@ export default class ContactSettings extends PureComponent {
     });
   };
 
-  onSymbolChange = e => {
-    this.setState({
-      symbol: e.target.value,
-    });
-  };
-
-  renderStructure = (contractName, actionName, { name, title, fields = {} }) => {
+  renderStructure = (contractName, actionName, { name, title, fields = {}, defaults = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
     const StructureComponent = STRUCTURES[contractName]?.[actionName]?.[name];
-    const values = currentSettings?.[contractName]?.[actionName]?.[name];
+    const values = currentSettings?.[contractName]?.[actionName]?.[name] || {};
 
     if (!StructureComponent) {
       console.warn(`No component for type ${name}`);
@@ -183,8 +172,8 @@ export default class ContactSettings extends PureComponent {
         {currentSettings ? (
           <StructureComponent
             actionName={actionName}
-            structureName={name}
             fields={fields}
+            defaults={defaults}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
           />
@@ -193,7 +182,7 @@ export default class ContactSettings extends PureComponent {
     );
   };
 
-  renderAction = (contractName, { name, description, fields, structures }) => {
+  renderAction = (contractName, { name, description, fields, defaults = {}, structures }) => {
     const { currentSettings } = this.props;
     let content;
 
@@ -208,6 +197,7 @@ export default class ContactSettings extends PureComponent {
             <StructureComponent
               actionName={name}
               fields={fields}
+              defaults={defaults}
               initialValues={values}
               onChange={data => this.onChange(name, data)}
             />
@@ -241,7 +231,6 @@ export default class ContactSettings extends PureComponent {
 
   renderContract = () => {
     const { data } = this.props;
-    const { symbol } = this.state;
 
     const { contractName, link, actions } = CONTRACTS.find(
       contact => contact.contractName === data.contractName
@@ -266,11 +255,6 @@ export default class ContactSettings extends PureComponent {
             </DescriptionLink>
           ) : null}
         </ContractNameWrapper>
-        {data.contractName === 'vesting' ? (
-          <VestingParams>
-            Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
-          </VestingParams>
-        ) : null}
         {this.renderAction(contractName, action)}
       </ContractGroup>
     );
