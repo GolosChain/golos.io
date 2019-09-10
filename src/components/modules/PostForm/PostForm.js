@@ -571,7 +571,12 @@ export default class PostForm extends React.Component {
         });
       }
     } catch (err) {
-      displayError('Post submitting failed', err);
+      const message = normalizeCyberwayErrorMessage(err);
+      if (message.includes('not enough power')) {
+        displayError(tt('post_editor.post_publish_over_limit'));
+      } else {
+        displayError('Post submitting failed', err);
+      }
     }
 
     if (!this._unmount) {
