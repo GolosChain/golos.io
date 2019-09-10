@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { fetchFavorites } from 'store/actions/gate';
 import { isOwnerSelector } from 'store/selectors/user';
+import { isSSRSelector } from 'store/selectors/ui';
 import {
   dataSelector,
   createDeepEqualSelector,
@@ -19,7 +20,7 @@ export default authProtection()(
         (state, props) => profileSelector(props.userId)(state),
         (state, props) => isOwnerSelector(props.userId)(state),
         dataSelector('favorites'),
-        uiSelector(['mode', 'isSSR']),
+        isSSRSelector,
       ],
       (profile, isOwner, favorites, isSSR) => {
         const postsList = favorites?.postsList || [];

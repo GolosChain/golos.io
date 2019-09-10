@@ -76,10 +76,3 @@ export const profileSelector = (userId, mock = true) => state => {
 
   return profile;
 };
-
-export const pathnameSelector = state => {
-  if (!uiSelector(['mode', 'isSSR'])(state)) {
-    return window.location.pathname;
-  }
-  return '';
-};
