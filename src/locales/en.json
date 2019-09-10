@@ -642,7 +642,6 @@
   },
   "navigation": {
     "about": "About",
-    "buy_LIQUID_TOKEN": "Buy %(LIQUID_TOKEN)s",
     "leaders": "Leaders",
     "validators": "Validators",
     "explore": "Explore",
@@ -650,7 +649,6 @@
     "feedback": "Feedback",
     "market": "Market",
     "privacy_policy": "Privacy Policy",
-    "sell_LIQUID_TOKEN": "Sell %(LIQUID_TOKEN)s",
     "sign_up": "Sign Up",
     "stolen_account_recovery": "Stolen Accounts Recovery",
     "technical_support": "Support",

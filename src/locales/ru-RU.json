@@ -646,7 +646,6 @@
   },
   "navigation": {
     "about": "О проекте",
-    "buy_LIQUID_TOKEN": "Купить %(LIQUID_TOKEN)s",
     "leaders": "Лидеры",
     "validators": "Валидаторы",
     "explore": "Исследовать",
@@ -654,7 +653,6 @@
     "feedback": "Обратная связь",
     "market": "Купить или Продать",
     "privacy_policy": "Политика Конфиденциальности",
-    "sell_LIQUID_TOKEN": "Продать %(LIQUID_TOKEN)s",
     "sign_up": "СОЗДАТЬ АККАУНТ",
     "stolen_account_recovery": "Возврат украденного аккаунта",
     "technical_support": "Техподдержка",
