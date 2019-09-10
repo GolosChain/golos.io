@@ -167,34 +167,34 @@ export const CONTRACTS = [
       },
     ],
   },
-  {
-    contractName: 'referral',
-    link:
-      'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.referral_contract#operaciya-deistvie-setparams',
-    actions: [
-      {
-        name: 'setparams',
-        structures: [
-          {
-            name: 'breakout_parametrs',
-            title: 'Breakout',
-            fields: {
-              min_breakout: 'Минимум',
-              max_breakout: 'Максимум',
-            },
-          },
-          {
-            name: 'expire_parametrs',
-            title: 'Expire',
-          },
-          {
-            name: 'percent_parametrs',
-            title: 'Percent',
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   contractName: 'referral',
+  //   link:
+  //     'https://cyberway.gitbook.io/ru/v/master-ru/developers/golos_contracts/golos.referral_contract#operaciya-deistvie-setparams',
+  //   actions: [
+  //     {
+  //       name: 'setparams',
+  //       structures: [
+  //         {
+  //           name: 'breakout_parametrs',
+  //           title: 'Breakout',
+  //           fields: {
+  //             min_breakout: 'Минимум',
+  //             max_breakout: 'Максимум',
+  //           },
+  //         },
+  //         {
+  //           name: 'expire_parametrs',
+  //           title: 'Expire',
+  //         },
+  //         {
+  //           name: 'percent_parametrs',
+  //           title: 'Percent',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     contractName: 'emit',
     link:

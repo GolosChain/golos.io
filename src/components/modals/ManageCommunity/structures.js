@@ -9,16 +9,16 @@ import PublishSetRules from './structures/publish/PublishSetRules';
 // import ReferralAcc from './structures/publish/ReferralAcc';
 // import BwProvider from './structures/publish/BwProvider';
 
-import CtrlToken from './structures/ctrl/CtrlToken';
-import MultisigAcc from './structures/ctrl/MultisigAcc';
-import MultisigPerms from './structures/ctrl/MultisigPerms';
+// import CtrlToken from './structures/ctrl/CtrlToken';
+// import MultisigAcc from './structures/ctrl/MultisigAcc';
+// import MultisigPerms from './structures/ctrl/MultisigPerms';
+// import UpdateAuth from './structures/ctrl/UpdateAuth';
 import MaxWitnesses from './structures/ctrl/MaxWitnesses';
 import MaxWitnessesVotes from './structures/ctrl/MaxWitnessesVotes';
-import UpdateAuth from './structures/ctrl/UpdateAuth';
 
-import BreakoutParams from './structures/referral/BreakoutParams';
-import ExpireParams from './structures/referral/ExpireParams';
-import PercentParams from './structures/referral/PercentParams';
+// import BreakoutParams from './structures/referral/BreakoutParams';
+// import ExpireParams from './structures/referral/ExpireParams';
+// import PercentParams from './structures/referral/PercentParams';
 
 import InflationRate from './structures/emit/InflationRate';
 import RewardsPool from './structures/emit/RewardsPool';
@@ -38,11 +38,11 @@ export const STRUCTURES = {
       st_cashout_window: CashoutWindow,
       st_max_beneficiaries: MaxBeneficiaries,
       st_max_comment_depth: MaxCommentDepth,
+      st_curators_prcnt: CuratorPercent,
+      st_min_abs_rshares: MinAbsRShares,
       // st_social_acc: SocialAcc,
       // st_referral_acc: ReferralAcc,
-      st_curators_prcnt: CuratorPercent,
       // st_bwprovider: BwProvider,
-      st_min_abs_rshares: MinAbsRShares,
     },
     setrules: PublishSetRules,
   },
@@ -56,13 +56,13 @@ export const STRUCTURES = {
       // update_auth: UpdateAuth,
     },
   },
-  referral: {
-    setparams: {
-      breakout_parametrs: BreakoutParams,
-      expire_parametrs: ExpireParams,
-      percent_parametrs: PercentParams,
-    },
-  },
+  // referral: {
+  //   setparams: {
+  //     breakout_parametrs: BreakoutParams,
+  //     expire_parametrs: ExpireParams,
+  //     percent_parametrs: PercentParams,
+  //   },
+  // },
   emit: {
     setparams: {
       inflation_rate: InflationRate,
