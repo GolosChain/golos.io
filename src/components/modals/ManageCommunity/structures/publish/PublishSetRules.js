@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { defaults, fieldsToString, parsePercent, parsePercentString } from 'utils/common';
 
-import ErrorLine from '../elements/ErrorLine';
-import { InputSmall, FieldSubTitle, FunctionParameter } from '../elements';
+import { InputSmall, FieldSubTitle, FunctionParameter, ErrorLine } from '../elements';
 
 const Wrapper = styled.div``;
 

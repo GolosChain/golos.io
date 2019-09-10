@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import {
   defaults,
@@ -8,26 +7,8 @@ import {
   parsePercent,
   isPositiveInteger,
 } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import { InputLine, DefaultText } from '../elements';
-import ErrorLine from '../elements/ErrorLine';
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, FieldSubTitle, InputLine, InputSmall, DefaultText, ErrorLine } from '../elements';
 
 export default class InflationRate extends PureComponent {
   constructor(props) {

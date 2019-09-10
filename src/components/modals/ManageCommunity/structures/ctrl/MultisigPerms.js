@@ -1,32 +1,14 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import { ErrorLine } from '../elements';
+import { Fields, FieldSubTitle, InputSmall, ErrorLine } from '../elements';
 
 const DEFAULT = {
   super_majority: 0,
   majority: 0,
   minority: 0,
 };
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
 
 export default class MultisigPerms extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);

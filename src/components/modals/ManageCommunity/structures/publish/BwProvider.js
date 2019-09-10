@@ -1,18 +1,13 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults } from 'utils/common';
 
-import { FieldSubTitle, InputSmall, ErrorLine } from '../elements';
+import { Fields, FieldSubTitle, InputSmall, ErrorLine } from '../elements';
 
 const DEFAULT = {
   actor: '',
   permission: 'active',
 };
-
-const Fields = styled.label`
-  text-transform: none;
-`;
 
 export default class BwProvider extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);

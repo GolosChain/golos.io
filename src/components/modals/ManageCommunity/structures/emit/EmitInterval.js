@@ -1,19 +1,8 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults, fieldsToString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import { ErrorLine, DefaultText, InputLine } from '../elements';
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, InputSmall, ErrorLine, DefaultText, InputLine } from '../elements';
 
 export default class EmitInterval extends PureComponent {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));

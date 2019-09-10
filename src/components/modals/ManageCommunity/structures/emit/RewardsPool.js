@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
-import { defaults, parsePercent, parsePercentString } from 'utils/common';
+import { parsePercent, parsePercentString } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 import Button from 'components/golos-ui/Button';
 
-import ErrorLine from '../elements/ErrorLine';
-import { prop } from 'ramda';
+import { Fields, FieldSubTitle, ErrorLine } from '../elements';
 
 const Pool = styled.div`
   display: flex;
@@ -17,17 +16,6 @@ const Pool = styled.div`
 const PoolFieldTitle = styled.span`
   margin-right: 8px;
   font-size: 14px;
-`;
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
 `;
 
 const InputSmall = styled(Input)`

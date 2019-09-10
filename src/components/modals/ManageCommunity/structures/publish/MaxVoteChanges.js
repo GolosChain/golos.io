@@ -1,20 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import { defaults, fieldsToString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import { InputLine, DefaultText, ErrorLine } from '../elements';
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
 
 export default class MaxVoteChanges extends PureComponent {
   static propTypes = {

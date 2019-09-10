@@ -1,26 +1,8 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults, parsePercent, parsePercentString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import { InputLine, DefaultText, ErrorLine } from '../elements';
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, FieldSubTitle, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
 
 export default class CuratorPercent extends PureComponent {
   constructor(props) {
