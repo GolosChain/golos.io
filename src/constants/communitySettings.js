@@ -279,35 +279,51 @@ export const CONTRACTS = [
         structures: [
           {
             name: 'vesting_withdraw',
-            title: 'vesting_withdraw',
+            title: 'Параметры вывода вестинга в ликвидные токены',
             fields: {
-              intervals: 'Количество интервалов',
-              interval_seconds: 'Время интервала (сек)',
+              intervals: 'Количество интервалов (шт) (от 1 до 255)',
+              interval_seconds: 'Время интервала (сек) (от 1 до 4 млрд)',
+            },
+            defaults: {
+              intervals: 13,
+              interval_seconds: 604800,
             },
           },
           {
             name: 'vesting_amount',
-            title: 'vesting_amount',
+            title: 'Минимальное значение вестинга для вывода в ликвидные токены (от 0 до 2^53)',
+            defaults: {
+              min_amount: 10500,
+            },
           },
           {
             name: 'vesting_delegation',
-            title: 'vesting_delegation',
+            title: 'Параметры делегирования вестинга',
             fields: {
-              min_amount: 'Min amount',
-              min_remainder: 'Min remainder',
-              return_time: 'Return time',
-              min_time: 'Min time',
-              max_delegators: 'Max delegators',
+              min_amount:
+                'Минимально допустимое количество вестинга для делегирования/возврата делегированного (вестинг) (от 0 до 2^53)',
+              min_remainder: 'Минимальный остаток делегированного (вестинг) (от 0 до 2^53)',
+              return_time: 'Время возврата делегированных средств (сек) (от 0 до 4 млрд)',
+              min_time: 'Минимальная длительность делегирования (сек) (от 0 до 4 млрд)',
+              max_delegators:
+                'Максимальное количество пользователей, от которых можно получить вестинг (от 0 до 4 млрд)',
+            },
+            defaults: {
+              min_amount: 3500,
+              min_remainder: 3500,
+              return_time: 604800,
+              min_time: 0,
+              max_delegators: 32,
             },
           },
-          {
-            name: 'vesting_bwprovider',
-            title: 'vesting_bwprovider',
-            fields: {
-              actor: 'Актор',
-              permission: 'Уровень разрешений',
-            },
-          },
+          // {
+          //   name: 'vesting_bwprovider',
+          //   title: 'vesting_bwprovider',
+          //   fields: {
+          //     actor: 'Актор',
+          //     permission: 'Уровень разрешений',
+          //   },
+          // },
         ],
       },
     ],
@@ -322,12 +338,19 @@ export const CONTRACTS = [
         description:
           'Операция-действие setrestorer используется для задания алгоритма, по которому происходит восстановление ресурса батарейки.',
         fields: {
-          token_code: 'Token',
           charge_id: 'Charge Id',
           func_str: 'Func',
-          max_prev: 'Max prev',
-          max_vesting: 'Max vesting',
-          max_elapsed: 'Max elapsed',
+          max_prev: 'Max prev (от 0 до 2^51)',
+          max_vesting: 'Max vesting (от 0 до 2^51)',
+          max_elapsed: 'Max elapsed (от 0 до 2^51)',
+        },
+        defaults: {
+          token_code: 'GOLOS',
+          charge_id: 0,
+          func_str: 't*p/86400',
+          max_prev: '0',
+          max_vesting: '0',
+          max_elapsed: '0',
         },
       },
     ],

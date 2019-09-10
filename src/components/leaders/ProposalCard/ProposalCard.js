@@ -108,7 +108,7 @@ export default class ProposalCard extends PureComponent {
       blockTime: PropTypes.string.isRequired,
       expiration: PropTypes.string.isRequired,
       isExecuted: PropTypes.bool.isRequired,
-      executedBlockTime: PropTypes.string.isRequired,
+      executedBlockTime: PropTypes.string,
       changes: PropTypes.arrayOf(
         PropTypes.shape({
           structureName: PropTypes.string.isRequired,
@@ -314,7 +314,7 @@ export default class ProposalCard extends PureComponent {
       }
 
       fields.push(
-        <div key={fieldName.length}>
+        <div key={fields.length}>
           {title ? `${title}: ` : null}
           {finalValue}
         </div>

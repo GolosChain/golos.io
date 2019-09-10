@@ -1,38 +1,12 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults, isPositiveInteger, fieldsToString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
+import { Select } from 'components/golos-ui/Form';
 
-import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  token_code: 'GOLOS',
-  charge_id: 0,
-  func_str: 't*p/86400',
-  max_prev: 0,
-  max_vesting: 0,
-  max_elapsed: 0,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 150px;
-  padding-right: 4px;
-`;
+import { Fields, FieldSubTitle, Input, InputSmall, ErrorLine } from '../elements';
 
 export default class SetRestorer extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onFieldChange = (e, fieldName) => {
     this.setState(
@@ -47,16 +21,13 @@ export default class SetRestorer extends PureComponent {
     const { onChange } = this.props;
     const { state } = this;
 
-    const token_code = state.token_code.trim();
-    const charge_id = parseInt(state.charge_id, 10);
+    const charge_id = Number(state.charge_id);
     const func_str = state.func_str.trim();
     const max_prev = state.max_prev.trim();
     const max_vesting = state.max_vesting.trim();
     const max_elapsed = state.max_elapsed.trim();
 
     if (
-      !token_code ||
-      !checkNumber(charge_id) ||
       !func_str ||
       !isPositiveInteger(max_prev) ||
       !isPositiveInteger(max_vesting) ||
@@ -69,7 +40,7 @@ export default class SetRestorer extends PureComponent {
 
     this.setState({ isInvalid: false });
     onChange({
-      token_code,
+      token_code: 'GOLOS',
       charge_id,
       func_str,
       max_prev,
@@ -80,22 +51,17 @@ export default class SetRestorer extends PureComponent {
 
   render() {
     const { fields } = this.props;
-    const {
-      token_code,
-      charge_id,
-      func_str,
-      max_prev,
-      max_vesting,
-      max_elapsed,
-      isInvalid,
-    } = this.state;
+    const { charge_id, func_str, max_prev, max_vesting, max_elapsed, isInvalid } = this.state;
 
     return (
       <Fields>
-        <FieldSubTitle>{fields.token_code}:</FieldSubTitle>
-        <InputSmall value={token_code} onChange={e => this.onFieldChange(e, 'token_code')} />
         <FieldSubTitle>{fields.charge_id}:</FieldSubTitle>
-        <InputSmall value={charge_id} onChange={e => this.onFieldChange(e, 'charge_id')} />
+        <Select value={charge_id} onChange={e => this.onFieldChange(e, 'charge_id')}>
+          <option value="0">Vote (0)</option>
+          <option value="1">Post (1)</option>
+          <option value="2">Comment (2)</option>
+          <option value="3">Post bandwidth (3)</option>
+        </Select>
         <FieldSubTitle>{fields.func_str}:</FieldSubTitle>
         <Input value={func_str} onChange={e => this.onFieldChange(e, 'func_str')} />
         <FieldSubTitle>{fields.max_prev}:</FieldSubTitle>
@@ -108,8 +74,4 @@ export default class SetRestorer extends PureComponent {
       </Fields>
     );
   }
-}
-
-function checkNumber(val) {
-  return typeof val === 'number' || !Number.isNaN(val);
 }

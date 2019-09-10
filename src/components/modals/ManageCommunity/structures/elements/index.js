@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Input } from 'components/golos-ui/Form';
 
+export { Input } from 'components/golos-ui/Form';
 export { default as FunctionParameter } from './FunctionParameter';
 export { default as ErrorLine } from './ErrorLine';
 
@@ -30,6 +31,6 @@ export const FieldSubTitle = styled.h3`
 `;
 
 export const InputSmall = styled(Input)`
-  width: 130px;
+  width: 140px;
   padding-right: 4px;
 `;

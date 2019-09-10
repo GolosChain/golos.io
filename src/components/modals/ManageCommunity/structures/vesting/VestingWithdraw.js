@@ -1,34 +1,11 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
 import { defaults, isPositiveInteger, fieldsToString } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  intervals: 13,
-  interval_seconds: 259200,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const FieldSubTitle = styled.h3`
-  display: block;
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: normal;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { Fields, FieldSubTitle, ErrorLine, InputLine, InputSmall, DefaultText } from '../elements';
 
 export default class VestingWithdraw extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, DEFAULT));
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onIntervalsChange = e => {
     this.setState(
@@ -77,27 +54,32 @@ export default class VestingWithdraw extends PureComponent {
   };
 
   render() {
-    const { fields } = this.props;
-
+    const { fields, defaults } = this.props;
     const { intervals, interval_seconds, isInvalid } = this.state;
 
     return (
       <Fields>
         <FieldSubTitle>{fields.intervals}</FieldSubTitle>
-        <InputSmall
-          type="number"
-          min="1"
-          max="255"
-          value={intervals}
-          onChange={this.onIntervalsChange}
-        />
+        <InputLine>
+          <InputSmall
+            type="number"
+            min="1"
+            max="255"
+            value={intervals}
+            onChange={this.onIntervalsChange}
+          />
+          <DefaultText>(по умолчанию: {defaults.intervals})</DefaultText>
+        </InputLine>
         <FieldSubTitle>{fields.interval_seconds}</FieldSubTitle>
-        <InputSmall
-          type="number"
-          min="3"
-          value={interval_seconds}
-          onChange={this.onSecondsChange}
-        />
+        <InputLine>
+          <InputSmall
+            type="number"
+            min="3"
+            value={interval_seconds}
+            onChange={this.onSecondsChange}
+          />
+          <DefaultText>(по умолчанию: {defaults.interval_seconds})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );

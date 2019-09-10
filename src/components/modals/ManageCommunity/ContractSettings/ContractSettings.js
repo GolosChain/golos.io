@@ -23,10 +23,6 @@ const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const VestingParams = styled.div`
-  margin-top: 8px;
-`;
-
 const ContractGroup = styled.div`
   margin: 0 0 8px;
 `;
@@ -85,7 +81,6 @@ export default class ContractSettings extends PureComponent {
   };
 
   state = {
-    symbol: '',
     isSaving: false,
     hasChanges: false,
     updates: {},
@@ -93,7 +88,7 @@ export default class ContractSettings extends PureComponent {
 
   onSaveClick = async () => {
     const { data, setParams, setChargeRestorer, waitForTransaction, onClose } = this.props;
-    const { updates, symbol } = this.state;
+    const { updates } = this.state;
 
     this.setState({
       isSaving: true,
@@ -110,7 +105,7 @@ export default class ContractSettings extends PureComponent {
         let params = null;
 
         if (contractName === 'vesting') {
-          params = { symbol };
+          params = { symbol: '6,GOLOS' };
         }
 
         ({ transaction_id } = await setParams({ contractName, updates, params }));
@@ -160,12 +155,6 @@ export default class ContractSettings extends PureComponent {
     });
   };
 
-  onSymbolChange = e => {
-    this.setState({
-      symbol: e.target.value,
-    });
-  };
-
   renderStructure = (contractName, actionName, { name, title, fields = {}, defaults = {} }) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
@@ -202,8 +191,6 @@ export default class ContractSettings extends PureComponent {
       const values = currentSettings?.[contractName]?.[name];
 
       if (StructureComponent) {
-        console.log('AAA', StructureComponent);
-
         content = (
           <>
             {description ? <Description>{description}</Description> : null}
@@ -244,7 +231,6 @@ export default class ContractSettings extends PureComponent {
 
   renderContract = () => {
     const { data } = this.props;
-    const { symbol } = this.state;
 
     const { contractName, link, actions } = CONTRACTS.find(
       contact => contact.contractName === data.contractName
@@ -269,11 +255,6 @@ export default class ContractSettings extends PureComponent {
             </DescriptionLink>
           ) : null}
         </ContractNameWrapper>
-        {data.contractName === 'vesting' ? (
-          <VestingParams>
-            Vesting symbol: <Input value={symbol} onChange={this.onSymbolChange} />
-          </VestingParams>
-        ) : null}
         {this.renderAction(contractName, action)}
       </ContractGroup>
     );

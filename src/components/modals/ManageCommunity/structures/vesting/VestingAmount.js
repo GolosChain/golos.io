@@ -1,26 +1,11 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 
-import { defaults } from 'utils/common';
-import { Input } from 'components/golos-ui/Form';
+import { defaults, fieldsToString } from 'utils/common';
 
-import ErrorLine from '../elements/ErrorLine';
-
-const DEFAULT = {
-  min_amount: 0,
-};
-
-const Fields = styled.label`
-  text-transform: none;
-`;
-
-const InputSmall = styled(Input)`
-  width: 130px;
-  padding-right: 4px;
-`;
+import { ErrorLine, Fields, InputSmall, InputLine, DefaultText } from '../elements';
 
 export default class VestingAmount extends PureComponent {
-  state = defaults(this.props.initialValues, DEFAULT);
+  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
     this.setState(
@@ -49,11 +34,15 @@ export default class VestingAmount extends PureComponent {
   };
 
   render() {
+    const { defaults } = this.props;
     const { min_amount, isInvalid } = this.state;
 
     return (
       <Fields>
-        <InputSmall value={min_amount} onChange={this.onChange} />
+        <InputLine>
+          <InputSmall value={min_amount} onChange={this.onChange} />
+          <DefaultText>(по умолчанию: {defaults.min_amount})</DefaultText>
+        </InputLine>
         {isInvalid ? <ErrorLine /> : null}
       </Fields>
     );
