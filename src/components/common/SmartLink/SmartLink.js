@@ -11,9 +11,12 @@ export default function SmartLink({ route, params, hash, children }) {
 
     if (params.username) {
       delete finalParams.userId;
-    } else {
+    } else if (params.userId) {
       finalRoute += '~';
       delete finalParams.username;
+    } else {
+      console.error('Link without user:', params);
+      return children;
     }
 
     return (

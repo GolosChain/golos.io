@@ -321,7 +321,11 @@ export default class ActivePanel extends Component {
             </DotsMoreWrapper>
           </>
         ) : null}
-        <ReplyBlockStyled count={post.children} post={post} text={tt('g.reply')} />
+        <ReplyBlockStyled
+          count={post.children}
+          postContentId={post.contentId}
+          text={tt('g.reply')}
+        />
       </Wrapper>
     );
   }
