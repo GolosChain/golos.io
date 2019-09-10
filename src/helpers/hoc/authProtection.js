@@ -5,7 +5,8 @@ import tt from 'counterpart';
 
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import { currentUserIdSelector } from 'store/selectors/auth';
-import { uiSelector, dataSelector } from 'store/selectors/common';
+import { dataSelector } from 'store/selectors/common';
+import { isSSRSelector } from 'store/selectors/ui';
 
 const Root = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ export default (equalFunc = defaultEqualFunc) => Comp =>
   connect(state => ({
     isAutoLogging: dataSelector(['auth', 'isAutoLogging'])(state),
     authorizedUserId: currentUserIdSelector(state),
-    isSSR: uiSelector(['mode', 'isSSR'])(state),
+    isSSR: isSSRSelector(state),
   }))(
     class NotAuthorized extends Component {
       static getInitialProps(...args) {

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import LazyLoad from 'react-lazyload';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
 import { Link } from 'shared/routes';
@@ -19,6 +18,7 @@ import VotePanel from 'components/common/VotePanel';
 import { ReplyBlock } from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
+import SmartLazyLoad from 'components/common/SmartLazyLoad';
 // import CurationPercent from 'components/common/CurationPercent';
 
 import CardAuthor from '../CardAuthor';
@@ -706,12 +706,12 @@ export default class PostCard extends PureComponent {
 
     return (
       <Wrapper gray={stats.gray || stats.hide} className={className}>
-        <LazyLoad once resize height="100%" offset={500}>
+        <SmartLazyLoad once resize height={500} offset={300}>
           {this.renderHeader()}
           {post?.repost?.isRepost ? this.renderRepostPart() : null}
           {this.renderBody()}
           {this.renderFooter()}
-        </LazyLoad>
+        </SmartLazyLoad>
       </Wrapper>
     );
   }
