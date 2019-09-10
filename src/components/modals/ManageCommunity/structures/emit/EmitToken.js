@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaults } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../elements/ErrorLine';
+import { ErrorLine } from '../elements';
 
 const DEFAULT = {
   symbol: '',

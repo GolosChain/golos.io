@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
 import { Input } from 'components/golos-ui/Form';
 
-import ErrorLine from '../elements/ErrorLine';
-import { InputLine, DefaultText } from '../elements';
+import { InputLine, DefaultText, ErrorLine } from '../elements';
 
 const Fields = styled.label`
   text-transform: none;
