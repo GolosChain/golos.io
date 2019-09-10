@@ -19,8 +19,6 @@ export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
 
 export const BECOME_WITNESS = 'becomeWitness';
 
-export const CLAIM_TOKENS = 'claimTokens';
-
 let envFeatureFlags = {};
 
 if (process.env.FEATURE_FLAGS) {
@@ -50,7 +48,6 @@ export default {
   [PROPOSALS_MANAGE_BUTTON]: false,
 
   [BECOME_WITNESS]: false,
-  [CLAIM_TOKENS]: false,
 
   ...envFeatureFlags,
 };
