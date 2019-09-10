@@ -283,7 +283,7 @@ export default class PostCard extends PureComponent {
     // postLink: PropTypes.string.isRequired,
     // pinDisabled: PropTypes.bool,
     author: PropTypes.shape({}).isRequired,
-    repostAuthor: PropTypes.shape({}).isRequired,
+    repostAuthor: PropTypes.shape({}),
     currentUserId: PropTypes.string,
     isPinned: PropTypes.bool,
     id: PropTypes.string.isRequired,
@@ -305,7 +305,6 @@ export default class PostCard extends PureComponent {
     removeFavorite: PropTypes.func.isRequired,
     fetchFavorites: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
-    reblog: PropTypes.func.isRequired,
     removeReblog: PropTypes.func.isRequired,
     openRepostDialog: PropTypes.func.isRequired,
   };

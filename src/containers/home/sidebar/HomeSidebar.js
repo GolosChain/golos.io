@@ -14,9 +14,6 @@ const Wrapper = styled.div`
 
 export default class HomeSidebar extends Component {
   static propTypes = {
-    router: PropTypes.shape({
-      asPath: PropTypes.string.isRequired,
-    }).isRequired,
     selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
