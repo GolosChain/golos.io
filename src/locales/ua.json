@@ -691,7 +691,8 @@
     "text_placeholder": "Розкажіть свою історію...",
     "title_placeholder": "Введіть заголовок",
     "update": "Оновити",
-    "wait_uploading": "Завантажуються файли"
+    "wait_uploading": "Завантажуються файли",
+    "post_publish_over_limit": "Занадто часта публікація постів"
   },
   "post_jsx": {
     "comments_were_hidden_due_to_low_ratings": "Коментарі були закриті через низький рейтинг",
