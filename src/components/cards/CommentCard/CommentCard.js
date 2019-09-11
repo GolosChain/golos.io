@@ -4,7 +4,6 @@ import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import LazyLoad from 'react-lazyload';
 
 // import { detransliterate } from 'utils/ParsersAndFormatters';
 import { isHide } from 'utils/StateFunctions';
@@ -13,6 +12,7 @@ import CommentFormLoader from 'components/modules/CommentForm/loader';
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import { formatContentId } from 'store/schemas/gate';
 
+import SmartLazyLoad from 'components/common/SmartLazyLoad';
 import Button from 'components/golos-ui/Button';
 import { TagLink } from 'components/golos-ui/Tag';
 import MarkdownViewer from 'components/cards/MarkdownViewer/MarkdownViewer';
@@ -611,7 +611,7 @@ export default class CommentCard extends PureComponent {
         className={className}
         gray={stats && (stats.gray || stats.hide) && !isPostPage}
       >
-        <LazyLoad once resize height="100%" offset={500}>
+        <SmartLazyLoad once resize height={200} offset={200}>
           {isPostPage ? this.renderHeaderForPost() : this.renderHeaderForProfile()}
           {collapsed || showAlert ? null : (
             <>
@@ -633,7 +633,7 @@ export default class CommentCard extends PureComponent {
               />
             </>
           )}
-        </LazyLoad>
+        </SmartLazyLoad>
       </Wrapper>
     );
   }
