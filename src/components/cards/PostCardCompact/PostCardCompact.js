@@ -392,7 +392,7 @@ export default class PostCardCompact extends PureComponent {
           <HeaderRight>
             <ViewCount contentUrl={post.id} micro />
             {/*<CurationPercent postLink={permLink} micro />*/}
-            <SmartLink route="post" params={{ ...post.contentId, username: author.username }}>
+            <SmartLink route="post" params={post.contentId}>
               <DateLink>
                 <TimeAgoWrapper date={created} />
               </DateLink>
@@ -426,19 +426,17 @@ export default class PostCardCompact extends PureComponent {
 
     const text = post.content.body.preview || content.desc;
 
-    const postLinkParams = { ...post.contentId, username: author.username };
-
     return (
       <BodyBlock onClick={this.props.onClick}>
         {imageLink ? (
-          <SmartLink route="post" params={postLinkParams}>
+          <SmartLink route="post" params={post.contentId}>
             <ImageLink onClick={this.props.onClick}>
               <PostImage alt={tt('aria_label.post_image')} src={imageLink} />
             </ImageLink>
           </SmartLink>
         ) : null}
         <Body>
-          <SmartLink route="post" params={postLinkParams}>
+          <SmartLink route="post" params={post.contentId}>
             <BodyLink onClick={this.props.onClick}>
               {isRepost ? <PostContent repost dangerouslySetInnerHTML={repostHtml} /> : null}
               <PostTitle>{post.content.title}</PostTitle>

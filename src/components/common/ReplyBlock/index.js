@@ -1,1 +1,1 @@
-export { default } from './ReplyBlock.connect';
+export { default } from './ReplyBlock';

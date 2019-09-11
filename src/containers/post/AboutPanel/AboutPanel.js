@@ -154,14 +154,16 @@ export default class AboutPanel extends Component {
       return null;
     }
 
+    const username = profile?.username;
+
     return (
       <Wrapper>
         <Avatar>
           <Userpic userId={author} size={50} ariaLabel={tt('aria_label.avatar')} />
           <AuthorInfo>
-            <SmartLink route="profile" params={{ userId: author, username: profile?.username }}>
+            <SmartLink route="profile" params={{ userId: author, username }}>
               <Account aria-label={tt('aria_label.username')}>
-                @{profile?.username || author}
+                {username ? `@${username}` : author}
               </Account>
             </SmartLink>
           </AuthorInfo>

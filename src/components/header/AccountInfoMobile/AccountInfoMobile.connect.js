@@ -1,18 +1,14 @@
 import { connect } from 'react-redux';
 
-import { currentUnsafeUserSelector } from 'store/selectors/auth';
-import { entitySelector } from 'store/selectors/common';
+import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 
 import AccountInfoMobile from './AccountInfoMobile';
 
 export default connect(state => {
-  const currentUser = currentUnsafeUserSelector(state);
-
-  const user = entitySelector('users', currentUser.userId)(state);
+  const userId = currentUnsafeUserIdSelector(state);
 
   return {
-    userId: currentUser.userId,
-    username: user?.username,
+    userId,
     // TODO: Replace by real votingPower
     votingPower: 50,
   };

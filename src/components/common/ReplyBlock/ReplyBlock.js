@@ -125,18 +125,12 @@ export default function ReplyBlock({
   compact,
   count,
   postContentId,
-  author,
   isLink,
   text,
   mini,
   className,
   onReplyClick,
 }) {
-  const postLinkParams = {
-    ...postContentId,
-    username: author?.username,
-  };
-
   const replyButton = onReplyClick ? (
     <>
       <Splitter />
@@ -147,7 +141,7 @@ export default function ReplyBlock({
   ) : (
     <>
       <Splitter />
-      <SmartLink route="post" params={postLinkParams} hash="createComment">
+      <SmartLink route="post" params={postContentId} hash="createComment">
         <ReplyButton name="reply" compact={compact ? 1 : 0} isLink>
           {text}
         </ReplyButton>
@@ -158,7 +152,7 @@ export default function ReplyBlock({
   return (
     <Root compact={compact} className={className}>
       {isLink || mini ? (
-        <SmartLink route="post" params={postLinkParams} hash="comments">
+        <SmartLink route="post" params={postContentId} hash="comments">
           <Replies
             name="link-to-replies"
             data-tooltip={tt('reply.comments_count')}
@@ -191,7 +185,6 @@ ReplyBlock.propTypes = {
   compact: PropTypes.bool,
   count: PropTypes.number,
   postContentId: PropTypes.shape({}).isRequired,
-  author: PropTypes.shape({}).isRequired,
   text: PropTypes.string,
   mini: PropTypes.bool,
   onReplyClick: PropTypes.func,

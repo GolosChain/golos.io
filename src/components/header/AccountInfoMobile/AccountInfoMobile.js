@@ -42,14 +42,14 @@ const PowerCircle = styled.div`
 
 export default class AccountInfoMobile extends PureComponent {
   render() {
-    const { userId, username, votingPower } = this.props;
+    const { userId, votingPower } = this.props;
 
     const angle = 2 * Math.PI - 2 * Math.PI * (votingPower / 100);
 
     const { x, y } = calcXY(angle);
 
     return (
-      <SmartLink route="profile" params={{ userId, username }}>
+      <SmartLink route="profile" params={{ userId }}>
         <MobileAccountBlock ref={this.accountRef}>
           <PowerCircle>
             <svg viewBox="-1 -1 2 2">
