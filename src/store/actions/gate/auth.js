@@ -98,7 +98,17 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
       document.cookie = `golos.userId=${auth.user}; path=/; expires=${date.toGMTString()}`;
 
       try {
-        await Promise.all([dispatch(fetchProfile(auth.user)), dispatch(fetchChargers(auth.user))]);
+        const [profile] = await Promise.all([
+          dispatch(fetchProfile(auth.user)),
+          dispatch(fetchChargers(auth.user)),
+        ]);
+
+        if (!profile.isGolosVestingOpened) {
+          // Запускаем без ожидания завершения
+          dispatch(openVesting()).catch(err => {
+            console.error('Open vesting failed:', err);
+          });
+        }
       } catch (err) {
         // replace with action if needed
         // eslint-disable-next-line no-console

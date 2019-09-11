@@ -14,30 +14,52 @@ import {
   STOP_DELEGATE_SUCCESS,
   STOP_DELEGATE_ERROR,
 } from 'store/constants/actionTypes';
-import { currentUserIdSelector } from 'store/selectors/auth';
+import { currentUserIdSelector, currentUserSelector } from 'store/selectors/auth';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
+import { normalizeCyberwayErrorMessage } from 'utils/errors';
+import { isVestingAlreadyOpened, markVestingOpened } from 'utils/localStorage';
 
 const CONTRACT_NAME = 'vesting';
 const VESTING_SYMBOL = '6,GOLOS';
 
 export const openVesting = () => async (dispatch, getState) => {
-  const userId = currentUserIdSelector(getState());
+  const user = currentUserSelector(getState());
 
-  if (!userId) {
+  if (!user) {
     throw new Error('Unauthorized');
   }
 
-  return dispatch({
-    [CYBERWAY_API]: {
-      contract: CONTRACT_NAME,
-      method: 'open',
-      params: {
-        symbol: VESTING_SYMBOL,
-        owner: userId,
-        ram_payer: userId,
+  const { userId, permission } = user;
+
+  if (isVestingAlreadyOpened(userId)) {
+    return;
+  }
+
+  if (permission !== 'active' && permission !== 'owner') {
+    throw new Error('No permission');
+  }
+
+  try {
+    await dispatch({
+      [CYBERWAY_API]: {
+        contract: CONTRACT_NAME,
+        method: 'open',
+        params: {
+          symbol: VESTING_SYMBOL,
+          owner: userId,
+          ram_payer: userId,
+        },
       },
-    },
-  });
+    });
+
+    markVestingOpened(userId);
+  } catch (err) {
+    if (normalizeCyberwayErrorMessage(err) === 'already exists') {
+      markVestingOpened(userId);
+    } else {
+      throw err;
+    }
+  }
 };
 
 export const withdrawTokens = tokensQuantity => async (dispatch, getState) => {
