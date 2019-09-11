@@ -77,10 +77,16 @@ export default class CommentForm extends Component {
   constructor(props) {
     super(props);
 
-    const { editMode, reply, params } = this.props;
+    const { editMode, reply, params, parentAuthorUsername } = this.props;
+
+    let text = '';
+
+    if (reply) {
+      text = `${parentAuthorUsername ? `@${parentAuthorUsername}` : params.contentId.userId} `;
+    }
 
     this.state = {
-      text: reply ? `@${params.contentId.userId} ` : '',
+      text,
       emptyBody: true,
       uploadingCount: 0,
       isLoading: false,
