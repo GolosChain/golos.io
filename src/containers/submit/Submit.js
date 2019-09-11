@@ -21,15 +21,7 @@ const Loader = styled(LoadingIndicator).attrs({
 
 export default class Submit extends React.PureComponent {
   static propTypes = {
-    isSSR: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    isSSR: false,
-  };
-
-  onSuccess = () => {
-    // browserHistory.push('/created');
+    isSSR: PropTypes.bool.isRequired,
   };
 
   render() {
@@ -38,7 +30,7 @@ export default class Submit extends React.PureComponent {
     return (
       <>
         <GlobalStyles />
-        {isSSR ? <Loader /> : <PostForm onSuccess={this.onSuccess} />}
+        {isSSR ? <Loader /> : <PostForm />}
       </>
     );
   }

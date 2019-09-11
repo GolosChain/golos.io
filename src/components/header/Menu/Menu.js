@@ -198,20 +198,10 @@ export default class Menu extends PureComponent {
       <Ul>
         {menuItems.map(
           (
-            {
-              link = '',
-              target,
-              icon,
-              text,
-              hideOnDesktop = false,
-              onClick,
-              width,
-              height,
-              isButton,
-            },
+            { link = '', icon, text, hideOnDesktop = false, onClick, width, height, isButton },
             i
           ) => (
-            <Fragment key={icon}>
+            <Fragment key={i}>
               {!isMobile && hideOnDesktop ? null : (
                 <Li aria-label={text} onClick={() => this.onItemClick(link)}>
                   {isButton ? (
