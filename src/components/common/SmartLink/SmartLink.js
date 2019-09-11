@@ -23,6 +23,14 @@ export function normalizeRouteParams(route, params) {
   };
 }
 
+export function getUserRoute({ userId, username }) {
+  if (username) {
+    return `@${username}`;
+  }
+
+  return `~${userId}`;
+}
+
 export default function SmartLink({ route, params, comment, commentUsername, hash, children }) {
   if (ROUTES_WITH_USER.includes(route)) {
     const routeParams = normalizeRouteParams(route, params);

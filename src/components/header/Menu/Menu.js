@@ -68,18 +68,13 @@ export default class Menu extends PureComponent {
   }
 
   getLoggedInItems() {
-    const { userId, username, onLogoutClick } = this.props;
-
-    const userLinkParams = {
-      userId: userId,
-      username: username,
-    };
+    const { userId, onLogoutClick } = this.props;
 
     return [
       {
         route: 'profileSection',
         params: {
-          ...userLinkParams,
+          userId,
           section: 'wallet',
         },
         icon: 'wallet2',
@@ -125,7 +120,7 @@ export default class Menu extends PureComponent {
       {
         route: 'profileSection',
         params: {
-          ...userLinkParams,
+          userId,
           section: 'settings',
         },
         icon: 'settings-cogwheel',

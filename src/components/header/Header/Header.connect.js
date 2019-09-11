@@ -2,19 +2,18 @@ import { connect } from 'react-redux';
 import { openModal } from 'redux-modals-manager';
 
 import { dataSelector, uiSelector } from 'store/selectors/common';
-import { currentUnsafeUserSelector } from 'store/selectors/auth';
+import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 import { logout } from 'store/actions/gate/auth';
 
 import Header from './Header';
 
 export default connect(
   state => {
-    const currentUser = currentUnsafeUserSelector(state);
+    const userId = currentUnsafeUserIdSelector(state);
 
     return {
-      userId: currentUser?.userId,
-      username: currentUser?.username,
-      isAuthorized: Boolean(currentUser),
+      userId,
+      isAuthorized: Boolean(userId),
       isAutoLogging: dataSelector(['auth', 'isAutoLogging'])(state),
       screenType: uiSelector(['mode', 'screenType'])(state),
     };
