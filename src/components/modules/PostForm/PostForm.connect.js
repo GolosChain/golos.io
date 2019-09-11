@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import { fetchPost } from 'store/actions/gate';
 import { createPost, updatePost } from 'store/actions/complex/content';
 import { waitForTransaction } from 'store/actions/gate/content';
+import { resolveUsername } from 'store/actions/storeSelectors';
 import { vote } from 'store/actions/complex/votes';
-import { createDeepEqualSelector } from 'store/selectors/common';
 import { currentUnsafeUserSelector } from 'store/selectors/auth';
 import { selfVoteSelector } from 'store/selectors/settings';
 
@@ -13,7 +14,7 @@ import PostForm from './PostForm';
 const DEFAULT_CURATION_PERCENT = 5000;
 
 export default connect(
-  createDeepEqualSelector(
+  createSelector(
     [currentUnsafeUserSelector, selfVoteSelector, (_, props) => props.post],
     (currentUser, selfVote, post) => ({
       currentUser,
@@ -27,6 +28,7 @@ export default connect(
     fetchPost,
     vote,
     waitForTransaction,
+    resolveUsername,
     uploadImage: ({ file, progress }) => dispatch => {
       dispatch({
         type: 'user/UPLOAD_IMAGE',

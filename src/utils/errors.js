@@ -2,13 +2,12 @@
 import tt from 'counterpart';
 
 export function normalizeCyberwayErrorMessage(err) {
-  if (!err || !err.message || !err.data || !err.error) {
+  if (!err || !err.message) {
     return 'Internal Error';
   }
 
   let { message } = err;
 
-  // if error from bc
   if (err.data) {
     message = err.data.error?.details?.[0]?.message || 'Blockchain Error';
   }
