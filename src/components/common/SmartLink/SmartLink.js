@@ -23,13 +23,25 @@ export function normalizeRouteParams(route, params) {
   };
 }
 
-export default function SmartLink({ route, params, hash, children }) {
+export default function SmartLink({ route, params, comment, commentUsername, hash, children }) {
   if (ROUTES_WITH_USER.includes(route)) {
     const routeParams = normalizeRouteParams(route, params);
 
     if (!routeParams) {
       console.error('Link without user:', params);
       return children;
+    }
+
+    if (route === 'post' && comment) {
+      let userPart;
+
+      if (commentUsername) {
+        userPart = `@${commentUsername}`;
+      } else {
+        userPart = `~${comment.userId}`;
+      }
+
+      hash = `${userPart}/${comment.permlink}`;
     }
 
     return (

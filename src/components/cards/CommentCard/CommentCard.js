@@ -1,11 +1,11 @@
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
 // import { detransliterate } from 'utils/ParsersAndFormatters';
+import { Link } from 'shared/routes';
 import { isHide } from 'utils/StateFunctions';
 import { getScrollElement } from 'helpers/window';
 import CommentFormLoader from 'components/modules/CommentForm/loader';
@@ -253,7 +253,6 @@ export default class CommentCard extends PureComponent {
 
   static defaultProps = {
     location: {},
-    // permLink: '',
     isPostPage: false,
     stats: null,
     extractedContent: null,
@@ -271,17 +270,13 @@ export default class CommentCard extends PureComponent {
     collapsed: false,
     highlighted: false,
     showAlert: this.isNeedShowAlert(this.props),
-    /* eslint-disable react/destructuring-assignment, react/prop-types */
     profileCommentParentPost: this.props.comment?.parent?.post?.contentId
       ? formatContentId(this.props.comment.parent.post.contentId)
       : null,
-    /* eslint-enable */
   };
 
   commentRef = createRef();
-
   replyRef = createRef();
-
   commentTitleRef = createRef();
 
   componentDidMount() {
@@ -335,15 +330,17 @@ export default class CommentCard extends PureComponent {
 
   getFullParentUrl = () => {
     const { comment } = this.props;
-    const { profileCommentParentPost } = this.state;
-    let parentLink = profileCommentParentPost ? `/@${profileCommentParentPost}` : '#';
 
-    if (profileCommentParentPost && comment.parentComment) {
-      parentLink = `/@${profileCommentParentPost}/#${formatContentId(
-        comment.parentComment.contentId
-      )}`;
+    const postContentId = comment.parent?.post?.contentId;
+
+    if (!postContentId) {
+      return null;
     }
-    return parentLink;
+
+    return {
+      params: postContentId,
+      comment: comment.parentComment?.contentId,
+    };
   };
 
   onReplySuccess = () => {
@@ -465,11 +462,11 @@ export default class CommentCard extends PureComponent {
         <HeaderLine>
           {collapsed ? (
             <ReLink
-              fullParentURL={this.getFullParentUrl()}
               title={
                 comment?.parent?.post?.content?.title ||
                 comment?.parentComment?.content?.body?.preview
               }
+              {...this.getFullParentUrl()}
               onClick={this.rememberScrollPosition}
             />
           ) : (
@@ -507,10 +504,10 @@ export default class CommentCard extends PureComponent {
     return (
       <Title ref={this.commentTitleRef}>
         <ReLink
-          fullParentURL={this.getFullParentUrl()}
           title={
             comment?.parent?.post?.content?.title || comment?.parentComment?.content?.body?.preview
           }
+          {...this.getFullParentUrl()}
           onClick={this.rememberScrollPosition}
         />
         {isOwner && !edit && <EditButton onClick={this.onEditClick} />}

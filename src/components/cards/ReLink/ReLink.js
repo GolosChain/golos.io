@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'shared/routes';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon';
+import SmartLink from 'components/common/SmartLink';
 
 const Wrapper = styled.div`
   padding-right: 10px;
@@ -34,20 +34,21 @@ const TitleLink = styled.a`
   text-overflow: ellipsis;
 `;
 
-const ReLink = ({ fullParentURL, title }) => (
+const ReLink = ({ title, onClick, ...props }) => (
   <Wrapper>
     <TitleIcon name="comment" />
     {tt('g.re2')}
     :&nbsp;
-    <Link route={fullParentURL} passHref>
-      <TitleLink>{title}</TitleLink>
-    </Link>
+    <SmartLink route="post" {...props}>
+      <TitleLink onClick={onClick}>{title}</TitleLink>
+    </SmartLink>
   </Wrapper>
 );
 
 ReLink.propTypes = {
-  fullParentURL: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  params: PropTypes.shape({}).isRequired,
+  onClick: PropTypes.func,
 };
 
 export default ReLink;
