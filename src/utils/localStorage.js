@@ -1,5 +1,6 @@
 const AUTH_KEY = 'authData';
 export const REGISTRATION_KEY = 'registrationData';
+const VESTING = 'golos.vesting-opened';
 
 export function saveAuth(userId, privateKey) {
   const str = [userId, privateKey].join(':');
@@ -44,4 +45,30 @@ export function getRegistrationData() {
 
 export function removeRegistrationData() {
   localStorage.removeItem(REGISTRATION_KEY);
+}
+
+export function isVestingAlreadyOpened(userId) {
+  const json = localStorage.getItem(VESTING);
+
+  if (!json) {
+    return false;
+  }
+
+  const data = JSON.parse(json);
+
+  return data.includes(userId);
+}
+
+export function markVestingOpened(userId) {
+  const json = localStorage.getItem(VESTING);
+
+  let list = [];
+
+  if (json) {
+    list = JSON.parse(json);
+  }
+
+  list.push(userId);
+
+  localStorage.setItem(VESTING, JSON.stringify(list));
 }

@@ -27,9 +27,7 @@ import {
 
 import { regDataSelector, fullNumberSelector } from 'store/selectors/registration';
 import { CALL_GATE } from 'store/middlewares/gate-api';
-import { openVesting } from 'store/actions/cyberway';
 import { saveAuth, setRegistrationData } from 'utils/localStorage';
-import { displayError } from 'utils/toastMessages';
 import { createPdf, stepToScreenId } from 'components/modals/SignUp/utils';
 import { login } from './auth';
 
