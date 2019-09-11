@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults, parsePercent, parsePercentString } from 'utils/common';
 
-import { Fields, FieldSubTitle, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class CuratorPercent extends PureComponent {
+export default class CuratorPercent extends BaseStructure {
   constructor(props) {
     super(props);
 
@@ -14,15 +14,15 @@ export default class CuratorPercent extends PureComponent {
     );
 
     this.state = {
-      min: parsePercent(min_curators_prcnt),
-      max: parsePercent(max_curators_prcnt),
+      min_curators_prcnt: parsePercent(min_curators_prcnt),
+      max_curators_prcnt: parsePercent(max_curators_prcnt),
     };
   }
 
   onMinChange = e => {
     this.setState(
       {
-        min: e.target.value,
+        min_curators_prcnt: e.target.value,
       },
       this.triggerChange
     );
@@ -31,7 +31,7 @@ export default class CuratorPercent extends PureComponent {
   onMaxChange = e => {
     this.setState(
       {
-        max: e.target.value,
+        max_curators_prcnt: e.target.value,
       },
       this.triggerChange
     );
@@ -40,8 +40,8 @@ export default class CuratorPercent extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const min = this.state.min.trim();
-    const max = this.state.max.trim();
+    const min = this.state.min_curators_prcnt.trim();
+    const max = this.state.max_curators_prcnt.trim();
 
     const min_curators_prcnt = parsePercentString(min);
     const max_curators_prcnt = parsePercentString(max);
@@ -63,24 +63,14 @@ export default class CuratorPercent extends PureComponent {
     });
   };
 
-  render() {
-    const { fields, defaults } = this.props;
-    const { min, max, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <FieldSubTitle>{fields.min_curators_prcnt}</FieldSubTitle>
-        <InputLine>
-          <InputSmall type="number" value={min} min="0" max="100" onChange={this.onMinChange} />
-          <DefaultText>(по умолчанию: {parsePercent(defaults.min_curators_prcnt)})</DefaultText>
-        </InputLine>
-        <FieldSubTitle>{fields.max_curators_prcnt}</FieldSubTitle>
-        <InputLine>
-          <InputSmall type="number" value={max} min="0" max="100" onChange={this.onMaxChange} />
-          <DefaultText>(по умолчанию: {parsePercent(defaults.max_curators_prcnt)})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return [
+      this.renderField('min_curators_prcnt', value => (
+        <InputSmall type="number" value={value} min="0" max="100" onChange={this.onMinChange} />
+      )),
+      this.renderField('max_curators_prcnt', value => (
+        <InputSmall type="number" value={value} min="0" max="100" onChange={this.onMaxChange} />
+      )),
+    ];
   }
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import {
   defaults,
@@ -8,9 +8,9 @@ import {
   isPositiveInteger,
 } from 'utils/common';
 
-import { Fields, FieldSubTitle, InputLine, InputSmall, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class InflationRate extends PureComponent {
+export default class InflationRate extends BaseStructure {
   constructor(props) {
     super(props);
 
@@ -67,29 +67,15 @@ export default class InflationRate extends PureComponent {
     });
   };
 
-  render() {
-    const { fields, defaults } = this.props;
-    const { start, stop, narrowing, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <FieldSubTitle>{fields.start}:</FieldSubTitle>
-        <InputLine>
-          <InputSmall value={start} onChange={this.onStartChange} />
-          <DefaultText>(по умолчанию: {parsePercent(defaults.start)}%)</DefaultText>
-        </InputLine>
-        <FieldSubTitle>{fields.stop}:</FieldSubTitle>
-        <InputLine>
-          <InputSmall value={stop} onChange={this.onStopChange} />
-          <DefaultText>(по умолчанию: {parsePercent(defaults.stop)}%)</DefaultText>
-        </InputLine>
-        <FieldSubTitle>{fields.narrowing}:</FieldSubTitle>
-        <InputLine>
-          <InputSmall value={narrowing} onChange={this.onNarrowingChange} />
-          <DefaultText>(по умолчанию: {defaults.narrowing})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return [
+      this.renderField('start', value => (
+        <InputSmall value={value} onChange={this.onStartChange} />
+      )),
+      this.renderField('stop', value => <InputSmall value={value} onChange={this.onStopChange} />),
+      this.renderField('narrowing', value => (
+        <InputSmall value={value} onChange={this.onNarrowingChange} />
+      )),
+    ];
   }
 }

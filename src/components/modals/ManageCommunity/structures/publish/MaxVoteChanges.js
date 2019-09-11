@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults, fieldsToString } from 'utils/common';
 
-import { Fields, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class MaxVoteChanges extends PureComponent {
+export default class MaxVoteChanges extends BaseStructure {
   static propTypes = {
     actionName: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({}).isRequired,
@@ -42,18 +42,9 @@ export default class MaxVoteChanges extends PureComponent {
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { value, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('value', value => (
+      <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+    ));
   }
 }

@@ -1,11 +1,17 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
+import { defaults, integerToVesting, vestingToInteger } from 'utils/common';
 
-import { Fields, InputLine, InputSmall, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class MinAbsRShares extends PureComponent {
-  state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
+export default class MinAbsRShares extends BaseStructure {
+  constructor(props) {
+    super(props);
+
+    const state = defaults(this.props.initialValues, this.props.defaults);
+    state.value = integerToVesting(state.value);
+    this.state = state;
+  }
 
   onChange = e => {
     this.setState(
@@ -19,9 +25,9 @@ export default class MinAbsRShares extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const value = parseInt(this.state.value, 10);
+    const value = vestingToInteger(this.state.value);
 
-    if (!isPositiveInteger(value)) {
+    if (Number.isNaN(value)) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -33,18 +39,9 @@ export default class MinAbsRShares extends PureComponent {
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { value, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall type="number" value={value} min="0" onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('value', value => (
+      <InputSmall type="number" value={value} min="0" onChange={this.onChange} />
+    ));
   }
 }

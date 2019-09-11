@@ -5,7 +5,6 @@ import tt from 'counterpart';
 
 import { displaySuccess, displayError } from 'utils/toastMessages';
 import Button from 'components/golos-ui/Button';
-import { Input } from 'components/golos-ui/Form';
 import Icon from 'components/golos-ui/Icon';
 import SplashLoader from 'components/golos-ui/SplashLoader/SplashLoader';
 import DialogManager from 'components/elements/common/DialogManager';
@@ -155,7 +154,11 @@ export default class ContractSettings extends PureComponent {
     });
   };
 
-  renderStructure = (contractName, actionName, { name, title, fields = {}, defaults = {} }) => {
+  renderStructure = (
+    contractName,
+    actionName,
+    { name, title, fields = {}, limits = {}, fieldsTypes = {}, defaults = {} }
+  ) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
 
@@ -173,6 +176,8 @@ export default class ContractSettings extends PureComponent {
           <StructureComponent
             actionName={actionName}
             fields={fields}
+            limits={limits}
+            fieldsTypes={fieldsTypes}
             defaults={defaults}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
@@ -182,7 +187,10 @@ export default class ContractSettings extends PureComponent {
     );
   };
 
-  renderAction = (contractName, { name, description, fields, defaults = {}, structures }) => {
+  renderAction = (
+    contractName,
+    { name, description, fields, defaults = {}, limits = {}, fieldsTypes = {}, structures }
+  ) => {
     const { currentSettings } = this.props;
     let content;
 
@@ -197,6 +205,8 @@ export default class ContractSettings extends PureComponent {
             <StructureComponent
               actionName={name}
               fields={fields}
+              limits={limits}
+              fieldsTypes={fieldsTypes}
               defaults={defaults}
               initialValues={values}
               onChange={data => this.onChange(name, data)}

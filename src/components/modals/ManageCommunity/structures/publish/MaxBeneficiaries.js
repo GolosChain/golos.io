@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults } from 'utils/common';
 
-import { Fields, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class MaxBeneficiaries extends PureComponent {
+export default class MaxBeneficiaries extends BaseStructure {
   state = defaults(this.props.initialValues, this.props.defaults);
 
   onChange = e => {
@@ -34,18 +34,9 @@ export default class MaxBeneficiaries extends PureComponent {
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { value, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('value', value => (
+      <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+    ));
   }
 }

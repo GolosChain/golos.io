@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults, fieldsToString } from 'utils/common';
 
-import { ErrorLine, Fields, InputLine, InputSmall, DefaultText } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class MaxWitnessesVotes extends PureComponent {
+export default class MaxWitnessesVotes extends BaseStructure {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
@@ -32,18 +32,7 @@ export default class MaxWitnessesVotes extends PureComponent {
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { max, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall value={max} onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.max})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('max', value => <InputSmall value={value} onChange={this.onChange} />);
   }
 }

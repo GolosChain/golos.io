@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
 
-import { Fields, FieldSubTitle, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class CashoutWindow extends PureComponent {
+export default class CashoutWindow extends BaseStructure {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onWindowChange = e => {
@@ -50,29 +50,14 @@ export default class CashoutWindow extends PureComponent {
     });
   };
 
-  render() {
-    const { fields, defaults } = this.props;
-    const { window, upvote_lockout, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <FieldSubTitle>{fields.window}</FieldSubTitle>
-        <InputLine>
-          <InputSmall type="number" value={window} min="0" onChange={this.onWindowChange} />
-          <DefaultText>(по умолчанию: {defaults.window})</DefaultText>
-        </InputLine>
-        <FieldSubTitle>{fields.upvote_lockout}</FieldSubTitle>
-        <InputLine>
-          <InputSmall
-            type="number"
-            value={upvote_lockout}
-            min="0"
-            onChange={this.onUpvoteLockoutChange}
-          />
-          <DefaultText>(по умолчанию: {defaults.upvote_lockout})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return [
+      this.renderField('window', value => (
+        <InputSmall type="number" value={value} min="0" onChange={this.onWindowChange} />
+      )),
+      this.renderField('upvote_lockout', value => (
+        <InputSmall type="number" value={value} min="0" onChange={this.onUpvoteLockoutChange} />
+      )),
+    ];
   }
 }

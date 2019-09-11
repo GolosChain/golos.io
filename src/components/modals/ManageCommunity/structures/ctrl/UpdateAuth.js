@@ -8,7 +8,7 @@ const DEFAULT = {
   period: 60,
 };
 
-export default class MaxWitnesses extends PureComponent {
+export default class UpdateAuth extends PureComponent {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
