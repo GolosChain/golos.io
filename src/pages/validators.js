@@ -200,7 +200,7 @@ export default class ValidatorsPage extends PureComponent {
     }
   }
 
-  onDelegateVoteClick = (type, recipientName, recipientUsername, stakedAmount) => () => {
+  onDelegateVoteClick = (type, recipientName, recipientUsername, stakedAmount) => {
     const { showDelegateVoteDialog } = this.props;
 
     showDelegateVoteDialog({
@@ -231,7 +231,7 @@ export default class ValidatorsPage extends PureComponent {
               </div>
             }
             actions={() => (
-              <Button onClick={this.onDelegateVoteClick('delegatevote')}>
+              <Button onClick={() => this.onDelegateVoteClick('delegatevote')}>
                 {tt('validators_jsx.vote')}
               </Button>
             )}
@@ -258,12 +258,14 @@ export default class ValidatorsPage extends PureComponent {
                       <VoteButton
                         aria-label={tt('validators_jsx.remove_vote')}
                         data-tooltip={tt('validators_jsx.remove_vote')}
-                        onClick={this.onDelegateVoteClick(
-                          'recallvote',
-                          producer.id,
-                          username,
-                          producer.voteQuantity
-                        )}
+                        onClick={() =>
+                          this.onDelegateVoteClick(
+                            'recallvote',
+                            producer.id,
+                            username,
+                            producer.voteQuantity
+                          )
+                        }
                         unvote
                       >
                         <Icon name="chevron" size="10" />
@@ -273,7 +275,9 @@ export default class ValidatorsPage extends PureComponent {
                     <VoteButton
                       aria-label={tt('validators_jsx.vote')}
                       data-tooltip={tt('validators_jsx.vote')}
-                      onClick={this.onDelegateVoteClick('delegatevote', producer.id, username)}
+                      onClick={() =>
+                        this.onDelegateVoteClick('delegatevote', producer.id, username)
+                      }
                     >
                       <Icon name="chevron" size="10" />
                     </VoteButton>
