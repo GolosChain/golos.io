@@ -25,24 +25,25 @@ const UserLink = styled.a`
 export default class UnfollowDialog extends Component {
   static propTypes = {
     targetUserId: PropTypes.string.isRequired,
+    targetUsername: PropTypes.string,
   };
 
   render() {
-    const { targetUserId } = this.props;
+    const { targetUserId, targetUsername } = this.props;
 
     return (
       <DialogFrame
         className="CommonDialog"
         title={tt('g.unfollow')}
         buttons={this.getButtons()}
-        username={targetUserId}
+        userId={targetUserId}
         onCloseClick={this.onCloseClick}
       >
         <div className="CommonDialog__body">
           <BodyWrapper>
             {tt('g.confirm_unfollow_user')}
             <SmartLink route="profile" params={{ userId: targetUserId }}>
-              <UserLink> @{targetUserId} </UserLink>
+              <UserLink> {targetUsername ? `@${targetUsername}` : targetUserId} </UserLink>
             </SmartLink>
             ?
           </BodyWrapper>
