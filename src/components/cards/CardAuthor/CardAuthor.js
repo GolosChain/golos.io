@@ -197,7 +197,6 @@ export default class CardAuthor extends Component {
         route: 'profile',
         params: {
           userId: author.userId,
-          username: author.username,
         },
       };
     }
@@ -207,10 +206,7 @@ export default class CardAuthor extends Component {
     if (!commentInPost && !noLinks) {
       postLinkProps = {
         route: 'post',
-        params: {
-          ...contentId,
-          username: author.username,
-        },
+        params: contentId,
       };
     }
 

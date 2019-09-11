@@ -466,14 +466,11 @@ export default class PostCard extends PureComponent {
   }
 
   renderEditButton() {
-    const { isOwner, post, author } = this.props;
+    const { isOwner, post } = this.props;
 
     if (isOwner) {
       return (
-        <SmartLink
-          route="post"
-          params={{ ...post.contentId, username: author.username, mode: 'edit' }}
-        >
+        <SmartLink route="post" params={{ ...post.contentId, mode: 'edit' }}>
           <ToolbarEditAction name="post-card__edit">
             <IconWrapper
               enabled

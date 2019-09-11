@@ -240,7 +240,7 @@ export default class CommentCard extends PureComponent {
     childrenCount: PropTypes.number.isRequired,
     showSpam: PropTypes.bool,
     isOwner: PropTypes.bool.isRequired,
-    username: PropTypes.string,
+    currentUserId: PropTypes.string,
     payout: PropTypes.number,
     author: PropTypes.shape({}),
 
@@ -256,7 +256,6 @@ export default class CommentCard extends PureComponent {
     isPostPage: false,
     stats: null,
     extractedContent: null,
-    username: '',
     payout: 0,
     id: '',
     showSpam: false,
@@ -556,7 +555,7 @@ export default class CommentCard extends PureComponent {
   }
 
   renderReplyEditor() {
-    const { comment, username } = this.props;
+    const { comment, currentUserId } = this.props;
 
     return (
       <Reply>
@@ -568,7 +567,7 @@ export default class CommentCard extends PureComponent {
           params={comment}
           parentPost={comment.parent.post.contentId}
           forwardRef={this.replyRef}
-          replyAuthor={username}
+          replyAuthorId={currentUserId}
           onSuccess={this.onReplySuccess}
           onCancel={this.onReplyCancel}
         />
@@ -579,7 +578,6 @@ export default class CommentCard extends PureComponent {
   render() {
     const {
       comment,
-      username,
       isOwner,
       isPostPage,
       className,
@@ -622,7 +620,6 @@ export default class CommentCard extends PureComponent {
                 isOwner={isOwner}
                 showReply={showReply}
                 edit={edit}
-                currentUsername={username}
                 replyRef={this.replyRef}
                 commentRef={this.commentRef}
                 onReplyClick={this.onReplyClick}

@@ -1,1 +1,1 @@
-export { default } from './CommentAuthor';
+export { default } from './CommentAuthor.connect';

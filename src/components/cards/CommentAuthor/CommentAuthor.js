@@ -29,21 +29,22 @@ const AuthorName = styled.a`
   text-decoration: none;
 `;
 
-export default function CommentAuthor({ author }) {
+export default function CommentAuthor({ authorId, authorUsername }) {
   return (
     <Wrapper>
-      <SmartLink route="profile" params={{ username: author }}>
+      <SmartLink route="profile" params={{ userId: authorId }}>
         <Avatar aria-label={tt('aria_label.avatar')}>
-          <Userpic userId={author} size={37} />
+          <Userpic userId={authorId} size={37} />
         </Avatar>
       </SmartLink>
-      <SmartLink route="profile" params={{ username: author }}>
-        <AuthorName>{author}</AuthorName>
+      <SmartLink route="profile" params={{ userId: authorId }}>
+        <AuthorName>{authorUsername || authorId}</AuthorName>
       </SmartLink>
     </Wrapper>
   );
 }
 
 CommentAuthor.propTypes = {
-  author: PropTypes.string.isRequired,
+  authorId: PropTypes.string.isRequired,
+  authorUsername: PropTypes.string,
 };
