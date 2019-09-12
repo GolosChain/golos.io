@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import { formatContentId } from 'store/schemas/gate';
 import { statusSelector, dataSelector } from 'store/selectors/common';
 import { isUnsafeAuthorized } from 'store/selectors/auth';
 import { getCommentsHierarchy } from 'store/selectors/comments';
@@ -21,12 +22,14 @@ export default connect(
   // ),
   createSelector(
     [
-      state => getCommentsHierarchy(UICommentSortSelector(state))(state),
-      statusSelector('postComments'),
+      (state, props) =>
+        getCommentsHierarchy(UICommentSortSelector(state), props.post.contentId)(state),
+      (state, props) =>
+        statusSelector(['postComments', formatContentId(props.post.contentId)])(state),
       isUnsafeAuthorized,
       dataSelector(['auth', 'isAutoLogging']),
     ],
-    (list, status, isAuthorized, isAutoLogging) => {
+    (list, status = {}, isAuthorized, isAutoLogging) => {
       return {
         list,
         isLoading: status.isLoading,
