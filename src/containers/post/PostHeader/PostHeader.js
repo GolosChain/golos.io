@@ -322,7 +322,7 @@ export default class PostHeader extends Component {
         )}
         <PostActionsWrapper>
           <PostActionsStyled
-            fullUrl={post.id}
+            contentId={post.contentId}
             isFavorite={isFavorite}
             isPinned={isPinned}
             isEdit={isEdit}
