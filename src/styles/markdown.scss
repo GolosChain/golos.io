@@ -163,8 +163,13 @@
     direction: rtl;
   }
 
-  blockquote > p {
-    color: rgba(0, 0, 0, 0.6);
+  blockquote {
+    padding-left: 18px;
+    border-left: 1px solid #cacaca;
+
+    & > p {
+      color: rgba(0, 0, 0, 0.6);
+    }
   }
 }
 
