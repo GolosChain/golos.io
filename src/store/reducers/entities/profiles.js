@@ -19,7 +19,7 @@ export default function(state = initialState, { type, payload, meta }) {
         const transferFromSteemToGolosDate = '2016-09-29T12:00:00Z';
         const updatedProfile = { ...profile };
 
-        updatedProfile.username = (profile.username || profile.userId).replace(/@golos$/, '');
+        updatedProfile.username = profile.username ? profile.username.replace(/@golos$/, '') : null;
 
         if (
           !profile.created ||

@@ -5,6 +5,7 @@ import tt from 'counterpart';
 import styled from 'styled-components';
 import is from 'styled-is';
 import ToastsManager from 'toasts-manager';
+import BigNum from 'bignumber.js';
 
 import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
@@ -146,7 +147,7 @@ export default class VotePanelAbstract extends PureComponent {
     // vertical: PropTypes.bool,
     isRich: PropTypes.bool,
     settingsVotePower: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    totalSum: PropTypes.number,
+    totalSum: PropTypes.instanceOf(BigNum),
     currency: PropTypes.string.isRequired,
     payoutRounding: PropTypes.number,
 
@@ -164,7 +165,7 @@ export default class VotePanelAbstract extends PureComponent {
     // vertical: false,
     isRich: false,
     settingsVotePower: 100,
-    totalSum: 0,
+    totalSum: new BigNum(0),
     payoutRounding: 3,
   };
 

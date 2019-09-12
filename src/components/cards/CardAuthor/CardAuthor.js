@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { Link } from 'shared/routes';
 import { profileType } from 'types/common';
 import Icon from 'components/golos-ui/Icon';
 import Userpic from 'components/common/Userpic';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
+import SmartLink from 'components/common/SmartLink';
 
 import {
   AvatarBox,
@@ -27,9 +27,9 @@ const Wrapper = styled.div`
 `;
 
 const ALink = styled(({ route, params, children, ...props }) => (
-  <Link route={route} params={params} passHref>
+  <SmartLink route={route} params={params}>
     <a {...props}>{children}</a>
-  </Link>
+  </SmartLink>
 ))`
   cursor: pointer;
 `;
@@ -105,8 +105,8 @@ const RepostIcon = styled(Icon)`
 export default class CardAuthor extends Component {
   static propTypes = {
     author: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
+      userId: PropTypes.string.isRequired,
+      username: PropTypes.string,
     }).isRequired,
     profile: profileType,
     contentLink: PropTypes.string,
@@ -171,7 +171,7 @@ export default class CardAuthor extends Component {
         <PopoverBackgroundShade show={showPopover} />
         <AvatarBox popoverOffsetTop={popoverOffsetTop} userPicSize={USER_PIC_SIZE}>
           <PopoverStyled closePopover={this.closePopover} show>
-            <PopoverBody userId={author.id} closePopover={this.closePopover} />
+            <PopoverBody userId={author.userId} closePopover={this.closePopover} />
           </PopoverStyled>
         </AvatarBox>
       </>
@@ -192,11 +192,11 @@ export default class CardAuthor extends Component {
 
     let profileLinkProps = null;
 
-    if (!noLinks) {
+    if (!noLinks && author) {
       profileLinkProps = {
         route: 'profile',
         params: {
-          userId: author?.username || author?.id,
+          userId: author.userId,
         },
       };
     }
@@ -215,7 +215,7 @@ export default class CardAuthor extends Component {
         <Wrapper className={className}>
           {profile ? (
             <Avatar aria-label={tt('aria_label.avatar')} onClick={this.openPopover}>
-              <Userpic userId={author?.id} size={USER_PIC_SIZE} />
+              <Userpic userId={author?.userId} size={USER_PIC_SIZE} />
               {this.renderPopover()}
               {isRepost ? (
                 <RepostIconWrapper>
@@ -225,7 +225,7 @@ export default class CardAuthor extends Component {
             </Avatar>
           ) : (
             <Avatar {...profileLinkProps} aria-label={tt('aria_label.avatar')}>
-              <Userpic userId={author?.id} size={USER_PIC_SIZE} />
+              <Userpic userId={author?.userId} size={USER_PIC_SIZE} />
               {isRepost ? (
                 <RepostIconWrapper>
                   <RepostIcon name="repost" width={14} height={12} />
@@ -235,7 +235,9 @@ export default class CardAuthor extends Component {
           )}
           <PostDesc>
             <AuthorLine>
-              <AuthorName {...profileLinkProps}>{author?.username}</AuthorName>
+              {author ? (
+                <AuthorName {...profileLinkProps}>{author.username || author.userId}</AuthorName>
+              ) : null}
             </AuthorLine>
             <PostDate {...postLinkProps}>
               <TimeAgoWrapper date={created} />

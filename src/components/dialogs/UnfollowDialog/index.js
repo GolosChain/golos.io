@@ -1,1 +1,1 @@
-export { default } from './UnfollowDialog';
+export { default } from './UnfollowDialog.connect';

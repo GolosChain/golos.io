@@ -61,7 +61,7 @@ export const profileSelector = (userId, mock = true) => state => {
     profile = {
       name: userId,
       userId,
-      username: userId,
+      username: null,
       created: null,
       reputation: null,
       leaderIn: [],

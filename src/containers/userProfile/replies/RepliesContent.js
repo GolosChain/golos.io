@@ -113,7 +113,9 @@ export default class RepliesContent extends Component {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.replies', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.replies', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.replies')}</Header>
         <CardsListWrapper>{this.renderCardsList()}</CardsListWrapper>

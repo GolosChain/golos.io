@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { Link } from 'shared/routes';
-
 import DialogFrame from 'components/dialogs/DialogFrame';
+import SmartLink from 'components/common/SmartLink';
 
 const CONFIRMED_ID = 'CONFIRMED';
 
@@ -26,25 +25,26 @@ const UserLink = styled.a`
 export default class UnfollowDialog extends Component {
   static propTypes = {
     targetUserId: PropTypes.string.isRequired,
+    targetUsername: PropTypes.string,
   };
 
   render() {
-    const { targetUserId } = this.props;
+    const { targetUserId, targetUsername } = this.props;
 
     return (
       <DialogFrame
         className="CommonDialog"
         title={tt('g.unfollow')}
         buttons={this.getButtons()}
-        username={targetUserId}
+        userId={targetUserId}
         onCloseClick={this.onCloseClick}
       >
         <div className="CommonDialog__body">
           <BodyWrapper>
             {tt('g.confirm_unfollow_user')}
-            <Link route="profile" params={{ userId: targetUserId }} passHref>
-              <UserLink> @{targetUserId} </UserLink>
-            </Link>
+            <SmartLink route="profile" params={{ userId: targetUserId }}>
+              <UserLink> {targetUsername ? `@${targetUsername}` : targetUserId} </UserLink>
+            </SmartLink>
             ?
           </BodyWrapper>
         </div>

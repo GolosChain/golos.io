@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
@@ -175,7 +175,7 @@ const icons = {
   witnessCancelVote: null,
 };
 
-export default class ActivityItem extends Component {
+export default class ActivityItem extends PureComponent {
   static propTypes = {
     notification: PropTypes.shape({}).isRequired,
     isCompact: PropTypes.bool,
@@ -186,8 +186,6 @@ export default class ActivityItem extends Component {
   static defaultProps = {
     isCompact: false,
   };
-
-  state = {};
 
   render() {
     const { notification, isCompact } = this.props;
@@ -209,18 +207,17 @@ export default class ActivityItem extends Component {
 
     if (notification.actor) {
       const { userId, username, avatarUrl } = notification.actor;
-      const userName = username || userId;
 
       leftSide = (
-        <AvatarLink route="profile" params={{ userId: userName }}>
+        <AvatarLink route="profile" params={{ userId, username }}>
           <Avatar avatarUrl={avatarUrl} size={40} icon={icons[type]} />
         </AvatarLink>
       );
 
       if (!isRewards) {
         nameLink = (
-          <AuthorName route="profile" params={{ userId: userName }}>
-            {userName}
+          <AuthorName route="profile" params={{ userId, username }}>
+            {username || userId}
           </AuthorName>
         );
       }

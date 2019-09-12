@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'shared/routes';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
+import SmartLink from 'components/common/SmartLink';
 import Icon from 'components/golos-ui/Icon';
 import { logOutboundLinkClickAnalytics } from 'helpers/gaLogs';
 
@@ -61,65 +61,83 @@ export default class Menu extends PureComponent {
     onLogoutClick: PropTypes.func.isRequired,
   };
 
-  loggedInItems = [
-    {
-      link: `/@${this.props.userId}/wallet`,
-      icon: 'wallet2',
-      text: tt('g.wallet'),
-      width: 18,
-      height: 18,
-    },
-    // {
-    //   link: '/market',
-    //   icon: 'transfer',
-    //   text: tt('g.market'),
-    //   width: 20,
-    //   height: 16,
-    // },
-    // {
-    //   link: '//explorer.golos.io',
-    //   icon: 'golos_explorer',
-    //   text: 'Golos Explorer',
-    //   width: 32,
-    //   height: 19,
-    // },
-    {
-      link: '/leaders',
-      icon: 'delegates',
-      text: tt('navigation.leaders'),
-      width: 22,
-      height: 16,
-    },
-    {
-      link: '/validators',
-      icon: 'delegates',
-      text: tt('navigation.validators'),
-      width: 22,
-      height: 16,
-    },
-    {
-      link: tt('link_to.telegram'),
-      icon: 'technical-support',
-      text: tt('navigation.technical_support'),
-      width: 25,
-      height: 26,
-    },
-    {
-      link: `/@${this.props.userId}/settings`,
-      icon: 'settings-cogwheel',
-      text: tt('g.settings'),
-      width: 22,
-      height: 22,
-    },
-    {
-      icon: 'logout',
-      text: tt('g.logout'),
-      onClick: this.props.onLogoutClick,
-      width: 18,
-      height: 19,
-      isButton: true,
-    },
-  ];
+  constructor(props) {
+    super(props);
+
+    this.loggedInItems = this.getLoggedInItems();
+  }
+
+  getLoggedInItems() {
+    const { userId, onLogoutClick } = this.props;
+
+    return [
+      {
+        route: 'profileSection',
+        params: {
+          userId,
+          section: 'wallet',
+        },
+        icon: 'wallet2',
+        text: tt('g.wallet'),
+        width: 18,
+        height: 18,
+      },
+      // {
+      //   link: '/market',
+      //   icon: 'transfer',
+      //   text: tt('g.market'),
+      //   width: 20,
+      //   height: 16,
+      // },
+      // {
+      //   link: '//explorer.golos.io',
+      //   icon: 'golos_explorer',
+      //   text: 'Golos Explorer',
+      //   width: 32,
+      //   height: 19,
+      // },
+      {
+        link: '/leaders',
+        icon: 'delegates',
+        text: tt('navigation.leaders'),
+        width: 22,
+        height: 16,
+      },
+      {
+        link: '/validators',
+        icon: 'delegates',
+        text: tt('navigation.validators'),
+        width: 22,
+        height: 16,
+      },
+      {
+        link: tt('link_to.telegram'),
+        icon: 'technical-support',
+        text: tt('navigation.technical_support'),
+        width: 25,
+        height: 26,
+      },
+      {
+        route: 'profileSection',
+        params: {
+          userId,
+          section: 'settings',
+        },
+        icon: 'settings-cogwheel',
+        text: tt('g.settings'),
+        width: 22,
+        height: 22,
+      },
+      {
+        icon: 'logout',
+        text: tt('g.logout'),
+        onClick: onLogoutClick,
+        width: 18,
+        height: 19,
+        isButton: true,
+      },
+    ];
+  }
 
   loggedOutItems = [
     // {
@@ -198,7 +216,18 @@ export default class Menu extends PureComponent {
       <Ul>
         {menuItems.map(
           (
-            { link = '', icon, text, hideOnDesktop = false, onClick, width, height, isButton },
+            {
+              link = '',
+              route,
+              params,
+              icon,
+              text,
+              hideOnDesktop = false,
+              onClick,
+              width,
+              height,
+              isButton,
+            },
             i
           ) => (
             <Fragment key={i}>
@@ -212,14 +241,14 @@ export default class Menu extends PureComponent {
                       {text}
                     </MenuButton>
                   ) : (
-                    <Link route={link} passHref>
+                    <SmartLink route={route || link} params={params}>
                       <MenuLink target={link.startsWith('//') ? '_blank' : null}>
                         <IconWrapper>
                           <IconStyled name={icon} width={width} height={height} />
                         </IconWrapper>
                         {text}
                       </MenuLink>
-                    </Link>
+                    </SmartLink>
                   )}
                 </Li>
               )}

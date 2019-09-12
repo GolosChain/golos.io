@@ -1,11 +1,11 @@
 import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
 // import { detransliterate } from 'utils/ParsersAndFormatters';
+import { Link } from 'shared/routes';
 import { isHide } from 'utils/StateFunctions';
 import { getScrollElement } from 'helpers/window';
 import CommentFormLoader from 'components/modules/CommentForm/loader';
@@ -240,7 +240,7 @@ export default class CommentCard extends PureComponent {
     childrenCount: PropTypes.number.isRequired,
     showSpam: PropTypes.bool,
     isOwner: PropTypes.bool.isRequired,
-    username: PropTypes.string,
+    currentUserId: PropTypes.string,
     payout: PropTypes.number,
     author: PropTypes.shape({}),
 
@@ -253,11 +253,9 @@ export default class CommentCard extends PureComponent {
 
   static defaultProps = {
     location: {},
-    // permLink: '',
     isPostPage: false,
     stats: null,
     extractedContent: null,
-    username: '',
     payout: 0,
     id: '',
     showSpam: false,
@@ -271,17 +269,13 @@ export default class CommentCard extends PureComponent {
     collapsed: false,
     highlighted: false,
     showAlert: this.isNeedShowAlert(this.props),
-    /* eslint-disable react/destructuring-assignment, react/prop-types */
     profileCommentParentPost: this.props.comment?.parent?.post?.contentId
       ? formatContentId(this.props.comment.parent.post.contentId)
       : null,
-    /* eslint-enable */
   };
 
   commentRef = createRef();
-
   replyRef = createRef();
-
   commentTitleRef = createRef();
 
   componentDidMount() {
@@ -335,15 +329,17 @@ export default class CommentCard extends PureComponent {
 
   getFullParentUrl = () => {
     const { comment } = this.props;
-    const { profileCommentParentPost } = this.state;
-    let parentLink = profileCommentParentPost ? `/@${profileCommentParentPost}` : '#';
 
-    if (profileCommentParentPost && comment.parentComment) {
-      parentLink = `/@${profileCommentParentPost}/#${formatContentId(
-        comment.parentComment.contentId
-      )}`;
+    const postContentId = comment.parent?.post?.contentId;
+
+    if (!postContentId) {
+      return null;
     }
-    return parentLink;
+
+    return {
+      params: postContentId,
+      comment: comment.parentComment?.contentId,
+    };
   };
 
   onReplySuccess = () => {
@@ -465,11 +461,11 @@ export default class CommentCard extends PureComponent {
         <HeaderLine>
           {collapsed ? (
             <ReLink
-              fullParentURL={this.getFullParentUrl()}
               title={
                 comment?.parent?.post?.content?.title ||
                 comment?.parentComment?.content?.body?.preview
               }
+              {...this.getFullParentUrl()}
               onClick={this.rememberScrollPosition}
             />
           ) : (
@@ -507,10 +503,10 @@ export default class CommentCard extends PureComponent {
     return (
       <Title ref={this.commentTitleRef}>
         <ReLink
-          fullParentURL={this.getFullParentUrl()}
           title={
             comment?.parent?.post?.content?.title || comment?.parentComment?.content?.body?.preview
           }
+          {...this.getFullParentUrl()}
           onClick={this.rememberScrollPosition}
         />
         {isOwner && !edit && <EditButton onClick={this.onEditClick} />}
@@ -559,7 +555,7 @@ export default class CommentCard extends PureComponent {
   }
 
   renderReplyEditor() {
-    const { comment, username } = this.props;
+    const { comment, currentUserId } = this.props;
 
     return (
       <Reply>
@@ -571,7 +567,7 @@ export default class CommentCard extends PureComponent {
           params={comment}
           parentPost={comment.parent.post.contentId}
           forwardRef={this.replyRef}
-          replyAuthor={username}
+          replyAuthorId={currentUserId}
           onSuccess={this.onReplySuccess}
           onCancel={this.onReplyCancel}
         />
@@ -582,7 +578,6 @@ export default class CommentCard extends PureComponent {
   render() {
     const {
       comment,
-      username,
       isOwner,
       isPostPage,
       className,
@@ -625,7 +620,6 @@ export default class CommentCard extends PureComponent {
                 isOwner={isOwner}
                 showReply={showReply}
                 edit={edit}
-                currentUsername={username}
                 replyRef={this.replyRef}
                 commentRef={this.commentRef}
                 onReplyClick={this.onReplyClick}

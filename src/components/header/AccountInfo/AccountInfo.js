@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { Link } from 'shared/routes';
-import { displayError } from 'utils/toastMessages';
+import SmartLink from 'components/common/SmartLink';
 import Userpic from 'components/common/Userpic';
+import LoadingIndicator from 'components/elements/LoadingIndicator';
+
 import ChargersInfo from './ChargersInfo';
 
 const AccountInfoBlock = styled.a`
@@ -49,6 +50,12 @@ const AccountPowerBlock = styled.div`
   line-height: 18px;
 `;
 
+const Loader = styled(LoadingIndicator).attrs({ type: 'circle', center: true, size: 16 })`
+  margin: -3px -3px -3px -2px;
+  overflow: hidden;
+  pointer-events: none;
+`;
+
 const AccountPowerValue = styled.span`
   color: #2879ff;
   font-size: 13px;
@@ -80,13 +87,13 @@ const ChargersInfoStyled = styled(ChargersInfo)`
 export default class AccountInfo extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     chargers: PropTypes.shape({
       votes: PropTypes.number,
       posts: PropTypes.number,
       comments: PropTypes.number,
       postbw: PropTypes.number,
-    }).isRequired,
+    }),
   };
 
   state = {
@@ -97,36 +104,49 @@ export default class AccountInfo extends PureComponent {
     this.setState(state => ({ isShowChargersPopup: !state.isShowChargersPopup }));
   };
 
-  render() {
-    const { chargers, username, userId } = this.props;
-    const { isShowChargersPopup } = this.state;
+  renderAccountPower() {
+    const { chargers } = this.props;
 
-    const votingPower = chargers?.votes ? parseFloat(chargers.votes).toFixed(2) : 0;
+    if (!chargers) {
+      return (
+        <AccountPowerBlock>
+          <Loader />
+        </AccountPowerBlock>
+      );
+    }
+
+    const votingPower = chargers.votes ? parseFloat(chargers.votes).toFixed(2) : 0;
 
     return (
-      <Link route="profile" params={{ userId: username }} passHref>
+      <AccountPowerBlock onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
+        <AccountPowerBar>
+          <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
+          <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
+          <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
+          <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
+          <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
+        </AccountPowerBar>
+        <AccountPowerValue>{votingPower}%</AccountPowerValue>
+      </AccountPowerBlock>
+    );
+  }
+
+  render() {
+    const { userId, username } = this.props;
+    // const { isShowChargersPopup } = this.state;
+
+    return (
+      <SmartLink route="profile" params={{ userId, username }}>
         <AccountInfoBlock>
           <Userpic userId={userId} size={36} ariaLabel={tt('aria_label.avatar')} />
           <AccountText>
-            <AccountName>{username}</AccountName>
-            <AccountPowerBlock
-              onMouseEnter={this.handleMouseHover}
-              onMouseLeave={this.handleMouseHover}
-            >
-              <AccountPowerBar>
-                <AccountPowerChunk fill={votingPower > 10 ? 1 : 0} />
-                <AccountPowerChunk fill={votingPower > 30 ? 1 : 0} />
-                <AccountPowerChunk fill={votingPower > 50 ? 1 : 0} />
-                <AccountPowerChunk fill={votingPower > 70 ? 1 : 0} />
-                <AccountPowerChunk fill={votingPower > 90 ? 1 : 0} />
-              </AccountPowerBar>
-              <AccountPowerValue>{votingPower}%</AccountPowerValue>
-            </AccountPowerBlock>
+            <AccountName>{username || userId}</AccountName>
+            {this.renderAccountPower()}
             {/* TODO: Временно отключена панелька с детализацией батарейки */}
             {/*{isShowChargersPopup && <ChargersInfoStyled chargers={chargers} />}*/}
           </AccountText>
         </AccountInfoBlock>
-      </Link>
+      </SmartLink>
     );
   }
 }

@@ -25,7 +25,7 @@ export default connect(
       if (votes?.length) {
         users = votes.map(vote => ({
           percent: Math.abs((vote.weight / MAX_VOTE_PERCENT) * 100),
-          name: vote.username,
+          username: vote.username,
           avatar: vote.avatarUrl,
           userId: vote.userId,
           isSubscribed: vote?.isSubscribed || false,

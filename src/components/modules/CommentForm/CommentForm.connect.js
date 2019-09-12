@@ -2,13 +2,24 @@
 
 import { connect } from 'react-redux';
 
+import { entitySelector } from 'store/selectors/common';
 import { createComment, updateComment } from 'store/actions/complex/content';
 import { fetchPost, fetchPostComments, waitForTransaction } from 'store/actions/gate';
 
 import CommentForm from './CommentForm';
 
 export default connect(
-  null,
+  (state, { reply, params }) => {
+    let parentAuthorUsername;
+
+    if (reply && params.contentId) {
+      parentAuthorUsername = entitySelector('users', params.contentId.userId)(state)?.username;
+    }
+
+    return {
+      parentAuthorUsername,
+    };
+  },
   {
     createComment,
     updateComment,

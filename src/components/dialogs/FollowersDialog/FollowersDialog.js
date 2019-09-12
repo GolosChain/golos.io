@@ -89,7 +89,7 @@ export default class FollowersDialog extends PureComponent {
 
     return (
       <UserItem key={userId}>
-        <UserLink userId={user} title={user} onClick={close}>
+        <UserLink userId={userId} username={username} title={user} onClick={close}>
           <Avatar avatarUrl={avatarUrl} />
           <Name>{user}</Name>
         </UserLink>

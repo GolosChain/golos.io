@@ -7,7 +7,7 @@ import is from 'styled-is';
 import tt from 'counterpart';
 
 import { NSFW_IMAGE_URL } from 'constants/config';
-import { Link } from 'shared/routes';
+import SmartLink from 'components/common/SmartLink';
 // import { detransliterate } from 'utils/ParsersAndFormatters';
 import extractContent from 'utils/bodyProcessing/extractContent';
 import { proxyImage } from 'utils/images';
@@ -15,7 +15,7 @@ import { displayError } from 'utils/toastMessages';
 import Icon from 'components/golos-ui/Icon';
 import { TagLink } from 'components/golos-ui/Tag';
 import VotePanel from 'components/common/VotePanel';
-import { ReplyBlock } from 'components/common/ReplyBlock';
+import ReplyBlock from 'components/common/ReplyBlock';
 import ViewCount from 'components/common/ViewCount';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import SmartLazyLoad from 'components/common/SmartLazyLoad';
@@ -283,7 +283,7 @@ export default class PostCard extends PureComponent {
     // postLink: PropTypes.string.isRequired,
     // pinDisabled: PropTypes.bool,
     author: PropTypes.shape({}).isRequired,
-    repostAuthor: PropTypes.shape({}).isRequired,
+    repostAuthor: PropTypes.shape({}),
     currentUserId: PropTypes.string,
     isPinned: PropTypes.bool,
     id: PropTypes.string.isRequired,
@@ -305,7 +305,6 @@ export default class PostCard extends PureComponent {
     removeFavorite: PropTypes.func.isRequired,
     fetchFavorites: PropTypes.func.isRequired,
     fetchPost: PropTypes.func.isRequired,
-    reblog: PropTypes.func.isRequired,
     removeReblog: PropTypes.func.isRequired,
     openRepostDialog: PropTypes.func.isRequired,
   };
@@ -471,7 +470,7 @@ export default class PostCard extends PureComponent {
 
     if (isOwner) {
       return (
-        <Link route="post" params={{ ...post.contentId, mode: 'edit' }} passHref>
+        <SmartLink route="post" params={{ ...post.contentId, mode: 'edit' }}>
           <ToolbarEditAction name="post-card__edit">
             <IconWrapper
               enabled
@@ -482,7 +481,7 @@ export default class PostCard extends PureComponent {
               <Icon name="pen" width={23} height={23} />
             </IconWrapper>
           </ToolbarEditAction>
-        </Link>
+        </SmartLink>
       );
     }
     return null;
@@ -631,7 +630,7 @@ export default class PostCard extends PureComponent {
   }
 
   renderBody() {
-    const { compact, stats, author, post, warnNsfw, onClick } = this.props;
+    const { compact, stats, post, warnNsfw, onClick } = this.props;
 
     if (!post.content.body?.raw) {
       console.error('Repost without body:', post);
@@ -646,14 +645,7 @@ export default class PostCard extends PureComponent {
     }
 
     return (
-      <Link
-        route="post"
-        params={{
-          userId: author.username,
-          permlink: post.contentId.permlink,
-        }}
-        passHref
-      >
+      <SmartLink route="post" params={post.contentId}>
         <BodyLink compact={compact ? 1 : 0} onClick={onClick}>
           {imageLink ? (
             <PostImageWrapper>
@@ -665,7 +657,7 @@ export default class PostCard extends PureComponent {
             <PostContent dangerouslySetInnerHTML={{ __html: content.desc }} />
           </Body>
         </BodyLink>
-      </Link>
+      </SmartLink>
     );
   }
 
@@ -687,7 +679,7 @@ export default class PostCard extends PureComponent {
           isLink
           compact={compact}
           count={post.stats.commentsCount}
-          link={post.id}
+          postContentId={post.contentId}
           text={tt('g.reply')}
         />
       </Footer>

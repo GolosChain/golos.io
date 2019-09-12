@@ -83,7 +83,7 @@ export default class BecomeLeader extends PureComponent {
     } catch {}
 
     try {
-      await fetchProfile(userId);
+      await fetchProfile({ userId });
     } catch (err) {
       console.warn('Profile fetching failed:', err);
     }

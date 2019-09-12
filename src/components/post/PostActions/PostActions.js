@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-import { Link } from 'shared/routes';
+import { formatContentId } from 'store/schemas/gate';
 import Icon from 'components/golos-ui/Icon';
+import SmartLink from 'components/common/SmartLink';
 
 const Action = styled(({ isLink, ...props }) =>
   // eslint-disable-next-line
@@ -40,6 +41,7 @@ const ActionText = styled.div`
 export default function PostActions({
   className,
   isFavorite,
+  contentId,
   // isPinned,
   // togglePin,
   isOwner,
@@ -48,7 +50,6 @@ export default function PostActions({
   addFavorite,
   removeFavorite,
   fetchFavorites,
-  fullUrl,
   coloredOnHover,
   currentUserId,
 }) {
@@ -64,10 +65,12 @@ export default function PostActions({
     }
 
     try {
+      const postUrl = formatContentId(contentId);
+
       if (isFavorite) {
-        await removeFavorite(fullUrl);
+        await removeFavorite(postUrl);
       } else {
-        await addFavorite(fullUrl);
+        await addFavorite(postUrl);
       }
       fetchFavorites();
     } catch (err) {
@@ -103,7 +106,7 @@ export default function PostActions({
     return (
       <>
         {!isEdit ? (
-          <Link route={`/@${fullUrl}/edit`} passHref>
+          <SmartLink route="post" params={{ ...contentId, mode: 'edit' }}>
             <Action
               isLink
               name="post-actions__edit"
@@ -115,7 +118,7 @@ export default function PostActions({
               <ActionIcon name="pen" />
               {showText ? <ActionText>{tt('active_panel_tooltip.edit')}</ActionText> : null}
             </Action>
-          </Link>
+          </SmartLink>
         ) : null}
         {/* TODO: Temp disabled
         <Action
@@ -138,7 +141,10 @@ export default function PostActions({
 }
 
 PostActions.propTypes = {
-  fullUrl: PropTypes.string.isRequired,
+  contentId: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+    permlink: PropTypes.string.isRequired,
+  }).isRequired,
   isFavorite: PropTypes.bool.isRequired,
   // isPinned: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,

@@ -552,8 +552,6 @@ export default class MarkdownEditorToolbar extends React.PureComponent {
 
     const data = await showAddImageDialog();
 
-    debugger;
-
     this._onAddImageClose(data);
   };
 

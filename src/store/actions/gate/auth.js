@@ -99,7 +99,7 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
 
       try {
         const [profile] = await Promise.all([
-          dispatch(fetchProfile(auth.user)),
+          dispatch(fetchProfile({ userId: auth.user })),
           dispatch(fetchChargers(auth.user)),
         ]);
 

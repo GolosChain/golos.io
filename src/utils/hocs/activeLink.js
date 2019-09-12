@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'next/router';
-import { Link } from 'shared/routes';
+
+import SmartLink from 'components/common/SmartLink';
 
 const SPLITTER_SYMBOLS = ['/', '?', '#'];
 
@@ -73,8 +74,8 @@ class RouteListener extends Component {
  *    так же дочерними будут является урлы вида '/wallet/history?param1=value1' и '/wallet/history#someAnchor'
  *    в противном случае все эти урлы будут являться не соотвествующими исходной ссылке.
  */
-export default Comp => props => (
-  <Link route={props.route} params={props.params} passHref>
-    <RouteListener {...props} route={undefined} params={undefined} Comp={Comp} />
-  </Link>
+export default Comp => ({ route, params, ...props }) => (
+  <SmartLink route={route} params={params}>
+    <RouteListener {...props} Comp={Comp} />
+  </SmartLink>
 );

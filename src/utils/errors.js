@@ -8,7 +8,6 @@ export function normalizeCyberwayErrorMessage(err) {
 
   let { message } = err;
 
-  // if error from bc
   if (err.data) {
     message = err.data.error?.details?.[0]?.message || 'Blockchain Error';
   }

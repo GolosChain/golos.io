@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as Route } from 'shared/routes';
+
+import SmartLink from '../SmartLink';
 
 export default function Link({ route, params, children, ...props }) {
   return (
-    <Route route={route} params={params}>
+    <SmartLink route={route} params={params}>
       <a {...props}>{children}</a>
-    </Route>
+    </SmartLink>
   );
 }
 

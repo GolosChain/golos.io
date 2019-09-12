@@ -8,23 +8,23 @@ import Userpic from 'components/common/Userpic';
 
 export default class DialogFrame extends PureComponent {
   static propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     icon: PropTypes.string,
     className: PropTypes.string,
     buttons: PropTypes.array,
-    username: PropTypes.string,
+    userId: PropTypes.string,
     onCloseClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { title, titleSize, icon, buttons, children, username, className, style } = this.props;
+    const { title, titleSize, icon, buttons, children, userId, className, style } = this.props;
 
     return (
       <div className={cn('Dialog', className)} style={style}>
         <Icon name="cross_thin" className="Dialog__close" onClick={this.props.onCloseClick} />
         {title || icon ? (
           <div className="Dialog__header">
-            {username ? <Userpic userId={username} size={50} /> : null}
+            {userId ? <Userpic userId={userId} size={50} /> : null}
             {icon ? (
               <div className="Dialog__header-icon">
                 <Icon name={icon} size={40} />

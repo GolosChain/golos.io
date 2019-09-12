@@ -11,7 +11,6 @@ import {
 import Container from 'components/common/Container';
 import MainNavigation from 'components/main/MainNavigation';
 import TagsBox from 'components/home/TagsBox';
-import RegistrationBanner from 'components/home/sidebar/RegistrationBanner';
 
 const Wrapper = styled.div`
   background-color: #f9f9f9;
@@ -72,11 +71,7 @@ export default class HomeContainer extends Component {
             <TagsBox />
             {content}
           </Content>
-          <Sidebar>
-            {/*TODO: Temp hidden*/}
-            {/*<RegistrationBanner />*/}
-            {sidebar}
-          </Sidebar>
+          <Sidebar>{sidebar}</Sidebar>
         </ContainerStyled>
       </Wrapper>
     );

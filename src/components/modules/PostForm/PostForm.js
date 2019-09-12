@@ -27,6 +27,7 @@ import { DRAFT_KEY, EDIT_KEY } from 'utils/postForm';
 import { displayError } from 'utils/toastMessages';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import { breakWordStyles } from 'helpers/styles';
+import { normalizeRouteParams } from 'components/common/SmartLink';
 
 const EDITORS_TYPES = {
   MARKDOWN: 1,
@@ -200,7 +201,7 @@ export default class PostForm extends React.Component {
     maxCurationPercent: PropTypes.number,
     selfVote: PropTypes.bool,
 
-    onCancel: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     fetchChainProperties: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     createPost: PropTypes.func.isRequired,
@@ -223,15 +224,10 @@ export default class PostForm extends React.Component {
   };
 
   previewButton = createRef();
-
   workAreaRef = createRef();
-
   editorWrapper = createRef();
-
   postTitle = createRef();
-
   editorRef = createRef();
-
   footerRef = createRef();
 
   constructor(props) {
@@ -425,7 +421,9 @@ export default class PostForm extends React.Component {
         console.warn(err);
       }
 
-      onCancel();
+      if (onCancel) {
+        onCancel();
+      }
     }
   };
 
@@ -489,9 +487,9 @@ export default class PostForm extends React.Component {
       selfVote,
       vote,
       waitForTransaction,
+      resolveUsername,
     } = this.props;
     const { tags } = this.state;
-    const { currentUser } = this.props;
 
     if (!data) {
       return;
@@ -565,13 +563,19 @@ export default class PostForm extends React.Component {
           }
         }
 
-        Router.pushRoute('post', {
-          userId: currentUser?.username || author,
+        const routeParams = normalizeRouteParams('post', {
+          userId: author,
+          username: resolveUsername(author),
           permlink: data.permlink,
         });
+
+        if (routeParams) {
+          Router.pushRoute(routeParams.route, routeParams.params);
+        }
       }
     } catch (err) {
       const message = normalizeCyberwayErrorMessage(err);
+
       if (message.includes('not enough power')) {
         displayError(tt('post_editor.post_publish_over_limit'));
       } else {

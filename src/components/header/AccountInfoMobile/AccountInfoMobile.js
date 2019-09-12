@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Link } from 'shared/routes';
 import tt from 'counterpart';
 
-import Userpic from '../../common/Userpic';
+import Userpic from 'components/common/Userpic';
+import SmartLink from 'components/common/SmartLink';
 
 const MobileAccountBlock = styled.a`
   position: relative;
@@ -49,7 +49,7 @@ export default class AccountInfoMobile extends PureComponent {
     const { x, y } = calcXY(angle);
 
     return (
-      <Link route={`/@${userId}`} passHref>
+      <SmartLink route="profile" params={{ userId }}>
         <MobileAccountBlock ref={this.accountRef}>
           <PowerCircle>
             <svg viewBox="-1 -1 2 2">
@@ -62,7 +62,7 @@ export default class AccountInfoMobile extends PureComponent {
           </PowerCircle>
           <UserpicMobile userId={userId} size={44} ariaLabel={tt('aria_label.avatar')} />
         </MobileAccountBlock>
-      </Link>
+      </SmartLink>
     );
   }
 }

@@ -117,7 +117,7 @@ const Loader = styled(LoadingIndicator).attrs({ type: 'circle', center: true, si
 
 export default class AccountTokens extends PureComponent {
   static propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
     golos: PropTypes.number.isRequired,
     cyber: PropTypes.number.isRequired,
     power: PropTypes.number.isRequired,

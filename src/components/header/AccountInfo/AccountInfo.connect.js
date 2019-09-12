@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { currentUnsafeUserSelector } from 'store/selectors/auth';
-import { profileSelector, dataSelector } from 'store/selectors/common';
+import { entitySelector, dataSelector } from 'store/selectors/common';
 
 import AccountInfo from './AccountInfo';
 
@@ -12,8 +12,8 @@ export default connect(
     let chargers;
 
     if (currentUser) {
-      ({ username } = profileSelector(currentUser.userId)(state));
-      ({ chargers } = dataSelector('auth')(state));
+      username = entitySelector('users', currentUser.userId)(state)?.username;
+      chargers = dataSelector('auth')(state).chargers;
     }
 
     return {

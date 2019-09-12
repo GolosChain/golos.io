@@ -38,7 +38,7 @@ const HeaderTitle = styled.h2`
   color: #333;
 `;
 
-const HeaderSubtitle = styled.p`
+const HeaderSubtitle = styled.div`
   font-size: 16px;
   letter-spacing: 0.2px;
   color: #393636;

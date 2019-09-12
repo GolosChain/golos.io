@@ -40,7 +40,7 @@ export default class CommentForm extends Component {
     clearAfterAction: PropTypes.bool,
     withHeader: PropTypes.bool,
     hideFooter: PropTypes.bool,
-    replyAuthor: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string]),
+    replyAuthorId: PropTypes.string,
     commentTitleRef: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.element]),
 
     createComment: PropTypes.func.isRequired,
@@ -64,7 +64,6 @@ export default class CommentForm extends Component {
     withHeader: false,
     hideFooter: false,
     commentTitleRef: null,
-    replyAuthor: null,
     parentPost: null,
 
     uploadImage: () => {},
@@ -78,10 +77,16 @@ export default class CommentForm extends Component {
   constructor(props) {
     super(props);
 
-    const { editMode, reply, params } = this.props;
+    const { editMode, reply, params, parentAuthorUsername } = this.props;
+
+    let text = '';
+
+    if (reply) {
+      text = `${parentAuthorUsername ? `@${parentAuthorUsername}` : params.contentId.userId} `;
+    }
 
     this.state = {
-      text: reply ? `@${params.contentId.userId} ` : '',
+      text,
       emptyBody: true,
       uploadingCount: 0,
       isLoading: false,
@@ -476,17 +481,15 @@ export default class CommentForm extends Component {
   checkBodyLazy = throttle(this.checkBody, 300, { leading: true });
 
   render() {
-    const { editMode, hideFooter, autoFocus, withHeader, replyAuthor } = this.props;
-
+    const { editMode, hideFooter, autoFocus, withHeader, replyAuthorId } = this.props;
     const { text, emptyBody, isPreview, uploadingCount, isLoading } = this.state;
-
-    const allowPost = uploadingCount === 0 && !emptyBody;
+    // const allowPost = uploadingCount === 0 && !emptyBody;
 
     return (
       <>
         {withHeader && (
           <ReplyHeader>
-            <CommentAuthor author={replyAuthor} />
+            <CommentAuthor authorId={replyAuthorId} />
             {this.getPreviewButton()}
           </ReplyHeader>
         )}

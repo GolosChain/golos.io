@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { Link } from 'shared/routes';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 import Icon from 'components/golos-ui/Icon';
+import SmartLink from 'components/common/SmartLink';
 
 const RepliesQuantity = styled.div`
   font-size: 16px;
@@ -124,7 +124,7 @@ const Root = styled.div`
 export default function ReplyBlock({
   compact,
   count,
-  link,
+  postContentId,
   isLink,
   text,
   mini,
@@ -141,18 +141,18 @@ export default function ReplyBlock({
   ) : (
     <>
       <Splitter />
-      <Link route={`/@${link}#createComment`} passHref>
+      <SmartLink route="post" params={postContentId} hash="createComment">
         <ReplyButton name="reply" compact={compact ? 1 : 0} isLink>
           {text}
         </ReplyButton>
-      </Link>
+      </SmartLink>
     </>
   );
 
   return (
     <Root compact={compact} className={className}>
       {isLink || mini ? (
-        <Link route={`/@${link}#comments`} passHref>
+        <SmartLink route="post" params={postContentId} hash="comments">
           <Replies
             name="link-to-replies"
             data-tooltip={tt('reply.comments_count')}
@@ -164,7 +164,7 @@ export default function ReplyBlock({
             <ReplyIcon name="reply" />
             <RepliesQuantity>{count}</RepliesQuantity>
           </Replies>
-        </Link>
+        </SmartLink>
       ) : (
         <Replies
           data-tooltip={tt('reply.comments_count')}
@@ -184,7 +184,7 @@ export default function ReplyBlock({
 ReplyBlock.propTypes = {
   compact: PropTypes.bool,
   count: PropTypes.number,
-  link: PropTypes.string.isRequired,
+  postContentId: PropTypes.shape({}).isRequired,
   text: PropTypes.string,
   mini: PropTypes.bool,
   onReplyClick: PropTypes.func,
@@ -197,6 +197,5 @@ ReplyBlock.defaultProps = {
   text: '',
   mini: false,
   isLink: false,
-
   onReplyClick: null,
 };

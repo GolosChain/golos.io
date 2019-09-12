@@ -76,7 +76,6 @@ const TABS = [
 export default class ActivityContent extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    section2: PropTypes.string.isRequired,
     order: PropTypes.array.isRequired,
     userId: PropTypes.string.isRequired,
     getNotificationsHistory: PropTypes.func.isRequired,
@@ -181,7 +180,8 @@ export default class ActivityContent extends PureComponent {
       text: tt(title),
       route: 'profileSection',
       params: {
-        userId: profile.username,
+        userId: profile.userId,
+        username: profile.username,
         section: 'activity',
         section2: id === 'all' ? undefined : id,
       },
@@ -190,7 +190,9 @@ export default class ActivityContent extends PureComponent {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.activity', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.activity', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.activity')}</Header>
         <Card auto ref={this.rootRef}>

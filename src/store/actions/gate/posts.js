@@ -1,4 +1,4 @@
-import { postSchema, formatContentId } from 'store/schemas/gate';
+import { postSchema } from 'store/schemas/gate';
 import { POSTS_FETCH_LIMIT } from 'shared/constants';
 import {
   FETCH_POST,
@@ -8,15 +8,16 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_ERROR,
 } from 'store/constants/actionTypes';
-import { entitySelector } from 'store/selectors/common';
 import { currentUnsafeServerUserIdSelector } from 'store/selectors/auth';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 
-export const fetchPost = contentId => {
+export const fetchPost = ({ userId, username, permlink }) => {
   const params = {
     app: 'gls',
     contentType: 'raw',
-    ...contentId,
+    userId,
+    username,
+    permlink,
   };
 
   return {
@@ -30,25 +31,22 @@ export const fetchPost = contentId => {
   };
 };
 
-export const fetchPostIfNeeded = contentId => (dispatch, getState) => {
-  if (!entitySelector('posts', formatContentId(contentId))(getState())) {
-    return dispatch(fetchPost(contentId));
-  }
-  return null;
-};
-
-export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null }) => (
-  dispatch,
-  getState
-) => {
-  const userId = currentUnsafeServerUserIdSelector(getState());
+export const fetchPosts = ({
+  type,
+  userId,
+  username,
+  feedType,
+  sequenceKey = null,
+  tags = null,
+}) => (dispatch, getState) => {
+  const currentUserId = currentUnsafeServerUserIdSelector(getState());
 
   const newParams = {
     app: 'gls',
     contentType: 'raw',
     sortBy: 'timeDesc',
     limit: POSTS_FETCH_LIMIT,
-    userId,
+    userId: currentUserId,
   };
 
   if (type === 'community') {
@@ -70,10 +68,12 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
     }
   } else if (type === 'user') {
     newParams.type = 'byUser';
-    newParams.userId = id;
+    newParams.userId = userId;
+    newParams.username = username;
   } else if (type === 'subscriptions') {
     newParams.type = 'subscriptions';
-    newParams.userId = id;
+    newParams.userId = userId;
+    newParams.username = username;
   } else {
     throw new Error('Invalid fetch posts type');
   }
@@ -84,10 +84,6 @@ export const fetchPosts = ({ type, id, feedType, sequenceKey = null, tags = null
 
   if (tags && tags.length) {
     newParams.tags = tags;
-  }
-
-  if (!userId && !id) {
-    delete newParams.userId;
   }
 
   return dispatch({

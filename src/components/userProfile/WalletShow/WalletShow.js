@@ -4,6 +4,7 @@ import { withRouter } from 'next/router';
 
 import { CardContent } from 'components/golos-ui/Card';
 import { LinkTabsContent } from 'components/common/LinkTabs';
+import { getUserRoute } from 'components/common/SmartLink';
 
 import Transfers from '../wallet/Transfers';
 import Rewards from '../wallet/Rewards';
@@ -60,7 +61,7 @@ export default class WalletShow extends PureComponent {
       <LinkTabsContent
         tabs={tabs}
         activeTab={sections[0] || 'transfers'}
-        url={`/@${router.query.userId}/wallet`}
+        url={`/${getUserRoute(router.query)}/wallet`}
       >
         {(tab, props) => (
           <CardContentStyled>

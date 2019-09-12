@@ -25,7 +25,7 @@ export default class BlogContent extends Component {
     await store.dispatch(
       fetchPosts({
         type: 'user',
-        id: profileProps.userId,
+        userId: profileProps.userId,
       })
     );
   }
@@ -36,7 +36,7 @@ export default class BlogContent extends Component {
     if (!isFetching && !isEnd) {
       fetchPosts({
         type: 'user',
-        id: userId,
+        userId,
         sequenceKey,
       });
     }
@@ -100,7 +100,9 @@ export default class BlogContent extends Component {
     return (
       <>
         <Head>
-          <title>{tt('meta.title.profile.blog', { name: profile.username })}</title>
+          <title>
+            {tt('meta.title.profile.blog', { name: profile.username || profile.userId })}
+          </title>
         </Head>
         <Header>{tt('g.blog')}</Header>
         <CardsListWrapper noGaps={layout === 'compact'}>{this.renderCardsList()}</CardsListWrapper>

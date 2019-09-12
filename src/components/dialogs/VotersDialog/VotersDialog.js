@@ -83,12 +83,12 @@ export default class VotersDialog extends PureComponent {
 
   renderUsers() {
     const { users, currentUserId, close } = this.props;
-    return users.map(({ name, userId, avatar, percent, isSubscribed }) => {
-      const user = name || userId;
+    return users.map(({ username, userId, avatar, percent, isSubscribed }) => {
+      const user = username || userId;
 
       return (
-        <UserItem key={name}>
-          <UserLink userId={user} title={user} onClick={close}>
+        <UserItem key={username}>
+          <UserLink userId={userId} username={username} title={user} onClick={close}>
             <Avatar avatarUrl={avatar} />
             <Name>{user}</Name>
           </UserLink>

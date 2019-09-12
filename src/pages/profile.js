@@ -65,18 +65,19 @@ export default class Profile extends PureComponent {
   static async getInitialProps(ctx) {
     const { store, query } = ctx;
 
-    let user = null;
+    let profile = null;
 
     try {
-      user = await store.dispatch(fetchProfile(query.userId));
-      await store.dispatch(getBalance(user.userId));
+      profile = await store.dispatch(fetchProfile(query));
+      await store.dispatch(getBalance(profile.userId));
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(`Profile [${query.userId}] not found`);
+      console.error(`Profile [${query.username || query.userId}] not found`);
     }
 
     return {
-      userId: user?.userId,
+      userId: profile?.userId,
+      username: profile?.username,
     };
   }
 

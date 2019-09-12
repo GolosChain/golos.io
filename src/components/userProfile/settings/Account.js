@@ -146,7 +146,7 @@ const Account = ({ profile, onSubmitBlockchain }) => {
               {({ input }) => (
                 <FormGroupRow justify="space-between">
                   <LabelRow>{tt('settings_jsx.profile_userid')}</LabelRow>
-                  <UserName>@{input.value}</UserName>
+                  <UserName>{input.value}</UserName>
                 </FormGroupRow>
               )}
             </Field>
