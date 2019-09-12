@@ -189,17 +189,26 @@ export default class VotePanel extends VotePanelAbstract {
 
     const { upCount: likesCount, downCount: dislikesCount } = entity.votes;
 
+    const isPayoutDone = entity.payout.done;
+    const likeTooltipText = isPayoutDone
+      ? null
+      : tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like');
+    const dislikeTooltipText = isPayoutDone
+      ? null
+      : tt(entity.votes.hasDownVote ? 'g.undislike' : 'g.dislike');
+
     return (
       <Root className={className} ref={this.rootRef}>
         <Wrapper vertical={vertical}>
           <LikeBlock active={entity.votes.hasUpVote || sliderAction === 'like'} vertical={vertical}>
             <LikeWrapper
               name="vote-panel__upvote"
-              data-tooltip={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
-              aria-label={tt(entity.votes.hasUpVote ? 'g.unlike' : 'g.like')}
+              data-tooltip={likeTooltipText}
+              aria-label={likeTooltipText}
               ref={this.likeRef}
               vertical={vertical}
               onClick={this.onLikeClick}
+              disabled={isPayoutDone}
             >
               <LikeIcon name="like" />
             </LikeWrapper>
@@ -223,12 +232,13 @@ export default class VotePanel extends VotePanelAbstract {
           >
             <LikeWrapper
               name="vote-panel__downvote"
-              data-tooltip={tt(entity.votes.hasDownVote ? 'g.undislike' : 'g.dislike')}
-              aria-label={tt(entity.votes.hasDownVote ? 'g.undislike' : 'g.dislike')}
+              data-tooltip={dislikeTooltipText}
+              aria-label={dislikeTooltipText}
               ref={this.dislikeRef}
               vertical={vertical}
               negative
               onClick={this.onDislikeClick}
+              disabled={isPayoutDone}
             >
               <LikeIconNeg name="like" />
             </LikeWrapper>
