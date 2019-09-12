@@ -19,10 +19,10 @@ export default connect(
     [
       currentUserSelector,
       isUnsafeAuthorized,
-      statusSelector('postComments'),
+      (state, props) => statusSelector(['postComments', formatContentId(props.contentId)])(state),
       (state, props) => entitySelector('posts', formatContentId(props.contentId))(state),
     ],
-    (user, isAuthorized, { isLoading }, post) => {
+    (user, isAuthorized, { isLoading } = {}, post) => {
       return {
         user,
         post,

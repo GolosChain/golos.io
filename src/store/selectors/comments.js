@@ -1,15 +1,19 @@
 import { createSelector } from 'reselect';
+
 import { SORT_BY_NEWEST } from 'shared/constants';
-import { formatContentId } from '../schemas/gate';
+import { formatContentId } from 'store/schemas/gate';
 import { statusSelector, entitiesSelector } from './common';
 
 const MAX_COMMENTS_DEPTH = 6;
 
 // eslint-disable-next-line import/prefer-default-export
-export const getCommentsHierarchy = sortType =>
+export const getCommentsHierarchy = (sortType, postContentId) =>
   createSelector(
-    [statusSelector(['postComments', 'order']), entitiesSelector('postComments')],
-    (order, comments) => {
+    [
+      statusSelector(['postComments', formatContentId(postContentId), 'order']),
+      entitiesSelector('postComments'),
+    ],
+    (order = [], comments) => {
       const root = {
         commentId: null,
         parentId: null,
