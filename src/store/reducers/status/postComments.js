@@ -5,8 +5,10 @@ import {
   FETCH_POST_COMMENTS_SUCCESS,
   FETCH_POST_COMMENTS_ERROR,
 } from 'store/constants/actionTypes';
+import { formatContentId } from 'store/schemas/gate';
 
 const initialState = {
+  postId: null,
   order: [],
   sequenceKey: null,
   isLoading: false,
@@ -15,8 +17,10 @@ const initialState = {
 
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
-    case FETCH_POST_COMMENTS:
-      if (meta.sequenceKey && meta.sequenceKey === state.sequenceKey) {
+    case FETCH_POST_COMMENTS: {
+      const postId = formatContentId({ userId: meta.userId, permlink: meta.permlink });
+
+      if (meta.sequenceKey && meta.sequenceKey === state.sequenceKey && postId === state.postId) {
         return {
           ...state,
           isLoading: true,
@@ -25,8 +29,10 @@ export default function(state = initialState, { type, payload, meta }) {
 
       return {
         ...initialState,
+        postId,
         isLoading: true,
       };
+    }
 
     case FETCH_POST_COMMENTS_SUCCESS: {
       let order;
