@@ -2,7 +2,7 @@
 import tt from 'counterpart';
 
 export function normalizeCyberwayErrorMessage(err) {
-  if (!err || !err.message || !err.data || !err.error) {
+  if (!err || !err.message) {
     return 'Internal Error';
   }
 
