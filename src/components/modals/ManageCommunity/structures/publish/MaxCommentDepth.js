@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults, fieldsToString } from 'utils/common';
 
-import { Fields, InputSmall, InputLine, DefaultText, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class MaxCommentDepth extends PureComponent {
+export default class MaxCommentDepth extends BaseStructure {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onChange = e => {
@@ -33,18 +33,9 @@ export default class MaxCommentDepth extends PureComponent {
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { value, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {defaults.value})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('value', value => (
+      <InputSmall type="number" value={value} min="0" max="255" onChange={this.onChange} />
+    ));
   }
 }

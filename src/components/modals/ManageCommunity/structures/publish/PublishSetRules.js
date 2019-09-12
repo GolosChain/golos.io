@@ -1,13 +1,10 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 
 import { defaults, fieldsToString, parsePercent, parsePercentString } from 'utils/common';
 
-import { InputSmall, FieldSubTitle, FunctionParameter, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall, FunctionParameter } from '../elements';
 
-const Wrapper = styled.div``;
-
-export default class PublishSetRules extends PureComponent {
+export default class PublishSetRules extends BaseStructure {
   constructor(props) {
     super(props);
 
@@ -62,37 +59,32 @@ export default class PublishSetRules extends PureComponent {
     });
   };
 
-  render() {
-    const { fields } = this.props;
-    const { mainfunc, curationfunc, timepenalty, maxtokenprop, isInvalid } = this.state;
-
-    return (
-      <Wrapper>
-        <FieldSubTitle>{fields.mainfunc}:</FieldSubTitle>
+  renderFields() {
+    return [
+      this.renderField('mainfunc', value => (
+        <FunctionParameter value={value} onChange={value => this.onFuncChange('mainfunc', value)} />
+      )),
+      this.renderField('curationfunc', value => (
         <FunctionParameter
-          value={mainfunc}
-          onChange={value => this.onFuncChange('mainfunc', value)}
-        />
-        <FieldSubTitle>{fields.curationfunc}:</FieldSubTitle>
-        <FunctionParameter
-          value={curationfunc}
+          value={value}
           onChange={value => this.onFuncChange('curationfunc', value)}
         />
-        <FieldSubTitle>{fields.timepenalty}:</FieldSubTitle>
+      )),
+      this.renderField('timepenalty', value => (
         <FunctionParameter
-          value={timepenalty}
+          value={value}
           onChange={value => this.onFuncChange('timepenalty', value)}
         />
-        <FieldSubTitle>{fields.maxtokenprop}:</FieldSubTitle>
+      )),
+      this.renderField('maxtokenprop', value => (
         <InputSmall
-          value={maxtokenprop}
+          value={value}
           type="number"
           min="0"
           max="100"
           onChange={this.onMaxTokenPropChange}
         />
-        {isInvalid ? <ErrorLine /> : null}
-      </Wrapper>
-    );
+      )),
+    ];
   }
 }

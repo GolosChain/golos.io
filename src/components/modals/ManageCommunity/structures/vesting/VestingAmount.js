@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-import { defaults } from 'utils/common';
+import { defaults, integerToVesting, vestingToInteger } from 'utils/common';
 
-import { ErrorLine, Fields, InputSmall, InputLine, DefaultText } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
-export default class VestingAmount extends PureComponent {
+export default class VestingAmount extends BaseStructure {
   constructor(props) {
     super(props);
 
@@ -25,17 +25,7 @@ export default class VestingAmount extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const minAmountStr = this.state.min_amount.trim();
-
-    if (!/^\d+(?:\.\d{1,6})?$/.test(minAmountStr)) {
-      this.setState({ isInvalid: true });
-      onChange('INVALID');
-      return;
-    }
-
-    const minAmountFloat = Number(minAmountStr);
-
-    const min_amount = Math.floor(minAmountFloat * 1000000);
+    const min_amount = vestingToInteger(this.state.min_amount);
 
     if (Number.isNaN(min_amount)) {
       this.setState({ isInvalid: true });
@@ -43,30 +33,15 @@ export default class VestingAmount extends PureComponent {
       return;
     }
 
-    console.log('min_amount', min_amount);
-
     this.setState({ isInvalid: false });
     onChange({
       min_amount,
     });
   };
 
-  render() {
-    const { defaults } = this.props;
-    const { min_amount, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputLine>
-          <InputSmall value={min_amount} onChange={this.onChange} />
-          <DefaultText>(по умолчанию: {integerToVesting(defaults.min_amount)})</DefaultText>
-        </InputLine>
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('min_amount', value => (
+      <InputSmall value={value} onChange={this.onChange} />
+    ));
   }
-}
-
-function integerToVesting(val) {
-  return (val / 1000000).toFixed(6);
 }

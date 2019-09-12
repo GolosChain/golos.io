@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults } from 'utils/common';
 
-import { Fields, InputSmall, ErrorLine } from '../elements';
+import { BaseStructure, InputSmall } from '../elements';
 
 const DEFAULT = {
   symbol: '',
 };
 
-export default class EmitToken extends PureComponent {
+export default class EmitToken extends BaseStructure {
   state = defaults(this.props.initialValues, DEFAULT);
 
   onChange = e => {
@@ -36,14 +36,9 @@ export default class EmitToken extends PureComponent {
     });
   };
 
-  render() {
-    const { symbol, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <InputSmall value={symbol} onChange={this.onChange} />
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+  renderFields() {
+    return this.renderField('symbol', value => (
+      <InputSmall value={value} onChange={this.onChange} />
+    ));
   }
 }

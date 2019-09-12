@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { defaults, fieldsToString, isPositiveInteger } from 'utils/common';
-import { Fields, Input, FieldSubTitle, ErrorLine } from '../elements';
+import { BaseStructure, Input } from '../elements';
 
 const NumberInput = styled(Input).attrs({ type: 'number', min: '0' })`
   width: 130px;
   padding-right: 4px;
 `;
 
-export default class VestingDelegation extends PureComponent {
+export default class VestingDelegation extends BaseStructure {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onFieldChange = (e, fieldName) => {
@@ -50,42 +50,40 @@ export default class VestingDelegation extends PureComponent {
     });
   };
 
-  render() {
-    const { fields } = this.props;
-    const { min_amount, min_remainder, return_time, min_time, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <FieldSubTitle>{fields.min_amount}:</FieldSubTitle>
+  renderFields() {
+    return [
+      this.renderField('min_amount', value => (
         <NumberInput
           type="number"
           min="0"
-          value={min_amount}
+          value={value}
           onChange={e => this.onFieldChange(e, 'min_amount')}
         />
-        <FieldSubTitle>{fields.min_remainder}:</FieldSubTitle>
+      )),
+      this.renderField('min_remainder', value => (
         <NumberInput
           type="number"
           min="0"
-          value={min_remainder}
+          value={value}
           onChange={e => this.onFieldChange(e, 'min_remainder')}
         />
-        <FieldSubTitle>{fields.return_time}:</FieldSubTitle>
+      )),
+      this.renderField('return_time', value => (
         <NumberInput
           type="number"
           min="0"
-          value={return_time}
+          value={value}
           onChange={e => this.onFieldChange(e, 'return_time')}
         />
-        <FieldSubTitle>{fields.min_time}:</FieldSubTitle>
+      )),
+      this.renderField('min_time', value => (
         <NumberInput
           type="number"
           min="0"
-          value={min_time}
+          value={value}
           onChange={e => this.onFieldChange(e, 'min_time')}
         />
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+      )),
+    ];
   }
 }

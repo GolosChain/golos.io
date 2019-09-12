@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import { displayError, displaySuccess } from 'utils/toastMessages';
-import { parsePercent } from 'utils/common';
-import Button from 'components/golos-ui/Button';
 import { CONTRACTS, FIELD_TYPES } from 'constants/communitySettings';
+import { displayError, displaySuccess } from 'utils/toastMessages';
+import { parsePercent, integerToVesting } from 'utils/common';
+import Button from 'components/golos-ui/Button';
 
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
@@ -189,21 +189,12 @@ export default class ProposalCard extends PureComponent {
     return (a.userId || a.username).localeCompare(b.username || b.userId);
   };
 
-  renderApproveState() {
-    const { proposal } = this.props;
+  renderApproveState({ approvesCount, allApprovesCount }) {
     const { showRequestedSigns } = this.state;
-
-    let approvedCount = 0;
-
-    for (const { isSigned } of proposal.approves) {
-      if (isSigned) {
-        approvedCount++;
-      }
-    }
 
     return (
       <ApproveState>
-        Approves: {approvedCount}/{proposal.approves.length}{' '}
+        Approves: {approvesCount}/{allApprovesCount}{' '}
         <ShowAllButton onClick={this.toggleRequestedSigns}>
           {showRequestedSigns ? 'Hide' : 'Show'} all requested signs
         </ShowAllButton>
@@ -230,7 +221,7 @@ export default class ProposalCard extends PureComponent {
     );
   }
 
-  renderFooter() {
+  renderFooter({ approvesCount, allApprovesCount }) {
     const { userId, proposal } = this.props;
     let approveSlot = null;
 
@@ -246,10 +237,14 @@ export default class ProposalCard extends PureComponent {
       }
     }
 
+    const canExecute = approvesCount >= allApprovesCount * (2 / 3) + 1;
+
     return (
       <FooterButtons>
         {approveSlot}
-        {proposal.isExecuted ? null : <Button onClick={this.tryToExec}>Try to exec</Button>}
+        {proposal.isExecuted || !canExecute ? null : (
+          <Button onClick={this.tryToExec}>Try to exec</Button>
+        )}
       </FooterButtons>
     );
   }
@@ -309,8 +304,15 @@ export default class ProposalCard extends PureComponent {
         case FIELD_TYPES.PERCENT:
           finalValue = parsePercent(value);
           break;
+        case FIELD_TYPES.INTEGER_VESTING:
+          finalValue = integerToVesting(value);
+          break;
         default:
-          finalValue = JSON.stringify(value, null, 2);
+          if (typeof value === 'string') {
+            finalValue = value;
+          } else {
+            finalValue = JSON.stringify(value, null, 2);
+          }
       }
 
       fields.push(
@@ -334,6 +336,15 @@ export default class ProposalCard extends PureComponent {
 
     if (contract) {
       actionInfo = contract.actions.find(({ actionName }) => actionName === proposal.actionName);
+    }
+
+    const allApprovesCount = proposal.approves.length;
+    let approvesCount = 0;
+
+    for (const { isSigned } of proposal.approves) {
+      if (isSigned) {
+        approvesCount++;
+      }
     }
 
     return (
@@ -382,9 +393,9 @@ export default class ProposalCard extends PureComponent {
             </ChangesList>
           ) : null}
         </ChangesBlock>
-        {this.renderApproveState()}
+        {this.renderApproveState({ approvesCount, allApprovesCount })}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
-        {this.renderFooter()}
+        {this.renderFooter({ approvesCount, allApprovesCount })}
       </Wrapper>
     );
   }

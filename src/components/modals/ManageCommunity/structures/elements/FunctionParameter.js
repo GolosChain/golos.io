@@ -5,7 +5,7 @@ import { Input } from 'components/golos-ui/Form';
 
 const Wrapper = styled.div`
   padding: 1px 12px;
-  margin: 8px 0 12px;
+  margin: 2px 0 8px;
   border: 1px solid #999;
   border-radius: 6px;
 `;

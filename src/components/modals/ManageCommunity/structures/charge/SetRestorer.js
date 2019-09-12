@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { defaults, isPositiveInteger, fieldsToString } from 'utils/common';
 import { Select } from 'components/golos-ui/Form';
 
-import { Fields, FieldSubTitle, Input, InputSmall, ErrorLine } from '../elements';
+import { BaseStructure, Input, InputSmall } from '../elements';
 
-export default class SetRestorer extends PureComponent {
+export default class SetRestorer extends BaseStructure {
   state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
   onFieldChange = (e, fieldName) => {
@@ -49,29 +49,28 @@ export default class SetRestorer extends PureComponent {
     });
   };
 
-  render() {
-    const { fields } = this.props;
-    const { charge_id, func_str, max_prev, max_vesting, max_elapsed, isInvalid } = this.state;
-
-    return (
-      <Fields>
-        <FieldSubTitle>{fields.charge_id}:</FieldSubTitle>
-        <Select value={charge_id} onChange={e => this.onFieldChange(e, 'charge_id')}>
+  renderFields() {
+    return [
+      this.renderField('charge_id', value => (
+        <Select value={value} onChange={e => this.onFieldChange(e, 'charge_id')}>
           <option value="0">Vote (0)</option>
           <option value="1">Post (1)</option>
           <option value="2">Comment (2)</option>
           <option value="3">Post bandwidth (3)</option>
         </Select>
-        <FieldSubTitle>{fields.func_str}:</FieldSubTitle>
-        <Input value={func_str} onChange={e => this.onFieldChange(e, 'func_str')} />
-        <FieldSubTitle>{fields.max_prev}:</FieldSubTitle>
-        <InputSmall value={max_prev} onChange={e => this.onFieldChange(e, 'max_prev')} />
-        <FieldSubTitle>{fields.max_vesting}:</FieldSubTitle>
-        <InputSmall value={max_vesting} onChange={e => this.onFieldChange(e, 'max_vesting')} />
-        <FieldSubTitle>{fields.max_elapsed}:</FieldSubTitle>
-        <InputSmall value={max_elapsed} onChange={e => this.onFieldChange(e, 'max_elapsed')} />
-        {isInvalid ? <ErrorLine /> : null}
-      </Fields>
-    );
+      )),
+      this.renderField('func_str', value => (
+        <Input value={value} onChange={e => this.onFieldChange(e, 'func_str')} />
+      )),
+      this.renderField('max_prev', value => (
+        <InputSmall value={value} onChange={e => this.onFieldChange(e, 'max_prev')} />
+      )),
+      this.renderField('max_vesting', value => (
+        <InputSmall value={value} onChange={e => this.onFieldChange(e, 'max_vesting')} />
+      )),
+      this.renderField('max_elapsed', value => (
+        <InputSmall value={value} onChange={e => this.onFieldChange(e, 'max_elapsed')} />
+      )),
+    ];
   }
 }

@@ -64,3 +64,25 @@ export function parsePercentString(str) {
 
   return value;
 }
+
+export function integerToVesting(val) {
+  const number = Number(val);
+
+  if (Number.isNaN(number)) {
+    return `Invalid value: ${val}`;
+  }
+
+  return (number / 1000000).toFixed(6);
+}
+
+export function vestingToInteger(str) {
+  const minAmountStr = str.trim();
+
+  if (!/^\d+(?:\.\d{1,6})?$/.test(minAmountStr)) {
+    return NaN;
+  }
+
+  const minAmountFloat = Number(minAmountStr);
+
+  return Math.floor(minAmountFloat * 1000000);
+}
