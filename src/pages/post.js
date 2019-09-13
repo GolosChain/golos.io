@@ -29,7 +29,9 @@ export default class Post extends Component {
     try {
       await store.dispatch(fetchProfile({ userId: post.contentId.userId }));
     } catch (err) {
-      console.error(`fetchProfile (in post) failed for '${post.contentId.userId}':`, err);
+      if (err.message !== 'GateError content.getProfile: Not found') {
+        console.error(`fetchProfile (in post) failed for '${post.contentId.userId}':`, err);
+      }
     }
 
     return {

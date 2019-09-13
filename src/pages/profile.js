@@ -68,9 +68,13 @@ export default class Profile extends PureComponent {
     try {
       profile = await store.dispatch(fetchProfile(query));
     } catch (err) {
-      console.error('fetchProfile failed for', query, '\nwith error:', err);
+      if (err.message !== 'GateError content.getProfile: Not found') {
+        console.error('fetchProfile failed for', query, 'with error:', err);
+      }
+
       return {
         userId: null,
+        dontCallTabsInitialProps: true,
       };
     }
 

@@ -28,9 +28,15 @@ export default (tabs, defaultTab) => Comp =>
       const tab = tabs[query.section || defaultTab];
 
       const props = await Comp.getInitialProps({ query, store });
-      const tabProps = tab
-        ? await getDynamicComponentInitialProps(tab.Component, { query, store, parentProps: props })
-        : null;
+      let tabProps = null;
+
+      if (tab && !props.dontCallTabsInitialProps) {
+        tabProps = await getDynamicComponentInitialProps(tab.Component, {
+          query,
+          store,
+          parentProps: props,
+        });
+      }
 
       const finalTabProps = { ...tabProps };
       delete finalTabProps.namespacesRequired;
