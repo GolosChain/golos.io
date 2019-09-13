@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 /* eslint-disable import/prefer-default-export */
 export const profileType = PropTypes.shape({
   createdAt: PropTypes.string.isRequired,
-  isSubscribed: PropTypes.bool.isRequired,
+  isSubscribed: PropTypes.bool,
   personal: PropTypes.shape({
     about: PropTypes.string,
     coverImage: PropTypes.string,

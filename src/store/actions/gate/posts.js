@@ -90,6 +90,10 @@ export const fetchPosts = ({
     delete newParams.userId;
   }
 
+  if (!newParams.username) {
+    delete newParams.username;
+  }
+
   return dispatch({
     [CALL_GATE]: {
       types: [FETCH_POSTS, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR],
