@@ -105,12 +105,14 @@ function _parseHtml(html, mutate) {
 
   const doc = DOMParser.parseFromString(html, 'text/html');
 
-  const savedDocumentElement = doc.documentElement;
+  if (doc) {
+    const savedDocumentElement = doc.documentElement;
 
-  traverse(doc, state);
+    traverse(doc, state);
 
-  if (!doc.documentElement) {
-    doc.documentElement = savedDocumentElement;
+    if (!doc.documentElement) {
+      doc.documentElement = savedDocumentElement;
+    }
   }
 
   return {
