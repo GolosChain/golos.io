@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
-import routes, { Link } from 'shared/routes';
+import routes from 'shared/routes';
+import SmartLink, { ROUTES_WITH_USER, normalizeRouteParams } from 'components/common/SmartLink';
 
 const Wrapper = styled.div`
   position: relative;
@@ -133,14 +134,36 @@ export default class LinkSelect extends PureComponent {
   };
 
   render() {
-    const { asPath, links, placeholder, className } = this.props;
+    const { asPath, links, placeholder, className, usernames } = this.props;
     const { isOpen } = this.state;
 
-    const selectedOption = links.find(
-      option =>
-        routes.findAndGetUrls(option.route, option.params)?.urls?.as === asPath ||
-        (option.index && asPath === '/')
-    );
+    const selectedOption = links.find(option => {
+      if (option.includeRoute && option.includeRoute === asPath) {
+        return true;
+      }
+
+      try {
+        let route;
+        let params;
+
+        if (ROUTES_WITH_USER.includes(option.route)) {
+          const newParams = {
+            ...option.params,
+            username: option.params.username || usernames[option.params.userId] || undefined,
+          };
+
+          ({ route, params } = normalizeRouteParams(option.route, newParams));
+        } else {
+          route = option.route;
+          params = option.params;
+        }
+
+        return routes.findAndGetUrls(route, params)?.urls?.as === asPath;
+      } catch (err) {
+        console.warn('LinkSelect find current link failed:', err);
+        return false;
+      }
+    });
 
     return (
       <Wrapper ref={this.root} className={className}>
@@ -158,9 +181,9 @@ export default class LinkSelect extends PureComponent {
               .filter(option => !selectedOption || option.text !== selectedOption.text)
               .map(option => (
                 <Li key={option.text} onClick={this.onLinkClick}>
-                  <Link route={option.route} params={option.params}>
+                  <SmartLink route={option.route} params={option.params}>
                     <ItemLink>{option.text}</ItemLink>
-                  </Link>
+                  </SmartLink>
                 </Li>
               ))}
           </List>
