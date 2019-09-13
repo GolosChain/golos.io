@@ -82,6 +82,7 @@ export const getSubscriptions = ({ userId, sequenceKey } = {}) => {
     userId,
     limit: 20,
     sequenceKey,
+    app: 'gls',
   };
 
   return {
@@ -99,6 +100,7 @@ export const getSubscribers = ({ userId, sequenceKey } = {}) => {
     userId,
     limit: 20,
     sequenceKey,
+    app: 'gls',
   };
 
   return {
