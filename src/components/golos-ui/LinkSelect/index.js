@@ -1,1 +1,1 @@
-export { default } from './LinkSelect';
+export { default } from './LinkSelect.connect';

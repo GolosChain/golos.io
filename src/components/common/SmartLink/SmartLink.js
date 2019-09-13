@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'shared/routes';
 
-const ROUTES_WITH_USER = ['profile', 'profileSection', 'feed', 'post', 'postRedirect'];
+export const ROUTES_WITH_USER = ['profile', 'profileSection', 'feed', 'post', 'postRedirect'];
 
 export function normalizeRouteParams(route, params) {
   const finalParams = { ...params };

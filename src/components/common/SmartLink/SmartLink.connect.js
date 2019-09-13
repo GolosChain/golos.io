@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { entitiesSelector } from 'store/selectors/common';
+import { entitySelector } from 'store/selectors/common';
 
 import SmartLink from './SmartLink';
 
@@ -11,12 +11,12 @@ export default connect((state, { route, params, comment }) => {
   if (params && params.userId && !params.username) {
     updateParams = {
       ...params,
-      username: entitiesSelector('users', params.userId)(state)?.username,
+      username: entitySelector('users', params.userId)(state)?.username,
     };
   }
 
   if (route === 'post' && comment) {
-    commentUsername = entitiesSelector('users', comment.userId)(state)?.username;
+    commentUsername = entitySelector('users', comment.userId)(state)?.username;
   }
 
   return {
