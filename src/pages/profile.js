@@ -62,22 +62,30 @@ const TABS = {
 @withRouter
 @withTabs(TABS, 'feed')
 export default class Profile extends PureComponent {
-  static async getInitialProps(ctx) {
-    const { store, query } = ctx;
-
+  static async getInitialProps({ store, query }) {
     let profile = null;
 
     try {
       profile = await store.dispatch(fetchProfile(query));
+    } catch (err) {
+      if (err.message !== 'GateError content.getProfile: Not found') {
+        console.error('fetchProfile failed for', query, 'with error:', err);
+      }
+
+      return {
+        userId: null,
+        dontCallTabsInitialProps: true,
+      };
+    }
+
+    try {
       await store.dispatch(getBalance(profile.userId));
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Profile [${query.username || query.userId}] not found`);
+      console.error(`getBalance failed for '${profile.userId}':`, err);
     }
 
     return {
-      userId: profile?.userId,
-      username: profile?.username,
+      userId: profile.userId,
     };
   }
 

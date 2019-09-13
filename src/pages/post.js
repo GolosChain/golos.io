@@ -26,11 +26,13 @@ export default class Post extends Component {
       };
     }
 
-    await store.dispatch(fetchProfile({ userId: post.contentId.userId })).catch(() => {
-      // TODO: Temporary catch!
-      // eslint-disable-next-line no-console
-      console.error(`Profile [${post.contentId.userId}] not found`);
-    });
+    try {
+      await store.dispatch(fetchProfile({ userId: post.contentId.userId }));
+    } catch (err) {
+      if (err.message !== 'GateError content.getProfile: Not found') {
+        console.error(`fetchProfile (in post) failed for '${post.contentId.userId}':`, err);
+      }
+    }
 
     return {
       contentId: post.contentId,

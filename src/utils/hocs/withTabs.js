@@ -27,18 +27,25 @@ export default (tabs, defaultTab) => Comp =>
     static async getInitialProps({ query, store }) {
       const tab = tabs[query.section || defaultTab];
 
-      const profileProps = await Comp.getInitialProps({ query, store });
-      const tabProps = tab
-        ? await getDynamicComponentInitialProps(tab.Component, { query, store, profileProps })
-        : null;
+      const props = await Comp.getInitialProps({ query, store });
+      let tabProps = null;
+
+      if (tab && !props.dontCallTabsInitialProps) {
+        tabProps = await getDynamicComponentInitialProps(tab.Component, {
+          query,
+          store,
+          parentProps: props,
+        });
+      }
+
+      const finalTabProps = { ...tabProps };
+      delete finalTabProps.namespacesRequired;
 
       return {
-        ...profileProps,
-        tabProps: omit('namespacesRequired', tabProps),
+        ...props,
+        tabProps: finalTabProps,
         namespacesRequired: uniq(
-          (profileProps.namespacesRequired || []).concat(
-            (tabProps && tabProps.namespacesRequired) || []
-          )
+          (props.namespacesRequired || []).concat((tabProps && tabProps.namespacesRequired) || [])
         ),
       };
     }
