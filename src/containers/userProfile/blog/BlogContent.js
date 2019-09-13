@@ -26,17 +26,19 @@ export default class BlogContent extends Component {
       fetchPosts({
         type: 'user',
         userId: profileProps.userId,
+        username: profileProps.username,
       })
     );
   }
 
   fetchPosts = () => {
-    const { isFetching, isEnd, userId, sequenceKey, fetchPosts } = this.props;
+    const { isFetching, isEnd, userId, username, sequenceKey, fetchPosts } = this.props;
 
     if (!isFetching && !isEnd) {
       fetchPosts({
         type: 'user',
         userId,
+        username,
         sequenceKey,
       });
     }
