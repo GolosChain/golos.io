@@ -86,6 +86,10 @@ export const fetchPosts = ({
     newParams.tags = tags;
   }
 
+  if (!newParams.userId) {
+    delete newParams.userId;
+  }
+
   return dispatch({
     [CALL_GATE]: {
       types: [FETCH_POSTS, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR],
