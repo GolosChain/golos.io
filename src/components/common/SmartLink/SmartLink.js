@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'shared/routes';
+import { Router, Link } from 'shared/routes';
 
 export const ROUTES_WITH_USER = ['profile', 'profileSection', 'feed', 'post', 'postRedirect'];
 
@@ -29,6 +29,23 @@ export function getUserRoute({ userId, username }) {
   }
 
   return `~${userId}`;
+}
+
+export function pushRoute(route, params) {
+  let routeParams;
+
+  if (ROUTES_WITH_USER.includes(route)) {
+    routeParams = normalizeRouteParams(route, params);
+  } else {
+    routeParams = { route, params };
+  }
+
+  if (!routeParams) {
+    console.error(`pushRoute failed, invalid route "${route}" params:`, params);
+    return;
+  }
+
+  Router.pushRoute(routeParams.route, routeParams.params);
 }
 
 export default function SmartLink({ route, params, comment, commentUsername, hash, children }) {

@@ -8,8 +8,6 @@ import Turndown from 'turndown';
 import tt from 'counterpart';
 import getSlug from 'speakingurl';
 
-import { Router } from 'shared/routes';
-
 import htmlReady, { getTags } from 'utils/bodyProcessing/htmlReady';
 import DialogManager from 'components/elements/common/DialogManager';
 import Icon from 'components/golos-ui/Icon';
@@ -27,7 +25,7 @@ import { DRAFT_KEY, EDIT_KEY } from 'utils/postForm';
 import { displayError } from 'utils/toastMessages';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import { breakWordStyles } from 'helpers/styles';
-import { normalizeRouteParams } from 'components/common/SmartLink';
+import { pushRoute } from 'components/common/SmartLink';
 
 const EDITORS_TYPES = {
   MARKDOWN: 1,
@@ -510,7 +508,10 @@ export default class PostForm extends React.Component {
 
         await fetchPost(post.contentId);
 
-        Router.pushRoute('post', post.contentId);
+        pushRoute('post', {
+          ...post.contentId,
+          username: resolveUsername(post.contentId.userId),
+        });
       } else {
         let result;
         try {
@@ -563,15 +564,11 @@ export default class PostForm extends React.Component {
           }
         }
 
-        const routeParams = normalizeRouteParams('post', {
+        pushRoute('post', {
           userId: author,
           username: resolveUsername(author),
           permlink: data.permlink,
         });
-
-        if (routeParams) {
-          Router.pushRoute(routeParams.route, routeParams.params);
-        }
       }
     } catch (err) {
       const message = normalizeCyberwayErrorMessage(err);
