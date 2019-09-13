@@ -67,14 +67,21 @@ export default class Profile extends PureComponent {
 
     try {
       profile = await store.dispatch(fetchProfile(query));
+    } catch (err) {
+      console.error('fetchProfile failed for', query, '\nwith error:', err);
+      return {
+        userId: null,
+      };
+    }
+
+    try {
       await store.dispatch(getBalance(profile.userId));
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Profile [${query.username || query.userId}] not found`);
+      console.error(`getBalance failed for '${profile.userId}':`, err);
     }
 
     return {
-      userId: profile?.userId,
+      userId: profile.userId,
     };
   }
 
