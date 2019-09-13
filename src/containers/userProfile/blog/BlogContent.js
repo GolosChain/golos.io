@@ -21,14 +21,20 @@ const Header = styled.h1`
 `;
 
 export default class BlogContent extends Component {
-  static async getInitialProps({ store, profileProps }) {
-    await store.dispatch(
-      fetchPosts({
-        type: 'user',
-        userId: profileProps.userId,
-        username: profileProps.username,
-      })
-    );
+  static async getInitialProps({ store, parentProps }) {
+    const { userId } = parentProps;
+
+    try {
+      await store.dispatch(
+        fetchPosts({
+          type: 'user',
+          userId,
+        })
+      );
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn(err);
+    }
   }
 
   fetchPosts = () => {

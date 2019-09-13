@@ -62,9 +62,7 @@ const TABS = {
 @withRouter
 @withTabs(TABS, 'feed')
 export default class Profile extends PureComponent {
-  static async getInitialProps(ctx) {
-    const { store, query } = ctx;
-
+  static async getInitialProps({ store, query }) {
     let profile = null;
 
     try {
@@ -77,7 +75,6 @@ export default class Profile extends PureComponent {
 
     return {
       userId: profile?.userId,
-      username: profile?.username,
     };
   }
 

@@ -21,25 +21,19 @@ const Header = styled.h1`
 `;
 
 export default class CommentsContent extends Component {
-  static async getInitialProps({ store, profileProps }) {
-    const { userId } = profileProps;
+  static async getInitialProps({ store, parentProps }) {
+    const { userId } = parentProps;
 
     try {
-      await Promise.all([
-        store.dispatch(
-          fetchUserComments({
-            userId,
-          })
-        ),
-      ]);
+      await store.dispatch(
+        fetchUserComments({
+          userId,
+        })
+      );
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn(err);
     }
-
-    return {
-      userId,
-    };
   }
 
   fetchComments = () => {

@@ -81,8 +81,8 @@ export default class ActivityContent extends PureComponent {
     getNotificationsHistory: PropTypes.func.isRequired,
   };
 
-  static async getInitialProps({ store, query, profileProps }) {
-    const { userId } = profileProps;
+  static async getInitialProps({ store, query, parentProps }) {
+    const { userId } = parentProps;
     const tabId = query.section2 || 'all';
 
     if (process.browser) {
@@ -104,7 +104,6 @@ export default class ActivityContent extends PureComponent {
     }
 
     return {
-      userId,
       tabId,
     };
   }
