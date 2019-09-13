@@ -36,7 +36,7 @@ export function getPropsForInterpolation(notification) {
           const { contentId: commentContentId } = comment;
           interProps.content = (
             <Link
-              route={`/@${formatContentId(postContentId)}#${formatContentId(commentContentId)}`}
+              route={`/~${formatContentId(postContentId)}#${formatContentId(commentContentId)}`}
             >
               {softTrim(text, TEXT_LIMIT)}
             </Link>
