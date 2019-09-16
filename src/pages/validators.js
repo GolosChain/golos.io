@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 
 import { entitiesSelector } from 'store/selectors/common';
+import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 import { fetchProfileIfNeeded, getValidators } from 'store/actions/gate';
 import { showDelegateVoteDialog } from 'store/actions/modals';
 import PageHeader from 'components/common/PageHeader';
@@ -147,16 +148,34 @@ const WrapperLine = styled.div`
   `};
 `;
 
+const ExplorerLink = styled.a`
+  letter-spacing: normal;
+  margin-left: 14px;
+  font-weight: normal;
+  font-size: 15px;
+  white-space: nowrap;
+
+  &::before {
+    content: '[ ';
+  }
+
+  &::after {
+    content: ' ]';
+  }
+`;
+
 const REFRESH_INTERVAL = 60 * 1000;
 
 @connect(
   state => ({
+    userId: currentUnsafeUserIdSelector(state),
     users: entitiesSelector('users')(state),
   }),
   { fetchProfileIfNeeded, getValidators, showDelegateVoteDialog }
 )
 export default class ValidatorsPage extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string,
     getValidators: PropTypes.func.isRequired,
     fetchProfileIfNeeded: PropTypes.func.isRequired,
     showDelegateVoteDialog: PropTypes.func.isRequired,
@@ -213,14 +232,26 @@ export default class ValidatorsPage extends PureComponent {
   };
 
   render() {
-    const { users } = this.props;
+    const { userId, users } = this.props;
     const { producers, producersUpdateTime } = this.state;
 
     return (
       <WrapperForBackground>
         <Wrapper>
           <PageHeader
-            title={tt('validators_jsx.validators')}
+            title={
+              <>
+                {tt('validators_jsx.validators')}
+                {userId ? (
+                  <ExplorerLink
+                    href={`https://explorer.cyberway.io/account/${userId}`}
+                    target="_blank"
+                  >
+                    {tt('validators_jsx.go_to_explorer')}
+                  </ExplorerLink>
+                ) : null}
+              </>
+            }
             subTitle={
               <div>
                 {producersUpdateTime

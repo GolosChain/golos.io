@@ -1146,7 +1146,8 @@
     "validator": "Validators",
     "your_votes": "You delegated",
     "public_key": "Public key",
-    "last_update": "Last update at"
+    "last_update": "Last update at",
+    "go_to_explorer": "Go to my account in explorer"
   },
   "settings": {
     "update_success": "Saved Successfully"

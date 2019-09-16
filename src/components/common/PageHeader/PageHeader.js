@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   padding-top: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   @media (max-width: 1190px) {
     padding-left: 20px;
@@ -39,6 +39,7 @@ const HeaderTitle = styled.h2`
 `;
 
 const HeaderSubtitle = styled.div`
+  margin-top: 4px;
   font-size: 16px;
   letter-spacing: 0.2px;
   color: #393636;
