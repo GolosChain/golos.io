@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Router } from 'shared/routes';
 
+import { getUserRoute } from 'components/common/SmartLink';
+
 export default class extends Component {
   static async getInitialProps({ query, asPath, res }) {
-    let redirectUrl = `/@${query.userId}/${query.permlink}`;
+    let redirectUrl = `/${getUserRoute(query)}/${query.permlink}`;
     const searchQuery = asPath.match(/\?.*$/);
 
     if (searchQuery) {
