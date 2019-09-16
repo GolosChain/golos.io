@@ -157,7 +157,7 @@ export default class ContractSettings extends PureComponent {
   renderStructure = (
     contractName,
     actionName,
-    { name, title, fields = {}, limits = {}, fieldsTypes = {}, defaults = {} }
+    { name, title, fields = {}, limits = {}, fieldsTypes = {}, defaults = {}, disabled }
   ) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
@@ -179,6 +179,7 @@ export default class ContractSettings extends PureComponent {
             limits={limits}
             fieldsTypes={fieldsTypes}
             defaults={defaults}
+            disabled={disabled}
             initialValues={values}
             onChange={data => this.onChange(name, data)}
           />
@@ -189,7 +190,16 @@ export default class ContractSettings extends PureComponent {
 
   renderAction = (
     contractName,
-    { name, description, fields, defaults = {}, limits = {}, fieldsTypes = {}, structures }
+    {
+      name,
+      description,
+      fields,
+      defaults = {},
+      limits = {},
+      fieldsTypes = {},
+      disabled,
+      structures,
+    }
   ) => {
     const { currentSettings } = this.props;
     let content;
@@ -209,6 +219,7 @@ export default class ContractSettings extends PureComponent {
               fieldsTypes={fieldsTypes}
               defaults={defaults}
               initialValues={values}
+              disabled={disabled}
               onChange={data => this.onChange(name, data)}
             />
           </>

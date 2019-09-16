@@ -77,7 +77,8 @@ export const CONTRACTS = [
           // },
           {
             name: 'st_min_abs_rshares',
-            title: 'Минимальное значение rshares, позволяющее аккаунтам голосовать (от 0 до 2^64)',
+            title:
+              'Минимальное значение rshares, позволяющее аккаунтам голосовать (от 0 до 18 триллион)',
             defaults: {
               value: 30000000,
             },
@@ -161,6 +162,7 @@ export const CONTRACTS = [
           },
           {
             name: 'max_witnesses_votes',
+            disabled: true,
             title:
               'Максимальное количество голосов за делегатов (от 1 до 65535) (изменение данного значения потребует изменение контракта ctrl)',
             defaults: {
@@ -312,7 +314,7 @@ export const CONTRACTS = [
             name: 'vesting_amount',
             title: 'Минимальное значение вестинга для вывода в ликвидные токены',
             limits: {
-              min_amount: '(от 0 до 2^53)',
+              min_amount: '(от 0 до 18 триллион)',
             },
             fieldsTypes: {
               min_amount: FIELD_TYPES.INTEGER_VESTING,
@@ -333,8 +335,8 @@ export const CONTRACTS = [
               // max_delegators: 'Максимальное количество пользователей, от которых можно получить вестинг',
             },
             limits: {
-              min_amount: '(от 0 до 2^53)',
-              min_remainder: '(от 0 до 2^53)',
+              min_amount: '(от 0 до 10^16)',
+              min_remainder: '(от 0 до 10^16)',
               return_time: '(от 0 до 4 млрд)',
               min_time: '(от 0 до 4 млрд)',
               max_delegators: '(от 0 до 4 млрд)',
@@ -376,9 +378,9 @@ export const CONTRACTS = [
           max_elapsed: 'Max elapsed',
         },
         limits: {
-          max_prev: '(от 0 до 2^51)',
-          max_vesting: '(от 0 до 2^51)',
-          max_elapsed: '(от 0 до 2^51)',
+          max_prev: '(от 0 до 2*10^15)',
+          max_vesting: '(от 0 до 2*10^15)',
+          max_elapsed: '(от 0 до 2*10^15)',
         },
         defaults: {
           token_code: 'GOLOS',

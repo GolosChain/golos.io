@@ -37,7 +37,7 @@ export default class CashoutWindow extends BaseStructure {
     const cashoutWindow = parseInt(this.state.window, 10);
     const lockout = parseInt(this.state.upvote_lockout, 10);
 
-    if (cashoutWindow < 0 || lockout < 0 || cashoutWindow >= lockout) {
+    if (cashoutWindow < 0 || lockout < 0 || cashoutWindow < lockout) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;

@@ -33,6 +33,8 @@ export default class MaxWitnessesVotes extends BaseStructure {
   };
 
   renderFields() {
-    return this.renderField('max', value => <InputSmall value={value} onChange={this.onChange} />);
+    return this.renderField('max', (value, inputProps) => (
+      <InputSmall value={value} {...inputProps} onChange={this.onChange} />
+    ));
   }
 }
