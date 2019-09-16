@@ -6,6 +6,7 @@ import tt from 'counterpart';
 import Card from 'components/golos-ui/Card';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
+import WalletUtils from 'utils/wallet';
 
 const CardStyled = styled(Card)`
   padding: 12px 20px;
@@ -84,13 +85,28 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   renderItem = (item, i) => {
+    const { balance, supply } = this.props;
+
+    let value;
+
+    if (supply) {
+      value = WalletUtils.convertVestingToToken({
+        vesting: item.data.quantity,
+        type: 'string',
+        balance,
+        supply,
+      });
+    } else {
+      value = item.data.quantity;
+    }
+
     return (
       <Item key={item.proposalId}>
         <Position>{i + 1}.</Position>
         <Text>
           {tt('wallet.vesting_delegation_proposal_text', {
             from: item.username || item.userId,
-            amount: item.data.quantity,
+            amount: value,
             interest: item.data.interestRate,
           })}
         </Text>

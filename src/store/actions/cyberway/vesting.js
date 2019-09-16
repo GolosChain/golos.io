@@ -116,7 +116,7 @@ export const stopWithdrawTokens = () => async (dispatch, getState) => {
   });
 };
 
-export const delegateTokens = (recipient, tokensQuantity, percents, strategy) => async (
+export const delegateTokens = (recipient, tokensQuantity, percents) => async (
   dispatch,
   getState
 ) => {
