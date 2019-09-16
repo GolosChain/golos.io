@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
-// import { renderValue } from 'helpers/currency';
 import HintIcon from 'components/elements/common/HintIcon/HintIcon';
-// import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 
 const Root = styled.div`
   border-radius: 8px;
@@ -39,13 +37,6 @@ const Payout = styled.div`
   font-size: 18px;
 `;
 
-// const Duration = styled.div`
-//   margin: -2px 0 6px;
-//   text-align: center;
-//   font-size: 12px;
-//   color: #959595;
-// `;
-
 const Line = styled.div`
   display: flex;
   align-items: center;
@@ -65,85 +56,9 @@ const Money = styled.span`
   margin-right: 24px;
 `;
 
-// const MoneyConvert = styled.span``;
-//
-// const Plus = styled.span`
-//   margin: 0 4px;
-// `;
-
 export default class PayoutInfo extends PureComponent {
-  // componentWillReceiveProps(newProps) {
-  //   const { needLoadRatesForDate } = this.props;
-  //   const needNew = newProps.needLoadRatesForDate;
-  //
-  //   if (needNew && needLoadRatesForDate !== needNew) {
-  //     this.props.getHistoricalData(needNew);
-  //   }
-  // }
-
-  // renderOverallValue() {
-  //   const { total, totalGbg, overallTotal, lastPayout } = this.props;
-  //
-  //   const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
-  //   const amountGolos = `${total.toFixed(3)} GOLOS`;
-  //   const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
-  //
-  //   const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
-  //
-  //   if (showOneCurrency) {
-  //     return <Money>{amount}</Money>;
-  //   }
-  //
-  //   let gbgSection = null;
-  //
-  //   if (amountGbg) {
-  //     gbgSection = (
-  //       <>
-  //         {' + '}
-  //         <Money>{amountGbg}</Money>{' '}
-  //       </>
-  //     );
-  //   }
-  //
-  //   return (
-  //     <>
-  //       <Money>{amountGolos}</Money>
-  //       {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
-  //     </>
-  //   );
-  // }
-
   renderOverallValue() {
     const { totalPayout } = this.props;
-    // const { total, totalGbg, overallTotal, lastPayout } = this.props;
-    //
-    // const amount = renderValue(overallTotal, 'GOLOS', { date: lastPayout });
-    // const amountGolos = `${total.toFixed(3)} GOLOS`;
-    // const amountGbg = totalGbg ? `${totalGbg.toFixed(3)} GBG` : null;
-    //
-    // const showOneCurrency = !amountGbg && amount.split(' ')[1] === 'GOLOS';
-    //
-    // if (showOneCurrency) {
-    //   return <Money>{amount}</Money>;
-    // }
-    //
-    // let gbgSection = null;
-    //
-    // if (amountGbg) {
-    //   gbgSection = (
-    //     <>
-    //       {' + '}
-    //       <Money>{amountGbg}</Money>{' '}
-    //     </>
-    //   );
-    // }
-    //
-    // return (
-    //   <>
-    //     <Money>{amountGolos}</Money>
-    //     {gbgSection} (<MoneyConvert>{amount}</MoneyConvert>)
-    //   </>
-    // );
 
     return (
       <>
@@ -154,18 +69,12 @@ export default class PayoutInfo extends PureComponent {
 
   render() {
     const { done, author, curator, benefactor, unclaimed } = this.props;
-    // const { isPending, author, authorGbg, curator, benefactor, cashoutTime } = this.props;
 
     return (
       <Root>
         <Part>
           <Title>{done ? tt('payout_info.payout') : tt('payout_info.potential_payout')}</Title>
           <Payout>{this.renderOverallValue()}</Payout>
-          {/*{isPending ? (*/}
-          {/*  <Duration>*/}
-          {/*    <TimeAgoWrapper date={cashoutTime} />*/}
-          {/*  </Duration>*/}
-          {/*) : null}*/}
         </Part>
         <Part>
           {author ? (
