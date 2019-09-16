@@ -25,7 +25,7 @@ export const DefaultText = styled.div`
 
 export const FieldSubTitle = styled.h3`
   display: block;
-  margin: 6px 0 4px;
+  margin: 8px 0 4px;
   line-height: 20px;
   font-size: 15px;
   font-weight: normal;
