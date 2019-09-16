@@ -6,7 +6,7 @@ import PostContainer from 'containers/post';
 
 export default class Post extends Component {
   static async getInitialProps(ctx) {
-    const { store, query } = ctx;
+    const { store, query, res } = ctx;
 
     const post = await store.dispatch(
       fetchPagePost({
@@ -17,6 +17,10 @@ export default class Post extends Component {
     );
 
     if (!post) {
+      if (res) {
+        res.statusCode = 404;
+      }
+
       return {
         contentId: {
           userId: '',
