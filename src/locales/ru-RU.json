@@ -143,10 +143,6 @@
       }
     }
   },
-  "createaccount_jsx": {
-    "final_confirm": "Удостоверьтесь, что вы надежно сохранили сгенерированный пароль, и ознакомьтесь с Условиями использования сайта:",
-    "take_your_secret_key": "Получите ваш сгенерированный пароль"
-  },
   "curation_percent": {
     "curation_rewards_percent": "Процент кураторских выплат"
   },
@@ -173,14 +169,6 @@
     "ok": "Голосовать против",
     "title": "Голосовать против"
   },
-  "dialogs_promote": {
-    "amount": "Количество",
-    "description": "Используйте Ваши GBG, чтобы прорекламировать этот пост в секции продвигаемого контента.",
-    "fill_form_error": "Заполните все поля корректно",
-    "promote_button": "Продвинуть",
-    "success": "Продвижение прошло успешно",
-    "title": "Продвинуть пост"
-  },
   "dialogs_repost": {
     "ok": "Поделиться",
     "placeholder": "Напишите свой комментарий",
@@ -195,13 +183,6 @@
     "convert": {
       "convert_button": "Конвертировать",
       "tabs": {
-        "gbg_golos": {
-          "hint": "Отсрочка при конвертации Золотого (GBG) в токены Голоса необходима для предотвращения злоупотреблений спекуляцией.",
-          "tip_1": "Переведите Золотые (GBG) в токены Голоса чтобы получить возможность увеличить свою Силу Голоса или продать их на внешних биржах.",
-          "tip_2": "Конвертация занимает 3,5 дня",
-          "tip_3": "и ее нельзя отменить после запуска.",
-          "title": "GBG → Голос"
-        },
         "golos_gp": {
           "hint": "Делегирование — передача части своей Силы Голоса под управление другому аккаунту. Делегирование можно отменить в любой момент.",
           "tip_1": "Переведите токены Голоса в Силу Голоса, чтобы увеличить свой вес при голосовании за посты, комментарии и лидеров.",
@@ -596,34 +577,6 @@
   },
   "markdownviewer_jsx": {
     "images_were_hidden_due_to_low_ratings": "Изображения были скрыты из-за низкого рейтинга."
-  },
-  "market_jsx": {
-    "24h_volume": "Объем за 24 часа",
-    "action": "Действие",
-    "available": "Доступно",
-    "buy_atleast_amount_for": "Купить по крайней мере %(min_to_receive)s за %(amount_to_sell)s (%(effectivePrice)s)",
-    "buy_orders": "Заказы на покупку",
-    "date_created": "Дата создания",
-    "higher": "Дороже",
-    "highest_bid": "Лучшая цена покупки",
-    "last_price": "Последняя цена",
-    "lower": "Дешевле",
-    "lowest_ask": "Лучшая цена продажи",
-    "open_orders": "Открытые сделки",
-    "order_cancel_confirm": "Отменить заказ %(order_id)s от %(user)s?",
-    "order_cancelled": "Заказ %(order_id)s отменен.",
-    "sell_amount_for_atleast": "Продать %(amount_to_sell)s за %(min_to_receive)s по цене (%(effectivePrice)s)",
-    "sell_orders": "Заказы на продажу",
-    "spread": "Разница",
-    "total": "Итого",
-    "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Сумма %(DEBT_TOKEN_SHORT)s",
-    "trade_history": "История сделок"
-  },
-  "messenger": {
-    "placeholder": {
-      "search": "Поиск",
-      "send_text_area": "Напишите сообщение..."
-    }
   },
   "meta": {
     "title": {
@@ -1045,23 +998,6 @@
     "users_blog": "блог %(name)s",
     "users_posts": "посты %(name)s",
     "users_wallet": "кошелек %(name)s"
-  },
-  "user_saga_js": {
-    "image_upload": {
-      "error": {
-        "account_is_not_found": "Пользователь не найден",
-        "err_uploading": "Ошибка загрузки",
-        "image_size_is_too_large": "Изображение слишком большое",
-        "login_first": "Пожалуйста, выполните вход в систему ...",
-        "login_with_posting_key": "Недоступен постинг ключ",
-        "server_unavailable": "Ошибка доступа к серверу",
-        "signature_did_not_verify": "Ошибка цифровой подписи",
-        "unsupported_posting_key": "Ошибка постинг-ключа",
-        "upload_failed": "Ошибка загрузки изображения",
-        "upload_only_images": "Вы можете загружать только изображения"
-      },
-      "uploading": "Загрузка"
-    }
   },
   "user_wallet": {
     "content": {

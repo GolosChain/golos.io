@@ -143,14 +143,6 @@
     "ok": "Голосувати проти",
     "title": "Голосувати проти"
   },
-  "dialogs_promote": {
-    "amount": "Кількість",
-    "description": "Використовуйте Ваші GBG, щоб прорекламувати цю посаду в секції продукту, що просувається контенту.",
-    "fill_form_error": "Заповніть всі поля коректно",
-    "promote_button": "Просунути",
-    "success": "Просування пройшло успішно",
-    "title": "Просунути пост"
-  },
   "dialogs_repost": {
     "ok": "Поділитися",
     "placeholder": "Напишіть свій коментар",
@@ -165,13 +157,6 @@
     "convert": {
       "convert_button": "Конвертувати",
       "tabs": {
-        "gbg_golos": {
-          "hint": "Відстрочка при конвертації Золотого (GBG) на токени Голос необхідна для запобігання зловживань спекуляцією.",
-          "tip_1": "Переведіть Золоті (GBG) на токени Голос щоб отримати можливість збільшити свою Силу Голосу або продати їх на зовнішніх біржах.",
-          "tip_2": "Конвертація займає 3,5 дня",
-          "tip_3": "і її не можна скасувати після запуску.",
-          "title": "GBG → Голос"
-        },
         "golos_gp": {
           "hint": "Делегування - передача частини своєї Сили Голосу під управління іншого аккаунта. Делегування можна скасувати в будь-який момент.",
           "tip_1": "Конвертуйте токени Голос в Силу Голосу, щоб збільшити свою вагу при голосуванні за пости, коментарі та лідерів.",
@@ -526,34 +511,6 @@
   },
   "markdownviewer_jsx": {
     "images_were_hidden_due_to_low_ratings": "Зображення були приховані через низький рейтинг."
-  },
-  "market_jsx": {
-    "24h_volume": "Обсяг за 24 години",
-    "action": "Дія",
-    "available": "Доступно",
-    "buy_atleast_amount_for": "Купити принаймні %(min_to_receive)s за %(amount_to_sell)s (%(effectivePrice)s)",
-    "buy_orders": "Замовлення на покупку",
-    "date_created": "Дата створення",
-    "higher": "Дорожче",
-    "highest_bid": "Краща ціна покупки",
-    "last_price": "Остання ціна",
-    "lower": "Дешевше",
-    "lowest_ask": "Краща ціна продажу",
-    "open_orders": "Відкриті угоди",
-    "order_cancel_confirm": "Скасувати замовлення %(order_id)s від %(user)s?",
-    "order_cancelled": "Замовлення %(order_id)s скасовано.",
-    "sell_amount_for_atleast": "Продати %(amount_to_sell)s за %(min_to_receive)s за ціною (%(effectivePrice)s)",
-    "sell_orders": "Замовлення на продаж",
-    "spread": "Різниця",
-    "total": "Разом",
-    "total_DEBT_TOKEN_SHORT_CURRENCY_SIGN": "Сума %(DEBT_TOKEN_SHORT)s",
-    "trade_history": "Історія угод"
-  },
-  "messenger": {
-    "placeholder": {
-      "search": "Пошук",
-      "send_text_area": "Напишіть Ваше повідомлення..."
-    }
   },
   "meta": {
     "title": {
@@ -934,23 +891,6 @@
     "users_blog": "блог %(name)s",
     "users_posts": "пости %(name)s",
     "users_wallet": "гаманець %(name)s"
-  },
-  "user_saga_js": {
-    "image_upload": {
-      "error": {
-        "account_is_not_found": "Користувач не знайдений",
-        "err_uploading": "Помилка завантаження",
-        "image_size_is_too_large": "Зображення занадто велике",
-        "login_first": "Будь ласка, виконайте вхід в систему ...",
-        "login_with_posting_key": "Недоступний постинг ключ",
-        "server_unavailable": "Помилка доступу до сервера",
-        "signature_did_not_verify": "Помилка цифрового підпису",
-        "unsupported_posting_key": "Помилка постинг-ключа",
-        "upload_failed": "Помилка завантаження зображення",
-        "upload_only_images": "Ви можете завантажувати тільки зображення"
-      },
-      "uploading": "Завантаження"
-    }
   },
   "user_wallet": {
     "content": {

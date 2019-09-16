@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import BigNum from 'bignumber.js';
 
 import { payoutSum } from 'utils/payout';
-// import { getHistoricalData } from 'app/redux/actions/rates';
+
 import { dataSelector, entitySelector } from 'store/selectors/common';
 
 import PayoutInfo from './PayoutInfo';
@@ -64,7 +64,5 @@ export default connect(
       };
     }
   ),
-  {
-    // getHistoricalData: () => () => console.error('Unhandled action'),
-  }
+  null
 )(PayoutInfo);
