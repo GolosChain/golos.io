@@ -249,8 +249,8 @@
     "delegatevote": {
       "title_delegatevote": "Делегировать CYBER STAKE",
       "title_recallvote": "Разделегировать CYBER STAKE",
-      "hint_validator_delegatevote": "Делегирую желаемое количество CYBER STAKE вы поднимаете его позицию",
-      "hint_validator_recallvote": "Разделегируя желаемое количество CYBER STAKE вы опускаете его позицию",
+      "hint_validator_delegatevote": "Делегируя желаемое количество CYBER STAKE вы поднимаете позицию валидатора",
+      "hint_validator_recallvote": "Разделегируя желаемое количество CYBER STAKE вы опускаете позицию валидатора",
       "button_delegatevote": "Делегировать",
       "button_recallvote": "Разделегировать",
       "success_delegatevote": "Делегирование успешно совершено!",
@@ -1154,7 +1154,8 @@
     "validator": "Валидаторы",
     "your_votes": "Вы делегировали",
     "public_key": "Публичный ключ",
-    "last_update": "Последнее обновление"
+    "last_update": "Последнее обновление",
+    "go_to_explorer": "Перейти на мой аккаунт в explorer"
   },
   "settings": {
     "update_success": "Успешно сохранено"
