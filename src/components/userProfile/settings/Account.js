@@ -117,7 +117,7 @@ const checkForInitialValues = (initialValues, newValues) => {
       data[key] = checkForInitialValues(initialValues[key], newValues[key]);
     } else {
       data[key] =
-        newValues === undefined || typeof newValues[key] === 'undefined' ? null : newValues[key];
+        newValues === undefined || typeof newValues[key] === 'undefined' ? '' : newValues[key];
     }
   }
 
