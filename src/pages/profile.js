@@ -62,7 +62,7 @@ const TABS = {
 @withRouter
 @withTabs(TABS, 'feed')
 export default class Profile extends PureComponent {
-  static async getInitialProps({ store, query }) {
+  static async getInitialProps({ store, query, res }) {
     let profile = null;
 
     try {
@@ -70,6 +70,10 @@ export default class Profile extends PureComponent {
     } catch (err) {
       if (err.message !== 'GateError content.getProfile: Not found') {
         console.error('fetchProfile failed for', query, 'with error:', err);
+      }
+
+      if (res) {
+        res.statusCode = 404;
       }
 
       return {
