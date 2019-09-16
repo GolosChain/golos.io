@@ -11,7 +11,7 @@ export default class BaseStructure extends PureComponent {
   }
 
   renderField(name, renderer) {
-    const { fields, limits, defaults, fieldsTypes } = this.props;
+    const { fields, limits, defaults, fieldsTypes, disabled } = this.props;
 
     const fieldName = fields[name];
     const limit = limits[name];
@@ -34,6 +34,10 @@ export default class BaseStructure extends PureComponent {
       }
     }
 
+    const inputProps = {
+      disabled,
+    };
+
     return (
       <Fragment key={name}>
         {fieldName || limit ? (
@@ -43,7 +47,7 @@ export default class BaseStructure extends PureComponent {
           </FieldSubTitle>
         ) : null}
         <InputLine>
-          {renderer(value)}
+          {renderer(value, inputProps)}
           {def ? <DefaultText>(по умолчанию: {def})</DefaultText> : null}
         </InputLine>
       </Fragment>

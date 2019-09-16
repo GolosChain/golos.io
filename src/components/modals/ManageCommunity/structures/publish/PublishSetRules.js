@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
 
 import { defaults, fieldsToString, parsePercent, parsePercentString } from 'utils/common';
+import { Select } from 'components/golos-ui/Form';
 
-import { BaseStructure, InputSmall, FunctionParameter } from '../elements';
+import { BaseStructure, InputSmall, InputLine, FieldSubTitle } from '../elements';
+
+const SelectStyled = styled(Select)`
+  max-width: 260px;
+`;
 
 export default class PublishSetRules extends BaseStructure {
   constructor(props) {
@@ -11,6 +17,8 @@ export default class PublishSetRules extends BaseStructure {
     const state = fieldsToString(defaults(this.props.initialValues, this.props.defaults));
 
     state.maxtokenprop = parsePercent(state.maxtokenprop);
+    state.timePenaltyStatus = state.timepenalty.str === '1' ? 'off' : 'on';
+    state.timePenaltyDuration = String(state.timepenalty.maxarg);
 
     this.state = state;
   }
@@ -18,7 +26,10 @@ export default class PublishSetRules extends BaseStructure {
   onFuncChange = (fieldName, value) => {
     this.setState(
       {
-        [fieldName]: value,
+        [fieldName]: {
+          str: value,
+          maxarg: '2251799813685247',
+        },
       },
       this.triggerChange
     );
@@ -59,23 +70,79 @@ export default class PublishSetRules extends BaseStructure {
     });
   };
 
+  onTimePenaltyStatusChange = e => {
+    const status = e.target.value;
+
+    this.setState(
+      {
+        timePenaltyStatus: status,
+      },
+      this.updateTimePenalty
+    );
+  };
+
+  onTimePenaltyChange = e => {
+    this.setState(
+      {
+        timePenaltyDuration: e.target.value,
+      },
+      this.updateTimePenalty
+    );
+  };
+
+  updateTimePenalty = () => {
+    const { timePenaltyStatus, timePenaltyDuration } = this.state;
+
+    this.setState(
+      {
+        timepenalty: {
+          str: timePenaltyStatus === 'on' ? `t/${timePenaltyDuration}` : '1',
+          maxarg: timePenaltyStatus === 'on' ? timePenaltyDuration : '1',
+        },
+      },
+      this.triggerChange
+    );
+  };
+
+  renderTimePenalty() {
+    const { timePenaltyStatus, timePenaltyDuration } = this.state;
+
+    return (
+      <Fragment key="timepenalty">
+        <FieldSubTitle>Штрафное окно:</FieldSubTitle>
+        <InputLine>
+          <SelectStyled value={timePenaltyStatus} onChange={this.onTimePenaltyStatusChange}>
+            <option value="off">без штрафа</option>
+            <option value="on">установить длительность</option>
+          </SelectStyled>
+        </InputLine>
+        {timePenaltyStatus === 'on' ? (
+          <>
+            <FieldSubTitle>Длительность (сек):</FieldSubTitle>
+            <InputLine>
+              <InputSmall value={timePenaltyDuration} onChange={this.onTimePenaltyChange} />
+            </InputLine>
+          </>
+        ) : null}
+      </Fragment>
+    );
+  }
+
   renderFields() {
     return [
       this.renderField('mainfunc', value => (
-        <FunctionParameter value={value} onChange={value => this.onFuncChange('mainfunc', value)} />
+        <SelectStyled value={value} onChange={value => this.onFuncChange('mainfunc', value)}>
+          <option value="x">x (линейная)</option>
+          <option value="x^2">x^2 (квадратичная)</option>
+        </SelectStyled>
       )),
       this.renderField('curationfunc', value => (
-        <FunctionParameter
-          value={value}
-          onChange={value => this.onFuncChange('curationfunc', value)}
-        />
+        <SelectStyled value={value} onChange={value => this.onFuncChange('curationfunc', value)}>
+          <option value="x">x (линейная)</option>
+          <option value="x^2">x^2 (квадратичная)</option>
+        </SelectStyled>
       )),
-      this.renderField('timepenalty', value => (
-        <FunctionParameter
-          value={value}
-          onChange={value => this.onFuncChange('timepenalty', value)}
-        />
-      )),
+      this.renderTimePenalty(),
       this.renderField('maxtokenprop', value => (
         <InputSmall
           value={value}
