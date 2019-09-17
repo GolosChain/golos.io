@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import is from 'styled-is';
 import tt from 'counterpart';
 
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 
-import { wait } from 'utils/time';
+import { wait, timeout } from 'utils/time';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { isBadActor } from 'utils/chainValidation';
 import { parseAmount } from 'helpers/currency';
@@ -82,10 +81,6 @@ const Body = styled.div`
 
 const Section = styled.div`
   margin: 10px 0;
-
-  ${is('flex')`
-    display: flex;
-  `};
 `;
 
 const Label = styled.div`
@@ -125,7 +120,7 @@ export default class DelegateDialog extends PureComponent {
     power: PropTypes.number.isRequired,
     vestingParams: PropTypes.shape({}).isRequired,
     delegateTokens: PropTypes.func.isRequired,
-    stopDelegateTokens: PropTypes.func.isRequired,
+    undelegateTokens: PropTypes.func.isRequired,
     getVestingParams: PropTypes.func.isRequired,
     convertTokensToVesting: PropTypes.func.isRequired,
     getDelegationState: PropTypes.func.isRequired,
@@ -162,13 +157,13 @@ export default class DelegateDialog extends PureComponent {
   }
 
   onDelegationCancel = async delegation => {
-    const { stopDelegateTokens, waitForTransaction } = this.props;
+    const { undelegateTokens } = this.props;
 
     if (await DialogManager.confirm()) {
       let results;
 
       try {
-        results = await stopDelegateTokens(delegation.to, delegation.quantity.GESTS);
+        results = await undelegateTokens(delegation.to, delegation.quantity.GESTS);
       } catch (err) {
         displayError(err);
         return;
@@ -176,17 +171,7 @@ export default class DelegateDialog extends PureComponent {
 
       DialogManager.info(tt('dialogs_transfer.delegate_vesting.canceled'));
 
-      try {
-        await waitForTransaction(results.transaction_id);
-      } catch {}
-
-      await wait(1000);
-
-      try {
-        await this.loadDelegationsData();
-      } catch (err) {
-        console.warn(err);
-      }
+      await this._waitTrxAndLoadData(results);
     }
   };
 
@@ -270,20 +255,17 @@ export default class DelegateDialog extends PureComponent {
       disabled: true,
     });
 
-    let percent;
-
     try {
       const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
       const convertedAmount = await convertTokensToVesting(tokensQuantity);
-      await delegateTokens(target, convertedAmount.split(' ')[0], percent);
+
+      await delegateTokens(target, convertedAmount);
 
       this.setState({
         loader: false,
       });
 
       displaySuccess(tt('dialogs_transfer.operation_success'));
-
-      this.loadDelegationsData();
     } catch (err) {
       this.setState({
         loader: false,
@@ -329,32 +311,73 @@ export default class DelegateDialog extends PureComponent {
   }
 
   async updateDelegation(to, value) {
-    const { delegateTokens, stopDelegateTokens } = this.props;
+    const { delegateTokens, undelegateTokens, convertTokensToVesting } = this.props;
 
-    const delegationAction = value > 0 ? delegateTokens : stopDelegateTokens;
+    const numberVal = parseFloat(value);
+
+    if (numberVal === 0) {
+      return;
+    }
+
+    const isDelegating = numberVal > 0;
+
+    const delegationAction = isDelegating ? delegateTokens : undelegateTokens;
+    const absValue = value.replace(/^-/, '');
+    const convertedAmount = await convertTokensToVesting(absValue);
+
+    if (isDelegating) {
+      if (
+        !(await DialogManager.confirm(tt('dialogs_transfer.delegate_vesting.confirm_proposal')))
+      ) {
+        return;
+      }
+    }
 
     this.setState({
       disabled: true,
       loader: true,
     });
 
+    let results;
+
     try {
-      await delegationAction(to, value);
-
-      this.setState({
-        disabled: false,
-        loader: false,
-        editUserId: null,
-      });
-
-      this.loadDelegationsData();
+      results = await delegationAction(to, convertedAmount);
     } catch (err) {
       this.setState({
         disabled: false,
         loader: false,
       });
+
       displayError(tt('g.error'), err);
+      return;
     }
+
+    this.setState({
+      disabled: false,
+      loader: false,
+      editUserId: null,
+    });
+
+    if (!isDelegating) {
+      await this._waitTrxAndLoadData(results);
+    }
+
+    displaySuccess(tt('g.success_operation'));
+  }
+
+  async _waitTrxAndLoadData({ transaction_id }) {
+    try {
+      await Promise.race([this.__waitTrxAndLoadData(transaction_id), timeout(3000)]);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  async __waitTrxAndLoadData(trxId) {
+    const { waitForTransaction } = this.props;
+
+    await waitForTransaction(trxId);
+    await this.loadDelegationsData();
   }
 
   renderDelegateBody({ availableBalanceString }) {
@@ -449,7 +472,6 @@ export default class DelegateDialog extends PureComponent {
       balance: availableBalance,
       isFinal: !amountInFocus,
       multiplier: MULTIPLIER,
-      round: true,
     });
 
     let errorMsg = error;

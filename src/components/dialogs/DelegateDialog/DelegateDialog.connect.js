@@ -9,7 +9,7 @@ import {
   getDelegationState,
   waitForTransaction,
 } from 'store/actions/gate';
-import { delegateTokens, stopDelegateTokens } from 'store/actions/cyberway/vesting';
+import { delegateTokens, undelegateTokens } from 'store/actions/cyberway/vesting';
 
 import DelegateDialog from './DelegateDialog';
 
@@ -30,7 +30,7 @@ export default connect(
   },
   {
     delegateTokens,
-    stopDelegateTokens,
+    undelegateTokens,
     getVestingParams,
     convertTokensToVesting,
     getDelegationState,

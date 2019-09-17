@@ -115,13 +115,12 @@ export default class DelegationsList extends PureComponent {
                   </To>
                   <Value>{delegation.quantity.GOLOS}</Value>
                   <Action>
-                    {/*TODO: Fix button logic */}
-                    {/*<ActionButton*/}
-                    {/*  data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.edit')}*/}
-                    {/*  onClick={() => onEditClick(delegation.to)}*/}
-                    {/*>*/}
-                    {/*  <Icon name="pen" size={14} />*/}
-                    {/*</ActionButton>*/}
+                    <ActionButton
+                      data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.edit')}
+                      onClick={() => onEditClick(delegation.to)}
+                    >
+                      <Icon name="pen" size={14} />
+                    </ActionButton>
                     <ActionButton
                       red
                       data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.cancel')}

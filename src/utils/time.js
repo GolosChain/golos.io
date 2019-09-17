@@ -2,6 +2,10 @@ export function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export function timeout(ms) {
+  return new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms));
+}
+
 export function fixDate(ts) {
   if (ts && ts.length === 19 && ts[10] === 'T') {
     return `${ts}Z`;
