@@ -25,7 +25,7 @@ const List = styled.ul``;
 
 const Item = styled.li`
   display: flex;
-  margin: 8px 0;
+  margin-top: 8px;
 `;
 
 const Position = styled.span`
