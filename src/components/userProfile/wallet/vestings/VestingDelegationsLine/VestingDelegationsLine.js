@@ -1,4 +1,5 @@
 import React from 'react';
+import tt from 'counterpart';
 
 import SmartLink from 'components/common/SmartLink';
 
@@ -12,7 +13,7 @@ export default function VestingDelegationsLine({ delegation }) {
       <LineIcon name="logo" color="#f57c02" />
       <Who>
         <WhoName>
-          От{' '}
+          {tt('user_wallet.content.from')}{' '}
           <SmartLink
             route="profile"
             params={{ userId: delegation.from, username: delegation.fromUsername }}
