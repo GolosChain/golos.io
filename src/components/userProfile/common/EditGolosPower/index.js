@@ -1,1 +1,1 @@
-export { default } from './EditGolosPower';
+export { default } from './EditGolosPower.connect';

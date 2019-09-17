@@ -10,9 +10,6 @@ import {
   DELEGATE,
   DELEGATE_SUCCESS,
   DELEGATE_ERROR,
-  STOP_DELEGATE,
-  STOP_DELEGATE_SUCCESS,
-  STOP_DELEGATE_ERROR,
 } from 'store/constants/actionTypes';
 import { currentUserIdSelector, currentUserSelector } from 'store/selectors/auth';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
@@ -172,7 +169,7 @@ export const delegateTokens = (recipient, tokensQuantity, percents) => async (
   );
 };
 
-export const stopDelegateTokens = (recipient, tokensQuantity) => async (dispatch, getState) => {
+export const stopDelegateTokens = (to, amount) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -181,13 +178,12 @@ export const stopDelegateTokens = (recipient, tokensQuantity) => async (dispatch
 
   const data = {
     from: userId,
-    to: recipient,
-    quantity: `${tokensQuantity} GOLOS`,
+    to: to,
+    quantity: amount,
   };
 
   return dispatch({
     [CYBERWAY_API]: {
-      types: [STOP_DELEGATE, STOP_DELEGATE_SUCCESS, STOP_DELEGATE_ERROR],
       contract: CONTRACT_NAME,
       method: 'undelegate',
       params: data,

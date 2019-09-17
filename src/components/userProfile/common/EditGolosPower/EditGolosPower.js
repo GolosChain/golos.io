@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
+import { DelegationType } from 'components/dialogs/DelegateDialog/types';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 import ComplexInput from 'components/golos-ui/ComplexInput';
@@ -67,19 +68,21 @@ const DelegationEditSplitter = styled.div`
 
 export default class EditGolosPower extends PureComponent {
   static propTypes = {
-    value: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
+    delegation: DelegationType.isRequired,
+    vesting: PropTypes.shape({}).isRequired,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
   };
 
   state = {
-    inputValue: (this.props.value / 1000).toFixed(3),
+    inputValue: this.props.delegation.quantity.GOLOS.split(' ')[0],
   };
 
   render() {
     const { max } = this.props;
     const { inputValue } = this.state;
+
+    return 'LOL';
 
     const { value, error } = parseAmount3(inputValue, max, false, 1000);
 

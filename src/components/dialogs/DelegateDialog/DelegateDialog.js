@@ -6,10 +6,9 @@ import tt from 'counterpart';
 
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
-import { CheckboxInput } from 'components/golos-ui/Form';
 
+import { wait } from 'utils/time';
 import { displayError, displaySuccess } from 'utils/toastMessages';
-import { MIN_VOICE_POWER } from 'constants/config';
 import { isBadActor } from 'utils/chainValidation';
 import { parseAmount } from 'helpers/currency';
 import DialogFrame from 'components/dialogs/DialogFrame';
@@ -41,13 +40,6 @@ const Container = styled.div``;
 
 const Content = styled.div`
   padding: 10px 30px 14px;
-`;
-
-const ContentStub = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
 `;
 
 const SubHeader = styled.div`
@@ -136,6 +128,7 @@ export default class DelegateDialog extends PureComponent {
     stopDelegateTokens: PropTypes.func.isRequired,
     getVestingParams: PropTypes.func.isRequired,
     convertTokensToVesting: PropTypes.func.isRequired,
+    getDelegationState: PropTypes.func.isRequired,
     close: PropTypes.func.isRequired,
   };
 
@@ -157,42 +150,60 @@ export default class DelegateDialog extends PureComponent {
       amountInFocus: false,
       loader: false,
       disabled: false,
-      delegationError: null,
-      delegationData: null,
-      editAccountName: null,
+      delegationsError: null,
+      delegationsList: null,
+      editUserId: null,
       autoFocusValue: Boolean(target),
     };
   }
 
   componentDidMount() {
-    // TODO
-    // const { getVestingParams } = this.props;
-    // getVestingParams();
-
     this.loadDelegationsData();
   }
 
-  onDelegationCancel = async (to, quantity) => {
-    const { stopDelegateTokens } = this.props;
+  onDelegationCancel = async delegation => {
+    const { stopDelegateTokens, waitForTransaction } = this.props;
+
     if (await DialogManager.confirm()) {
-      await stopDelegateTokens(to, quantity, 0);
+      let results;
+
+      try {
+        results = await stopDelegateTokens(delegation.to, delegation.quantity.GESTS);
+      } catch (err) {
+        displayError(err);
+        return;
+      }
+
+      DialogManager.info(tt('dialogs_transfer.delegate_vesting.canceled'));
+
+      try {
+        await waitForTransaction(results.transaction_id);
+      } catch {}
+
+      await wait(1000);
+
+      try {
+        await this.loadDelegationsData();
+      } catch (err) {
+        console.warn(err);
+      }
     }
   };
 
-  onDelegationEditSave = value => {
-    const { editAccountName } = this.state;
-    this.updateDelegation(editAccountName, value);
+  onDelegationEditSave = async value => {
+    const { editUserId } = this.state;
+    await this.updateDelegation(editUserId, value);
   };
 
   onDelegationEditCancel = () => {
     this.setState({
-      editAccountName: null,
+      editUserId: null,
     });
   };
 
-  onDelegationEdit = accountName => {
+  onDelegationEdit = userId => {
     this.setState({
-      editAccountName: accountName,
+      editUserId: userId,
     });
   };
 
@@ -300,30 +311,24 @@ export default class DelegateDialog extends PureComponent {
   }
 
   async loadDelegationsData() {
+    const { currentUserId, getDelegationState } = this.props;
+
     try {
-      // TODO
-      const result = [
-        {
-          id: 0,
-          delegator: 'test1',
-          delegatee: 'test2',
-          vesting_shares: '90.000000 GOLOS',
-        },
-      ];
+      const results = await getDelegationState({ userId: currentUserId });
 
       this.setState({
-        delegationError: null,
-        delegationData: result,
+        delegationsError: null,
+        delegationsList: results,
       });
     } catch (err) {
       this.setState({
-        delegationError: err,
-        delegationData: null,
+        delegationsError: err,
+        delegationsList: null,
       });
     }
   }
 
-  async updateDelegation(delegatee, value) {
+  async updateDelegation(to, value) {
     const { delegateTokens, stopDelegateTokens } = this.props;
 
     const delegationAction = value > 0 ? delegateTokens : stopDelegateTokens;
@@ -334,12 +339,12 @@ export default class DelegateDialog extends PureComponent {
     });
 
     try {
-      await delegationAction(delegatee, value);
+      await delegationAction(to, value);
 
       this.setState({
         disabled: false,
         loader: false,
-        editAccountName: null,
+        editUserId: null,
       });
 
       this.loadDelegationsData();
@@ -392,15 +397,15 @@ export default class DelegateDialog extends PureComponent {
     );
   }
 
-  renderCancelBody({ availableBalance }) {
+  renderDelegationsList() {
     const { currentUsername } = this.props;
-    const { delegationError, delegationData, editAccountName } = this.state;
+    const { delegationsError, delegationsList, editUserId } = this.state;
 
-    if (delegationError) {
-      return String(delegationError);
+    if (delegationsError) {
+      return String(delegationsError);
     }
 
-    if (!delegationData) {
+    if (!delegationsList) {
       return (
         <LoaderWrapper>
           <LoadingIndicator type="circle" size={60} />
@@ -409,29 +414,22 @@ export default class DelegateDialog extends PureComponent {
     }
 
     let delegation = null;
-    let vestingShares = null;
 
-    if (editAccountName) {
-      const data = delegationData.find(d => d.delegatee === editAccountName);
-
-      if (data) {
-        delegation = data;
-        vestingShares = Math.round(parseFloat(data.vesting_shares) * 1000);
-      }
+    if (editUserId) {
+      delegation = delegationsList.find(({ to }) => to === editUserId);
     }
 
     return (
       <>
         <DelegationsList
           myAccountName={currentUsername}
-          data={delegationData}
+          items={delegationsList}
           onEditClick={this.onDelegationEdit}
           onCancelClick={this.onDelegationCancel}
         />
         {delegation ? (
           <DelegationEdit
-            value={vestingShares}
-            max={availableBalance + vestingShares}
+            delegation={delegation}
             onSave={this.onDelegationEditSave}
             onCancel={this.onDelegationEditCancel}
           />
@@ -444,10 +442,7 @@ export default class DelegateDialog extends PureComponent {
     const { power, vestingParams } = this.props;
     const { target, amount, loader, disabled, amountInFocus, type } = this.state;
 
-    const availableBalance = Math.max(
-      0,
-      Math.round((parseFloat(power) - MIN_VOICE_POWER) * MULTIPLIER)
-    );
+    const availableBalance = Math.round(parseFloat(power) * MULTIPLIER);
     const availableBalanceString = (availableBalance / MULTIPLIER).toFixed(3);
 
     const { value, error } = parseAmount(amount, {
@@ -543,12 +538,7 @@ export default class DelegateDialog extends PureComponent {
               </Content>
             </>
           ) : (
-            <Content>
-              {/*{this.renderCancelBody(params)}*/}
-              <ContentStub>
-                <p>{tt('dialogs_transfer.delegate_vesting.not_ready')}</p>
-              </ContentStub>
-            </Content>
+            <Content>{this.renderDelegationsList()}</Content>
           )}
         </Container>
         {loader ? <SplashLoader /> : null}
