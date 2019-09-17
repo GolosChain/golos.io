@@ -4,30 +4,48 @@ import { LinkTabsContent } from 'components/common/LinkTabs';
 
 import TransfersList from './transfers/TransfersList';
 
+const TABS = [
+  {
+    id: 'all',
+    index: true,
+    translation: 'user_wallet.tab_title.all',
+  },
+  {
+    id: 'golos',
+    translation: 'user_wallet.tab_title.golos',
+  },
+  {
+    id: 'cyber',
+    translation: 'user_wallet.tab_title.cyber',
+  },
+];
+
+const TABS_DIRECTION = [
+  {
+    id: 'all',
+    index: true,
+    translation: 'user_wallet.tab_title.all',
+    direction: 'all',
+  },
+  {
+    id: 'sent',
+    translation: 'user_wallet.tab_title.sent',
+    direction: 'out',
+  },
+  {
+    id: 'received',
+    translation: 'user_wallet.tab_title.received',
+    direction: 'in',
+  },
+];
+
 function TransfersDirectionsTabs({ currency, sections, url, fullUrl, userId }) {
   return (
     <LinkTabsContent
       url={url}
       fullUrl={fullUrl}
-      tabs={[
-        {
-          id: 'all',
-          index: true,
-          translation: 'user_wallet.tab_title.all',
-          direction: 'all',
-        },
-        {
-          id: 'sent',
-          translation: 'user_wallet.tab_title.sent',
-          direction: 'out',
-        },
-        {
-          id: 'received',
-          translation: 'user_wallet.tab_title.received',
-          direction: 'in',
-        },
-      ]}
-      activeTab={sections[0] || 'all'}
+      tabs={TABS_DIRECTION}
+      activeTab={sections[0] || TABS_DIRECTION[0].id}
     >
       {tab => <TransfersList currency={currency} direction={tab.direction} userId={userId} />}
     </LinkTabsContent>
@@ -36,26 +54,7 @@ function TransfersDirectionsTabs({ currency, sections, url, fullUrl, userId }) {
 
 export default function Transfers({ userId, sections, url, fullUrl }) {
   return (
-    <LinkTabsContent
-      tabs={[
-        {
-          id: 'all',
-          index: true,
-          translation: 'user_wallet.tab_title.all',
-        },
-        {
-          id: 'golos',
-          translation: 'user_wallet.tab_title.golos',
-        },
-        {
-          id: 'cyber',
-          translation: 'user_wallet.tab_title.cyber',
-        },
-      ]}
-      activeTab={sections[0] || 'all'}
-      url={url}
-      fullUrl={fullUrl}
-    >
+    <LinkTabsContent tabs={TABS} activeTab={sections[0] || TABS[0].id} url={url} fullUrl={fullUrl}>
       {(tab, props) => (
         <TransfersDirectionsTabs
           userId={userId}
