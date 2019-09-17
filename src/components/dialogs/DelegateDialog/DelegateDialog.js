@@ -43,6 +43,13 @@ const Content = styled.div`
   padding: 10px 30px 14px;
 `;
 
+const ContentStub = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+`;
+
 const SubHeader = styled.div`
   padding: 30px;
   margin-bottom: 1px;
@@ -536,7 +543,12 @@ export default class DelegateDialog extends PureComponent {
               </Content>
             </>
           ) : (
-            <Content>{this.renderCancelBody(params)}</Content>
+            <Content>
+              {/*{this.renderCancelBody(params)}*/}
+              <ContentStub>
+                <p>{tt('dialogs_transfer.delegate_vesting.not_ready')}</p>
+              </ContentStub>
+            </Content>
           )}
         </Container>
         {loader ? <SplashLoader /> : null}
