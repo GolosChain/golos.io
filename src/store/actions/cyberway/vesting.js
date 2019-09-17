@@ -19,6 +19,13 @@ import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import { isVestingAlreadyOpened, markVestingOpened } from 'utils/localStorage';
 
+import {
+  DEFAULT_PROPOSAL_EXPIRES,
+  createPropose,
+  approveProposal,
+  generateRandomProposalId,
+} from './msig';
+
 const CONTRACT_NAME = 'vesting';
 const VESTING_SYMBOL = '6,GOLOS';
 
@@ -109,7 +116,7 @@ export const stopWithdrawTokens = () => async (dispatch, getState) => {
   });
 };
 
-export const delegateTokens = (recipient, tokensQuantity, percents, strategy) => async (
+export const delegateTokens = (recipient, tokensQuantity, percents) => async (
   dispatch,
   getState
 ) => {
@@ -120,11 +127,9 @@ export const delegateTokens = (recipient, tokensQuantity, percents, strategy) =>
   }
 
   let interestRate = 0;
-  let payoutStrategy = 0;
 
   if (percents) {
     interestRate = percents * 100;
-    payoutStrategy = strategy;
   }
 
   const data = {
@@ -132,18 +137,39 @@ export const delegateTokens = (recipient, tokensQuantity, percents, strategy) =>
     to: recipient,
     quantity: `${parseFloat(tokensQuantity).toFixed(6)} GOLOS`,
     interest_rate: interestRate,
-    payout_strategy: payoutStrategy,
   };
 
-  return dispatch({
-    [CYBERWAY_API]: {
-      types: [DELEGATE, DELEGATE_SUCCESS, DELEGATE_ERROR],
-      contract: CONTRACT_NAME,
-      method: 'delegate',
-      params: data,
+  const proposalId = generateRandomProposalId();
+
+  const auth = [
+    {
+      actor: userId,
+      permission: 'active',
     },
-    meta: data,
-  });
+    {
+      actor: recipient,
+      permission: 'active',
+    },
+  ];
+
+  await dispatch(
+    createPropose({
+      contract: 'vesting',
+      method: 'delegate',
+      proposalId,
+      auth,
+      params: data,
+      requested: auth,
+      expires: DEFAULT_PROPOSAL_EXPIRES,
+    })
+  );
+
+  await dispatch(
+    approveProposal({
+      proposer: userId,
+      proposalId,
+    })
+  );
 };
 
 export const stopDelegateTokens = (recipient, tokensQuantity) => async (dispatch, getState) => {

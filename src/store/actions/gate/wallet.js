@@ -36,24 +36,29 @@ import {
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { validatorSchema } from 'store/schemas/gate';
+import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 
-export const getBalance = userId => {
+export const getBalance = userId => (dispatch, getState) => {
   if (!userId) {
     throw new Error('Username is required!');
   }
 
+  const unsafeUserId = currentUnsafeUserIdSelector(getState());
+
   const params = {
+    app: 'gls',
     userId,
+    includeVestingDelegationProposals: Boolean(unsafeUserId && unsafeUserId === userId),
   };
 
-  return {
+  return dispatch({
     [CALL_GATE]: {
       types: [FETCH_USER_BALANCE, FETCH_USER_BALANCE_SUCCESS, FETCH_USER_BALANCE_ERROR],
       method: 'wallet.getBalance',
       params,
     },
     meta: params,
-  };
+  });
 };
 
 export const getTransfersHistory = ({

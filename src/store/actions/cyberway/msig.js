@@ -11,9 +11,9 @@ import {
 } from 'store/constants';
 import { currentUserIdSelector } from 'store/selectors/auth';
 
-const DEFAULT_PROPOSAL_EXPIRES = 2592000; // в секундах (2592000 = 30 суток)
+export const DEFAULT_PROPOSAL_EXPIRES = 2592000; // в секундах (2592000 = 30 суток)
 
-function generateRandomProposalName() {
+export function generateRandomProposalId() {
   const numbers = [];
 
   for (let i = 0; i < 10; i++) {
@@ -27,8 +27,8 @@ export const createPropose = ({
   contract,
   method,
   params,
-  actor,
-  permission,
+  auth,
+  proposalId,
   requested,
   expires,
 }) => async (dispatch, getState) => {
@@ -39,7 +39,7 @@ export const createPropose = ({
       contract,
       method,
       params,
-      auth: { accountName: actor, permission: permission },
+      auth,
       options: {
         msig: true,
         msigExpires: expires,
@@ -49,8 +49,8 @@ export const createPropose = ({
 
   const proposeParams = {
     proposer: userId,
-    proposal_name: generateRandomProposalName(),
-    requested: requested,
+    proposal_name: proposalId || generateRandomProposalId(),
+    requested,
     trx,
   };
 
@@ -99,8 +99,10 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
     createPropose({
       contract: contractName,
       method: 'setparams',
-      actor: `gls.${contractName}`,
-      permission: 'active',
+      auth: {
+        actor: `gls.${contractName}`,
+        permission: 'active',
+      },
       params: {
         ...params,
         params: structures,
@@ -124,8 +126,10 @@ export const setChargeRestorer = params => async (dispatch, getState) => {
     createPropose({
       contract: 'charge',
       method: 'setrestorer',
-      actor: 'gls.charge',
-      permission: 'active',
+      auth: {
+        actor: 'gls.charge',
+        permission: 'active',
+      },
       params,
       requested: requestedAuth,
       expires: DEFAULT_PROPOSAL_EXPIRES,
@@ -175,14 +179,14 @@ export const execProposal = ({ proposer, proposalId }) => async (dispatch, getSt
       method: 'exec',
       types: [EXEC_PROPOSAL, EXEC_PROPOSAL_SUCCESS, EXEC_PROPOSAL_ERROR],
       params: {
-        proposer: proposer,
+        proposer,
         proposal_name: proposalId,
         executer: userId,
       },
     },
     meta: {
-      proposer: proposer,
-      proposalId: proposalId,
+      proposer,
+      proposalId,
     },
   });
 };

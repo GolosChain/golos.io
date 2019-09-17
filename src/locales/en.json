@@ -198,14 +198,11 @@
       "title": "Convert"
     },
     "delegate_vesting": {
-      "delegate_button": "Delegate",
-      "first_strategy": "Payout to delegater",
+      "delegate_button": "Create proposal",
       "min_amount": "Minimal amount: %(amount)s",
-      "second_strategy": "Payout is added to delegated vesting",
       "tabs": {
         "delegate": {
           "interest_rate": "Interest rate",
-          "receive_rewards": "Receive rewards using delegated GP",
           "tip_1": "You can delegate some amount of your Golos Power to other users.",
           "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days.",
           "title": "Delegate"
@@ -311,6 +308,7 @@
     "total_paid": "Total paid"
   },
   "g": {
+    "accept": "Accept",
     "pending_transaction": "The transaction is awaiting confirmation",
     "retry": "Retry",
     "section_not_found": "Section not found",
@@ -1068,6 +1066,8 @@
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
   },
   "wallet": {
+    "vesting_delegation_proposal_text": "From %(from)s amount: %(amount)s, with interest rate: %(interest)s",
+    "vesting_delegation_proposals": "You have proposal for delegating Golos Power",
     "cancel": "Cancel",
     "next_power_down_date": "The next power down is scheduled to happen ",
     "power_down_line": "You've started power down process for **%(all)s GOLOS** (**%(done)s GOLOS** have already paid off)",

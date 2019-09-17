@@ -5,7 +5,7 @@ import { defaults } from 'utils/common';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { PROVIDE_BW, PROVIDE_BW_SUCCESS, PROVIDE_BW_ERROR } from 'store/constants';
 import { SHOW_MODAL_LOGIN } from 'store/constants/modalTypes';
-import { currentUserSelector } from 'store/selectors/auth';
+import { currentUserSelector, currentUserIdSelector } from 'store/selectors/auth';
 
 export const CYBERWAY_API = 'CYBERWAY_API';
 
@@ -18,15 +18,17 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
 
   if (
     process.env.PROVIDEBW_ENABLED &&
-    callApi.options?.providebw !== false &&
+    callApi.options?.provideBandwidthFor !== null &&
     shouldUseBW({ getState })
   ) {
+    const userId = currentUserIdSelector(getState());
+
     callApi = {
       ...callApi,
       options: defaults(callApi.options, {
         broadcast: false,
-        providebw: true,
-        bwprovider: 'gls',
+        provideBandwidthFor: userId,
+        bandwidthProvider: 'gls',
       }),
     };
   }
@@ -52,7 +54,7 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
     let currentPermission = permission;
 
     if (permission === 'posting' && contract !== 'publish') {
-      const { auth } = await next(
+      const { auth: loginAuth } = await next(
         openModal(SHOW_MODAL_LOGIN, {
           isConfirm: true,
           keyRole: 'active',
@@ -61,22 +63,22 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
         })
       );
 
-      if (!auth) {
+      if (!loginAuth) {
         throw new Error('Missing active authority');
       }
 
       currentPermission = 'active';
-      cyber.initProvider(auth.actualKey);
+      cyber.initProvider(loginAuth.actualKey);
     }
 
-    // raw transaction if providebw option specified or result of transaction
+    // raw transaction if provideBandwidthFor option specified or result of transaction
     let result = await cyber[contract][method](
-      auth || { accountName: userId, permission: currentPermission },
+      auth || { actor: userId, permission: currentPermission },
       params,
       options
     );
 
-    if (options && options.providebw && !options.msig) {
+    if (options && options.provideBandwidthFor && !options.msig) {
       const { signatures, serializedTransaction } = result;
 
       const paramsProvidebw = {

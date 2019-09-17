@@ -48,7 +48,7 @@ export const changePassword = ({ ownerKey, publicKeys, availableRoles, delaySec 
   const actions = availableRoles.map(role => ({
     contractAccount: 'cyber',
     actionName: 'updateauth',
-    actor: { accountName: userId, permission: 'owner' },
+    auth: { actor: userId, permission: 'owner' },
     data: {
       account: userId,
       permission: role,

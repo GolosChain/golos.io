@@ -24,9 +24,9 @@ export const openTransferDialog = (
   );
 };
 
-export function openDelegateDialog(recipientName) {
+export function openDelegateDialog(recipientUserId) {
   return openModal(SHOW_MODAL_DELEGATE, {
-    recipientName,
+    recipientUserId,
   });
 }
 
