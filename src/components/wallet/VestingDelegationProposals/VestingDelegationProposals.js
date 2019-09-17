@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Card from 'components/golos-ui/Card';
+import Button from 'components/golos-ui/Button';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import WalletUtils from 'utils/wallet';
@@ -40,8 +41,12 @@ const Actions = styled.div`
   flex-shrink: 0;
 `;
 
-const Action = styled.button`
+const Action = styled(Button)`
+  height: 24px;
+  line-height: 25px;
+  padding: 0 12px;
   margin-left: 8px;
+  font-size: 11px;
 `;
 
 export default class VestingDelegationProposals extends PureComponent {
