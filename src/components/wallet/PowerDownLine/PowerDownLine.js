@@ -10,6 +10,8 @@ import Button from 'components/golos-ui/Button';
 import DialogManager from 'components/elements/common/DialogManager';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 
+import { CURRENCIES } from 'shared/constants';
+
 const Text = styled.div`
   flex: 1;
   margin-left: 18px;
@@ -116,7 +118,7 @@ export default class PowerDownLine extends Component {
 
     const withdrawn = parseFloat(
       parsePayoutAmount(quantity) - parsePayoutAmount(toWithdraw)
-    ).toFixed(6);
+    ).toFixed(CURRENCIES.GOLOS.decs);
 
     return (
       <Root>
