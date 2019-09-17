@@ -8,7 +8,7 @@ import { DelegationType } from 'components/dialogs/DelegateDialog/types';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 import ComplexInput from 'components/golos-ui/ComplexInput';
-import { parseAmount3 } from 'helpers/currency';
+import { parseAmount } from 'helpers/currency';
 
 const Root = styled.div`
   position: absolute;
@@ -50,7 +50,7 @@ const Button = styled.button.attrs({ type: 'button' })`
     color: #333;
   }
 
-  &[disabled] {
+  &:disabled {
     color: #aaa;
     cursor: not-allowed;
   }
@@ -69,23 +69,60 @@ const DelegationEditSplitter = styled.div`
 export default class EditGolosPower extends PureComponent {
   static propTypes = {
     delegation: DelegationType.isRequired,
-    vesting: PropTypes.shape({}).isRequired,
+    unusedVesting: PropTypes.number,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
   };
 
-  state = {
-    inputValue: this.props.delegation.quantity.GOLOS.split(' ')[0],
+  constructor(props) {
+    super(props);
+
+    const { delegation, unusedVesting } = props;
+    const { quantity } = delegation;
+
+    const alreadyDelegated = quantity.GOLOS.split(' ')[0];
+
+    this.state = {
+      inputValue: alreadyDelegated,
+      maxAmount: unusedVesting + parseFloat(alreadyDelegated),
+    };
+  }
+
+  _onDelegationSliderChange = value => {
+    this.setState({
+      inputValue: (value / 1000).toFixed(3),
+    });
   };
 
+  _onValueChange = e => {
+    this.setState({
+      inputValue: e.target.value.replace(/[^\d .]+/g, '').replace(/,/g, '.'),
+    });
+  };
+
+  _onSaveClick = () => {
+    const { delegation, onSave } = this.props;
+    const { value, error } = this._inputToAmount();
+
+    if (error) {
+      return;
+    }
+
+    const currentQuantity = parseFloat(delegation.quantity.GOLOS);
+    const diff = parseFloat(value) - currentQuantity;
+
+    onSave(diff.toFixed(3));
+  };
+
+  _inputToAmount() {
+    const { inputValue, maxAmount } = this.state;
+
+    return parseAmount(inputValue, { balance: maxAmount });
+  }
+
   render() {
-    const { max } = this.props;
-    const { inputValue } = this.state;
-
-    return 'LOL';
-
-    const { value, error } = parseAmount3(inputValue, max, false, 1000);
-
+    const { inputValue, maxAmount } = this.state;
+    const { value, error } = this._inputToAmount();
     const isError = Boolean(error);
 
     return (
@@ -93,7 +130,7 @@ export default class EditGolosPower extends PureComponent {
         <Field>
           <ComplexInput
             placeholder={tt('dialogs_transfer.amount_placeholder', {
-              amount: max.toFixed(3),
+              amount: maxAmount.toFixed(3),
             })}
             spellCheck="false"
             autoFocus
@@ -106,10 +143,11 @@ export default class EditGolosPower extends PureComponent {
         </Field>
         <Field>
           <Slider
-            value={value || 0}
-            min={10}
-            max={max}
+            value={Math.floor(value * 1000) || 0}
+            min={0}
+            max={Math.floor(maxAmount * 1000)}
             hideHandleValue
+            hideTooltip
             onChange={this._onDelegationSliderChange}
           />
         </Field>
@@ -127,27 +165,4 @@ export default class EditGolosPower extends PureComponent {
       </Root>
     );
   }
-
-  _onDelegationSliderChange = value => {
-    this.setState({
-      inputValue: (value / 1000).toFixed(3),
-    });
-  };
-
-  _onValueChange = e => {
-    this.setState({
-      inputValue: e.target.value.replace(/[^\d .]+/g, '').replace(/,/g, '.'),
-    });
-  };
-
-  _onSaveClick = () => {
-    const { max } = this.props;
-    const { inputValue } = this.state;
-
-    const { value, error } = parseAmount3(inputValue, max, false, 1000);
-
-    if (!error) {
-      this.props.onSave(value);
-    }
-  };
 }

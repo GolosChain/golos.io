@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import is from 'styled-is';
 import tt from 'counterpart';
 import ToastsManager from 'toasts-manager';
 
@@ -68,10 +67,6 @@ const Body = styled.div`
 
 const Section = styled.div`
   margin: 10px 0;
-
-  ${is('flex')`
-    display: flex;
-  `};
 `;
 
 const Label = styled.div`

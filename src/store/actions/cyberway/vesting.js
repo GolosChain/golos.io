@@ -113,10 +113,7 @@ export const stopWithdrawTokens = () => async (dispatch, getState) => {
   });
 };
 
-export const delegateTokens = (recipient, tokensQuantity, percents) => async (
-  dispatch,
-  getState
-) => {
+export const delegateTokens = (recipient, amount, percents) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -132,7 +129,7 @@ export const delegateTokens = (recipient, tokensQuantity, percents) => async (
   const data = {
     from: userId,
     to: recipient,
-    quantity: `${parseFloat(tokensQuantity).toFixed(6)} GOLOS`,
+    quantity: `${parseFloat(amount).toFixed(6)} GOLOS`,
     interest_rate: interestRate,
   };
 
@@ -169,7 +166,7 @@ export const delegateTokens = (recipient, tokensQuantity, percents) => async (
   );
 };
 
-export const stopDelegateTokens = (to, amount) => async (dispatch, getState) => {
+export const undelegateTokens = (to, amount) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -178,8 +175,8 @@ export const stopDelegateTokens = (to, amount) => async (dispatch, getState) => 
 
   const data = {
     from: userId,
-    to: to,
-    quantity: amount,
+    to,
+    quantity: `${parseFloat(amount).toFixed(6)} GOLOS`,
   };
 
   return dispatch({

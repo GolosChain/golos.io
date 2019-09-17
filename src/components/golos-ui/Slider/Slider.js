@@ -123,6 +123,7 @@ export default class Slider extends PureComponent {
     min: PropTypes.number,
     max: PropTypes.number,
     red: PropTypes.bool,
+    hideTooltip: PropTypes.bool,
     showCaptions: PropTypes.bool,
     percentsInCaption: PropTypes.bool,
     hideHandleValue: PropTypes.bool,
@@ -153,21 +154,35 @@ export default class Slider extends PureComponent {
       showCaptions,
       disabled,
       percentsInCaption,
+      hideTooltip,
       ...passProps
     } = this.props;
     const value = Number(this.props.value);
 
     const isMobile = checkMobileDevice();
+
     const percent = (100 * (value - min)) / (max - min) || 0;
 
     let leftCaption = min;
     let centralCaption = Math.round(min + (max - min) / 2);
     let rightCaption = max;
-    const tooltipPercents = `${Math.round((100 * value) / max)}%`;
+
     if (percentsInCaption) {
       leftCaption = 0;
       centralCaption = 50;
       rightCaption = 100;
+    }
+
+    let tooltip = null;
+
+    if (!hideTooltip && hideHandleValue && !isMobile) {
+      if (percentsInCaption) {
+        tooltip = `${Math.round((100 * value) / max)}%`;
+      } else {
+        tooltip = tt('settings_jsx.default_voting_power_tip', {
+          value,
+        });
+      }
     }
 
     return (
@@ -182,26 +197,23 @@ export default class Slider extends PureComponent {
         <Progress width={percent} />
         <HandleSlot ref={this.rootRef}>
           <HandleWrapper left={percent}>
-            {hideHandleValue && !isMobile ? (
-              <Handle
-                data-tooltip={
-                  percentsInCaption
-                    ? tooltipPercents
-                    : tt('settings_jsx.default_voting_power_tip', {
-                        value,
-                      })
-                }
-              />
-            ) : (
-              <Handle>{value}</Handle>
-            )}
+            <Handle data-tooltip={tooltip} />
           </HandleWrapper>
         </HandleSlot>
         {showCaptions && (
           <Captions>
-            <Caption left>{leftCaption}%</Caption>
-            <Caption center>{centralCaption}%</Caption>
-            <Caption right>{rightCaption}%</Caption>
+            <Caption left>
+              {leftCaption}
+              {percentsInCaption ? '%' : null}
+            </Caption>
+            <Caption center>
+              {centralCaption}
+              {percentsInCaption ? '%' : null}
+            </Caption>
+            <Caption right>
+              {rightCaption}
+              {percentsInCaption ? '%' : null}
+            </Caption>
           </Captions>
         )}
       </Wrapper>
@@ -227,8 +239,8 @@ export default class Slider extends PureComponent {
 
     const { min, max } = this.props;
     const box = this.rootRef.current.getBoundingClientRect();
-
     const unbound = Math.round(min + ((max - min) * (clientX - box.left)) / box.width);
+
     return Math.min(max, Math.max(min, unbound));
   }
 

@@ -16,8 +16,6 @@ const CURRENCY_SIGNS = {
   RUB: '_₽',
 };
 
-const MIN_DELEGATION_AMOUNT_ERROR = 'Delegation difference is not enough';
-
 const queried = new Set();
 
 export function parseAmount(amount, { balance, isFinal, decs = 3, multiplier = 1, round = false }) {
@@ -37,22 +35,13 @@ export function parseAmount(amount, { balance, isFinal, decs = 3, multiplier = 1
     error = tt('currency.errors.wrong_format');
   } else if (amountValue && amountValue > balance) {
     error = tt('currency.errors.insufficient_funds');
-  } else if (amountFixed !== '' && amountValue === 0 && isFinal) {
+  } else if (isFinal && amountFixed !== '' && amountValue === 0) {
     error = tt('currency.errors.enter_amount');
   }
 
   return {
     error,
     value: error ? null : amountValue,
-  };
-}
-
-export function parseAmount3(amount, balance, minDelegationAmount, isFinal, multiplier) {
-  const { error, value } = parseAmount(amount, { balance, isFinal, multiplier, round: true });
-
-  return {
-    error: value < minDelegationAmount ? MIN_DELEGATION_AMOUNT_ERROR : error,
-    value: error ? null : value,
   };
 }
 

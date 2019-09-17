@@ -202,6 +202,7 @@
       "delegate_button": "Создать предложение",
       "min_amount": "Минимальная сумма: %(amount)s",
       "canceled": "Делегирование отменено. Обновление в списке может занять какое-то время.",
+      "confirm_proposal": "Будет создано предложение по увеличению количества делегированных токенов.\nДля выполнения операции потребуется подтверждение от стороны получателя.\n\nПродолжить?",
       "tabs": {
         "delegate": {
           "interest_rate": "Процент отчислений",
@@ -1080,7 +1081,7 @@
     "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост"
   },
   "wallet": {
-    "vesting_delegation_proposal_text": "От %(from)s на сумму: %(amount)s, с процентом доходности: %(interest)s",
+    "vesting_delegation_proposal_text": "От %(from)s на сумму: %(amount)s, с доходностью: %(interest)s%%",
     "vesting_delegation_proposals": "У вас есть предложения по делегированию Силы Голоса",
     "cancel": "Отменить",
     "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",
