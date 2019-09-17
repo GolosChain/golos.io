@@ -31,7 +31,7 @@ const TABS = [
   },
   {
     id: 'vesting',
-    translation: 'user_wallet.tab_title.vesting_history',
+    translation: 'user_wallet.tab_title.vesting',
     Comp: Vestings,
   },
   {

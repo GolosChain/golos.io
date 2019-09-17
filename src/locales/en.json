@@ -503,7 +503,6 @@
     "to": " to ",
     "topics": "Topics",
     "transaction_history": "Transaction History",
-    "vesting_history": "Vesting History",
     "transfer": "Transfer ",
     "trending": "Trending",
     "trending_topics": "Trending Topics",
@@ -1033,7 +1032,9 @@
       "savings": "Savings",
       "sent": "Sent",
       "transaction_history": "Transaction History",
-      "vesting_history": "Vesting History",
+      "vesting": "Vesting",
+      "vesting_delegation": "Delegation",
+      "vesting_history": "History",
       "genesis_history": "GOLOS Genesis",
       "claim": "Claim"
     }

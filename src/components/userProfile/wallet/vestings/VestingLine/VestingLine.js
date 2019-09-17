@@ -8,7 +8,9 @@ import Icon from 'components/golos-ui/Icon/Icon';
 import TimeAgoWrapper from 'components/elements/TimeAgoWrapper';
 import TrxLink from 'components/userProfile/wallet/common/TrxLink';
 
-const Root = styled.div`
+import { LineIcon } from '../../common';
+
+const Wrapper = styled.div`
   opacity: 0.7;
 
   ${is('isIrreversible')`
@@ -24,13 +26,6 @@ const Line = styled.div`
   display: flex;
   align-items: center;
   padding: 0 20px;
-`;
-
-const LineIcon = styled(Icon)`
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  color: ${props => props.color || '#b7b7ba'};
 `;
 
 const Who = styled.div`
@@ -115,7 +110,7 @@ function VestingLine({ vesting }) {
   }
 
   return (
-    <Root isIrreversible={isIrreversible}>
+    <Wrapper isIrreversible={isIrreversible}>
       <Line>
         <LineIcon name={icon} color={color} data-toggle={tooltipText} />
         <Who>
@@ -132,7 +127,7 @@ function VestingLine({ vesting }) {
           <Currency>{tt('token_names.VESTING_TOKEN')}</Currency>
         </Value>
       </Line>
-    </Root>
+    </Wrapper>
   );
 }
 
