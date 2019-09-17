@@ -9,9 +9,13 @@ const activeStyles = `
 `;
 
 const Tab = styled(
-  forwardRef(({ isLink, activeClassName, includeSubRoutes, includeRoute, Comp, ...props }, ref) =>
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
-    isLink ? <a ref={ref} {...props} /> : <div ref={ref} {...props} />
+  forwardRef(
+    (
+      { isLink, activeClassName, includeSubRoutes, includeRoute, shallow, scroll, Comp, ...props },
+      ref
+    ) =>
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
+      isLink ? <a ref={ref} {...props} /> : <div ref={ref} {...props} />
   )
 )`
   position: relative;
