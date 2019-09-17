@@ -8,7 +8,7 @@ import { DelegationType } from 'components/dialogs/DelegateDialog/types';
 import Icon from 'components/golos-ui/Icon';
 import Slider from 'components/golos-ui/Slider';
 import ComplexInput from 'components/golos-ui/ComplexInput';
-import { parseAmount3, parseAmount } from 'helpers/currency';
+import { parseAmount } from 'helpers/currency';
 
 const Root = styled.div`
   position: absolute;
