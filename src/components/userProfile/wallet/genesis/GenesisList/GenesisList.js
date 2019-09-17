@@ -30,8 +30,8 @@ export default function GenesisList({ userId, isLoading, items, getGenesisConver
   return (
     <>
       <div>
-        {items.map(convertion => (
-          <GenesisLine key={convertion.id} convertion={convertion} />
+        {items.map((convertion, i) => (
+          <GenesisLine key={i} convertion={convertion} />
         ))}
       </div>
       {!isLoading && !items.length ? (
