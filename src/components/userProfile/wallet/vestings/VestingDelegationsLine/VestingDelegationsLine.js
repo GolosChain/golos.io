@@ -24,7 +24,7 @@ export default function VestingDelegationsLine({ delegation }) {
       </Who>
       <Value>
         <Amount color="#f57c02">{amount}</Amount>
-        <Currency>Сила Голоса</Currency>
+        <Currency>{tt('token_names.VESTING_TOKEN')}</Currency>
       </Value>
     </Line>
   );
