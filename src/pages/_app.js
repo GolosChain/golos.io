@@ -41,6 +41,7 @@ import UIStoreSync from 'components/common/UIStoreSync';
 import ScrollFix from 'components/common/ScrollFix';
 import { checkMobileDevice } from 'helpers/browser';
 import { init as initAnchorHelper } from 'utils/anchorHelper';
+import plugins from 'utils/JsPlugins';
 
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -112,6 +113,12 @@ export default class GolosApp extends App {
         isSSR: false,
       })
     );
+
+    plugins({
+      google_analytics_id: process.env.GLS_GA_ID,
+      facebook_app_id: process.env.GLS_FB_APP_ID,
+      amplitude_id: process.env.GLS_AMPLITUDE_ID,
+    });
   }
 
   componentDidCatch(error, errorInfo) {
