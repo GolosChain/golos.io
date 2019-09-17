@@ -273,3 +273,13 @@ export const getValidators = () => {
     },
   };
 };
+
+export const getDelegationState = ({ userId, direction = 'out' }) => ({
+  [CALL_GATE]: {
+    method: 'wallet.getDelegationState',
+    params: {
+      userId,
+      direction,
+    },
+  },
+});

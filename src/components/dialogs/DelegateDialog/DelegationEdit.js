@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import EditGolosPower from 'components/userProfile/common/EditGolosPower';
 
+import { DelegationType } from './types';
+
 const Root = styled.div`
   position: absolute;
   top: 0;
@@ -35,19 +37,18 @@ const EditGolosPowerStyled = styled(EditGolosPower)`
 
 export default class DelegationEdit extends PureComponent {
   static propTypes = {
-    value: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
+    delegation: DelegationType.isRequired,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
   };
 
   render() {
-    const { value, max, onSave, onCancel } = this.props;
+    const { delegation, onSave, onCancel } = this.props;
 
     return (
       <Root>
         <Overlay onClick={onCancel} />
-        <EditGolosPowerStyled value={value} max={max} onSave={onSave} onCancel={onCancel} />
+        <EditGolosPowerStyled delegation={delegation} onSave={onSave} onCancel={onCancel} />
       </Root>
     );
   }

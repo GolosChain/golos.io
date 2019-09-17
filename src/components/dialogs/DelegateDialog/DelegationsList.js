@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'shared/routes';
 import styled from 'styled-components';
 import tt from 'counterpart';
 
 import Icon from 'components/golos-ui/Icon';
+import SmartLink from 'components/common/SmartLink';
+
+import { DelegationType } from './types';
 
 const Root = styled.div``;
 
@@ -24,7 +26,7 @@ const DelegationsHeader = styled(DelegationLine)`
   font-weight: bold;
 `;
 
-const Delegatee = styled.div`
+const To = styled.div`
   min-width: 200px;
   flex-basis: 200px;
   flex-grow: 2;
@@ -83,43 +85,47 @@ const EmptyList = styled.div`
 
 export default class DelegationsList extends PureComponent {
   static propTypes = {
-    data: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(DelegationType).isRequired,
     onEditClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { data, onEditClick, onCancelClick } = this.props;
+    const { items, onEditClick, onCancelClick } = this.props;
 
     return (
       <Root>
-        {data.length ? (
+        {items.length ? (
           <>
             <DelegationsHeader>
-              <Delegatee>{tt('dialogs_transfer.to')}</Delegatee>
-              <Value>{tt('token_names.VESTING_TOKENS')}</Value>
+              <To>{tt('dialogs_transfer.to')}</To>
+              <Value>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount')}</Value>
               <Action>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.actions')}</Action>
             </DelegationsHeader>
             <DelegationLines>
-              {data.map(info => (
-                <DelegationLine key={info.id}>
-                  <Delegatee>
-                    <Link route="profile" params={{ userId: info.delegatee }}>
-                      <a>{info.delegatee}</a>
-                    </Link>
-                  </Delegatee>
-                  <Value>{info.vesting_shares}</Value>
-                  <Action>
-                    <ActionButton
-                      data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.edit')}
-                      onClick={() => onEditClick(info.delegatee)}
+              {items.map(delegation => (
+                <DelegationLine key={delegation.to}>
+                  <To>
+                    <SmartLink
+                      route="profile"
+                      params={{ userId: delegation.to, username: delegation.toUsername }}
                     >
-                      <Icon name="pen" size={14} />
-                    </ActionButton>
+                      <a>{delegation.toUsername || delegation.to}</a>
+                    </SmartLink>
+                  </To>
+                  <Value>{delegation.quantity.GOLOS}</Value>
+                  <Action>
+                    {/*TODO: Fix button logic */}
+                    {/*<ActionButton*/}
+                    {/*  data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.edit')}*/}
+                    {/*  onClick={() => onEditClick(delegation.to)}*/}
+                    {/*>*/}
+                    {/*  <Icon name="pen" size={14} />*/}
+                    {/*</ActionButton>*/}
                     <ActionButton
                       red
                       data-tooltip={tt('dialogs_transfer.delegate_vesting.tabs.delegated.cancel')}
-                      onClick={() => onCancelClick(info.delegatee, info.vesting_shares)}
+                      onClick={() => onCancelClick(delegation)}
                     >
                       <Icon name="cross" size={12} />
                     </ActionButton>

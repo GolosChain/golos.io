@@ -200,7 +200,7 @@
     "delegate_vesting": {
       "delegate_button": "Create proposal",
       "min_amount": "Minimal amount: %(amount)s",
-      "not_ready": "Functionality not ready yet",
+      "canceled": "Delegating has been canceled. List actualization may take some time.",
       "tabs": {
         "delegate": {
           "interest_rate": "Interest rate",
