@@ -200,6 +200,7 @@
     "delegate_vesting": {
       "delegate_button": "Create proposal",
       "min_amount": "Minimal amount: %(amount)s",
+      "not_ready": "Functionality not ready yet",
       "tabs": {
         "delegate": {
           "interest_rate": "Interest rate",

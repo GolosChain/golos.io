@@ -201,6 +201,7 @@
     "delegate_vesting": {
       "delegate_button": "Создать предложение",
       "min_amount": "Минимальная сумма: %(amount)s",
+      "not_ready": "Функционал пока не готов",
       "tabs": {
         "delegate": {
           "interest_rate": "Процент отчислений",

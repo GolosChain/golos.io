@@ -17,6 +17,7 @@ const Header = styled.h1`
 
 export default class WalletContent extends Component {
   static propTypes = {
+    currentUserId: PropTypes.string,
     userId: PropTypes.string.isRequired,
     sections: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
@@ -44,7 +45,7 @@ export default class WalletContent extends Component {
   }
 
   render() {
-    const { userId, profile } = this.props;
+    const { currentUserId, userId, profile } = this.props;
 
     return (
       <>
@@ -54,7 +55,7 @@ export default class WalletContent extends Component {
           </title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
-        <VestingDelegationProposals userId={userId} />
+        {currentUserId === userId ? <VestingDelegationProposals userId={userId} /> : null}
         <Card>
           <PowerDownLine userId={userId} />
           <ClaimLine userId={userId} />
