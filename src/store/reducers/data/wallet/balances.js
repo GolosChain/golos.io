@@ -37,6 +37,7 @@ export default function(state, { type, payload, meta }) {
 
       return {
         ...state,
+        // Удаляем proposal в случае успешного исполнения
         vestingDelegationProposals: state.vestingDelegationProposals.filter(
           proposal => !(proposal.proposer === proposer && proposal.proposalId === proposalId)
         ),
