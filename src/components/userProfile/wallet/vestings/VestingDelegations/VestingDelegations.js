@@ -60,11 +60,7 @@ export default class VestingDelegations extends PureComponent {
     }
 
     return items.map(delegation => (
-      <VestingDelegationsLine
-        key={delegation.from}
-        currentUserId={userId}
-        delegation={delegation}
-      />
+      <VestingDelegationsLine key={delegation.from} pageUserId={userId} delegation={delegation} />
     ));
   }
 }

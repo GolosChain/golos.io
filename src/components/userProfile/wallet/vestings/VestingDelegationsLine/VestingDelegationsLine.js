@@ -5,13 +5,13 @@ import SmartLink from 'components/common/SmartLink';
 
 import { Line, LineIcon, Who, WhoName, Value, Amount, Currency } from '../../common';
 
-export default function VestingDelegationsLine({ delegation, currentUserId }) {
+export default function VestingDelegationsLine({ delegation, pageUserId }) {
   const [amount] = delegation.quantity.GOLOS.split(' ');
 
   let accountLabel;
   let accountRoute;
 
-  if (currentUserId && currentUserId === delegation.from) {
+  if (pageUserId && pageUserId === delegation.from) {
     accountLabel = 'user_wallet.content.to';
     accountRoute = { userId: delegation.to, username: delegation.toUsername };
   } else {
