@@ -40,6 +40,7 @@ const FooterButtons = styled.div`
 
 export default class BecomeLeader extends PureComponent {
   static propTypes = {
+    needUpdateUrl: PropTypes.bool.isRequired,
     userId: PropTypes.string.isRequired,
     close: PropTypes.func.isRequired,
     registerWitness: PropTypes.func.isRequired,
@@ -99,11 +100,17 @@ export default class BecomeLeader extends PureComponent {
   };
 
   render() {
+    const { needUpdateUrl } = this.props;
     const { isRegistering, url } = this.state;
+
+    const headerTitle = needUpdateUrl
+      ? tt('witnesses_jsx.update_leader_post_url_header')
+      : tt('witnesses_jsx.register_dialog.title');
+    const buttonTitle = needUpdateUrl ? tt('g.update') : tt('g.register');
 
     return (
       <Wrapper>
-        <HeaderTitle>{tt('witnesses_jsx.register_dialog.title')}</HeaderTitle>
+        <HeaderTitle>{headerTitle}</HeaderTitle>
         <Fields>
           <Field>
             <FieldTitle>{tt('witnesses_jsx.register_dialog.url')}:</FieldTitle>
@@ -111,7 +118,7 @@ export default class BecomeLeader extends PureComponent {
           </Field>
         </Fields>
         <FooterButtons>
-          <Button onClick={this.onRegisterClick}>{tt('g.register')}</Button>
+          <Button onClick={this.onRegisterClick}>{buttonTitle}</Button>
           <Button light onClick={this.onCancelClick}>
             {tt('g.cancel')}
           </Button>

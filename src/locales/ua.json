@@ -1038,7 +1038,9 @@
     "tabs": {
       "leaders": "Топ лідерів",
       "proposals": "Cписок пропозицій"
-    }
+    },
+    "update_leader_post_url_header": "Оновити URL на пост лідер",
+    "update_leader_post_button": "Оновити URL"
   },
   "validators_jsx": {
     "remove_vote": "Голосувати проти",
