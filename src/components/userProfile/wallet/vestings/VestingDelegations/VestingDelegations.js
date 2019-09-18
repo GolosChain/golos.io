@@ -35,15 +35,7 @@ export default class VestingDelegations extends PureComponent {
   }
 
   render() {
-    const { error, isLoading, items } = this.props;
-
-    if (isLoading || !items) {
-      return (
-        <LoaderWrapper>
-          <LoadingIndicator type="circle" size={40} />
-        </LoaderWrapper>
-      );
-    }
+    const { error, items } = this.props;
 
     if (error) {
       return (
@@ -53,7 +45,15 @@ export default class VestingDelegations extends PureComponent {
       );
     }
 
-    if (isLoading) {
+    if (!items) {
+      return (
+        <LoaderWrapper>
+          <LoadingIndicator type="circle" size={40} />
+        </LoaderWrapper>
+      );
+    }
+
+    if (!items.length) {
       return <EmptyBlock>{tt('user_wallet.content.empty_list')}</EmptyBlock>;
     }
 
