@@ -11,6 +11,12 @@ import {
   FETCH_CLAIM_HISTORY,
   FETCH_CLAIM_HISTORY_SUCCESS,
   FETCH_CLAIM_HISTORY_ERROR,
+  FETCH_REWARDS_HISTORY,
+  FETCH_REWARDS_HISTORY_SUCCESS,
+  FETCH_REWARDS_HISTORY_ERROR,
+  FETCH_GENESIS_CONVERSIONS,
+  FETCH_GENESIS_CONVERSIONS_SUCCESS,
+  FETCH_GENESIS_CONVERSIONS_ERROR,
 } from 'store/constants';
 
 const initialState = {
@@ -20,63 +26,28 @@ const initialState = {
 export default function(state = initialState, { type }) {
   switch (type) {
     case FETCH_USER_BALANCE:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_USER_BALANCE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case FETCH_USER_BALANCE_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-      };
     case FETCH_TRANSFERS_HISTORY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_TRANSFERS_HISTORY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case FETCH_TRANSFERS_HISTORY_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-      };
     case FETCH_VESTING_HISTORY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_VESTING_HISTORY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case FETCH_VESTING_HISTORY_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-      };
     case FETCH_CLAIM_HISTORY:
+    case FETCH_REWARDS_HISTORY:
+    case FETCH_GENESIS_CONVERSIONS:
       return {
-        ...state,
         isLoading: true,
       };
+
+    case FETCH_USER_BALANCE_SUCCESS:
+    case FETCH_USER_BALANCE_ERROR:
+    case FETCH_TRANSFERS_HISTORY_SUCCESS:
+    case FETCH_TRANSFERS_HISTORY_ERROR:
+    case FETCH_VESTING_HISTORY_SUCCESS:
+    case FETCH_VESTING_HISTORY_ERROR:
     case FETCH_CLAIM_HISTORY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
     case FETCH_CLAIM_HISTORY_ERROR:
+    case FETCH_REWARDS_HISTORY_SUCCESS:
+    case FETCH_REWARDS_HISTORY_ERROR:
+    case FETCH_GENESIS_CONVERSIONS_SUCCESS:
+    case FETCH_GENESIS_CONVERSIONS_ERROR:
       return {
-        ...state,
         isLoading: false,
       };
 

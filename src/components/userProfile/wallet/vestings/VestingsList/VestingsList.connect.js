@@ -7,6 +7,7 @@ import VestingsList from './VestingsList';
 export default connect(
   (state, { userId }) => {
     const vestings = dataSelector(['wallet', 'users', userId, 'vestings'])(state);
+
     return {
       isLoading: Boolean(vestings?.isLoading),
       items: vestings?.items || [],
