@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+
 import LoadingIndicator from 'components/elements/LoadingIndicator';
+import { DelegationType } from 'components/dialogs/DelegateDialog/types';
 
 import { LoaderWrapper, EmptyBlock } from '../VestingsList/VestingsList';
 import VestingDelegationsLine from '../VestingDelegationsLine';
@@ -11,10 +14,10 @@ const ErrorBlock = styled.div`
 `;
 
 export default class VestingDelegations extends PureComponent {
-  state = {
-    isLoading: true,
-    error: null,
-    items: null,
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.shape({}),
+    items: PropTypes.arrayOf(PropTypes.shape(DelegationType)),
   };
 
   componentDidMount() {
@@ -25,30 +28,16 @@ export default class VestingDelegations extends PureComponent {
     const { userId, getDelegationState } = this.props;
 
     try {
-      const items = await getDelegationState({
-        userId,
-      });
-
-      this.setState({
-        isLoading: false,
-        error: null,
-        items,
-      });
+      await getDelegationState({ userId });
     } catch (err) {
       console.error(err);
-
-      this.setState({
-        isLoading: false,
-        error: err,
-        items: null,
-      });
     }
   }
 
   render() {
-    const { error, isLoading, items } = this.state;
+    const { error, isLoading, items } = this.props;
 
-    if (isLoading) {
+    if (isLoading || !items) {
       return (
         <LoaderWrapper>
           <LoadingIndicator type="circle" size={40} />
