@@ -454,7 +454,6 @@
     "to": " до ",
     "topics": "Топіки",
     "transaction_history": "Історія транзакцій",
-    "vesting_history": "Історія Вестінга",
     "transfer": "Передати ",
     "trending_topics": "Популярні",
     "turn_back": "Повернутися назад",
@@ -938,7 +937,9 @@
       "savings": "Сейф",
       "sent": "Відправлені",
       "transaction_history": "Исторія транзакцій",
-      "vesting_history": "Исторія Вестінга",
+      "vesting": "Вестінг",
+      "vesting_delegation": "Делеговані",
+      "vesting_history": "Історія",
       "genesis_history": "GOLOS Genesis",
       "claim": "Claim"
     }

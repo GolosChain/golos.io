@@ -32,6 +32,9 @@ import {
   FETCH_VALIDATORS,
   FETCH_VALIDATORS_SUCCESS,
   FETCH_VALIDATORS_ERROR,
+  FETCH_DELEGATION_STATE,
+  FETCH_DELEGATION_STATE_SUCCESS,
+  FETCH_DELEGATION_STATE_ERROR,
 } from 'store/constants';
 import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { CALL_GATE } from 'store/middlewares/gate-api';
@@ -274,12 +277,18 @@ export const getValidators = () => {
   };
 };
 
-export const getDelegationState = ({ userId, direction = 'out' }) => ({
-  [CALL_GATE]: {
-    method: 'wallet.getDelegationState',
-    params: {
-      userId,
-      direction,
+export const getDelegationState = ({ userId, direction = 'in' }) => {
+  const params = {
+    userId,
+    direction,
+  };
+
+  return {
+    [CALL_GATE]: {
+      types: [FETCH_DELEGATION_STATE, FETCH_DELEGATION_STATE_SUCCESS, FETCH_DELEGATION_STATE_ERROR],
+      method: 'wallet.getDelegationState',
+      params,
     },
-  },
-});
+    meta: { ...params },
+  };
+};

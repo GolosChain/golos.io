@@ -29,7 +29,7 @@ const TABS = [
 
 export default function Rewards({ sections, url, userId }) {
   return (
-    <LinkTabsContent tabs={TABS} activeTab={sections[0] || 'all'} url={url}>
+    <LinkTabsContent tabs={TABS} activeTab={sections[0] || TABS[0].id} url={url}>
       {tab => <RewardsList type={tab.id} userId={userId} />}
     </LinkTabsContent>
   );

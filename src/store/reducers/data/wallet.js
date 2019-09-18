@@ -21,6 +21,9 @@ import {
   FETCH_CLAIM_HISTORY,
   FETCH_CLAIM_HISTORY_SUCCESS,
   FETCH_CLAIM_HISTORY_ERROR,
+  FETCH_DELEGATION_STATE,
+  FETCH_DELEGATION_STATE_SUCCESS,
+  FETCH_DELEGATION_STATE_ERROR,
   EXEC_PROPOSAL_SUCCESS,
 } from 'store/constants';
 
@@ -248,6 +251,46 @@ export default function(state = initialState, { type, payload, meta, error }) {
           );
         }, state.users),
       };
+
+    case FETCH_DELEGATION_STATE:
+    case FETCH_DELEGATION_STATE_SUCCESS:
+    case FETCH_DELEGATION_STATE_ERROR:
+      if (meta.direction !== 'in') {
+        return state;
+      }
+
+      switch (type) {
+        case FETCH_DELEGATION_STATE:
+          return u.updateIn(
+            ['users', meta.userId, 'receivedDelegations'],
+            {
+              isLoading: true,
+              error: null,
+            },
+            state
+          );
+        case FETCH_DELEGATION_STATE_SUCCESS:
+          return u.updateIn(
+            ['users', meta.userId, 'receivedDelegations'],
+            {
+              isLoading: false,
+              error: null,
+              items: payload,
+            },
+            state
+          );
+        case FETCH_DELEGATION_STATE_ERROR:
+          return u.updateIn(
+            ['users', meta.userId, 'receivedDelegations'],
+            {
+              isLoading: false,
+              error,
+            },
+            state
+          );
+        default:
+          return state;
+      }
 
     default:
       return state;

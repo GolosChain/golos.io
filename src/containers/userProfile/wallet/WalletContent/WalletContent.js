@@ -22,30 +22,8 @@ export default class WalletContent extends Component {
     sections: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
-  // state = {
-  //   isLoading: true,
-  //   error: null,
-  // };
-
-  renderContent() {
-    const { userId, sections } = this.props;
-    // const { isLoading, error } = this.state;
-    //
-    // if (error) {
-    //   return <ErrorBlock>Error: {error}</ErrorBlock>;
-    // }
-
-    return (
-      <WalletShow
-        userId={userId}
-        sections={sections}
-        // isFetching={isLoading}
-      />
-    );
-  }
-
   render() {
-    const { currentUserId, userId, profile } = this.props;
+    const { currentUserId, userId, profile, sections } = this.props;
 
     return (
       <>
@@ -59,7 +37,7 @@ export default class WalletContent extends Component {
         <Card>
           <PowerDownLine userId={userId} />
           <ClaimLine userId={userId} />
-          {this.renderContent()}
+          <WalletShow userId={userId} sections={sections} />
         </Card>
       </>
     );

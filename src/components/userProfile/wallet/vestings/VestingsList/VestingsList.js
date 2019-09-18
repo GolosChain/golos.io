@@ -7,7 +7,7 @@ import InfinityScrollHelper from 'components/common/InfinityScrollHelper';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import VestingLine from '../VestingLine';
 
-const LoaderWrapper = styled.div`
+export const LoaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@ const LoaderWrapper = styled.div`
   animation-delay: 0.25s;
 `;
 
-const EmptyBlock = styled.div`
+export const EmptyBlock = styled.div`
   padding: 28px 20px 30px;
   font-size: 20px;
   font-weight: 500;
