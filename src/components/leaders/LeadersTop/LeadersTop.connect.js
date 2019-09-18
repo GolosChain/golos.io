@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
-import { openModal } from 'redux-modals-manager';
 
-import { SHOW_MODAL_BECOME_LOADER } from 'store/constants';
 import { dataSelector } from 'store/selectors/common';
 import { amIWitnessSelector } from 'store/selectors/auth';
 import { fetchLeaders } from 'store/actions/gate';
 import { stopLeader } from 'store/actions/cyberway';
+import { showBecomeLeaderDialog } from 'store/actions/modals';
 
 import LeadersTop from './LeadersTop';
 
@@ -26,7 +25,6 @@ export default connect(
   {
     fetchLeaders,
     stopLeader,
-    openBecomeLeaderDialog: (needUpdateUrl = false) =>
-      openModal(SHOW_MODAL_BECOME_LOADER, { needUpdateUrl }),
+    showBecomeLeaderDialog,
   }
 )(LeadersTop);

@@ -90,7 +90,7 @@ export default class LeadersTop extends PureComponent {
     isLoading: PropTypes.bool.isRequired,
     sequenceKey: PropTypes.string,
     stopLeader: PropTypes.func.isRequired,
-    openBecomeLeaderDialog: PropTypes.func.isRequired,
+    showBecomeLeaderDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -120,8 +120,8 @@ export default class LeadersTop extends PureComponent {
   };
 
   onBecomeLeaderClick = ({ needUpdateUrl }) => () => {
-    const { openBecomeLeaderDialog } = this.props;
-    openBecomeLeaderDialog(needUpdateUrl);
+    const { showBecomeLeaderDialog } = this.props;
+    showBecomeLeaderDialog(needUpdateUrl);
   };
 
   onStopLeaderClick = async () => {

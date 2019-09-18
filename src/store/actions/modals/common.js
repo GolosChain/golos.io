@@ -8,6 +8,7 @@ import {
   SHOW_MODAL_UNFOLLOW_ALERT,
   SHOW_MODAL_FOLLOWERS,
   SHOW_MODAL_DELEGATE_VOTE,
+  SHOW_MODAL_BECOME_LOADER,
 } from 'store/constants';
 
 export function openVotersDialog(params) {
@@ -36,4 +37,8 @@ export function showFollowersDialog({ userId, type }) {
 
 export function showDelegateVoteDialog(params) {
   return openModal(SHOW_MODAL_DELEGATE_VOTE, params);
+}
+
+export function showBecomeLeaderDialog(needUpdateUrl = false) {
+  return openModal(SHOW_MODAL_BECOME_LOADER, { needUpdateUrl });
 }
