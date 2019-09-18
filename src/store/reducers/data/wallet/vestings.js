@@ -23,7 +23,7 @@ export default function(state, { type, payload, meta }) {
     case FETCH_VESTING_HISTORY_SUCCESS:
       return {
         isLoading: false,
-        items: items => [...items, ...payload.items],
+        items: [...state?.items, ...payload.items],
         sequenceKey: payload.sequenceKey || null,
         isHistoryEnd: payload.items.length < meta.limit,
       };

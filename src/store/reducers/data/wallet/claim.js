@@ -21,7 +21,7 @@ export default function(state, { type, payload, meta }) {
     case FETCH_CLAIM_HISTORY_SUCCESS:
       return {
         isLoading: false,
-        claims: claims => [...claims, ...payload.claims],
+        claims: [...state?.claims, ...payload.claims],
         sequenceKey: payload.sequenceKey || null,
         isHistoryEnd: payload.claims.length < meta.limit,
       };
