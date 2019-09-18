@@ -1,8 +1,8 @@
 import { path } from 'ramda';
 import u from 'updeep';
 
-export default function combinePathReducers(userReducers) {
-  const innerReducersList = Array.from(Object.keys(userReducers));
+export default function combinePathReducers(reducers) {
+  const innerReducersList = Array.from(Object.keys(reducers));
 
   return (state, pathName, action) => {
     const entity = { ...(path(pathName, state) || {}) };
@@ -10,7 +10,7 @@ export default function combinePathReducers(userReducers) {
 
     for (const reducerField of innerReducersList) {
       const userField = entity[reducerField];
-      entity[reducerField] = userReducers[reducerField](userField, action);
+      entity[reducerField] = reducers[reducerField](userField, action);
 
       if (entity[reducerField] !== userField) {
         entityUpdated = true;
