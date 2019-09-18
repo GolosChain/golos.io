@@ -21,8 +21,12 @@ const userReducers = {
 };
 
 const initialState = {
-  balance: 0,
-  supply: 0,
+  globalSupply: {
+    golos: {
+      balance: 0,
+      supply: 0,
+    },
+  },
   users: {},
 };
 
@@ -33,11 +37,14 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case FETCH_VESTING_SUPPLY_AND_BALANCE_SUCCESS:
-      return {
-        ...state,
-        balance: payload.balance,
-        supply: payload.supply,
-      };
+      return u.updateIn(
+        ['globalSupply', 'golos'],
+        {
+          balance: payload.balance,
+          supply: payload.supply,
+        },
+        state
+      );
     default:
   }
 
