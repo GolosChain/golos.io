@@ -26,6 +26,7 @@ export default connect(
   {
     fetchLeaders,
     stopLeader,
-    openBecomeLeaderDialog: () => openModal(SHOW_MODAL_BECOME_LOADER),
+    openBecomeLeaderDialog: (needUpdateUrl = false) =>
+      openModal(SHOW_MODAL_BECOME_LOADER, { needUpdateUrl }),
   }
 )(LeadersTop);

@@ -1139,7 +1139,9 @@
     "tabs": {
       "leaders": "Leaders top",
       "proposals": "Proposals list"
-    }
+    },
+    "update_leader_post_url_header": "Update url",
+    "update_leader_post_button": "Update url"
   },
   "validators_jsx": {
     "remove_vote": "Vote against",

@@ -119,9 +119,9 @@ export default class LeadersTop extends PureComponent {
     }
   };
 
-  onBecomeLeaderClick = () => {
+  onBecomeLeaderClick = ({ needUpdateUrl }) => () => {
     const { openBecomeLeaderDialog } = this.props;
-    openBecomeLeaderDialog();
+    openBecomeLeaderDialog(needUpdateUrl);
   };
 
   onStopLeaderClick = async () => {
@@ -183,11 +183,18 @@ export default class LeadersTop extends PureComponent {
             actions={() => (
               <ToggleFeature flag={BECOME_WITNESS}>
                 {isWitness ? (
-                  <Button light onClick={this.onStopLeaderClick}>
-                    {tt('witnesses_jsx.stop')}
-                  </Button>
+                  <>
+                    <Button light onClick={this.onStopLeaderClick}>
+                      {tt('witnesses_jsx.stop')}
+                    </Button>{' '}
+                    <Button onClick={this.onBecomeLeaderClick({ needUpdateUrl: true })}>
+                      {tt('witnesses_jsx.update_leader_post_button')}
+                    </Button>
+                  </>
                 ) : (
-                  <Button onClick={this.onBecomeLeaderClick}>{tt('witnesses_jsx.become')}</Button>
+                  <Button onClick={this.onBecomeLeaderClick({ needUpdateUrl: false })}>
+                    {tt('witnesses_jsx.become')}
+                  </Button>
                 )}
               </ToggleFeature>
             )}
