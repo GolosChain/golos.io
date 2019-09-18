@@ -7,7 +7,7 @@ import VestingDelegations from './VestingDelegations';
 
 export default connect(
   (state, props) => {
-    const data = dataSelector(['wallet', 'users', props.userId, 'receivedDelegations'])(state);
+    const data = dataSelector(['wallet', 'users', props.userId, 'delegations'])(state);
 
     return {
       isLoading: data?.isLoading || false,

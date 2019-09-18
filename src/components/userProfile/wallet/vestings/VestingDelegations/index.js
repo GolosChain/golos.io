@@ -1,1 +1,1 @@
-export { default } from './VestingDelegations.connect';
+export { default } from './VestingDelegationsTabs';
