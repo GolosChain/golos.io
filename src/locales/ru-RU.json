@@ -1148,8 +1148,8 @@
       "leaders": "Топ лидеров",
       "proposals": "Список предложений"
     },
-    "update_leader_post_url_header": "Обновить ссылку на пост лидера",
-    "update_leader_post_button": "Обновить ссылку"
+    "update_leader_post_url_header": "Обновить URL на пост лидера",
+    "update_leader_post_button": "Обновить URL"
   },
   "validators_jsx": {
     "remove_vote": "Голосовать против",
