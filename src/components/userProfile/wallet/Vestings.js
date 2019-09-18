@@ -20,12 +20,12 @@ const TABS = [
 export default function Vestings({ userId, url, sections }) {
   return (
     <LinkTabsContent tabs={TABS} activeTab={sections[0] || TABS[0].id} url={url}>
-      {tab => {
+      {(tab, props) => {
         switch (tab.id) {
           case 'history':
             return <VestingsList userId={userId} />;
           case 'delegation':
-            return <VestingDelegations userId={userId} />;
+            return <VestingDelegations sections={sections.slice(1)} {...props} userId={userId} />;
           default:
             return null;
         }

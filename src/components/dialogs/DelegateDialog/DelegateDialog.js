@@ -296,7 +296,11 @@ export default class DelegateDialog extends PureComponent {
     const { currentUserId, getDelegationState } = this.props;
 
     try {
-      const results = await getDelegationState({ userId: currentUserId, direction: 'out' });
+      const results = await getDelegationState({
+        userId: currentUserId,
+        direction: 'out',
+        withoutActions: true,
+      });
 
       this.setState({
         delegationsError: null,

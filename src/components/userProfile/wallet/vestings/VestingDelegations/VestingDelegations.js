@@ -15,6 +15,8 @@ const ErrorBlock = styled.div`
 
 export default class VestingDelegations extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string.isRequired,
+    direction: PropTypes.oneOf(['all', 'in', 'out']).isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.shape({}),
     items: PropTypes.arrayOf(PropTypes.shape(DelegationType)),
@@ -25,17 +27,17 @@ export default class VestingDelegations extends PureComponent {
   }
 
   async loadData() {
-    const { userId, getDelegationState } = this.props;
+    const { userId, direction, getDelegationState } = this.props;
 
     try {
-      await getDelegationState({ userId });
+      await getDelegationState({ userId, direction });
     } catch (err) {
       console.error(err);
     }
   }
 
   render() {
-    const { error, items } = this.props;
+    const { isLoading, error, userId, items } = this.props;
 
     if (error) {
       return (
@@ -45,7 +47,7 @@ export default class VestingDelegations extends PureComponent {
       );
     }
 
-    if (!items) {
+    if (isLoading || !items) {
       return (
         <LoaderWrapper>
           <LoadingIndicator type="circle" size={40} />
@@ -58,7 +60,11 @@ export default class VestingDelegations extends PureComponent {
     }
 
     return items.map(delegation => (
-      <VestingDelegationsLine key={delegation.from} delegation={delegation} />
+      <VestingDelegationsLine
+        key={delegation.from}
+        currentUserId={userId}
+        delegation={delegation}
+      />
     ));
   }
 }

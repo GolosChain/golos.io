@@ -11,16 +11,15 @@ const initialState = {
 };
 
 export default function(state = initialState, { type, payload, meta, error }) {
-  if (!meta || !meta.direction || meta.direction !== 'in') {
+  if (!meta || !meta.direction) {
     return state;
   }
 
   switch (type) {
     case FETCH_DELEGATION_STATE:
       return {
-        ...state,
+        ...initialState,
         isLoading: true,
-        error: null,
       };
 
     case FETCH_DELEGATION_STATE_SUCCESS:

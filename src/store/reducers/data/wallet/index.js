@@ -9,16 +9,16 @@ import vestings from './vestings';
 import rewards from './rewards';
 import genesis from './genesis';
 import claim from './claim';
-import receivedDelegations from './receivedDelegations';
+import delegations from './delegations';
 
 const userReducers = combinePathReducers({
-  receivedDelegations,
   balances,
   transfers,
   vestings,
+  rewards,
   genesis,
   claim,
-  rewards,
+  delegations,
 });
 
 const initialState = {

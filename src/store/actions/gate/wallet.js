@@ -277,7 +277,7 @@ export const getValidators = () => {
   };
 };
 
-export const getDelegationState = ({ userId, direction = 'in' }) => {
+export const getDelegationState = ({ userId, direction = 'in', withoutActions = false }) => {
   const params = {
     userId,
     direction,
@@ -285,7 +285,9 @@ export const getDelegationState = ({ userId, direction = 'in' }) => {
 
   return {
     [CALL_GATE]: {
-      types: [FETCH_DELEGATION_STATE, FETCH_DELEGATION_STATE_SUCCESS, FETCH_DELEGATION_STATE_ERROR],
+      types: withoutActions
+        ? null
+        : [FETCH_DELEGATION_STATE, FETCH_DELEGATION_STATE_SUCCESS, FETCH_DELEGATION_STATE_ERROR],
       method: 'wallet.getDelegationState',
       params,
     },
