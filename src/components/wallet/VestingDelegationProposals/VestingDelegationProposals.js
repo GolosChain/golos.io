@@ -69,7 +69,7 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   onAcceptClick = async ({ proposer, proposalId }) => {
-    const { approveProposal, execProposal, deleteDelegationVestingProposal } = this.props;
+    const { approveProposal, execProposal } = this.props;
 
     try {
       try {
