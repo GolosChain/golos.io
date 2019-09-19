@@ -1,10 +1,4 @@
-import {
-  FETCH_PROPOSALS,
-  FETCH_PROPOSALS_SUCCESS,
-  FETCH_PROPOSALS_ERROR,
-  APPROVE_PROPOSAL_SUCCESS,
-  EXEC_PROPOSAL_SUCCESS,
-} from 'store/constants';
+import { FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR } from 'store/constants';
 
 const initialState = {
   items: [],

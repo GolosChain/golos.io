@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import Interpolate from 'react-interpolate-component';
 
 import Card from 'components/golos-ui/Card';
 import Button from 'components/golos-ui/Button';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import WalletUtils from 'utils/wallet';
+import SmartLink from 'components/common/SmartLink';
 
 const CardStyled = styled(Card)`
   padding: 12px 20px;
@@ -67,7 +69,7 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   onAcceptClick = async ({ proposer, proposalId }) => {
-    const { approveProposal, execProposal, deleteDelegationVestingProposal } = this.props;
+    const { approveProposal, execProposal } = this.props;
 
     try {
       try {
@@ -109,11 +111,24 @@ export default class VestingDelegationProposals extends PureComponent {
       <Item key={item.proposalId}>
         <Position>{i + 1}.</Position>
         <Text>
-          {tt('wallet.vesting_delegation_proposal_text', {
-            from: item.username || item.userId,
-            amount: value,
-            interest: item.data.interestRate,
-          })}
+          <Interpolate
+            with={{
+              from: (
+                <SmartLink
+                  route="profile"
+                  params={{ username: item.username, userId: item.userId }}
+                >
+                  {item.username || item.userId}
+                </SmartLink>
+              ),
+              amount: value,
+              interest: item.data.interestRate,
+            }}
+          >
+            {tt('wallet.vesting_delegation_proposal_text', {
+              interpolate: false,
+            })}
+          </Interpolate>
         </Text>
         <Actions>
           <Action onClick={() => this.onAcceptClick(item)}>{tt('g.accept')}</Action>

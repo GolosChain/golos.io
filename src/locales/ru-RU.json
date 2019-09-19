@@ -1082,7 +1082,7 @@
     "we_will_reset_curation_rewards_for_this_post": " сбросит Ваши кураторские вознаграждения за этот пост"
   },
   "wallet": {
-    "vesting_delegation_proposal_text": "От %(from)s на сумму: %(amount)s, с доходностью: %(interest)s%%",
+    "vesting_delegation_proposal_text": "От %(from)s на сумму: %(amount)s, с доходностью: %(interest)s%",
     "vesting_delegation_proposals": "У вас есть предложения по делегированию Силы Голоса",
     "cancel": "Отменить",
     "next_power_down_date": "Следующее понижение Силы Голоса произойдет ",

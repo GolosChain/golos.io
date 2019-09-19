@@ -185,6 +185,7 @@ export const execProposal = ({ proposer, proposalId }) => async (dispatch, getSt
       },
     },
     meta: {
+      userId,
       proposer,
       proposalId,
     },
