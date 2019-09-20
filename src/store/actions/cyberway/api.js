@@ -1,6 +1,10 @@
 import { CYBERWAY_RPC } from 'store/middlewares/cyberway-api';
 
-export const getActivePublicKey = userId => async dispatch => {
+export const getAccountPublicKey = (userId, keyRole) => async dispatch => {
+  if (!userId || !keyRole) {
+    throw new Error('Invalid params');
+  }
+
   const accountInfo = await dispatch({
     [CYBERWAY_RPC]: {
       method: 'get_account',
@@ -8,15 +12,17 @@ export const getActivePublicKey = userId => async dispatch => {
     },
   });
 
-  const perm = accountInfo.permissions.find(({ perm_name }) => perm_name === 'active');
+  const perm = accountInfo.permissions.find(({ perm_name }) => perm_name === keyRole);
 
-  if (!perm) {
-    throw new Error('No active key');
+  if (perm) {
+    try {
+      const key = perm.required_auth.keys[0].key;
+
+      if (key) {
+        return key;
+      }
+    } catch {}
   }
 
-  try {
-    return perm.required_auth.keys[0].key;
-  } catch {
-    throw new Error('No active key');
-  }
+  throw new Error(`No ${keyRole} key`);
 };

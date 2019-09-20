@@ -9,7 +9,7 @@ import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { uint8ArrayToHex, hexToUint8Array } from 'utils/encoding';
-import { getActivePublicKey } from 'store/actions/cyberway';
+import { getAccountPublicKey } from 'store/actions/cyberway';
 
 export const delegateTokens = ({ recipient, amount, percent = 0 }) => async (
   dispatch,
@@ -78,7 +78,7 @@ export const acceptTokensDelegation = ({ proposalId, serializedTransaction }) =>
     throw new Error('Unauthorized');
   }
 
-  const pubKey = await dispatch(getActivePublicKey(userId));
+  const pubKey = await dispatch(getAccountPublicKey(userId, 'active'));
 
   const { signatures } = await cyber.signatureProvider.sign({
     chainId: await cyber.api.getChainId(),
