@@ -56,10 +56,12 @@ export default class RewardContentLink extends Component {
       contentMeta: { post, user },
     } = this.props;
 
-    const href = `/@${formatContentId({
+    const contentId = formatContentId({
       userId: user.username || post.contentId.userId,
       permlink: post.contentId.permlink,
-    })}`;
+    });
+
+    const href = `/${user.username ? '@' : '~'}${contentId}`;
 
     if (post.title) {
       return (
@@ -84,7 +86,7 @@ export default class RewardContentLink extends Component {
       contentMeta: { comment },
     } = this.props;
 
-    const href = `/@${formatContentId(comment.parentPost.contentId)}#${formatContentId(
+    const href = `/~${formatContentId(comment.parentPost.contentId)}#${formatContentId(
       comment.contentId
     )}`;
 
@@ -125,7 +127,7 @@ export default class RewardContentLink extends Component {
       <div>
         {tt('user_wallet.content.reward_for')}{' '}
         {RewardContentLink.renderLink(
-          `@${formatContentId(contentId)}`,
+          `~${formatContentId(contentId)}`,
           tt('user_wallet.content.publication')
         )}
       </div>
