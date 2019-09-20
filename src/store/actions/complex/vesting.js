@@ -5,10 +5,11 @@ import {
   ACCEPT_VESTING_PROPOSAL_SUCCESS,
   ACCEPT_VESTING_PROPOSAL_ERROR,
 } from 'store/constants';
-import { CYBERWAY_API, CYBERWAY_RPC } from 'store/middlewares/cyberway-api';
+import { CYBERWAY_API } from 'store/middlewares/cyberway-api';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { uint8ArrayToHex, hexToUint8Array } from 'utils/encoding';
+import { getActivePublicKey } from 'store/actions/cyberway';
 
 export const delegateTokens = ({ recipient, amount, percent = 0 }) => async (
   dispatch,
@@ -77,7 +78,7 @@ export const acceptTokensDelegation = ({ proposalId, serializedTransaction }) =>
     throw new Error('Unauthorized');
   }
 
-  const pubKey = await getActivePublicKey(dispatch, userId);
+  const pubKey = await dispatch(getActivePublicKey(userId));
 
   const { signatures } = await cyber.signatureProvider.sign({
     chainId: await cyber.api.getChainId(),
@@ -106,24 +107,3 @@ export const acceptTokensDelegation = ({ proposalId, serializedTransaction }) =>
     },
   });
 };
-
-async function getActivePublicKey(dispatch, userId) {
-  const accountInfo = await dispatch({
-    [CYBERWAY_RPC]: {
-      method: 'get_account',
-      params: userId,
-    },
-  });
-
-  const perm = accountInfo.permissions.find(({ perm_name }) => perm_name === 'active');
-
-  if (!perm) {
-    throw new Error('No active key');
-  }
-
-  try {
-    return perm.required_auth.keys[0].key;
-  } catch {
-    throw new Error('No active key');
-  }
-}
