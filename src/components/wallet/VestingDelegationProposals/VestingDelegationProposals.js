@@ -53,37 +53,48 @@ const Action = styled(Button)`
 
 export default class VestingDelegationProposals extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        proposer: PropTypes.string.isRequired,
+        initiatorId: PropTypes.string.isRequired,
         proposalId: PropTypes.string.isRequired,
-        userId: PropTypes.string.isRequired,
-        username: PropTypes.string,
-        expiration: PropTypes.string.isRequired,
-        data: PropTypes.shape({
-          quantity: PropTypes.string.isRequired,
-          interestRate: PropTypes.number.isRequired,
-        }),
+        expirationTime: PropTypes.string.isRequired,
+        action: PropTypes.shape({
+          args: PropTypes.shape({
+            quantity: PropTypes.string.isRequired,
+            interestRate: PropTypes.number.isRequired,
+          }).isRequired,
+        }).isRequired,
+        serializedTransaction: PropTypes.string.isRequired,
       })
     ).isRequired,
+    fetchVestingProposals: PropTypes.func.isRequired,
+    acceptVestingProposal: PropTypes.func.isRequired,
   };
 
-  onAcceptClick = async ({ proposer, proposalId }) => {
-    const { approveProposal, execProposal } = this.props;
+  componentDidMount() {
+    this.loadVestingProposals();
+  }
+
+  async loadVestingProposals() {
+    const { fetchVestingProposals } = this.props;
+
+    try {
+      await fetchVestingProposals();
+    } catch (err) {
+      displayError(err);
+    }
+  }
+
+  onAcceptClick = async ({ proposalId }) => {
+    const { acceptVestingProposal } = this.props;
 
     try {
       try {
-        await approveProposal({ proposer, proposalId });
+        await acceptVestingProposal({ proposalId });
       } catch (err) {
-        const normalizedError = normalizeCyberwayErrorMessage(err);
-
-        // Эта ошибка чаще всего значит, что человек уже заапрувил пропозал ранее, поэтому игнорируем её.
-        if (normalizedError !== 'approval is not on the list of requested approvals') {
-          throw err;
-        }
+        displayError(err);
       }
-
-      await execProposal({ proposer, proposalId });
 
       displaySuccess(tt('wallet.success'));
     } catch (err) {
@@ -92,6 +103,8 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   renderItem = (item, i) => {
+    return <div>{JSON.stringify(item, null, 2)}</div>;
+
     const { balance, supply } = this.props;
 
     let value;

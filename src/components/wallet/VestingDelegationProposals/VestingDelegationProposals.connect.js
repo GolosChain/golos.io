@@ -1,22 +1,25 @@
 import { connect } from 'react-redux';
 
+import { currentUserIdSelector } from 'store/selectors/auth';
 import { golosSupplySelector, userWalletSelector } from 'store/selectors/wallet';
-import { approveProposal, execProposal } from 'store/actions/cyberway';
+import { fetchVestingProposals, acceptVestingProposal } from 'store/actions/gate';
 
 import VestingDelegationProposals from './VestingDelegationProposals';
 
 export default connect(
-  (state, props) => {
+  state => {
+    const userId = currentUserIdSelector(state);
     const { balance, supply } = golosSupplySelector(state);
 
     return {
-      items: userWalletSelector(props.userId, 'vestingDelegationProposals')(state),
+      userId,
+      items: userWalletSelector(userId, 'vestingDelegationProposals')(state),
       balance,
       supply,
     };
   },
   {
-    approveProposal,
-    execProposal,
+    fetchVestingProposals,
+    acceptVestingProposal,
   }
 )(VestingDelegationProposals);
