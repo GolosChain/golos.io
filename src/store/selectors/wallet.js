@@ -7,6 +7,20 @@ import { dataSelector } from './common';
 
 export const golosSupplySelector = dataSelector(['wallet', 'globalSupply', 'golos']);
 
+export const userWalletSelector = (userId, fields) => {
+  let fullPath = ['wallet', 'users', userId];
+
+  if (fields) {
+    if (Array.isArray(fields)) {
+      fullPath.push(...fields);
+    } else {
+      fullPath.push(fields);
+    }
+  }
+
+  return dataSelector(fullPath);
+};
+
 export const userBalanceSelector = userId => dataSelector(['wallet', 'users', userId, 'balances']);
 
 export const userLiquidBalanceSelector = (userId, symbol = 'GOLOS') =>

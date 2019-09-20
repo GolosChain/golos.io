@@ -33,7 +33,7 @@ export default class WalletContent extends Component {
           </title>
         </Head>
         <Header>{tt('g.wallet')}</Header>
-        {currentUserId === userId ? <VestingDelegationProposals userId={userId} /> : null}
+        {currentUserId && currentUserId === userId ? <VestingDelegationProposals /> : null}
         <Card>
           <PowerDownLine userId={userId} />
           <ClaimLine userId={userId} />

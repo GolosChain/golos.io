@@ -7,12 +7,11 @@ import Interpolate from 'react-interpolate-component';
 import Card from 'components/golos-ui/Card';
 import Button from 'components/golos-ui/Button';
 import { displayError, displaySuccess } from 'utils/toastMessages';
-import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import WalletUtils from 'utils/wallet';
 import SmartLink from 'components/common/SmartLink';
 
 const CardStyled = styled(Card)`
-  padding: 12px 20px;
+  padding: 14px 20px;
   margin-bottom: 14px;
 `;
 
@@ -23,7 +22,9 @@ const CardTitle = styled.h2`
   color: #333;
 `;
 
-const List = styled.ul``;
+const List = styled.ul`
+  margin-bottom: -4px;
+`;
 
 const Item = styled.li`
   display: flex;
@@ -53,37 +54,45 @@ const Action = styled(Button)`
 
 export default class VestingDelegationProposals extends PureComponent {
   static propTypes = {
+    userId: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        proposer: PropTypes.string.isRequired,
+        initiatorId: PropTypes.string.isRequired,
+        initiatorUsername: PropTypes.string.isRequired,
         proposalId: PropTypes.string.isRequired,
-        userId: PropTypes.string.isRequired,
-        username: PropTypes.string,
-        expiration: PropTypes.string.isRequired,
-        data: PropTypes.shape({
-          quantity: PropTypes.string.isRequired,
-          interestRate: PropTypes.number.isRequired,
-        }),
+        expirationTime: PropTypes.string.isRequired,
+        action: PropTypes.shape({
+          data: PropTypes.shape({
+            quantity: PropTypes.string.isRequired,
+            interest_rate: PropTypes.number.isRequired,
+          }).isRequired,
+        }).isRequired,
+        serializedTransaction: PropTypes.string.isRequired,
       })
     ).isRequired,
+    fetchVestingProposals: PropTypes.func.isRequired,
+    acceptTokensDelegation: PropTypes.func.isRequired,
   };
 
-  onAcceptClick = async ({ proposer, proposalId }) => {
-    const { approveProposal, execProposal } = this.props;
+  componentDidMount() {
+    this.loadVestingProposals();
+  }
+
+  async loadVestingProposals() {
+    const { fetchVestingProposals } = this.props;
 
     try {
-      try {
-        await approveProposal({ proposer, proposalId });
-      } catch (err) {
-        const normalizedError = normalizeCyberwayErrorMessage(err);
+      await fetchVestingProposals();
+    } catch (err) {
+      displayError(err);
+    }
+  }
 
-        // Эта ошибка чаще всего значит, что человек уже заапрувил пропозал ранее, поэтому игнорируем её.
-        if (normalizedError !== 'approval is not on the list of requested approvals') {
-          throw err;
-        }
-      }
+  onAcceptClick = async ({ proposalId, serializedTransaction }) => {
+    const { acceptTokensDelegation } = this.props;
 
-      await execProposal({ proposer, proposalId });
+    try {
+      await acceptTokensDelegation({ proposalId, serializedTransaction });
 
       displaySuccess(tt('wallet.success'));
     } catch (err) {
@@ -93,18 +102,20 @@ export default class VestingDelegationProposals extends PureComponent {
 
   renderItem = (item, i) => {
     const { balance, supply } = this.props;
+    const { action } = item;
+    const { quantity, interest_rate } = action.data;
 
     let value;
 
     if (supply) {
       value = WalletUtils.convertVestingToToken({
-        vesting: item.data.quantity,
+        vesting: quantity,
         type: 'string',
         balance,
         supply,
       });
     } else {
-      value = item.data.quantity;
+      value = quantity;
     }
 
     return (
@@ -116,13 +127,13 @@ export default class VestingDelegationProposals extends PureComponent {
               from: (
                 <SmartLink
                   route="profile"
-                  params={{ username: item.username, userId: item.userId }}
+                  params={{ username: item.initiatorUsername, userId: item.initiatorId }}
                 >
-                  {item.username || item.userId}
+                  {item.initiatorUsername || item.initiatorId}
                 </SmartLink>
               ),
               amount: value,
-              interest: item.data.interestRate,
+              interest: interest_rate,
             }}
           >
             {tt('wallet.vesting_delegation_proposal_text', {

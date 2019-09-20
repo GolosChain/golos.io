@@ -41,17 +41,14 @@ import { CALL_GATE } from 'store/middlewares/gate-api';
 import { validatorSchema } from 'store/schemas/gate';
 import { currentUnsafeUserIdSelector } from 'store/selectors/auth';
 
-export const getBalance = userId => (dispatch, getState) => {
+export const getBalance = userId => dispatch => {
   if (!userId) {
     throw new Error('Username is required!');
   }
 
-  const unsafeUserId = currentUnsafeUserIdSelector(getState());
-
   const params = {
     app: 'gls',
     userId,
-    includeVestingDelegationProposals: Boolean(unsafeUserId && unsafeUserId === userId),
   };
 
   return dispatch({

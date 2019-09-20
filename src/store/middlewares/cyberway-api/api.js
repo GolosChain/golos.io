@@ -2,6 +2,7 @@ import cyber from 'cyber-client';
 import { openModal } from 'redux-modals-manager';
 
 import { defaults } from 'utils/common';
+import { uint8ArrayToHex } from 'utils/encoding';
 import { CALL_GATE } from 'store/middlewares/gate-api';
 import { PROVIDE_BW, PROVIDE_BW_SUCCESS, PROVIDE_BW_ERROR } from 'store/constants';
 import { SHOW_MODAL_LOGIN } from 'store/constants/modalTypes';
@@ -19,7 +20,7 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
   if (
     process.env.PROVIDEBW_ENABLED &&
     callApi.options?.provideBandwidthFor !== null &&
-    shouldUseBW({ getState })
+    (callApi.options?.signByActors || shouldUseBW({ getState }))
   ) {
     const userId = currentUserIdSelector(getState());
 
@@ -78,7 +79,7 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
       options
     );
 
-    if (options && options.provideBandwidthFor && !options.msig) {
+    if (options && options.provideBandwidthFor && !options.msig && !options.signByActors) {
       const { signatures, serializedTransaction } = result;
 
       const paramsProvidebw = {
@@ -122,19 +123,3 @@ export default ({ shouldUseBW }) => ({ getState }) => next => async action => {
     throw err;
   }
 };
-
-function uint8ArrayToHex(array) {
-  const result = [];
-
-  for (const num of array) {
-    let str = num.toString(16);
-
-    if (num < 16) {
-      str = `0${str}`;
-    }
-
-    result.push(str);
-  }
-
-  return result.join('');
-}

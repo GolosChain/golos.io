@@ -259,7 +259,7 @@ export default class DelegateDialog extends PureComponent {
       const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
       const convertedAmount = await convertTokensToVesting(tokensQuantity);
 
-      await delegateTokens(target, convertedAmount);
+      await delegateTokens({ recipient: target, amount: convertedAmount });
 
       this.setState({
         loader: false,

@@ -16,13 +16,6 @@ import { GOLOS_CURRENCY_ID } from 'shared/constants';
 import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import { isVestingAlreadyOpened, markVestingOpened } from 'utils/localStorage';
 
-import {
-  DEFAULT_PROPOSAL_EXPIRES,
-  createPropose,
-  approveProposal,
-  generateRandomProposalId,
-} from './msig';
-
 const CONTRACT_NAME = 'vesting';
 const VESTING_SYMBOL = '6,GOLOS';
 
@@ -111,59 +104,6 @@ export const stopWithdrawTokens = () => async (dispatch, getState) => {
     },
     meta: data,
   });
-};
-
-export const delegateTokens = (recipient, amount, percents) => async (dispatch, getState) => {
-  const userId = currentUserIdSelector(getState());
-
-  if (!userId) {
-    throw new Error('Unauthorized');
-  }
-
-  let interestRate = 0;
-
-  if (percents) {
-    interestRate = percents * 100;
-  }
-
-  const data = {
-    from: userId,
-    to: recipient,
-    quantity: `${parseFloat(amount).toFixed(6)} GOLOS`,
-    interest_rate: interestRate,
-  };
-
-  const proposalId = generateRandomProposalId();
-
-  const auth = [
-    {
-      actor: userId,
-      permission: 'active',
-    },
-    {
-      actor: recipient,
-      permission: 'active',
-    },
-  ];
-
-  await dispatch(
-    createPropose({
-      contract: 'vesting',
-      method: 'delegate',
-      proposalId,
-      auth,
-      params: data,
-      requested: auth,
-      expires: DEFAULT_PROPOSAL_EXPIRES,
-    })
-  );
-
-  await dispatch(
-    approveProposal({
-      proposer: userId,
-      proposalId,
-    })
-  );
 };
 
 export const undelegateTokens = (to, amount) => async (dispatch, getState) => {

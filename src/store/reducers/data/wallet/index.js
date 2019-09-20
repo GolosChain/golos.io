@@ -10,6 +10,7 @@ import rewards from './rewards';
 import genesis from './genesis';
 import claim from './claim';
 import delegations from './delegations';
+import vestingProposals from './vestingProposals';
 
 const userReducers = combinePathReducers({
   balances,
@@ -19,6 +20,7 @@ const userReducers = combinePathReducers({
   genesis,
   claim,
   delegations,
+  vestingProposals,
 });
 
 const initialState = {
