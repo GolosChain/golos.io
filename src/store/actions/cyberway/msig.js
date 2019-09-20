@@ -13,17 +13,17 @@ import { currentUserIdSelector } from 'store/selectors/auth';
 
 export const DEFAULT_PROPOSAL_EXPIRES = 2592000; // в секундах (2592000 = 30 суток)
 
-export function generateRandomProposalId() {
+export function generateRandomProposalId(prefix = 'pr') {
   const numbers = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 12 - prefix.length; i++) {
     numbers.push(Math.floor(Math.random() * 5 + 1));
   }
 
-  return `pr${numbers.join('')}`;
+  return `${prefix}${numbers.join('')}`;
 }
 
-export const createPropose = ({
+export const createProposal = ({
   contract,
   method,
   params,
@@ -63,7 +63,29 @@ export const createPropose = ({
   });
 };
 
-async function getTopLeaders(dispatch) {
+export const createCustomProposal = ({ transaction, proposalId, requested }) => async (
+  dispatch,
+  getState
+) => {
+  const userId = currentUserIdSelector(getState());
+
+  const proposeParams = {
+    proposer: userId,
+    proposal_name: proposalId || generateRandomProposalId(),
+    requested,
+    trx: transaction,
+  };
+
+  return await dispatch({
+    [CYBERWAY_API]: {
+      contract: 'cyberMsig',
+      method: 'propose',
+      params: proposeParams,
+    },
+  });
+};
+
+export const getTopLeaders = () => async dispatch => {
   const results = await dispatch({
     [CALL_GATE]: {
       method: 'content.getLeadersTop',
@@ -78,7 +100,7 @@ async function getTopLeaders(dispatch) {
     actor: userId,
     permission: 'active',
   }));
-}
+};
 
 export const setParams = ({ contractName, updates, params }) => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
@@ -93,10 +115,10 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
     throw new Error('No changes');
   }
 
-  const requestedAuth = await getTopLeaders(dispatch);
+  const requestedAuth = await dispatch(getTopLeaders());
 
   return await dispatch(
-    createPropose({
+    createProposal({
       contract: contractName,
       method: 'setparams',
       auth: {
@@ -120,10 +142,10 @@ export const setChargeRestorer = params => async (dispatch, getState) => {
     throw new Error('Unauthorized');
   }
 
-  const requestedAuth = await getTopLeaders(dispatch);
+  const requestedAuth = await dispatch(getTopLeaders());
 
   return await dispatch(
-    createPropose({
+    createProposal({
       contract: 'charge',
       method: 'setrestorer',
       auth: {

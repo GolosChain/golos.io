@@ -21,7 +21,7 @@ const formControlStyles = css`
 
   padding: 9px 33px 9px 14px;
   outline: 0;
-  appearance: inherit;
+  appearance: none;
 
   &:focus {
     box-shadow: 0 0 3px #e1e1e1;

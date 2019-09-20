@@ -47,7 +47,11 @@ const HeaderSubtitle = styled.div`
 
 const HeaderButtons = styled.div`
   flex-shrink: 0;
-  margin: 10px 0;
+  margin: 10px -4px;
+
+  & > * {
+    margin: 0 5px !important;
+  }
 `;
 
 const LoaderWrapper = styled.div`
