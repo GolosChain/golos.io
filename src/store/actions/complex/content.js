@@ -4,10 +4,6 @@ import { createmssg, updatemssg } from 'store/actions/cyberway/publish';
 import { fetchPost } from 'store/actions/gate';
 import { deletemssg } from '../cyberway';
 
-function prepareTags(tags) {
-  return tags.map(tag => ({ tag }));
-}
-
 export const createPost = ({
   permlink,
   title,
@@ -23,7 +19,7 @@ export const createPost = ({
     },
     headermssg: title,
     bodymssg: body,
-    tags: prepareTags(tags),
+    tags,
     jsonmetadata: JSON.stringify({
       ...jsonmetadata,
     }),
@@ -49,7 +45,7 @@ export const updatePost = ({ contentId, title, body, tags, jsonmetadata, resourc
     },
     headermssg: title,
     bodymssg: body,
-    tags: prepareTags(tags),
+    tags,
     jsonmetadata: JSON.stringify(jsonmetadata),
   };
 
