@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 
-import { dataSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getGenesisConversions } from 'store/actions/gate';
+
 import GenesisList from './GenesisList';
 
 export default connect(
   (state, { userId }) => {
-    const genesis = dataSelector(['wallet', 'users', userId, 'genesis'])(state);
+    const genesis = userWalletSelector(userId, 'genesis')(state);
+
     return {
       isLoading: Boolean(genesis?.isLoading),
       items: genesis?.items || [],

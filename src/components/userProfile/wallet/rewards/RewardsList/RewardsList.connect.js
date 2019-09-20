@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
-import { dataSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getRewardsHistory } from 'store/actions/gate';
 import RewardsList from './RewardsList';
 
 export default connect(
   (state, { type, userId }) => {
-    const rewards = dataSelector(['wallet', 'users', userId, 'rewards', type])(state);
+    const rewards = userWalletSelector(userId, ['rewards', type])(state);
     return {
       isLoading: Boolean(rewards?.isLoading),
       items: rewards?.items || [],

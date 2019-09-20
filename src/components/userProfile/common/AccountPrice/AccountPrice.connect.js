@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { dataSelector, statusSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getBalance, getVestingBalance } from 'store/actions/gate';
 import { parsePayoutAmount } from 'utils/ParsersAndFormatters';
 
@@ -10,8 +11,8 @@ import AccountPrice from './AccountPrice';
 export default connect(
   createSelector(
     [
-      (state, props) => dataSelector(['wallet', 'users', props.userId, 'balances'])(state),
-      (state, props) => dataSelector(['wallet', 'users', props.userId, 'vesting'])(state),
+      (state, props) => userWalletSelector(props.userId, 'balances')(state),
+      (state, props) => userWalletSelector(props.userId, 'vesting')(state),
       dataSelector(['settings', 'basic', 'currency']),
       state =>
         dataSelector(['rates', dataSelector(['settings', 'basic', 'currency'])(state)])(state),

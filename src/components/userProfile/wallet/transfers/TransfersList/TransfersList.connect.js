@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 
-import { dataSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getTransfersHistory } from 'store/actions/gate';
+
 import TransfersList from './TransfersList';
 
 export default connect(
   (state, { currency, direction, userId }) => {
-    const transfers = dataSelector(['wallet', 'users', userId, 'transfers', currency, direction])(
-      state
-    );
+    const transfers = userWalletSelector(userId, ['transfers', currency, direction])(state);
 
     return {
       isLoading: Boolean(transfers?.isLoading),

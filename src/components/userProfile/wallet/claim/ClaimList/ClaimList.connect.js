@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 
-import { dataSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getClaimHistory } from 'store/actions/gate';
+
 import ClaimList from './ClaimList';
 
 export default connect(
   (state, { userId }) => {
-    const claim = dataSelector(['wallet', 'users', userId, 'claim'])(state);
+    const claim = userWalletSelector(userId, 'claim')(state);
+
     return {
       isLoading: Boolean(claim?.isLoading),
       items: claim?.claims || [],

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
-import { dataSelector } from 'store/selectors/common';
+import { userWalletSelector } from 'store/selectors/wallet';
 import { getVestingHistory } from 'store/actions/gate';
 import VestingsList from './VestingsList';
 
 export default connect(
   (state, { userId }) => {
-    const vestings = dataSelector(['wallet', 'users', userId, 'vestings'])(state);
+    const vestings = userWalletSelector(userId, 'vestings')(state);
 
     return {
       isLoading: Boolean(vestings?.isLoading),
