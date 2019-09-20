@@ -7,12 +7,11 @@ import Interpolate from 'react-interpolate-component';
 import Card from 'components/golos-ui/Card';
 import Button from 'components/golos-ui/Button';
 import { displayError, displaySuccess } from 'utils/toastMessages';
-import { normalizeCyberwayErrorMessage } from 'utils/errors';
 import WalletUtils from 'utils/wallet';
 import SmartLink from 'components/common/SmartLink';
 
 const CardStyled = styled(Card)`
-  padding: 12px 20px;
+  padding: 14px 20px;
   margin-bottom: 14px;
 `;
 
@@ -23,7 +22,9 @@ const CardTitle = styled.h2`
   color: #333;
 `;
 
-const List = styled.ul``;
+const List = styled.ul`
+  margin-bottom: -4px;
+`;
 
 const Item = styled.li`
   display: flex;
@@ -57,19 +58,20 @@ export default class VestingDelegationProposals extends PureComponent {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         initiatorId: PropTypes.string.isRequired,
+        initiatorUsername: PropTypes.string.isRequired,
         proposalId: PropTypes.string.isRequired,
         expirationTime: PropTypes.string.isRequired,
         action: PropTypes.shape({
-          args: PropTypes.shape({
+          data: PropTypes.shape({
             quantity: PropTypes.string.isRequired,
-            interestRate: PropTypes.number.isRequired,
+            interest_rate: PropTypes.number.isRequired,
           }).isRequired,
         }).isRequired,
         serializedTransaction: PropTypes.string.isRequired,
       })
     ).isRequired,
     fetchVestingProposals: PropTypes.func.isRequired,
-    acceptVestingProposal: PropTypes.func.isRequired,
+    acceptTokensDelegation: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -86,15 +88,11 @@ export default class VestingDelegationProposals extends PureComponent {
     }
   }
 
-  onAcceptClick = async ({ proposalId }) => {
-    const { acceptVestingProposal } = this.props;
+  onAcceptClick = async ({ proposalId, serializedTransaction }) => {
+    const { acceptTokensDelegation } = this.props;
 
     try {
-      try {
-        await acceptVestingProposal({ proposalId });
-      } catch (err) {
-        displayError(err);
-      }
+      await acceptTokensDelegation({ proposalId, serializedTransaction });
 
       displaySuccess(tt('wallet.success'));
     } catch (err) {
@@ -103,21 +101,21 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   renderItem = (item, i) => {
-    return <div>{JSON.stringify(item, null, 2)}</div>;
-
     const { balance, supply } = this.props;
+    const { action } = item;
+    const { quantity, interest_rate } = action.data;
 
     let value;
 
     if (supply) {
       value = WalletUtils.convertVestingToToken({
-        vesting: item.data.quantity,
+        vesting: quantity,
         type: 'string',
         balance,
         supply,
       });
     } else {
-      value = item.data.quantity;
+      value = quantity;
     }
 
     return (
@@ -129,13 +127,13 @@ export default class VestingDelegationProposals extends PureComponent {
               from: (
                 <SmartLink
                   route="profile"
-                  params={{ username: item.username, userId: item.userId }}
+                  params={{ username: item.initiatorUsername, userId: item.initiatorId }}
                 >
-                  {item.username || item.userId}
+                  {item.initiatorUsername || item.initiatorId}
                 </SmartLink>
               ),
               amount: value,
-              interest: item.data.interestRate,
+              interest: interest_rate,
             }}
           >
             {tt('wallet.vesting_delegation_proposal_text', {

@@ -9,7 +9,8 @@ import {
   getDelegationState,
   waitForTransaction,
 } from 'store/actions/gate';
-import { delegateTokens, undelegateTokens } from 'store/actions/cyberway/vesting';
+import { delegateTokens } from 'store/actions/complex/vesting';
+import { undelegateTokens } from 'store/actions/cyberway/vesting';
 
 import DelegateDialog from './DelegateDialog';
 
