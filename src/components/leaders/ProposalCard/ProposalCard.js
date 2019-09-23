@@ -9,6 +9,11 @@ import { displayError, displaySuccess } from 'utils/toastMessages';
 import { parsePercent, integerToVesting } from 'utils/common';
 import Button from 'components/golos-ui/Button';
 
+const PROPOSAL_TYPES = {
+  NORMAL: 'NORMAL',
+  CUSTOM: 'CUSTOM',
+};
+
 const Wrapper = styled.div`
   padding: 12px 18px 18px;
   border-radius: 8px;
@@ -103,18 +108,22 @@ export default class ProposalCard extends PureComponent {
         username: PropTypes.string,
         avatarUrl: PropTypes.string,
       }).isRequired,
-      code: PropTypes.string.isRequired,
-      action: PropTypes.string.isRequired,
       blockTime: PropTypes.string.isRequired,
       expiration: PropTypes.string.isRequired,
       isExecuted: PropTypes.bool.isRequired,
       executedBlockTime: PropTypes.string,
-      changes: PropTypes.arrayOf(
-        PropTypes.shape({
-          structureName: PropTypes.string.isRequired,
-          values: PropTypes.shape({}).isRequired,
-        })
-      ).isRequired,
+      type: PropTypes.oneOf([PROPOSAL_TYPES.NORMAL, PROPOSAL_TYPES.CUSTOM]).isRequired,
+      action: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+        action: PropTypes.string.isRequired,
+        changes: PropTypes.arrayOf(
+          PropTypes.shape({
+            structureName: PropTypes.string.isRequired,
+            values: PropTypes.shape({}).isRequired,
+          })
+        ).isRequired,
+      }),
+      trx: PropTypes.shape({}),
     }).isRequired,
     approveProposal: PropTypes.func.isRequired,
     execProposal: PropTypes.func.isRequired,
@@ -249,6 +258,53 @@ export default class ProposalCard extends PureComponent {
     );
   }
 
+  renderSimpleProposalBody() {
+    const { proposal } = this.props;
+    const [, contractName] = proposal.code.split('.');
+    const contract = CONTRACTS.find(contract => contract.contractName === contractName);
+
+    let actionInfo = null;
+
+    if (contract) {
+      actionInfo = contract.actions.find(({ actionName }) => actionName === proposal.actionName);
+    }
+
+    return (
+      <>
+        <Field>
+          <FieldTitle>Code:</FieldTitle> <FieldValue>{proposal.code}</FieldValue>
+        </Field>
+        <Field>
+          <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
+        </Field>
+        <ChangesBlock>
+          <FieldTitle>Changes:</FieldTitle>
+          {proposal.data ? this.renderChanges(actionInfo, proposal.data) : null}
+          {proposal.changes && proposal.changes.length ? (
+            <ChangesList>
+              {proposal.changes.map((struct, i) =>
+                this.renderChangeLine(struct, contract, actionInfo, i)
+              )}
+            </ChangesList>
+          ) : null}
+        </ChangesBlock>
+      </>
+    );
+  }
+
+  renderCustomProposalBody() {
+    const { proposal } = this.props;
+
+    return (
+      <>
+        <Field>
+          <FieldTitle>Raw transaction:</FieldTitle>
+        </Field>
+        <pre>{JSON.stringify(proposal.trx, null, 2)}</pre>
+      </>
+    );
+  }
+
   renderChangeLine = ({ structureName, values }, contract, actionInfo, i) => {
     let structure;
 
@@ -329,14 +385,6 @@ export default class ProposalCard extends PureComponent {
   render() {
     const { proposal } = this.props;
     const { showRequestedSigns } = this.state;
-    const [, contractName] = proposal.code.split('.');
-    const contract = CONTRACTS.find(contract => contract.contractName === contractName);
-
-    let actionInfo = null;
-
-    if (contract) {
-      actionInfo = contract.actions.find(({ actionName }) => actionName === proposal.actionName);
-    }
 
     const allApprovesCount = proposal.approves.length;
     let approvesCount = 0;
@@ -376,23 +424,9 @@ export default class ProposalCard extends PureComponent {
             <FieldValue>{new Date(proposal.executedBlockTime).toLocaleString()}</FieldValue>
           </Field>
         ) : null}
-        <Field>
-          <FieldTitle>Code:</FieldTitle> <FieldValue>{proposal.code}</FieldValue>
-        </Field>
-        <Field>
-          <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
-        </Field>
-        <ChangesBlock>
-          <FieldTitle>Changes:</FieldTitle>
-          {proposal.data ? this.renderChanges(actionInfo, proposal.data) : null}
-          {proposal.changes && proposal.changes.length ? (
-            <ChangesList>
-              {proposal.changes.map((struct, i) =>
-                this.renderChangeLine(struct, contract, actionInfo, i)
-              )}
-            </ChangesList>
-          ) : null}
-        </ChangesBlock>
+        {proposal.type === PROPOSAL_TYPES.CUSTOM
+          ? this.renderCustomProposalBody()
+          : this.renderSimpleProposalBody()}
         {this.renderApproveState({ approvesCount, allApprovesCount })}
         {showRequestedSigns ? this.renderRequestedSigns() : null}
         {this.renderFooter({ approvesCount, allApprovesCount })}
