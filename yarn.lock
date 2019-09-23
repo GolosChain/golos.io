@@ -3737,13 +3737,13 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@^1.7.0:
-  version "1.7.0"
-  resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.7.0.tgz#249507ef1c69d5263cd406354d13d989fca4edec"
-  integrity sha512-jvHYIHtiizA4YYsxvubsYwhPyUIr06xR94T9JHux0EEhrjWZbowMQNhAX5ZoKpY1V3hzag8QtxvHzz9vRnv1Xg==
+cyber-client@1.7.3:
+  version "1.7.3"
+  resolved "https://npm.golos.io/cyber-client/-/cyber-client-1.7.3.tgz#52904206c13264e32b05a4969e41a5f49e914af1"
+  integrity sha512-jlKE9hmyrp9qkUsYhHg0xgSY0mRSrqCkbJTKCrreN+jUKSBmqOBi9VvEN0CwJPJuif+y/0pOgC/w1G69/RvkSA==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    cyberwayjs "^20.0.0-beta7"
+    cyberwayjs "20.0.0-beta8"
     idb "^3.0.2"
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
@@ -3753,10 +3753,10 @@ cyber-country-flag@^0.0.3:
   resolved "https://npm.golos.io/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
   integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
 
-cyberwayjs@^20.0.0-beta7:
-  version "20.0.0-beta7"
-  resolved "https://npm.golos.io/cyberwayjs/-/cyberwayjs-20.0.0-beta7.tgz#39c97bb921c5ca143e34db9e29375399c23c3298"
-  integrity sha512-MVdWq4ScqW/Pu/D5BQDc9P7TEl27uhajmqMkB2hEgrfh5OAUF/e7C7hpaJVFHfFJjJh3PLhKo6h9shcvZfal2w==
+cyberwayjs@20.0.0-beta8:
+  version "20.0.0-beta8"
+  resolved "https://npm.golos.io/cyberwayjs/-/cyberwayjs-20.0.0-beta8.tgz#a0160678d3a2f692ae4b8e8d783bbac63f31b10b"
+  integrity sha512-Y+NTSzIgKGkqKLw2YXnBBaNedPhUrSU4TiX1trJFcWz++cd4u9JwF+Gx17mLqTHD1Zq3qvmR+7BJrDJ8aCeHNw==
   dependencies:
     babel-polyfill "^6.26.0"
     eosjs-ecc "^4.0.1"
