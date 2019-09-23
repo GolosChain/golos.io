@@ -303,7 +303,10 @@ export default class CustomProposal extends PureComponent {
   };
 
   canClose() {
-    return false;
+    const { step } = this.state;
+
+    // Разрешаем закрывать только на последнем шаге
+    return step === STEPS.SUCCESS;
   }
 
   renderFirstStep() {
