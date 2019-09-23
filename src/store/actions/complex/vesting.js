@@ -62,7 +62,7 @@ export const delegateTokens = ({ recipient, amount, percent = 0 }) => async (
           serializedTransaction: uint8ArrayToHex(transaction.serializedTransaction),
           signatures: transaction.signatures,
         },
-        chainId: await cyber.api.getChainId(),
+        chainId: '591c8aa5cade588b1ce045d26e5f2a162c52486262bd2d7abcb7fa18247e17ec', // TODO: await cyber.api.getChainId(),
       },
     },
   });
@@ -81,7 +81,7 @@ export const acceptTokensDelegation = ({ proposalId, serializedTransaction }) =>
   const pubKey = await dispatch(getAccountPublicKey(userId, 'active'));
 
   const { signatures } = await cyber.signatureProvider.sign({
-    chainId: await cyber.api.getChainId(),
+    chainId: '591c8aa5cade588b1ce045d26e5f2a162c52486262bd2d7abcb7fa18247e17ec', // TODO: await cyber.api.getChainId(),
     requiredKeys: [pubKey],
     serializedTransaction: hexToUint8Array(serializedTransaction),
   });
