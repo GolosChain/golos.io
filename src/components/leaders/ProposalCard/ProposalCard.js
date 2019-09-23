@@ -260,7 +260,9 @@ export default class ProposalCard extends PureComponent {
 
   renderSimpleProposalBody() {
     const { proposal } = this.props;
-    const [, contractName] = proposal.code.split('.');
+    const { code, action, data, changes } = proposal.action;
+    const [, contractName] = code.split('.');
+
     const contract = CONTRACTS.find(contract => contract.contractName === contractName);
 
     let actionInfo = null;
@@ -272,19 +274,17 @@ export default class ProposalCard extends PureComponent {
     return (
       <>
         <Field>
-          <FieldTitle>Code:</FieldTitle> <FieldValue>{proposal.code}</FieldValue>
+          <FieldTitle>Code:</FieldTitle> <FieldValue>{code}</FieldValue>
         </Field>
         <Field>
-          <FieldTitle>Action:</FieldTitle> <FieldValue>{proposal.action}</FieldValue>
+          <FieldTitle>Action:</FieldTitle> <FieldValue>{action}</FieldValue>
         </Field>
         <ChangesBlock>
           <FieldTitle>Changes:</FieldTitle>
-          {proposal.data ? this.renderChanges(actionInfo, proposal.data) : null}
-          {proposal.changes && proposal.changes.length ? (
+          {data ? this.renderChanges(actionInfo, data) : null}
+          {changes && changes.length ? (
             <ChangesList>
-              {proposal.changes.map((struct, i) =>
-                this.renderChangeLine(struct, contract, actionInfo, i)
-              )}
+              {changes.map((struct, i) => this.renderChangeLine(struct, contract, actionInfo, i))}
             </ChangesList>
           ) : null}
         </ChangesBlock>
