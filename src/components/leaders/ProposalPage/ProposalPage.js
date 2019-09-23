@@ -15,6 +15,12 @@ const Wrapper = styled.div`
 
 const Title = styled.h1``;
 
+const ProposalId = styled.span`
+  font-size: 20px;
+  font-weight: 500;
+  color: #777;
+`;
+
 export default class ProposalPage extends PureComponent {
   static async getInitialProps({ store, query }) {
     await store.dispatch(
@@ -35,7 +41,9 @@ export default class ProposalPage extends PureComponent {
 
     return (
       <Wrapper>
-        <Title>{tt('witnesses_jsx.proposal_page.title')}</Title>
+        <Title>
+          {tt('witnesses_jsx.proposal_page.title')} <ProposalId>(id: {proposalId})</ProposalId>
+        </Title>
         <ProposalCard fullProposalId={formatProposalId(proposerId, proposalId)} />
       </Wrapper>
     );
