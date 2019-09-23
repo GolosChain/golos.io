@@ -57,6 +57,7 @@ export const fetchLeaders = ({ sequenceKey, query, limit = 20 } = {}) => {
 
 export const fetchProposals = ({ sequenceKey } = {}) => {
   const params = {
+    app: 'gls',
     communityId: 'gls',
     limit: 20,
     sequenceKey,

@@ -15,7 +15,7 @@ const PROPOSAL_TYPES = {
 };
 
 const Wrapper = styled.div`
-  padding: 12px 18px 18px;
+  padding: 12px 18px;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
@@ -86,7 +86,7 @@ const NotSigned = styled.span`
 `;
 
 const FooterButtons = styled.div`
-  margin-top: 10px;
+  margin: 10px 0 8px;
 
   & > :not(:last-child) {
     margin-right: 8px;
