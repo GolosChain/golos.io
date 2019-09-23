@@ -57,7 +57,7 @@ const Changes = styled.pre`
 `;
 
 const ApproveState = styled.div`
-  margin: 10px 0;
+  margin: 10px 0 0;
   color: #393;
 `;
 
@@ -95,6 +95,10 @@ const FooterButtons = styled.div`
 
 const Approved = styled.span`
   color: #393;
+`;
+
+const TransactionBody = styled.pre`
+  font-size: 13px;
 `;
 
 export default class ProposalCard extends PureComponent {
@@ -233,34 +237,42 @@ export default class ProposalCard extends PureComponent {
 
   renderFooter({ approvesCount, allApprovesCount }) {
     const { userId, proposal } = this.props;
-    let approveSlot = null;
+    const buttons = [];
 
     if (userId) {
       const myApprove = proposal.approves.find(approve => approve.userId === userId);
 
       if (myApprove) {
         if (myApprove.isSigned) {
-          approveSlot = <Approved>You have approved already</Approved>;
+          buttons.push(<Approved key="1">You have approved already</Approved>);
         } else if (!proposal.isExecuted) {
-          approveSlot = <Button onClick={this.onApproveClick}>Approve</Button>;
+          buttons.push(
+            <Button key="1" onClick={this.onApproveClick}>
+              Approve
+            </Button>
+          );
         }
       }
     }
 
     const canExecute = approvesCount >= allApprovesCount * (2 / 3) + 1;
 
-    return (
-      <FooterButtons>
-        {approveSlot}
-        {proposal.isExecuted || !canExecute ? null : (
-          <Button onClick={this.tryToExec}>Try to exec</Button>
-        )}
-      </FooterButtons>
-    );
+    if (!proposal.isExecuted && canExecute) {
+      buttons.push(
+        <Button key="2" onClick={this.tryToExec}>
+          Try to exec
+        </Button>
+      );
+    }
+
+    if (buttons.length) {
+      return <FooterButtons>{buttons}</FooterButtons>;
+    }
   }
 
   renderSimpleProposalBody() {
     const { proposal } = this.props;
+
     const { code, action, data, changes } = proposal.action;
     const [, contractName] = code.split('.');
 
@@ -301,7 +313,7 @@ export default class ProposalCard extends PureComponent {
         <Field>
           <FieldTitle>Raw transaction:</FieldTitle>
         </Field>
-        <pre>{JSON.stringify(proposal.trx, null, 2)}</pre>
+        <TransactionBody>{JSON.stringify(proposal.trx, null, 2)}</TransactionBody>
       </>
     );
   }
