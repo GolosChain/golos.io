@@ -146,7 +146,7 @@ const AuthTopLine = styled.div`
 `;
 
 const FillLeadersButton = styled(Button)`
-  height: 25px;
+  height: 27px;
   padding: 0 10px;
   margin-left: 8px;
   font-size: 11px;
@@ -186,6 +186,7 @@ export default class CustomProposal extends PureComponent {
     auth: '',
     isValid: true,
     isLoading: false,
+    isLoadingLeaders: false,
     transactionId: null,
   };
 
@@ -240,7 +241,7 @@ export default class CustomProposal extends PureComponent {
   onFillByLeadersClick = async () => {
     const { getTopLeaders } = this.props;
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoadingLeaders: true });
 
     let leaders;
 
@@ -248,7 +249,7 @@ export default class CustomProposal extends PureComponent {
       leaders = await getTopLeaders();
     } catch (err) {
       displayError(err);
-      this.setState({ isLoading: false });
+      this.setState({ isLoadingLeaders: false });
       return;
     }
 
@@ -256,7 +257,7 @@ export default class CustomProposal extends PureComponent {
 
     this.setState({
       auth,
-      isLoading: false,
+      isLoadingLeaders: false,
     });
   };
 
@@ -310,7 +311,7 @@ export default class CustomProposal extends PureComponent {
   }
 
   renderFirstStep() {
-    const { text, auth, proposalId, isValid, isLoading } = this.state;
+    const { text, auth, proposalId, isValid, isLoading, isLoadingLeaders } = this.state;
 
     return (
       <>
@@ -352,14 +353,17 @@ export default class CustomProposal extends PureComponent {
           <AuthorizationBlock>
             <AuthTopLine>
               <FieldTitle>{t('authorization_title')}:</FieldTitle>
-              <FillLeadersButton disabled={isLoading} onClick={this.onFillByLeadersClick}>
+              <FillLeadersButton disabled={isLoadingLeaders} onClick={this.onFillByLeadersClick}>
                 {t('fill_leaders')}
               </FillLeadersButton>
             </AuthTopLine>
             <Input value={auth} onChange={this.onAuthChange} />
           </AuthorizationBlock>
           <Actions>
-            <Button disabled={!isValid || !text || isLoading} onClick={this.onCreateClick}>
+            <Button
+              disabled={!isValid || !text || isLoading || isLoadingLeaders}
+              onClick={this.onCreateClick}
+            >
               {t('create_button')}
             </Button>
             <Button light disabled={isLoading} onClick={this.onCancelClick}>
