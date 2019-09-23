@@ -130,7 +130,7 @@ export default class LeaderProposals extends PureComponent {
   renderItem = id => {
     return (
       <Item key={id}>
-        <ProposalCard proposalId={id} />
+        <ProposalCard fullProposalId={id} />
       </Item>
     );
   };

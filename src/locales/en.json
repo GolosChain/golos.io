@@ -1157,6 +1157,9 @@
       "leaders": "Leaders top",
       "proposals": "Proposals list"
     },
+    "proposal_page": {
+      "title": "Proposal"
+    },
     "update_leader_post_url_header": "Update url",
     "update_leader_post_button": "Update url"
   },

@@ -35,7 +35,7 @@ routes.add('login', '/login', 'login');
 // routes.add('walletSectionType', '/wallet/:section/:type', 'wallet');
 // routes.add('notifications', '/notifications');
 routes.add('market', '/market', 'market');
-routes.add('leaders', '/leaders/:subRoute(proposals)?');
+routes.add('leaders', '/leaders/:subRoute(proposals)?/:proposerId?/:proposalId?');
 // Legacy url (redirect to leaders)
 routes.add('witnesses', '/~witnesses');
 routes.add('validators', '/validators', 'validators');

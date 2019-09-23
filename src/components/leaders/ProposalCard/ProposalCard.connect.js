@@ -7,9 +7,9 @@ import { approveProposal, execProposal } from 'store/actions/cyberway';
 import ProposalCard from './ProposalCard';
 
 export default connect(
-  (state, { proposalId }) => ({
+  (state, { fullProposalId }) => ({
     userId: currentUserIdSelector(state),
-    proposal: entitySelector('proposals', proposalId)(state),
+    proposal: entitySelector('proposals', fullProposalId)(state),
   }),
   {
     approveProposal,
