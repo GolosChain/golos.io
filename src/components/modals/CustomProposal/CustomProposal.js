@@ -10,7 +10,7 @@ import Button from 'components/golos-ui/Button';
 import { Input, Textarea } from 'components/golos-ui/Form';
 import Icon from 'components/golos-ui/Icon';
 import SplashLoader from 'components/golos-ui/SplashLoader';
-import DialogManager from '../../elements/common/DialogManager';
+import DialogManager from 'components/elements/common/DialogManager';
 
 // Фиксированный префикс нужен, чтобы можно было отличить обычные пропозалы от тех что созданы через форму.
 const PROPOSAL_PREFIX = 'lead';
