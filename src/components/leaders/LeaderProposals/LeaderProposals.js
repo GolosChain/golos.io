@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { ToggleFeature } from '@flopflip/react-redux';
 
-import { PROPOSALS_MANAGE_BUTTON } from 'shared/feature-flags';
+import { PROPOSALS_MANAGE_BUTTON, CUSTOM_PROPOSALS_BUTTON } from 'shared/feature-flags';
 import { fetchProposals } from 'store/actions/gate';
 import { displayError } from 'utils/toastMessages';
 
@@ -69,6 +69,7 @@ export default class LeaderProposals extends PureComponent {
     sequenceKey: PropTypes.string,
     fetchProposals: PropTypes.func.isRequired,
     openManageCommunityDialog: PropTypes.func.isRequired,
+    openCustomProposalDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -92,6 +93,11 @@ export default class LeaderProposals extends PureComponent {
   onManageClick = () => {
     const { openManageCommunityDialog } = this.props;
     openManageCommunityDialog();
+  };
+
+  onCreateCustomProposalClick = () => {
+    const { openCustomProposalDialog } = this.props;
+    openCustomProposalDialog();
   };
 
   renderContent() {
@@ -139,9 +145,16 @@ export default class LeaderProposals extends PureComponent {
             title={tt('witnesses_jsx.tabs.proposals')}
             actions={() =>
               isWitness ? (
-                <ToggleFeature flag={PROPOSALS_MANAGE_BUTTON}>
-                  <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
-                </ToggleFeature>
+                <>
+                  <ToggleFeature flag={CUSTOM_PROPOSALS_BUTTON}>
+                    <Button onClick={this.onCreateCustomProposalClick}>
+                      {tt('witnesses_jsx.create_custom_proposal')}
+                    </Button>
+                  </ToggleFeature>
+                  <ToggleFeature flag={PROPOSALS_MANAGE_BUTTON}>
+                    <Button onClick={this.onManageClick}>{tt('witnesses_jsx.manage')}</Button>
+                  </ToggleFeature>
+                </>
               ) : null
             }
           />

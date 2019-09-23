@@ -1133,9 +1133,25 @@
     "become": "Become a leader",
     "stop": "Stop be a leader",
     "manage": "Manage",
+    "create_custom_proposal": "Create custom proposal",
     "register_dialog": {
       "title": "Register as leader",
       "url": "Leader welcome post link"
+    },
+    "custom_proposal": {
+      "title": "Custom proposal creating",
+      "id_title": "Proposal id",
+      "transaction_title": "Transaction",
+      "invalid": "invalid JSON",
+      "text_placeholder": "Enter text of transaction in JSON format",
+      "upload_title": "or upload a file",
+      "authorization_title": "Authorization list (user ids separated by comma)",
+      "fill_leaders": "Fill by leaders top",
+      "create_button": "Create proposal",
+      "success_title": "Proposal created!",
+      "proposal_id": "Proposal id",
+      "proposal_trx_id": "Proposal transaction id",
+      "see_explorer": "See in explorer"
     },
     "tabs": {
       "leaders": "Leaders top",

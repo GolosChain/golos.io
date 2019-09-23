@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import { openModal } from 'redux-modals-manager';
 
-import { SHOW_MODAL_MANAGE_COMMUNITY } from '/store/constants';
 import { dataSelector } from 'store/selectors/common';
 import { amIWitnessSelector } from 'store/selectors/auth';
 import { fetchProposals } from 'store/actions/gate';
+import { openManageCommunityDialog, openCustomProposalDialog } from 'store/actions/modals';
 
 import LeaderProposals from './LeaderProposals';
 
@@ -23,6 +22,7 @@ export default connect(
   },
   {
     fetchProposals,
-    openManageCommunityDialog: () => openModal(SHOW_MODAL_MANAGE_COMMUNITY),
+    openManageCommunityDialog,
+    openCustomProposalDialog,
   }
 )(LeaderProposals);

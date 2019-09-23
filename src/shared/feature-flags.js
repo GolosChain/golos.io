@@ -16,6 +16,7 @@ export const USER_SETTINGS = 'userSettings';
 
 // PROPOSALS
 export const PROPOSALS_MANAGE_BUTTON = 'proposalsManageButton';
+export const CUSTOM_PROPOSALS_BUTTON = 'customProposalsButton';
 
 export const BECOME_WITNESS = 'becomeWitness';
 
@@ -46,6 +47,7 @@ export default {
 
   // PROPOSALS
   [PROPOSALS_MANAGE_BUTTON]: false,
+  [CUSTOM_PROPOSALS_BUTTON]: false,
 
   [BECOME_WITNESS]: false,
 

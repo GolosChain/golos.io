@@ -25,6 +25,7 @@ import {
   SHOW_MODAL_LINK_OPTIONS,
   SHOW_MODAL_DELEGATE_VOTE,
   SHOW_MODAL_ADD_IMAGE,
+  SHOW_MODAL_CUSTOM_PROPOSAL,
 } from 'store/constants/modalTypes';
 import ScrollFix from 'components/common/ScrollFix';
 import { getDynamicComponentInitialProps } from 'utils/hocs/withTabs';
@@ -102,6 +103,7 @@ const modalsMap = new Map([
   [SHOW_MODAL_LINK_OPTIONS, dynamic(() => import('components/dialogs/LinkOptionsDialog'))],
   [SHOW_MODAL_DELEGATE_VOTE, dynamic(() => import('components/dialogs/DelegateVoteDialog'))],
   [SHOW_MODAL_ADD_IMAGE, dynamic(() => import('components/dialogs/AddImageDialog'))],
+  [SHOW_MODAL_CUSTOM_PROPOSAL, dynamic(() => import('components/modals/CustomProposal'))],
 ]);
 
 export default class ModalManager extends PureComponent {
