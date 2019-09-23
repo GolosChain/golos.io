@@ -12,8 +12,12 @@ export default function(state = initialState, { type, payload, meta }) {
       };
 
     case ACCEPT_VESTING_PROPOSAL_SUCCESS:
+      if (!state.items) {
+        return state;
+      }
+
       return {
-        items: payload.items.filter(({ proposalId }) => meta.proposalId !== proposalId),
+        items: state.items.filter(({ proposalId }) => meta.proposalId !== proposalId),
       };
 
     default:

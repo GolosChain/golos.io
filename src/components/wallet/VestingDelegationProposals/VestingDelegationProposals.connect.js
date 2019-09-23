@@ -12,11 +12,11 @@ export default connect(
     const userId = currentUserIdSelector(state);
     const { balance, supply } = golosSupplySelector(state);
 
-    const items = userWalletSelector(userId, 'vestingDelegationProposals')(state);
+    const data = userWalletSelector(userId, 'vestingProposals')(state);
 
     return {
       userId,
-      items,
+      items: data?.items,
       balance,
       supply,
     };
