@@ -1164,6 +1164,9 @@
       "leaders": "Топ лидеров",
       "proposals": "Список предложений"
     },
+    "proposal_page": {
+      "title": "Предложение"
+    },
     "update_leader_post_url_header": "Обновить URL на пост лидера",
     "update_leader_post_button": "Обновить URL"
   },

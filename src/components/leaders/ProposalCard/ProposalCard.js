@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
 
+import { Link } from 'shared/routes';
 import { CONTRACTS, FIELD_TYPES } from 'constants/communitySettings';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { parsePercent, integerToVesting } from 'utils/common';
@@ -411,13 +412,24 @@ export default class ProposalCard extends PureComponent {
     return (
       <Wrapper>
         <Field>
+          <FieldTitle>Proposal id:</FieldTitle>{' '}
+          <Link
+            route="leaders"
+            params={{
+              subRoute: 'proposals',
+              proposerId: proposal.author.userId,
+              proposalId: proposal.proposalId,
+            }}
+            passHref
+          >
+            <FieldValue as="a">{proposal.proposalId}</FieldValue>
+          </Link>
+        </Field>
+        <Field>
           <FieldTitle>Author:</FieldTitle>{' '}
           <FieldValue>
             {proposal.author.username} ({proposal.author.userId})
           </FieldValue>
-        </Field>
-        <Field>
-          <FieldTitle>Proposal id:</FieldTitle> <FieldValue>{proposal.proposalId}</FieldValue>
         </Field>
         <Field>
           <FieldTitle>Creation date:</FieldTitle>{' '}

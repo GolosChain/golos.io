@@ -12,6 +12,9 @@ import {
   FETCH_PROPOSALS,
   FETCH_PROPOSALS_SUCCESS,
   FETCH_PROPOSALS_ERROR,
+  FETCH_PROPOSAL,
+  FETCH_PROPOSAL_SUCCESS,
+  FETCH_PROPOSAL_ERROR,
   FETCH_NOTIFY_META,
   FETCH_NOTIFY_META_SUCCESS,
   FETCH_NOTIFY_META_ERROR,
@@ -72,6 +75,25 @@ export const fetchProposals = ({ sequenceKey } = {}) => {
     },
     meta: {
       ...params,
+      abortPrevious: true,
+      waitAutoLogin: true,
+    },
+  };
+};
+
+export const fetchProposal = ({ proposerId, proposalId }) => {
+  return {
+    [CALL_GATE]: {
+      method: 'content.getProposal',
+      types: [FETCH_PROPOSAL, FETCH_PROPOSAL_SUCCESS, FETCH_PROPOSAL_ERROR],
+      params: {
+        proposerId,
+        proposalId,
+        app: 'gls',
+      },
+      schema: proposalSchema,
+    },
+    meta: {
       abortPrevious: true,
       waitAutoLogin: true,
     },
