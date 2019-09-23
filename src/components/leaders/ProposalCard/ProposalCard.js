@@ -122,6 +122,7 @@ export default class ProposalCard extends PureComponent {
             values: PropTypes.shape({}).isRequired,
           })
         ).isRequired,
+        data: PropTypes.shape({}),
       }),
       trx: PropTypes.shape({}),
     }).isRequired,
