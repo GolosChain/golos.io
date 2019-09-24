@@ -187,7 +187,8 @@
           "tip_1": "Transfer Golos tokens into Golos Power to increase your voting power while you vote for posts, comments and leaders.",
           "tip_2": "Golos Power cannot be transferred to other users, but you can delegate it",
           "tip_3": "The amount of Golos Power increases during storage.",
-          "title": "Golos → Golos Power"
+          "title": "Golos → Golos Power",
+          "confirm": "Operation needs confirm from second side. Your proposal will be shown in wallet of receiver.\n\nLife time of proposal 60 minutes."
         },
         "gp_golos": {
           "per_week": "Payments will be about %(amount)s GOLOS per week.",

@@ -261,6 +261,8 @@ export default class DelegateDialog extends PureComponent {
 
       await delegateTokens({ recipient: target, amount: convertedAmount });
 
+      await DialogManager.info(tt('dialogs_transfer.delegate_vesting.tabs.delegate.confirm'));
+
       this.setState({
         loader: false,
       });
