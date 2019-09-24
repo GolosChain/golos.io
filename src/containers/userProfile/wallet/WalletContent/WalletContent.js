@@ -5,6 +5,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 
 import { visuallyHidden } from 'helpers/styles';
+import { validateTransferQuery } from 'utils/ParsersAndFormatters';
 import Card from 'components/golos-ui/Card';
 import WalletShow from 'components/userProfile/WalletShow';
 import PowerDownLine from 'components/wallet/PowerDownLine';
@@ -17,10 +18,33 @@ const Header = styled.h1`
 
 export default class WalletContent extends Component {
   static propTypes = {
-    currentUserId: PropTypes.string,
+    currentUserId: PropTypes.string.isRequired,
+    isAuthorized: PropTypes.bool.isRequired,
     userId: PropTypes.string.isRequired,
     sections: PropTypes.arrayOf(PropTypes.string).isRequired,
+    query: PropTypes.shape({}),
+    openTransferDialog: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    query: {},
+  };
+
+  async componentDidMount() {
+    const { isAuthorized, query, openTransferDialog } = this.props;
+
+    const transferQuery = validateTransferQuery(query);
+
+    if (isAuthorized && transferQuery) {
+      await openTransferDialog({
+        type: 'query',
+        recipientName: transferQuery.to,
+        amount: transferQuery.amount,
+        token: transferQuery.token,
+        memo: transferQuery.memo,
+      });
+    }
+  }
 
   render() {
     const { currentUserId, userId, profile, sections } = this.props;

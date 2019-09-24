@@ -1,16 +1,24 @@
 import { connect } from 'react-redux';
 
 import { profileSelector } from 'store/selectors/common';
-import { currentUserIdSelector } from 'store/selectors/auth';
+import { currentUserIdSelector, isUnsafeAuthorized } from 'store/selectors/auth';
+import { openTransferDialog } from 'store/actions/modals';
 
 import WalletContent from './WalletContent';
 
-export default connect((state, props) => {
-  const currentUserId = currentUserIdSelector(state);
-  const profile = profileSelector(props.userId)(state);
+export default connect(
+  (state, props) => {
+    const currentUserId = currentUserIdSelector(state);
+    const profile = profileSelector(props.userId)(state);
+    const isAuthorized = isUnsafeAuthorized(state);
 
-  return {
-    currentUserId,
-    profile,
-  };
-})(WalletContent);
+    return {
+      currentUserId,
+      profile,
+      isAuthorized,
+    };
+  },
+  {
+    openTransferDialog,
+  }
+)(WalletContent);

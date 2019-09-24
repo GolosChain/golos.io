@@ -65,7 +65,10 @@ export default class RightActions extends PureComponent {
     const { userId, loggedUserId, openTransferDialog } = this.props;
     const recipientName = !loggedUserId || userId !== loggedUserId ? userId : null;
 
-    await openTransferDialog(recipientName);
+    await openTransferDialog({
+      type: 'transfer',
+      recipientName,
+    });
   };
 
   onDelegateClick = async () => {

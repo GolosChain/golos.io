@@ -141,7 +141,11 @@ export default class AboutPanel extends Component {
   openDonateDialog = async () => {
     const { post, openTransferDialog } = this.props;
 
-    await openTransferDialog(post.author, 'donate', `/${post.id}`);
+    await openTransferDialog({
+      type: 'donate',
+      recipientName: post.author,
+      memo: `/${post.id}`,
+    });
   };
 
   render() {

@@ -194,7 +194,11 @@ export default class CommentFooter extends Component {
   onDonateClick = async () => {
     const { comment, openTransferDialog } = this.props;
 
-    await openTransferDialog(comment.author, 'donate', `${window.location.origin}/${comment.id}`);
+    await openTransferDialog({
+      type: 'donate',
+      recipientName: comment.author,
+      memo: `${window.location.origin}/${comment.id}`,
+    });
   };
 
   render() {
