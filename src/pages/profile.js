@@ -103,7 +103,7 @@ export default class Profile extends PureComponent {
       <UserProfile
         userId={userId}
         tabId={tabId}
-        content={<tab.Component userId={userId} sections={sections} {...tabProps} />}
+        content={<tab.Component userId={userId} sections={sections} {...tabProps} query={query} />}
         sidebar={<SidebarRight userId={userId} />}
       />
     );

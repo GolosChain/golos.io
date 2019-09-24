@@ -99,18 +99,26 @@ const ErrorLine = styled.div`
 
 export default class TransferDialog extends PureComponent {
   static propTypes = {
-    type: PropTypes.oneOf(['donate', 'query']),
+    currentUsername: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['donate', 'query', 'transfer']),
     recipientName: PropTypes.string.isRequired,
-    donatePostUrl: PropTypes.string,
-    amount: PropTypes.string,
+    amount: PropTypes.number,
     token: PropTypes.string,
     memo: PropTypes.string,
 
-    balance: PropTypes.string.isRequired,
-    cyberBalance: PropTypes.string.isRequired,
+    // redux
+    balance: PropTypes.number.isRequired,
+    cyberBalance: PropTypes.number.isRequired,
 
     close: PropTypes.func.isRequired,
     transferToken: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    type: 'transfer',
+    amount: 0,
+    token: CURRENCIES.GOLOS.id,
+    memo: '',
   };
 
   constructor(props) {
@@ -122,29 +130,34 @@ export default class TransferDialog extends PureComponent {
       target = props.recipientName;
     }
 
-    let note = '';
-
-    if (props.type === 'donate' && props.donatePostUrl) {
-      this._initialNote = note = tt('dialogs_transfer.post_donation', {
-        url: `https://${APP_DOMAIN}${props.donatePostUrl}`,
-      });
+    let amount = '';
+    if (props.type === 'query' && props.amount) {
+      // eslint-disable-next-line prefer-destructuring
+      amount = props.amount;
     }
 
+    let currency = CURRENCIES.GOLOS.id;
+    if (props.type === 'query' && props.token) {
+      currency = CURRENCIES[props.token].id;
+    }
+
+    let note = '';
     if (props.type === 'query' && props.memo) {
       note = props.memo;
     }
 
-    let amount = '';
-
-    if (props.type === 'query' && props.amount) {
-      amount = props.amount;
+    if (props.type === 'donate' && props.memo) {
+      // eslint-disable-next-line no-multi-assign
+      this.initialNote = note = tt('dialogs_transfer.post_donation', {
+        url: `https://${APP_DOMAIN}${props.memo}`,
+      });
     }
 
     this.state = {
       target,
       initialTarget: Boolean(target),
       amount,
-      currency: CURRENCIES.GOLOS.id,
+      currency,
       note,
       amountInFocus: false,
       loader: false,
@@ -194,7 +207,7 @@ export default class TransferDialog extends PureComponent {
   };
 
   onOkClick = async () => {
-    const { type, donatePostUrl, transferToken, close } = this.props;
+    const { type, memo, transferToken, close } = this.props;
     const { target, amount, currency, note, loader, disabled } = this.state;
 
     if (loader || disabled) {
@@ -208,11 +221,11 @@ export default class TransferDialog extends PureComponent {
       }
     }
 
-    let memo = note;
+    let memoStr = note;
 
-    if (type === 'donate' && donatePostUrl) {
-      if (note === this._initialNote) {
-        memo = `${DONATION_FOR} ${donatePostUrl}`;
+    if (type === 'donate' && memo) {
+      if (note === this.initialNote) {
+        memoStr = `${DONATION_FOR} ${memo}`;
       }
     }
 
@@ -223,7 +236,7 @@ export default class TransferDialog extends PureComponent {
     });
 
     try {
-      await transferToken(target, tokensAmount, currency, memo);
+      await transferToken(target, tokensAmount, currency, memoStr);
       this.unblockDialog();
       close();
     } catch (err) {
@@ -289,6 +302,7 @@ export default class TransferDialog extends PureComponent {
     let { value, error } = parseAmount(amount, {
       balance: availableBalance,
       isFinal: !amountInFocus,
+      decs: CURRENCIES[currency].decs,
     });
 
     if (isBadActor(target)) {

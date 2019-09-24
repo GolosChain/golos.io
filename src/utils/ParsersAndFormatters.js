@@ -1,4 +1,7 @@
 import tt from 'counterpart';
+import { has } from 'ramda';
+
+import { CURRENCIES } from 'shared/constants';
 
 export function parsePayoutAmount(amount) {
   return parseFloat(String(amount));
@@ -144,3 +147,41 @@ export function detransliterate(str, reverse) {
 
   return str;
 }
+
+export const validateTransferQuery = query => {
+  if (
+    has('dialog', query) &&
+    query.dialog === 'transfer' &&
+    has('to', query) &&
+    has('amount', query) &&
+    has('token', query)
+  ) {
+    const to = query.to.toLowerCase();
+
+    let token = '';
+    const upperCaseToken = query.token.toUpperCase();
+    if (/\b(GOLOS|CYBER)\b/.test(upperCaseToken)) {
+      token = upperCaseToken;
+    }
+
+    let amount = '';
+    if (token && /^[0-9]+(?:\.[0-9]+)?$/.test(query.amount)) {
+      amount = parseFloat(query.amount.replace(/\s+/, '')).toFixed(CURRENCIES[token].decs);
+    }
+
+    let memo = '';
+    if (has('memo', query)) {
+      // eslint-disable-next-line prefer-destructuring
+      memo = query.memo;
+    }
+
+    return {
+      to,
+      amount,
+      token,
+      memo,
+    };
+  }
+
+  return null;
+};
