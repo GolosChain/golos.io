@@ -165,7 +165,7 @@ export const validateTransferQuery = query => {
     }
 
     let amount = '';
-    if (token && /^[0-9]+\.?[0-9]+$/.test(query.amount)) {
+    if (token && /^[0-9]+(?:\.[0-9]+)?$/.test(query.amount)) {
       amount = parseFloat(query.amount.replace(/\s+/, '')).toFixed(CURRENCIES[token].decs);
     }
 
