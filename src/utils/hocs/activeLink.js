@@ -32,6 +32,7 @@ class RouteListener extends Component {
   render() {
     const { Comp, href, includeSubRoutes, includeRoute, exact } = this.props;
     let { url } = this.state;
+    let forcePointerCursor = null;
 
     if (!exact) {
       url = url.replace(/[#].*$/, '');
@@ -46,15 +47,16 @@ class RouteListener extends Component {
         // Если граничный символ является разделителем то значит путь является дочерним
         if (SPLITTER_SYMBOLS.includes(endSymbol)) {
           isActive = 1;
+          forcePointerCursor = true;
         }
-      }
-
-      if (includeRoute) {
-        isActive = url.replace(/\?.*$/, '') === includeRoute ? 1 : 0;
       }
     }
 
-    return <Comp {...this.props} active={isActive} />;
+    if (!isActive && includeRoute && url.replace(/\?.*$/, '') === includeRoute) {
+      isActive = 1;
+    }
+
+    return <Comp {...this.props} active={isActive} forcePointerCursor={forcePointerCursor} />;
   }
 }
 
