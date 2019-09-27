@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 import PropTypes from 'prop-types';
 import { activeLink } from 'utils/hocs';
 
@@ -9,13 +10,24 @@ const activeStyles = `
 `;
 
 const Tab = styled(
-  forwardRef(
-    (
-      { isLink, activeClassName, includeSubRoutes, includeRoute, shallow, scroll, Comp, ...props },
-      ref
-    ) =>
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
-      isLink ? <a ref={ref} {...props} /> : <div ref={ref} {...props} />
+  forwardRef((
+    // Перечисляем аттрибуты которые не надо пробрасывать дальше.
+    {
+      isLink,
+      activeClassName,
+      includeSubRoutes,
+      includeRoute,
+      forcePointerCursor,
+      shallow,
+      scroll,
+      router,
+      Comp,
+      ...props
+    },
+    ref
+  ) =>
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    isLink ? <a ref={ref} {...props} /> : <div ref={ref} {...props} />
   )
 )`
   position: relative;
@@ -45,6 +57,10 @@ const Tab = styled(
   &.${({ activeClassName }) => activeClassName} {
     ${activeStyles};
   }
+
+  ${is('forcePointerCursor')`
+    cursor: pointer;
+  `};
 `;
 
 Tab.propTypes = {

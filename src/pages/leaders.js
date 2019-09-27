@@ -63,6 +63,7 @@ export default class LeadersPage extends PureComponent {
               text: tt('witnesses_jsx.tabs.proposals'),
               route: 'leaders',
               params: { subRoute: 'proposals' },
+              includeSubRoutes: true,
             },
           ]}
         />
