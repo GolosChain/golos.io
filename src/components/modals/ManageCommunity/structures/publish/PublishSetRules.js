@@ -54,7 +54,7 @@ export default class PublishSetRules extends BaseStructure {
       {
         [fieldName]: {
           str: e.target.value,
-          maxarg: '2251799813685247',
+          maxarg: '2000000000000000',
         },
       },
       this.triggerChange
