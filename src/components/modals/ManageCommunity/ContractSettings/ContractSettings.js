@@ -15,6 +15,8 @@ import { STRUCTURES } from '../structures';
 import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
 
+const GOLOS_VESTING_TOKEN = '6,GOLOS';
+
 const Wrapper = styled.div`
   padding: 0 30px;
   height: 60vh;
@@ -75,6 +77,7 @@ export default class ContractSettings extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({}).isRequired,
     setParams: PropTypes.func.isRequired,
+    setRules: PropTypes.func.isRequired,
     waitForTransaction: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
@@ -86,7 +89,14 @@ export default class ContractSettings extends PureComponent {
   };
 
   onSaveClick = async () => {
-    const { data, setParams, setChargeRestorer, waitForTransaction, onClose } = this.props;
+    const {
+      data,
+      setParams,
+      setRules,
+      setChargeRestorer,
+      waitForTransaction,
+      onClose,
+    } = this.props;
     const { updates } = this.state;
 
     this.setState({
@@ -98,13 +108,20 @@ export default class ContractSettings extends PureComponent {
     try {
       let transaction_id;
 
-      if (updates.setrestorer) {
+      if (updates.setrules) {
+        const params = {
+          ...updates.setrules,
+          tokensymbol: GOLOS_VESTING_TOKEN,
+        };
+
+        ({ transaction_id } = await setRules({ contractName, params }));
+      } else if (updates.setrestorer) {
         ({ transaction_id } = await setChargeRestorer(updates.setrestorer));
       } else {
         let params = null;
 
         if (contractName === 'vesting') {
-          params = { symbol: '6,GOLOS' };
+          params = { symbol: GOLOS_VESTING_TOKEN };
         }
 
         ({ transaction_id } = await setParams({ contractName, updates, params }));
