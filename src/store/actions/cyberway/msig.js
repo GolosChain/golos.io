@@ -135,6 +135,30 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
   );
 };
 
+export const setRules = ({ contractName, params }) => async (dispatch, getState) => {
+  const userId = currentUserIdSelector(getState());
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const requestedAuth = await dispatch(getTopLeaders());
+
+  return await dispatch(
+    createProposal({
+      contract: contractName,
+      method: 'setrules',
+      auth: {
+        actor: `gls.${contractName}`,
+        permission: 'active',
+      },
+      params,
+      requested: requestedAuth,
+      expires: DEFAULT_PROPOSAL_EXPIRES,
+    })
+  );
+};
+
 export const setChargeRestorer = params => async (dispatch, getState) => {
   const userId = currentUserIdSelector(getState());
 
