@@ -7,8 +7,34 @@ import { Select } from 'components/golos-ui/Form';
 import { BaseStructure, InputSmall, InputLine, FieldSubTitle } from '../elements';
 
 const SelectStyled = styled(Select)`
-  max-width: 260px;
+  max-width: 350px;
 `;
+
+const AUTHOR_FUNCS = [
+  {
+    value: 'x',
+    text: 'x [линейная]',
+  },
+  {
+    value: '(x / 4294967296)^2',
+    text: 'x^2 [квадратичная]',
+  },
+  {
+    value: '((x + 4000000000000) / (x + 8000000000000)) * (x / 4096)',
+    text: '((x+s)^2 - s^2) / (x + 4s) [сходящаяся линейная]',
+  },
+];
+
+const CURATION_FUNCS = [
+  {
+    value: 'x',
+    text: 'x [линейная]',
+  },
+  {
+    value: 'sqrt(x)',
+    text: 'sqrt(x) [квадратный корень]',
+  },
+];
 
 export default class PublishSetRules extends BaseStructure {
   constructor(props) {
@@ -23,11 +49,11 @@ export default class PublishSetRules extends BaseStructure {
     this.state = state;
   }
 
-  onFuncChange = (fieldName, value) => {
+  onFuncChange = (fieldName, e) => {
     this.setState(
       {
         [fieldName]: {
-          str: value,
+          str: e.target.value,
           maxarg: '2251799813685247',
         },
       },
@@ -131,15 +157,24 @@ export default class PublishSetRules extends BaseStructure {
   renderFields() {
     return [
       this.renderField('mainfunc', value => (
-        <SelectStyled value={value} onChange={value => this.onFuncChange('mainfunc', value)}>
-          <option value="x">x (линейная)</option>
-          <option value="x^2">x^2 (квадратичная)</option>
+        <SelectStyled value={value.str} onChange={value => this.onFuncChange('mainfunc', value)}>
+          {AUTHOR_FUNCS.map(({ value, text }) => (
+            <option key={value} value={value}>
+              {text}
+            </option>
+          ))}
         </SelectStyled>
       )),
       this.renderField('curationfunc', value => (
-        <SelectStyled value={value} onChange={value => this.onFuncChange('curationfunc', value)}>
-          <option value="x">x (линейная)</option>
-          <option value="x^2">x^2 (квадратичная)</option>
+        <SelectStyled
+          value={value.str}
+          onChange={value => this.onFuncChange('curationfunc', value)}
+        >
+          {CURATION_FUNCS.map(({ value, text }) => (
+            <option key={value} value={value}>
+              {text}
+            </option>
+          ))}
         </SelectStyled>
       )),
       this.renderTimePenalty(),
