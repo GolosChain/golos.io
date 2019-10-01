@@ -282,7 +282,7 @@ export default class ProposalCard extends PureComponent {
     let actionInfo = null;
 
     if (contract) {
-      actionInfo = contract.actions.find(({ actionName }) => actionName === proposal.actionName);
+      actionInfo = contract.actions.find(({ name }) => name === proposal.action.action);
     }
 
     return (
