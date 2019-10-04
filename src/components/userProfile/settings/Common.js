@@ -23,6 +23,8 @@ import {
 } from 'components/golos-ui/Form';
 import Slider from 'components/golos-ui/Slider';
 
+const MIN_VOTE_POWER_PERCENT = 1;
+
 const CheckboxTitle = styled.div`
   margin-left: 10px;
   color: #959595;
@@ -43,11 +45,16 @@ export default class Common extends PureComponent {
   onSubmit = data => {
     const { onSubmitGate } = this.props;
 
+    let votePower = null;
+
+    if (data.hasVotePower) {
+      votePower = data.basic.votePower || MIN_VOTE_POWER_PERCENT;
+    }
+
     onSubmitGate({
       basic: {
         ...data.basic,
-        // Если чекбокс снят, то удаляем процент силы голосования
-        votePower: data.hasVotePower ? data.basic.votePower : null,
+        votePower: votePower,
       },
     });
   };
@@ -58,6 +65,8 @@ export default class Common extends PureComponent {
       basic: options.basic,
       hasVotePower: Boolean(options.basic?.votePower),
     };
+
+    console.log('render votePower:', options.basic?.votePower);
 
     // TODO: should be replaced with real flag based on vestings quantity
     const isRich = true;
@@ -146,25 +155,23 @@ export default class Common extends PureComponent {
                   )}
                 </Field>
               )}
-              {isRich &&
-                form.getFieldState('hasVotePower') &&
-                form.getFieldState('hasVotePower').value && (
-                  <Field name="basic.votePower">
-                    {({ input, meta }) => (
-                      <FormGroup>
-                        <Slider
-                          min={1}
-                          max={100}
-                          {...input}
-                          value={input.value || 1}
-                          showCaptions
-                          hideHandleValue
-                        />
-                        <FormError meta={meta} />
-                      </FormGroup>
-                    )}
-                  </Field>
-                )}
+              {isRich && form.getFieldState('hasVotePower')?.value && (
+                <Field name="basic.votePower">
+                  {({ input, meta }) => (
+                    <FormGroup>
+                      <Slider
+                        min={MIN_VOTE_POWER_PERCENT}
+                        max={100}
+                        {...input}
+                        value={input.value || MIN_VOTE_POWER_PERCENT}
+                        showCaptions
+                        hideHandleValue
+                      />
+                      <FormError meta={meta} />
+                    </FormGroup>
+                  )}
+                </Field>
+              )}
               <Field name="basic.selfVote">
                 {({ input, meta }) => (
                   <FormGroup>
