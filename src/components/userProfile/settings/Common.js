@@ -54,7 +54,7 @@ export default class Common extends PureComponent {
     onSubmitGate({
       basic: {
         ...data.basic,
-        votePower: votePower,
+        votePower,
       },
     });
   };
@@ -65,8 +65,6 @@ export default class Common extends PureComponent {
       basic: options.basic,
       hasVotePower: Boolean(options.basic?.votePower),
     };
-
-    console.log('render votePower:', options.basic?.votePower);
 
     // TODO: should be replaced with real flag based on vestings quantity
     const isRich = true;
