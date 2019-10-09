@@ -102,7 +102,10 @@ export const getTopLeaders = () => async dispatch => {
   }));
 };
 
-export const setParams = ({ contractName, updates, params }) => async (dispatch, getState) => {
+export const setParams = ({ contractName, updates, params, forceActor }) => async (
+  dispatch,
+  getState
+) => {
   const userId = currentUserIdSelector(getState());
 
   if (!userId) {
@@ -122,7 +125,7 @@ export const setParams = ({ contractName, updates, params }) => async (dispatch,
       contract: contractName,
       method: 'setparams',
       auth: {
-        actor: `gls.${contractName}`,
+        actor: forceActor || `gls.${contractName}`,
         permission: 'active',
       },
       params: {
@@ -173,7 +176,7 @@ export const setChargeRestorer = params => async (dispatch, getState) => {
       contract: 'charge',
       method: 'setrestorer',
       auth: {
-        actor: 'gls.charge',
+        actor: 'gls',
         permission: 'active',
       },
       params,
