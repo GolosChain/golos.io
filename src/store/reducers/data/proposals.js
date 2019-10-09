@@ -1,3 +1,4 @@
+import { uniqByKey } from 'utils/common';
 import { FETCH_PROPOSALS, FETCH_PROPOSALS_SUCCESS, FETCH_PROPOSALS_ERROR } from 'store/constants';
 
 const initialState = {
@@ -25,7 +26,10 @@ export default function(state = initialState, { type, payload, meta }) {
 
     case FETCH_PROPOSALS_SUCCESS:
       const { result } = payload;
-      const items = meta.offset === 0 ? result.items : state.items.concat(result.items);
+      const items =
+        meta.offset === 0
+          ? result.items
+          : uniqByKey(state.items.concat(result.items), 'proposalId');
 
       return {
         ...state,

@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
+import { isNil } from 'ramda';
+
 export function defaults(data, defaultData) {
   const result = { ...data };
 
@@ -85,4 +87,27 @@ export function vestingToInteger(str) {
   const minAmountFloat = Number(minAmountStr);
 
   return Math.floor(minAmountFloat * 1000000);
+}
+
+export function uniqByKey(list, keyName) {
+  const alreadyKeys = new Set();
+
+  return list.filter(item => {
+    if (!item) {
+      return false;
+    }
+
+    const key = item[keyName];
+
+    if (isNil(key)) {
+      throw new Error('Item without key');
+    }
+
+    if (alreadyKeys.has(key)) {
+      return false;
+    } else {
+      alreadyKeys.add(key);
+      return true;
+    }
+  });
 }
