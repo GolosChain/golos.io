@@ -241,12 +241,14 @@ export const CONTRACTS = [
           },
           {
             name: 'reward_pools',
-            title: 'Пулы вознаграждений (в сумме все пулы должны составлять 100%)',
+            title:
+              'Пулы вознаграждений (значение 0 означает что в этот пул будет идти весь остаток до 100%)',
+            proposalTitle: 'Пулы вознаграждений',
             defaults: {
               pools: [
                 {
                   name: 'gls.ctrl',
-                  percent: '666',
+                  percent: '0',
                 },
                 {
                   name: 'gls.publish',

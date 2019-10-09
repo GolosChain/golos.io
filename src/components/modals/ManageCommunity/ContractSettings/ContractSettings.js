@@ -197,7 +197,16 @@ export default class ContractSettings extends PureComponent {
   renderStructure = (
     contractName,
     actionName,
-    { name, title, fields = {}, limits = {}, fieldsTypes = {}, defaults = {}, disabled }
+    {
+      name,
+      title,
+      proposalTitle,
+      fields = {},
+      limits = {},
+      fieldsTypes = {},
+      defaults = {},
+      disabled,
+    }
   ) => {
     const { currentSettings } = this.props;
     const { updates } = this.state;
@@ -211,7 +220,11 @@ export default class ContractSettings extends PureComponent {
     }
 
     return (
-      <StructureWrapper key={name} title={title} hasChanges={Boolean(updates[name])}>
+      <StructureWrapper
+        key={name}
+        title={proposalTitle || title}
+        hasChanges={Boolean(updates[name])}
+      >
         {currentSettings ? (
           <StructureComponent
             actionName={actionName}
