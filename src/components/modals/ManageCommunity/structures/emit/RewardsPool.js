@@ -70,7 +70,13 @@ export default class RewardsPool extends PureComponent {
       const isFirst = i === 0;
 
       const name = pool.name.trim();
-      const percent = parsePercentString(pool.percent);
+      let percent;
+
+      if (isFirst) {
+        percent = 0;
+      } else {
+        percent = parsePercentString(pool.percent);
+      }
 
       if (!name) {
         this.setState({ isInvalid: true });
