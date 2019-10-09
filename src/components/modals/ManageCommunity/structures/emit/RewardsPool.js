@@ -18,6 +18,12 @@ const PoolFieldTitle = styled.span`
   font-size: 14px;
 `;
 
+const FieldHint = styled.div`
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-style: italic;
+`;
+
 const InputSmall = styled(Input)`
   width: 130px;
   padding: 9px 8px;
@@ -58,28 +64,37 @@ export default class RewardsPool extends PureComponent {
   triggerChange = () => {
     const { onChange } = this.props;
 
-    const pools = [];
     let sum = 0;
 
-    for (const pool of this.state.pools) {
+    const pools = this.state.pools.map((pool, i) => {
+      const isFirst = i === 0;
+
       const name = pool.name.trim();
       const percent = parsePercentString(pool.percent);
 
-      if (!name || !percent || Number.isNaN(percent)) {
+      if (!name) {
         this.setState({ isInvalid: true });
         onChange('INVALID');
         return;
       }
 
-      sum += Number(percent);
+      if (!isFirst) {
+        if (!percent || Number.isNaN(percent)) {
+          this.setState({ isInvalid: true });
+          onChange('INVALID');
+          return;
+        }
 
-      pools.push({
+        sum += Number(percent);
+      }
+
+      return {
         name,
         percent,
-      });
-    }
+      };
+    });
 
-    if (sum !== 10000) {
+    if (sum > 10000) {
       this.setState({ isInvalid: true });
       onChange('INVALID');
       return;
@@ -123,9 +138,15 @@ export default class RewardsPool extends PureComponent {
   onRemovePoolClick = index => {
     const { pools } = this.state;
 
+    const updatedPools = pools.filter((_, i) => i !== index);
+
+    if (index === 0) {
+      updatedPools[0].percent = 0;
+    }
+
     this.setState(
       {
-        pools: pools.filter((_, i) => i !== index),
+        pools: updatedPools,
       },
       this.triggerChange
     );
@@ -134,12 +155,36 @@ export default class RewardsPool extends PureComponent {
   renderPool = ({ name, percent }, index) => {
     const { pools } = this.state;
 
+    let disabled = false;
+    let value = percent;
+
+    if (index === 0) {
+      disabled = true;
+
+      let rest = 100;
+
+      for (let i = 1; i < pools.length; i++) {
+        rest -= parseFloat(pools[i].percent) || 0;
+      }
+
+      if (rest < 0) {
+        reset = 0;
+      }
+
+      value = rest.toFixed(2);
+    }
+
     return (
       <Pool key={index}>
         <PoolFieldTitle>Пул #{index + 1} Аккаунт:</PoolFieldTitle>
         <InputSmall value={name} onChange={e => this.onFieldChange(e, index, 'name')} />
         <PoolFieldTitle>Процент (%):</PoolFieldTitle>
-        <PercentInput value={percent} onChange={e => this.onFieldChange(e, index, 'percent')} />
+        <PercentInput
+          type="number"
+          value={value}
+          disabled={disabled}
+          onChange={e => this.onFieldChange(e, index, 'percent')}
+        />
         {pools.length > 1 ? <Button onClick={() => this.onRemovePoolClick(index)}>X</Button> : null}
       </Pool>
     );
@@ -151,6 +196,7 @@ export default class RewardsPool extends PureComponent {
     return (
       <Fields>
         <FieldSubTitle>Список пулов:</FieldSubTitle>
+        <FieldHint>(Значение первого пула всегда вычисляется как остаток до 100%)</FieldHint>
         {pools.map(this.renderPool)}
         <Button onClick={this.onAddPoolClick}>Add pool</Button>
         {isInvalid ? <ErrorLine /> : null}
