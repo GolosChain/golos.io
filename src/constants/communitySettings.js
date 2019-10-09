@@ -293,6 +293,7 @@ export const CONTRACTS = [
     actions: [
       {
         name: 'setparams',
+        actor: 'gls',
         structures: [
           {
             name: 'vesting_withdraw',

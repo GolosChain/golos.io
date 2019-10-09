@@ -124,7 +124,14 @@ export default class ContractSettings extends PureComponent {
           params = { symbol: GOLOS_VESTING_TOKEN };
         }
 
-        ({ transaction_id } = await setParams({ contractName, updates, params }));
+        const actor = this.lookupActor(contractName, 'setparams');
+
+        ({ transaction_id } = await setParams({
+          contractName,
+          updates,
+          params,
+          forceActor: actor,
+        }));
       }
 
       displaySuccess(tt('g.saved'));
@@ -170,6 +177,22 @@ export default class ContractSettings extends PureComponent {
       hasChanges: true,
     });
   };
+
+  lookupActor(contractName, methodName) {
+    const info = CONTRACTS.find(contact => contact.contractName === contractName);
+
+    if (!info) {
+      return undefined;
+    }
+
+    const action = info.actions.find(action => action.name === methodName);
+
+    if (!action) {
+      return undefined;
+    }
+
+    return action.actor;
+  }
 
   renderStructure = (
     contractName,
