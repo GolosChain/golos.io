@@ -5,13 +5,12 @@ const initialState = {
   isLoading: false,
   isError: false,
   isEnd: false,
-  sequenceKey: null,
 };
 
 export default function(state = initialState, { type, payload, meta }) {
   switch (type) {
     case FETCH_PROPOSALS:
-      if (meta.sequenceKey) {
+      if (meta.offset !== 0) {
         return {
           ...state,
           isLoading: true,
@@ -26,7 +25,7 @@ export default function(state = initialState, { type, payload, meta }) {
 
     case FETCH_PROPOSALS_SUCCESS:
       const { result } = payload;
-      const items = meta.sequenceKey ? state.items.concat(result.items) : result.items;
+      const items = meta.offset === 0 ? result.items : state.items.concat(result.items);
 
       return {
         ...state,
@@ -34,7 +33,6 @@ export default function(state = initialState, { type, payload, meta }) {
         isEnd: result.items.length < meta.limit,
         isLoading: false,
         isError: false,
-        sequenceKey: result.sequenceKey,
       };
 
     case FETCH_PROPOSALS_ERROR:

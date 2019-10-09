@@ -58,12 +58,12 @@ export const fetchLeaders = ({ sequenceKey, query, limit = 20 } = {}) => {
   };
 };
 
-export const fetchProposals = ({ sequenceKey } = {}) => {
+export const fetchProposals = ({ offset, limit }) => {
   const params = {
     app: 'gls',
     communityId: 'gls',
-    limit: 20,
-    sequenceKey,
+    limit,
+    offset,
   };
 
   return {
