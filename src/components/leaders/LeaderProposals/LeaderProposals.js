@@ -14,6 +14,8 @@ import Button from 'components/golos-ui/Button';
 import PageHeader from 'components/common/PageHeader';
 import ProposalCard from '../ProposalCard';
 
+const PAGE_SIZE = 20;
+
 const WrapperForBackground = styled.div`
   background-color: #f9f9f9;
 
@@ -77,14 +79,19 @@ export default class LeaderProposals extends PureComponent {
   };
 
   static async getInitialProps({ store }) {
-    await store.dispatch(fetchProposals());
+    await store.dispatch(
+      fetchProposals({
+        offset: 0,
+        limit: PAGE_SIZE,
+      })
+    );
   }
 
   onNeedLoadMore = async () => {
-    const { sequenceKey, fetchProposals } = this.props;
+    const { items, fetchProposals } = this.props;
 
     try {
-      await fetchProposals({ sequenceKey });
+      await fetchProposals({ offset: items.length, limit: PAGE_SIZE });
     } catch (err) {
       displayError(tt('g.error'), err);
     }
