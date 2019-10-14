@@ -7,6 +7,7 @@ import Interpolate from 'react-interpolate-component';
 import Card from 'components/golos-ui/Card';
 import Button from 'components/golos-ui/Button';
 import { displayError, displaySuccess } from 'utils/toastMessages';
+import { humanizePercent } from 'utils/ParsersAndFormatters';
 import WalletUtils from 'utils/wallet';
 import SmartLink from 'components/common/SmartLink';
 
@@ -133,7 +134,7 @@ export default class VestingDelegationProposals extends PureComponent {
                 </SmartLink>
               ),
               amount: value,
-              interest: interest_rate,
+              interest: humanizePercent(interest_rate),
             }}
           >
             {tt('wallet.vesting_delegation_proposal_text', {
