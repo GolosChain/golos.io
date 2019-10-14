@@ -107,11 +107,10 @@ export default class ResetKey extends PureComponent {
   };
 
   async componentWillMount() {
-    const { userId } = this.props;
-    /**
-     * Для генерации ключей нужен userId из бч, НЕ МЕНЯТЬ на username
-     */
-    this.setState({ generatedKeys: await generateKeys(userId) });
+    const { userId, username } = this.props;
+
+    // Если username нет (аккаунт был зарегистирован не через сайт golos.io), то используем userId.
+    this.setState({ generatedKeys: await generateKeys(username || userId) });
   }
 
   validatePassword = password => {
