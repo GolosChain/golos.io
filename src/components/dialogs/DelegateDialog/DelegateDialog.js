@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import tt from 'counterpart';
 import { ToggleFeature } from '@flopflip/react-redux';
 
+import { DELEGATE_INTEREST_RATE } from 'shared/feature-flags';
+
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
 import Slider from 'components/golos-ui/Slider';
@@ -17,8 +19,6 @@ import DialogManager from 'components/elements/common/DialogManager';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import AccountNameInput from 'components/common/AccountNameInput';
-
-import { DELEGATE_INTEREST_RATE } from 'shared/feature-flags';
 
 import DelegationEdit from './DelegationEdit';
 import DelegationsList from './DelegationsList';
