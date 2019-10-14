@@ -2,6 +2,7 @@ import tt from 'counterpart';
 import { has } from 'ramda';
 
 import { CURRENCIES } from 'shared/constants';
+import { func } from 'prop-types';
 
 export function parsePayoutAmount(amount) {
   return parseFloat(String(amount));
@@ -185,3 +186,13 @@ export const validateTransferQuery = query => {
 
   return null;
 };
+
+export function humanizePercent(value, suffix) {
+  let str = (value / 100).toFixed(2).replace(/\.0+$/, '');
+
+  if (suffix) {
+    str += suffix;
+  }
+
+  return str;
+}
