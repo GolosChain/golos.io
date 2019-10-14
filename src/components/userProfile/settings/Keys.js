@@ -13,7 +13,7 @@ const Keys = ({ profile }) => (
       <Current profile={profile} />
     </TabContainer>
     <TabContainer id="newKeyTab" title={tt('settings_jsx.keys.tabs.new')}>
-      <ResetKey username={profile.username} />
+      <ResetKey />
     </TabContainer>
   </Tabs>
 );
