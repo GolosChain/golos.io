@@ -20,6 +20,8 @@ export const CUSTOM_PROPOSALS_BUTTON = 'customProposalsButton';
 
 export const BECOME_WITNESS = 'becomeWitness';
 
+export const DELEGATE_INTEREST_RATE = 'delegateInterestRate';
+
 let envFeatureFlags = {};
 
 if (process.env.FEATURE_FLAGS) {
@@ -50,6 +52,7 @@ export default {
   [CUSTOM_PROPOSALS_BUTTON]: false,
 
   [BECOME_WITNESS]: false,
+  [DELEGATE_INTEREST_RATE]: false,
 
   ...envFeatureFlags,
 };

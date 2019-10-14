@@ -133,7 +133,7 @@ export default class VestingDelegationProposals extends PureComponent {
                 </SmartLink>
               ),
               amount: value,
-              interest: interest_rate,
+              interest: (interest_rate / 100).toFixed(2),
             }}
           >
             {tt('wallet.vesting_delegation_proposal_text', {

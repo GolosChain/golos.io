@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import tt from 'counterpart';
+import { ToggleFeature } from '@flopflip/react-redux';
 
 import ComplexInput from 'components/golos-ui/ComplexInput';
 import SplashLoader from 'components/golos-ui/SplashLoader';
+import Slider from 'components/golos-ui/Slider';
 
-import { wait, timeout } from 'utils/time';
+import { timeout } from 'utils/time';
 import { displayError, displaySuccess } from 'utils/toastMessages';
 import { isBadActor } from 'utils/chainValidation';
 import { parseAmount } from 'helpers/currency';
@@ -15,6 +17,8 @@ import DialogManager from 'components/elements/common/DialogManager';
 import DialogTypeSelect from 'components/userProfile/common/DialogTypeSelect';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
 import AccountNameInput from 'components/common/AccountNameInput';
+
+import { DELEGATE_INTEREST_RATE } from 'shared/feature-flags';
 
 import DelegationEdit from './DelegationEdit';
 import DelegationsList from './DelegationsList';
@@ -83,6 +87,8 @@ const Section = styled.div`
   margin: 10px 0;
 `;
 
+const InterestBlock = styled.div``;
+
 const Label = styled.div`
   margin-bottom: 9px;
   font-size: 14px;
@@ -143,6 +149,7 @@ export default class DelegateDialog extends PureComponent {
       target,
       amount: '',
       amountInFocus: false,
+      interestRate: 0,
       loader: false,
       disabled: false,
       delegationsError: null,
@@ -237,6 +244,12 @@ export default class DelegateDialog extends PureComponent {
     });
   };
 
+  onInterestChange = value => {
+    this.setState({
+      interestRate: value,
+    });
+  };
+
   onCloseClick = () => {
     const { close } = this.props;
     close();
@@ -244,7 +257,7 @@ export default class DelegateDialog extends PureComponent {
 
   onOkClick = async () => {
     const { delegateTokens, convertTokensToVesting } = this.props;
-    const { target, amount, loader, disabled } = this.state;
+    const { target, amount, interestRate, loader, disabled } = this.state;
 
     if (loader || disabled) {
       return;
@@ -259,7 +272,11 @@ export default class DelegateDialog extends PureComponent {
       const tokensQuantity = parseFloat(amount.replace(/\s+/, '')).toFixed(3);
       const convertedAmount = await convertTokensToVesting(tokensQuantity);
 
-      await delegateTokens({ recipient: target, amount: convertedAmount });
+      await delegateTokens({
+        recipient: target,
+        amount: convertedAmount,
+        interestRate: interestRate * 100,
+      });
 
       await DialogManager.info(tt('dialogs_transfer.delegate_vesting.tabs.delegate.confirm'));
 
@@ -387,42 +404,61 @@ export default class DelegateDialog extends PureComponent {
   }
 
   renderDelegateBody({ availableBalanceString }) {
-    const { target, amount, autoFocusValue } = this.state;
+    const { target, amount, autoFocusValue, interestRate } = this.state;
 
     return (
-      <Columns>
-        <Column>
-          <Section>
-            <Label>{tt('dialogs_transfer.to')}</Label>
-            <AccountNameInput
-              name="account"
-              block
-              placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
-              autoFocus={!autoFocusValue}
-              value={target}
-              onChange={this.onTargetChange}
-            />
-          </Section>
-        </Column>
-        <Column>
-          <Section>
-            <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
-            <ComplexInput
-              placeholder={tt('dialogs_transfer.amount_placeholder', {
-                amount: availableBalanceString,
+      <>
+        <Columns>
+          <Column>
+            <Section>
+              <Label>{tt('dialogs_transfer.to')}</Label>
+              <AccountNameInput
+                name="account"
+                block
+                placeholder={tt('dialogs_transfer.delegate_vesting.tabs.delegated.to_placeholder')}
+                autoFocus={!autoFocusValue}
+                value={target}
+                onChange={this.onTargetChange}
+              />
+            </Section>
+          </Column>
+          <Column>
+            <Section>
+              <Label>{tt('dialogs_transfer.delegate_vesting.tabs.delegated.amount_label')}</Label>
+              <ComplexInput
+                placeholder={tt('dialogs_transfer.amount_placeholder', {
+                  amount: availableBalanceString,
+                })}
+                spellCheck="false"
+                value={amount}
+                activeId="power"
+                buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
+                autoFocus={autoFocusValue}
+                onChange={this.onAmountChange}
+                onFocus={this.onAmountFocus}
+                onBlur={this.onAmountBlur}
+              />
+            </Section>
+          </Column>
+        </Columns>
+        <ToggleFeature flag={DELEGATE_INTEREST_RATE}>
+          <InterestBlock>
+            <Label>
+              {tt('dialogs_transfer.delegate_vesting.tabs.delegate.interest_rate', {
+                value: interestRate,
               })}
-              spellCheck="false"
-              value={amount}
-              activeId="power"
-              buttons={[{ id: 'power', title: tt('token_names.VESTING_TOKEN3') }]}
-              autoFocus={autoFocusValue}
-              onChange={this.onAmountChange}
-              onFocus={this.onAmountFocus}
-              onBlur={this.onAmountBlur}
+            </Label>
+            <Slider
+              value={interestRate}
+              min={0}
+              max={100}
+              showCaptions
+              percentsInCaption
+              onChange={this.onInterestChange}
             />
-          </Section>
-        </Column>
-      </Columns>
+          </InterestBlock>
+        </ToggleFeature>
+      </>
     );
   }
 

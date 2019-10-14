@@ -10,7 +10,6 @@ const Progress = styled.div`
   position: absolute;
   top: 10px;
   left: 0;
-  width: ${({ width }) => width}%;
   height: 2px;
   border-radius: 1px;
   background: #2879ff;
@@ -23,8 +22,6 @@ const HandleSlot = styled.div`
 
 const HandleWrapper = styled.div`
   position: absolute;
-  left: ${({ left }) => left}%;
-
   padding: 5px;
   margin: -5px 0 0 -16px;
 `;
@@ -194,9 +191,9 @@ export default class Slider extends PureComponent {
         onMouseDown={disabled ? null : this.onMouseDown}
         onTouchStart={disabled ? null : this.onTouchStart}
       >
-        <Progress width={percent} />
+        <Progress style={{ width: `${percent}%` }} />
         <HandleSlot ref={this.rootRef}>
-          <HandleWrapper left={percent}>
+          <HandleWrapper style={{ left: `${percent}%` }}>
             <Handle data-tooltip={tooltip} />
           </HandleWrapper>
         </HandleSlot>

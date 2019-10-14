@@ -11,7 +11,7 @@ import { currentUserIdSelector } from 'store/selectors/auth';
 import { uint8ArrayToHex, hexToUint8Array } from 'utils/encoding';
 import { getAccountPublicKey } from 'store/actions/cyberway';
 
-export const delegateTokens = ({ recipient, amount, percent = 0 }) => async (
+export const delegateTokens = ({ recipient, amount, interestRate = 0 }) => async (
   dispatch,
   getState
 ) => {
@@ -25,7 +25,7 @@ export const delegateTokens = ({ recipient, amount, percent = 0 }) => async (
     from: userId,
     to: recipient,
     quantity: `${parseFloat(amount).toFixed(6)} GOLOS`,
-    interest_rate: Math.round(percent * 100),
+    interest_rate: interestRate,
   };
 
   const auth = [
