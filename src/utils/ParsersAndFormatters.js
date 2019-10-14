@@ -187,12 +187,6 @@ export const validateTransferQuery = query => {
   return null;
 };
 
-export function humanizePercent(value, suffix) {
-  let str = (value / 100).toFixed(2).replace(/\.0+$/, '');
-
-  if (suffix) {
-    str += suffix;
-  }
-
-  return str;
+export function humanizePercent(value) {
+  return (value / 100).toFixed(2).replace(/\.0+$/, '');
 }

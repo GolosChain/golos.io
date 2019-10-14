@@ -134,7 +134,7 @@ export default class VestingDelegationProposals extends PureComponent {
                 </SmartLink>
               ),
               amount: value,
-              interest: humanizePercent(interest_rate, '%'),
+              interest: humanizePercent(interest_rate),
             }}
           >
             {tt('wallet.vesting_delegation_proposal_text', {
