@@ -15,6 +15,7 @@ import { STRUCTURES } from '../structures';
 import { STEPS } from '../ManageCommunity';
 import StructureWrapper from '../StructureWrapper';
 
+const GOLOS_TOKEN = '3,GOLOS';
 const GOLOS_VESTING_TOKEN = '6,GOLOS';
 
 const Wrapper = styled.div`
@@ -111,7 +112,7 @@ export default class ContractSettings extends PureComponent {
       if (updates.setrules) {
         const params = {
           ...updates.setrules,
-          tokensymbol: GOLOS_VESTING_TOKEN,
+          tokensymbol: GOLOS_TOKEN,
         };
 
         ({ transaction_id } = await setRules({ contractName, params }));
