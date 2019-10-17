@@ -100,6 +100,7 @@ const Approved = styled.span`
 
 const TransactionBody = styled.pre`
   font-size: 13px;
+  overflow-x: scroll;
 `;
 
 export default class ProposalCard extends PureComponent {
