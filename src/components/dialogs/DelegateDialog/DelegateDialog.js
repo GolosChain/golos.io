@@ -118,6 +118,16 @@ const LoaderWrapper = styled.div`
   height: 400px;
 `;
 
+const HintIcon = styled.span`
+  font-size: 14px;
+  color: #777;
+  cursor: help;
+`;
+
+const QuestionMark = styled.span`
+  text-decoration: underline;
+`;
+
 export default class DelegateDialog extends PureComponent {
   static propTypes = {
     currentUserId: PropTypes.string,
@@ -444,9 +454,16 @@ export default class DelegateDialog extends PureComponent {
         <ToggleFeature flag={DELEGATE_INTEREST_RATE}>
           <InterestBlock>
             <Label>
-              {tt('dialogs_transfer.delegate_vesting.tabs.delegate.interest_rate', {
-                value: interestRate,
-              })}
+              <span
+                data-hint={tt('dialogs_transfer.delegate_vesting.tabs.delegate.interest_rate_hint')}
+              >
+                {tt('dialogs_transfer.delegate_vesting.tabs.delegate.interest_rate', {
+                  value: interestRate,
+                })}{' '}
+                <HintIcon>
+                  (<QuestionMark>?</QuestionMark>)
+                </HintIcon>
+              </span>
             </Label>
             <Slider
               value={interestRate}

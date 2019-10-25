@@ -206,6 +206,7 @@
       "tabs": {
         "delegate": {
           "interest_rate": "Interest rate: %(value)s%%",
+          "interest_rate_hint": "You will receive this percent as interest for using delegated Golos Power",
           "tip_1": "You can delegate some amount of your Golos Power to other users.",
           "tip_2": "You can cancel delegation or change the amount at any time. Upon cancellation, the delegated Golos Power will be returned to your account in 7 days.",
           "title": "Delegate"
@@ -1071,6 +1072,7 @@
   },
   "wallet": {
     "vesting_delegation_proposal_text": "From %(from)s amount: %(amount)s, with interest: %(interest)s%",
+    "vesting_delegation_proposal_hint": "Sender will receive this percent as interest due to using delegated Golos Power",
     "vesting_delegation_proposals": "You have proposal for delegating Golos Power",
     "cancel": "Cancel",
     "next_power_down_date": "The next power down is scheduled to happen ",
