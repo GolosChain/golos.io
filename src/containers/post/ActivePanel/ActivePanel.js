@@ -296,7 +296,7 @@ export default class ActivePanel extends Component {
               >
                 <Actions>
                   <PostActions
-                    fullUrl={post.id}
+                    contentId={post.contentId}
                     isFavorite={isFavorite}
                     isPinned={isPinned}
                     isOwner={isOwner}
