@@ -168,23 +168,7 @@ export default class VestingDelegationProposals extends PureComponent {
   };
 
   render() {
-    //const { items } = this.props;
-
-    const items = [
-      {
-        initiatorId: 'tes312123',
-        initiatorUsername: 'nickshtefan',
-        proposalId: 'pr12332131231',
-        expirationTime: new Date().toJSON(),
-        action: {
-          data: {
-            quantity: '123.000000 GOLOS',
-            interest_rate: 1600,
-          },
-        },
-        serializedTransaction: 'hello world',
-      },
-    ];
+    const { items } = this.props;
 
     if (!items || items.length === 0) {
       return null;
