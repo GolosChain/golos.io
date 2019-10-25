@@ -148,7 +148,7 @@ export default class VestingDelegationProposals extends PureComponent {
                   {item.initiatorUsername ? ` (id: ${item.initiatorId})` : null}
                 </>
               ),
-              amount: value,
+              amount: value.split(' ')[0],
               interest: humanizePercent(interest_rate),
             }}
           >

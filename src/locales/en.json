@@ -1071,7 +1071,7 @@
     "we_will_reset_curation_rewards_for_this_post": "will reset your curation rewards for this post"
   },
   "wallet": {
-    "vesting_delegation_proposal_text": "From %(from)s amount: %(amount)s, with interest: %(interest)s%",
+    "vesting_delegation_proposal_text": "From %(from)s amount: %(amount)s Golos Power, with interest: %(interest)s%",
     "vesting_delegation_proposal_hint": "Sender will receive this percent as interest due to using delegated Golos Power",
     "vesting_delegation_proposals": "You have proposal for delegating Golos Power",
     "cancel": "Cancel",
