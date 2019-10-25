@@ -53,6 +53,18 @@ const Action = styled(Button)`
   font-size: 11px;
 `;
 
+const HintIcon = styled.span`
+  display: inline-block;
+  vertical-align: top;
+  font-size: 15px;
+  color: #777;
+  cursor: help;
+`;
+
+const QuestionMark = styled.span`
+  text-decoration: underline;
+`;
+
 export default class VestingDelegationProposals extends PureComponent {
   static propTypes = {
     userId: PropTypes.string.isRequired,
@@ -126,12 +138,15 @@ export default class VestingDelegationProposals extends PureComponent {
           <Interpolate
             with={{
               from: (
-                <SmartLink
-                  route="profile"
-                  params={{ username: item.initiatorUsername, userId: item.initiatorId }}
-                >
-                  {item.initiatorUsername || item.initiatorId}
-                </SmartLink>
+                <>
+                  <SmartLink
+                    route="profile"
+                    params={{ username: item.initiatorUsername, userId: item.initiatorId }}
+                  >
+                    <a>{item.initiatorUsername || `(id: ${item.initiatorId})`}</a>
+                  </SmartLink>
+                  {item.initiatorUsername ? ` (id: ${item.initiatorId})` : null}
+                </>
               ),
               amount: value,
               interest: humanizePercent(interest_rate),
@@ -140,7 +155,10 @@ export default class VestingDelegationProposals extends PureComponent {
             {tt('wallet.vesting_delegation_proposal_text', {
               interpolate: false,
             })}
-          </Interpolate>
+          </Interpolate>{' '}
+          <HintIcon data-hint={tt('wallet.vesting_delegation_proposal_hint')}>
+            (<QuestionMark>?</QuestionMark>)
+          </HintIcon>
         </Text>
         <Actions>
           <Action onClick={() => this.onAcceptClick(item)}>{tt('g.accept')}</Action>
