@@ -145,7 +145,6 @@ export default class VestingDelegationProposals extends PureComponent {
                   >
                     <a>{item.initiatorUsername || `(id: ${item.initiatorId})`}</a>
                   </SmartLink>
-                  {item.initiatorUsername ? ` (id: ${item.initiatorId})` : null}
                 </>
               ),
               amount: value.split(' ')[0],
