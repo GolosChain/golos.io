@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import is from 'styled-is';
 import tt from 'counterpart';
-import Interpolate from 'react-interpolate-component';
 import { ToggleFeature } from '@flopflip/react-redux';
 
 import {
@@ -34,36 +33,9 @@ import LocaleSelect from '../LocaleSelect';
 import AccountInfo from '../AccountInfo';
 import AccountInfoMobile from '../AccountInfoMobile';
 import NotificationsCounter from '../NotificationsCounter';
+// import TechnicalMessage from '../TechnicalMessage';
 
 const Wrapper = styled.div``;
-
-// Technical work
-const TechnicalWork = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #2196f3;
-  color: white;
-`;
-
-const TechnicalContainerWrapper = styled.div`
-  width: 100%;
-  max-width: ${CONTAINER_FULL_WIDTH}px;
-  margin: 10px auto;
-
-  & a {
-    color: #001f33 !important;
-  }
-
-  @media (max-width: ${CONTAINER_FULL_WIDTH}px) {
-    width: 100%;
-    margin: 10px;
-  }
-
-  ${is('center')`
-    justify-content: center;
-  `}
-`;
-//
 
 const ScrollFixStyled = styled(ScrollFix)`
   position: relative;
@@ -549,31 +521,7 @@ export default class Header extends PureComponent {
     return (
       <Wrapper>
         <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
-          <TechnicalWork>
-            <TechnicalContainerWrapper>
-              {tt('technical_work.dears')}
-              <br />
-              {/*{tt('technical_work.text_pause')}*/}
-              <Interpolate
-                with={{
-                  channel: (
-                    <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>
-                  ),
-                  tasks: (
-                    <a href="https://github.com/GolosChain/golos.io/issues/new">
-                      {tt('technical_work.tasks')}
-                    </a>
-                  ),
-                }}
-              >
-                {tt('technical_work.want', {
-                  interpolate: false,
-                })}
-              </Interpolate>
-              <br />
-              {tt('technical_work.bless')}
-            </TechnicalContainerWrapper>
-          </TechnicalWork>
+          {/* <TechnicalMessage /> */}
           <ContainerWrapper>
             {this.renderLogo()}
             {screenType === 'tablet' ? <Filler /> : null}
