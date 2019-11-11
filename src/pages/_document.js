@@ -57,6 +57,7 @@ export default class MyDocument extends Document {
           <meta name="twitter:site" content="@goloschain" />
           <meta name="twitter:title" content="GOLOS.io Блоги" />
           <meta name="twitter:image" content="https://golos.io/images/golos-share.png" />
+          <meta name="yandex-verification" content="708637161f765106" />
 
           <GlobalStyles />
           {this.props.styles}
