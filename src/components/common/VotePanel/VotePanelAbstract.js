@@ -378,7 +378,8 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   onOkVoteClick = async () => {
-    const { sliderAction, votePercent, showDislikeAlert } = this.state;
+    const { showDislikeAlert } = this.props;
+    const { sliderAction, votePercent } = this.state;
 
     if (sliderAction === 'dislike') {
       if (!(await showDislikeAlert())) {
