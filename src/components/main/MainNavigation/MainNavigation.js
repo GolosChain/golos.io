@@ -39,7 +39,6 @@ export default class MainNavigation extends PureComponent {
     const tabLinks = [];
 
     const params = tags ? { tags } : {};
-    let indexPageAlreadyInserted = false;
 
     if (userId) {
       tabLinks.push({
@@ -50,11 +49,7 @@ export default class MainNavigation extends PureComponent {
           username,
           ...params,
         },
-        includeRoute: '/',
-        includeSubRoutes: true,
       });
-
-      indexPageAlreadyInserted = true;
     }
 
     tabLinks.push(
@@ -63,13 +58,8 @@ export default class MainNavigation extends PureComponent {
       {
         text: tt('main_menu.trending'),
         route: 'trending',
-        params,
-        ...(indexPageAlreadyInserted
-          ? null
-          : {
-              includeRoute: '/',
-              includeSubRoutes: true,
-            }),
+        includeRoute: '/',
+        includeSubRoutes: true,
       }
     );
 
