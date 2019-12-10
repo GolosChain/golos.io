@@ -51,19 +51,22 @@ const setFirstStepError = err => ({
 });
 
 // eslint-disable-next-line consistent-return
-export const fetchRegFirstStep = phoneNumber => async dispatch => {
+export const fetchRegFirstStep = ({ phone, captcha }) => async dispatch => {
   dispatch({
     type: SET_FULL_PHONE_NUMBER,
-    payload: { fullPhoneNumber: phoneNumber },
+    payload: { fullPhoneNumber: phone },
   });
-  setRegistrationData({ fullPhoneNumber: phoneNumber });
+
+  setRegistrationData({ fullPhoneNumber: phone });
+
   try {
     await dispatch({
       [CALL_GATE]: {
         types: [FETCH_REG_FIRST_STEP, FETCH_REG_FIRST_STEP_SUCCESS, FETCH_REG_FIRST_STEP_ERROR],
         method: 'registration.firstStep',
         params: {
-          phone: phoneNumber,
+          phone,
+          captcha,
         },
       },
     });

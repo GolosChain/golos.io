@@ -1209,7 +1209,8 @@
       "username_field_is_empty": "Поле имени пользователя пустое.",
       "not_more_than_12_symbols": "Не более 12-ти символов.",
       "not_more_than_one_dot": "Не более одной точки.",
-      "code_did_not_resend": "Код не отправлен повторно. Попробуйте снова."
+      "code_did_not_resend": "Код не отправлен повторно. Попробуйте снова.",
+      "invalid_captcha": "Неправильный captcha код."
     }
   },
   "currency": {

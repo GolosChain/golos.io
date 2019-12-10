@@ -89,7 +89,7 @@ export default class ConfirmationCode extends PureComponent {
 
   state = {
     inputs: Array.from({ length: NUMBER_OF_INPUTS }).map(() => ''),
-    codeError: '',
+    codeError: null,
     timerSeconds: false,
   };
 
@@ -218,7 +218,7 @@ export default class ConfirmationCode extends PureComponent {
       this.setState(
         {
           inputs: clonedInputs,
-          codeError: '',
+          codeError: null,
         },
         () => {
           const nextPos = position + 1;
@@ -269,7 +269,7 @@ export default class ConfirmationCode extends PureComponent {
       resendText = tt('g.loading');
     }
     if (resendSmsError) {
-      resendText = LOCALE_CODE_RESEND_FAIL;
+      resendText = tt(LOCALE_CODE_RESEND_FAIL);
     }
 
     return (
@@ -289,7 +289,7 @@ export default class ConfirmationCode extends PureComponent {
               <Timer startingTime={timerSeconds} hideTimer={this.hideTimer} />
             )}
           </ResendCode>
-          <CustomErrorText>{codeError || sendVerifyError}</CustomErrorText>
+          <CustomErrorText>{(codeError ? tt(codeError) : null) || sendVerifyError}</CustomErrorText>
         </ResendWrapper>
         <SendButton
           ref={this.sendButtonRef}

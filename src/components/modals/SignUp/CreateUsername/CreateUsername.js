@@ -48,7 +48,7 @@ export default class CreateUsername extends PureComponent {
 
   state = {
     username: '',
-    usernameError: '',
+    usernameError: null,
   };
 
   componentDidMount() {
@@ -101,7 +101,7 @@ export default class CreateUsername extends PureComponent {
     currentUsername = currentUsername.replace(/[^a-z0-9.-]+/g, '');
 
     if (username !== currentUsername) {
-      this.setState({ username: currentUsername, usernameError: '' });
+      this.setState({ username: currentUsername, usernameError: null });
     }
   };
 
@@ -135,6 +135,8 @@ export default class CreateUsername extends PureComponent {
     const { isLoadingSetUser, sendUserError } = this.props;
     const { username, usernameError } = this.state;
 
+    const errorText = (usernameError ? tt(usernameError) : null) || sendUserError;
+
     return (
       <>
         {isLoadingSetUser && <SplashLoader />}
@@ -144,13 +146,13 @@ export default class CreateUsername extends PureComponent {
             autoFocus
             placeholder={tt('registration.enter_username')}
             value={username}
-            error={usernameError || sendUserError}
+            error={errorText}
             className="js-CreateUsernameInput"
             onKeyDown={this.enterKeyDown}
             onChange={this.enterUsername}
             onBlur={this.usernameInputBlur}
           />
-          <CustomErrorText>{usernameError || sendUserError}</CustomErrorText>
+          <CustomErrorText>{errorText}</CustomErrorText>
         </InputWrapper>
         <CustomSendButton className="js-CreateUsernameSend" onClick={this.nextScreen}>
           {tt('registration.next')}

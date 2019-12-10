@@ -1202,7 +1202,8 @@
       "username_field_is_empty": "Username field is empty.",
       "not_more_than_12_symbols": "Not more than 12 symbols.",
       "not_more_than_one_dot": "Not more than one dot.",
-      "code_did_not_resend": "Code didn't resend. Try again."
+      "code_did_not_resend": "Code didn't resend. Try again.",
+      "invalid_captcha": "Invalid captcha response."
     }
   },
   "currency": {
