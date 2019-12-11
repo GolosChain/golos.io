@@ -236,7 +236,7 @@ export default class TransferDialog extends PureComponent {
     });
 
     try {
-      await transferToken(target, tokensAmount, currency, memoStr);
+      await transferToken(target, tokensAmount, currency, memoStr.trim());
       this.unblockDialog();
       close();
     } catch (err) {
