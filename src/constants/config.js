@@ -100,3 +100,5 @@ export const MAX_UPLOAD_FILE_SIZE = 5 * 1024 * 1024;
 export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 
 export const RECAPTCHA_KEY = '6LcZBscUAAAAAGgTHMV8kwKPc_Cw1_lGHjmXsX2s';
+
+export const GCE_KEY = '004757155418096408243:gmrajdynepx';

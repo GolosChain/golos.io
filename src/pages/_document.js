@@ -7,6 +7,7 @@ import tt from 'counterpart';
 import GlobalStyles from 'styles/global';
 // const spriteContent = sprite.stringify();
 
+import { GCE_KEY } from 'constants/config';
 import { initGCEScript } from 'utils/googleSearchEngine';
 
 export default class MyDocument extends Document {
@@ -66,7 +67,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <script async src="https://cse.google.com/cse.js?cx=006258823443671613321:hpvsejcgxlu" />
+          <script async src={`https://cse.google.com/cse.js?cx=${GCE_KEY}`} />
           <script dangerouslySetInnerHTML={{ __html: initGCEScript }} />
         </body>
       </html>
