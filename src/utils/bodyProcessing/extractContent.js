@@ -1,15 +1,15 @@
 import sanitize from 'sanitize-html';
-import memoize from 'lodash/memoize';
 
 import { smartTrim } from 'helpers/text';
 import remarkableStripper from './remarkableStripper';
 import { decodeSafeHtmlSymbols } from './html';
 import { tryExtractImage } from './extractImage';
+import { multiArgsMemoize } from '../common';
 
 const DESC_LENGTH = 600;
 const DESC_LENGTH_WITH_IMAGE = 300;
 
-export default memoize(function extractContent(_data) {
+export default multiArgsMemoize(function extractContent(_data, descLength) {
   const data = {
     ..._data,
     raw: _data.raw.trim(),
@@ -17,7 +17,7 @@ export default memoize(function extractContent(_data) {
   };
 
   tryExtractImage(data);
-  extractDescBody(data);
+  extractDescBody(data, descLength);
 
   return data;
 });
@@ -26,7 +26,7 @@ export default memoize(function extractContent(_data) {
 //   return extractDescBody({ body: body.trim() });
 // }
 
-function extractDescBody(data, isComment = false) {
+function extractDescBody(data, descLength = null, isComment = false) {
   if (!data || !data.raw) {
     data.desc = '';
     return;
@@ -50,7 +50,7 @@ function extractDescBody(data, isComment = false) {
   desc = desc.replace(/https?:\/\/[^\s]+/g, '');
   desc = desc.trim();
 
-  const limit = data.image ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
+  const limit = descLength || data.image ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
 
   data.desc = smartTrim(desc, limit, !isComment);
 }

@@ -16,6 +16,7 @@ import ViewCount from 'components/common/ViewCount';
 // import CurationPercent from 'components/common/CurationPercent';
 
 import { Router } from 'shared/routes';
+import extractContent from 'utils/bodyProcessing/extractContent';
 
 const Wrapper = styled.article`
   position: relative;
@@ -175,9 +176,19 @@ export default class PostContent extends Component {
   renderHelmet() {
     const { post } = this.props;
 
+    const content = extractContent(post.content.body, 100);
+
     return (
       <Head>
         <title>{tt('meta.title.common.post', { title: post.content.title })}</title>
+        <meta property="og:title" key="og:title" content={post.content.title} />
+        {content.desc ? (
+          <>
+            <meta name="description" content={content.desc} />
+            <meta property="og:description" key="og:description" content={content.desc} />
+          </>
+        ) : null}
+        {content.image ? <meta property="og:image" key="og:image" content={content.image} /> : null}
       </Head>
     );
   }
