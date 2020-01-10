@@ -288,6 +288,7 @@ export default class Header extends PureComponent {
     isAuthorized: PropTypes.bool.isRequired,
     isAutoLogging: PropTypes.bool.isRequired,
     screenType: PropTypes.string.isRequired,
+    isDesktop: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   };
@@ -322,15 +323,22 @@ export default class Header extends PureComponent {
       }, 2000);
     }
 
-    initGCE();
+    this.initGCEIfNeeded();
   }
 
   componentDidUpdate() {
-    initGCE();
+    this.initGCEIfNeeded();
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId);
+  }
+
+  initGCEIfNeeded() {
+    const { isDesktop } = this.props;
+    if (isDesktop) {
+      initGCE();
+    }
   }
 
   onLoginClick = () => {
@@ -410,8 +418,7 @@ export default class Header extends PureComponent {
   }
 
   renderLogo() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { isDesktop } = this.props;
 
     return (
       <Link route="home" passHref>
@@ -424,8 +431,7 @@ export default class Header extends PureComponent {
   }
 
   renderSearch() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { isDesktop } = this.props;
 
     return (
       <ToggleFeature flag={HEADER_SEARCH}>
@@ -518,10 +524,9 @@ export default class Header extends PureComponent {
   }
 
   renderMenu() {
-    const { userId, screenType } = this.props;
+    const { userId, screenType, isDesktop } = this.props;
     const { isMenuOpen } = this.state;
 
-    const isDesktop = screenType === 'desktop';
     const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
 
     if (isMenuOpen) {
@@ -540,8 +545,7 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { screenType, isDesktop } = this.props;
 
     return (
       <Wrapper>

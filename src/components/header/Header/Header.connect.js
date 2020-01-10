@@ -10,12 +10,14 @@ import Header from './Header';
 export default connect(
   state => {
     const userId = currentUnsafeUserIdSelector(state);
+    const screenType = uiSelector(['mode', 'screenType'])(state);
 
     return {
       userId,
       isAuthorized: Boolean(userId),
       isAutoLogging: dataSelector(['auth', 'isAutoLogging'])(state),
-      screenType: uiSelector(['mode', 'screenType'])(state),
+      screenType,
+      isDesktop: screenType === 'desktop',
     };
   },
   {
