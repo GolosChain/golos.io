@@ -50,7 +50,7 @@ function extractDescBody(data, descLength = null, isComment = false) {
   desc = desc.replace(/https?:\/\/[^\s]+/g, '');
   desc = desc.trim();
 
-  const limit = descLength || data.image ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH;
+  const limit = descLength || (data.image ? DESC_LENGTH_WITH_IMAGE : DESC_LENGTH);
 
   data.desc = smartTrim(desc, limit, !isComment);
 }
