@@ -157,6 +157,8 @@ export default class VotePanelAbstract extends PureComponent {
     openVotersDialog: PropTypes.func.isRequired,
     showPayoutDialog: PropTypes.func.isRequired,
     showDislikeAlert: PropTypes.func.isRequired,
+    fetchPost: PropTypes.func.isRequired,
+    fetchComment: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -326,7 +328,7 @@ export default class VotePanelAbstract extends PureComponent {
   };
 
   vote = async fraction => {
-    const { entity, vote, waitForTransaction } = this.props;
+    const { entity, vote, waitForTransaction, fetchPost, fetchComment } = this.props;
 
     const weight = Math.max(-10000, Math.min(10000, Math.round(fraction * 10000)));
 
@@ -349,6 +351,12 @@ export default class VotePanelAbstract extends PureComponent {
 
       try {
         await waitForTransaction(result.transaction_id);
+
+        if (entity.type === 'post') {
+          await fetchPost(contentId);
+        } else {
+          await fetchComment(contentId);
+        }
       } catch (err) {
         displayError(tt('g.transaction_wait_failed'), err);
       }

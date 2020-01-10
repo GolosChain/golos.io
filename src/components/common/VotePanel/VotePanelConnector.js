@@ -7,7 +7,7 @@ import { currentUserIdSelector } from 'store/selectors/auth';
 import { userVestingBalanceSelector } from 'store/selectors/wallet';
 import { vote } from 'store/actions/complex/votes';
 import { openVotersDialog, showPayoutDialog, showDislikeAlert } from 'store/actions/modals';
-import { waitForTransaction, getVoters } from 'store/actions/gate';
+import { waitForTransaction, getVoters, fetchComment, fetchPost } from 'store/actions/gate';
 import { payoutSum } from 'utils/payout';
 
 export default connect(
@@ -40,6 +40,8 @@ export default connect(
   {
     vote,
     waitForTransaction,
+    fetchPost,
+    fetchComment,
     getVoters,
     openVotersDialog,
     showPayoutDialog,
