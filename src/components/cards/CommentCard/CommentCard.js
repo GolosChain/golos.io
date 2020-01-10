@@ -432,7 +432,7 @@ export default class CommentCard extends PureComponent {
               {collapsed ? (
                 <CommentBody
                   to={
-                    profileCommentParentPost ? `/@${profileCommentParentPost}/#${comment.id}` : '#'
+                    profileCommentParentPost ? `/~${profileCommentParentPost}/#${comment.id}` : '#'
                   }
                   shortText
                   isPostPage={isPostPage}
@@ -538,7 +538,7 @@ export default class CommentCard extends PureComponent {
     return (
       <CommentBodyWrapper>
         <CommentBody
-          to={profileCommentParentPost ? `/@${profileCommentParentPost}/#${comment.id}` : '#'}
+          to={profileCommentParentPost ? `/~${profileCommentParentPost}/#${comment.id}` : '#'}
           isPostPage={isPostPage}
           onClick={this.rememberScrollPosition}
         >
