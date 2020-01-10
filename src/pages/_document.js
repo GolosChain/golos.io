@@ -7,6 +7,9 @@ import tt from 'counterpart';
 import GlobalStyles from 'styles/global';
 // const spriteContent = sprite.stringify();
 
+import { GCE_KEY } from 'constants/config';
+import { initGCEScript } from 'utils/googleSearchEngine';
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
@@ -58,13 +61,14 @@ export default class MyDocument extends Document {
           <meta name="twitter:title" content="GOLOS.io Блоги" />
           <meta name="twitter:image" content="https://golos.io/images/golos-share.png" />
           <meta name="yandex-verification" content="708637161f765106" />
-
           <GlobalStyles />
           {this.props.styles}
         </Head>
         <body>
           <Main />
           <NextScript />
+          <script async src={`https://cse.google.com/cse.js?cx=${GCE_KEY}`} />
+          <script dangerouslySetInnerHTML={{ __html: initGCEScript }} />
         </body>
       </html>
     );

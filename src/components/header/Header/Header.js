@@ -19,6 +19,7 @@ import {
   HEADER_SIGN_IN,
   HEADER_SIGN_UP,
 } from 'shared/feature-flags';
+import { initGCE } from 'utils/googleSearchEngine';
 
 import Icon from 'components/golos-ui/Icon';
 import Button from 'components/golos-ui/Button';
@@ -270,12 +271,24 @@ const DotsWrapper = styled(IconWrapper)`
   `};
 `;
 
+const SearchWrapper = styled.div`
+  flex-grow: 1;
+  margin: 2px 14px 0 18px;
+
+  .gsc-control-cse {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+`;
+
 export default class Header extends PureComponent {
   static propTypes = {
     userId: PropTypes.string,
     isAuthorized: PropTypes.bool.isRequired,
     isAutoLogging: PropTypes.bool.isRequired,
     screenType: PropTypes.string.isRequired,
+    isDesktop: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   };
@@ -309,10 +322,23 @@ export default class Header extends PureComponent {
         });
       }, 2000);
     }
+
+    this.initGCEIfNeeded();
+  }
+
+  componentDidUpdate() {
+    this.initGCEIfNeeded();
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId);
+  }
+
+  initGCEIfNeeded() {
+    const { isDesktop } = this.props;
+    if (isDesktop) {
+      initGCE();
+    }
   }
 
   onLoginClick = () => {
@@ -392,8 +418,7 @@ export default class Header extends PureComponent {
   }
 
   renderLogo() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { isDesktop } = this.props;
 
     return (
       <Link route="home" passHref>
@@ -406,17 +431,23 @@ export default class Header extends PureComponent {
   }
 
   renderSearch() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { isDesktop } = this.props;
 
     return (
       <ToggleFeature flag={HEADER_SEARCH}>
-        <SearchBlock href="/static/search.html" aria-label={tt('g.search')}>
-          {isDesktop ? <SearchInput /> : null}
-          <IconWrapper>
-            <SearchIcon name="search" />
-          </IconWrapper>
-        </SearchBlock>
+        <>
+          {isDesktop ? (
+            <SearchWrapper
+              dangerouslySetInnerHTML={{ __html: '<div class="gcse-search"></div>' }}
+            />
+          ) : (
+            <SearchBlock href="/search" title={tt('g.search')}>
+              <IconWrapper>
+                <SearchIcon name="search" />
+              </IconWrapper>
+            </SearchBlock>
+          )}
+        </>
       </ToggleFeature>
     );
   }
@@ -493,10 +524,9 @@ export default class Header extends PureComponent {
   }
 
   renderMenu() {
-    const { userId, screenType } = this.props;
+    const { userId, screenType, isDesktop } = this.props;
     const { isMenuOpen } = this.state;
 
-    const isDesktop = screenType === 'desktop';
     const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
 
     if (isMenuOpen) {
@@ -515,8 +545,7 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const { screenType } = this.props;
-    const isDesktop = screenType === 'desktop';
+    const { screenType, isDesktop } = this.props;
 
     return (
       <Wrapper>
