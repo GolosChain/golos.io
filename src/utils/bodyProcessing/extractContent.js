@@ -1,15 +1,15 @@
 import sanitize from 'sanitize-html';
-import memoize from 'lodash/memoize';
 
 import { smartTrim } from 'helpers/text';
 import remarkableStripper from './remarkableStripper';
 import { decodeSafeHtmlSymbols } from './html';
 import { tryExtractImage } from './extractImage';
+import { multiArgsMemoize } from '../common';
 
 const DESC_LENGTH = 600;
 const DESC_LENGTH_WITH_IMAGE = 300;
 
-export default memoize(function extractContent(_data, descLength) {
+export default multiArgsMemoize(function extractContent(_data, descLength) {
   const data = {
     ..._data,
     raw: _data.raw.trim(),
