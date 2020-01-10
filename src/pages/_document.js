@@ -41,7 +41,6 @@ export default class MyDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
-          <meta name="description" content={tt('meta.description', { locale: 'ru' })} />
 
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -51,15 +50,6 @@ export default class MyDocument extends Document {
           <meta name="msapplication-TileColor" content="#2879FF" />
           <meta name="theme-color" content="#ffffff" />
 
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="GOLOS.io Блоги" />
-          <meta property="og:title" content="GOLOS.io Блоги" />
-          <meta property="og:description" content={tt('meta.description', { locale: 'ru' })} />
-          <meta property="og:image" content="https://golos.io/images/golos-share.png" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@goloschain" />
-          <meta name="twitter:title" content="GOLOS.io Блоги" />
-          <meta name="twitter:image" content="https://golos.io/images/golos-share.png" />
           <meta name="yandex-verification" content="708637161f765106" />
           <GlobalStyles />
           {this.props.styles}

@@ -42,6 +42,7 @@ import ScrollFix from 'components/common/ScrollFix';
 import { checkMobileDevice } from 'helpers/browser';
 import { init as initAnchorHelper } from 'utils/anchorHelper';
 import plugins from 'utils/JsPlugins';
+import tt from 'counterpart';
 
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -140,6 +141,21 @@ export default class GolosApp extends App {
       <>
         <Head>
           <title>Golos.io</title>
+          <meta name="description" content={tt('meta.description', { locale: 'ru' })} />
+
+          <meta property="og:type" key="og:type" content="website" />
+          <meta property="og:site_name" key="og:site_name" content="GOLOS.io Блоги" />
+          <meta property="og:title" key="og:title" content="GOLOS.io Блоги" />
+          <meta
+            property="og:description"
+            key="og:description"
+            content={tt('meta.description', { locale: 'ru' })}
+          />
+          <meta
+            property="og:image"
+            key="og:image"
+            content="https://golos.io/images/golos-share.png"
+          />
         </Head>
         <Provider store={store}>
           <Translator>
