@@ -109,7 +109,7 @@ export default class HomeContent extends Component {
   }
 
   async componentDidMount() {
-    const { fetchError, fetchPosts, type, feedType, selectedTags, userId } = this.props;
+    const { fetchError, fetchPosts, type, feedType, selectedTags, userId, username } = this.props;
 
     if (fetchError) {
       try {
@@ -121,6 +121,10 @@ export default class HomeContent extends Component {
 
         if (userId) {
           params.userId = userId;
+        }
+
+        if (username) {
+          params.username = username;
         }
 
         await fetchPosts(params);
@@ -141,6 +145,7 @@ export default class HomeContent extends Component {
       sequenceKey,
       fetchPosts,
       userId,
+      username,
     } = this.props;
 
     if (!isFetching && !isEnd) {
@@ -153,6 +158,10 @@ export default class HomeContent extends Component {
 
       if (userId) {
         params.userId = userId;
+      }
+
+      if (username) {
+        params.username = username;
       }
 
       fetchPosts(params);
