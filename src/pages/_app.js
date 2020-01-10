@@ -32,7 +32,7 @@ import Header from 'components/header/Header';
 import Footer from 'components/common/Footer';
 import FeaturesToggle from 'components/common/FeaturesToggle';
 import TooltipManager from 'components/elements/common/TooltipManager';
-import MobileAppButton from 'components/elements/MobileBanners/MobileAppButton';
+// import MobileAppButton from 'components/elements/MobileBanners/MobileAppButton';
 import DialogManager from 'components/elements/common/DialogManager';
 import ScrollUpstairsButton from 'components/common/ScrollUpstairsButton';
 import NotifyToast from 'components/common/NotifyToast';
@@ -157,7 +157,7 @@ export default class GolosApp extends App {
                         <Component {...pageProps} />
                         {router.route === '/submit' ? null : <Footer />}
                         {router.route === '/submit' ? null : <ScrollUpstairsButton />}
-                        <MobileAppButton />
+                        {/*<MobileAppButton />*/}
                       </div>
                       <TooltipManager />
                       <UIStoreSync />
