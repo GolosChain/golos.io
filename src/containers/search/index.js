@@ -1,1 +1,1 @@
-export { default } from './Search.connect';
+export { default } from './Search';
