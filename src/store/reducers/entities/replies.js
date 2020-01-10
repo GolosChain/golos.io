@@ -4,6 +4,7 @@ import update from 'immutability-helper';
 import { SET_COMMENT_VOTE, AUTH_LOGOUT } from 'store/constants';
 import { unsetVoteStatus } from 'store/utils/reducers';
 import { mergeEntities } from 'utils/store';
+import { applyVotesChanges } from 'utils/votes';
 
 const initialState = {};
 
@@ -26,7 +27,7 @@ export default function(state = initialState, { type, payload }) {
         return update(state, {
           [payload.id]: {
             votes: {
-              $set: payload.votes,
+              $apply: votes => applyVotesChanges(votes, payload.status),
             },
           },
         });
