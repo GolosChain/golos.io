@@ -464,6 +464,7 @@ export default class VotePanelAbstract extends PureComponent {
           role="button"
           value={votePercent}
           red={sliderAction === 'dislike'}
+          hideHandleValue
           onChange={this.onPercentChange}
         />
         <CancelIcon

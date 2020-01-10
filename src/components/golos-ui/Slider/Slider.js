@@ -79,11 +79,11 @@ const Wrapper = styled.div`
 
   ${is('disabled')`
     cursor: default;
-    
+
     ${Progress} {
       background: #8e8e8e;
     }
-    
+
     ${Handle} {
       border-color: #8e8e8e;
       background: #8e8e8e;
@@ -134,6 +134,7 @@ export default class Slider extends PureComponent {
     max: 100,
     showCaptions: false,
     percentsInCaption: false,
+    hideTooltip: false,
     hideHandleValue: false,
   };
 
