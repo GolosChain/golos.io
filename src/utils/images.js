@@ -1,7 +1,7 @@
 import { imgHostingUrl } from 'constants/config';
 
 export function proxyImage(url, size) {
-  if (!url || !imgHostingUrl) {
+  if (!url || url.startsWith('data:image/') || !imgHostingUrl) {
     return url || null;
   }
 
