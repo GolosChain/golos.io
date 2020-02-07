@@ -12,7 +12,7 @@ import KunaMainAdvertisement from 'components/advertisement/KunaMainAdvertisemen
 
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;
-const SHOW_ADVERTISEMENT_EVERY = 19;
+const SHOW_ADVERTISEMENT_EVERY = 18;
 
 const Root = styled.div``;
 
@@ -234,7 +234,11 @@ export default class CardsList extends PureComponent {
       onClick: this.onEntryClick,
     });
 
-    if (isShowAdvertisement && index > 0 && index % SHOW_ADVERTISEMENT_EVERY === 0) {
+    if (
+      isShowAdvertisement &&
+      index > 0 &&
+      (index + SHOW_ADVERTISEMENT_EVERY / 2) % SHOW_ADVERTISEMENT_EVERY === 0
+    ) {
       return (
         <>
           {card}

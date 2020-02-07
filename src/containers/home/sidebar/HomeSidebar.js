@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 export default class HomeSidebar extends Component {
   static propTypes = {
     selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isMobile: PropTypes.bool.isRequired,
   };
 
   static async getInitialProps({ store, query: { tags } }) {
@@ -33,11 +34,11 @@ export default class HomeSidebar extends Component {
   }
 
   render() {
-    const { selectedTags } = this.props;
+    const { selectedTags, isMobile } = this.props;
 
     return (
       <Wrapper>
-        <KunaSideAdvertisement />
+        {isMobile ? null : <KunaSideAdvertisement />}
         <TagsCard selectedTags={selectedTags} />
       </Wrapper>
     );

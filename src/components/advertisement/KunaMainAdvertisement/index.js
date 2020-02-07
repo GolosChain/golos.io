@@ -1,1 +1,1 @@
-export { default } from './KunaMainAdvertisement';
+export { default } from './KunaMainAdvertisement.connect';

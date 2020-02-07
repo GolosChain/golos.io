@@ -1,1 +1,1 @@
-export { default } from './HomeSidebar';
+export { default } from './HomeSidebar.connect';
