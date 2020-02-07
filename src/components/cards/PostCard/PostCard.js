@@ -22,7 +22,7 @@ import SmartLazyLoad from 'components/common/SmartLazyLoad';
 // import CurationPercent from 'components/common/CurationPercent';
 
 import CardAuthor from '../CardAuthor';
-import { EntryWrapper, PostTitle, PostContent } from '../common';
+import { cardStyle, EntryWrapper, PostTitle, PostContent } from '../common';
 
 const PREVIEW_IMAGE_SIZE = '859x356';
 
@@ -209,9 +209,7 @@ const Filler = styled.div`
 
 const Wrapper = styled(EntryWrapper)`
   position: relative;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  ${cardStyle};
 
   ${is('gray')`
     opacity: 0.37;
@@ -221,10 +219,6 @@ const Wrapper = styled(EntryWrapper)`
       opacity: 1;
     }
   `};
-
-  @media (max-width: 500px) {
-    border-radius: 0;
-  }
 `;
 
 const HeaderRightPanel = styled.div`
