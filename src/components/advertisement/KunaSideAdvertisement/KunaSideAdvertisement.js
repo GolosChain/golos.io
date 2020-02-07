@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 const VARIANTS_COUNT = 3;
 
-const Wrapper = styled.div`
-  margin-bottom: 15px;
+const Wrapper = styled.a`
+  display: block;
+  margin-bottom: 20px;
 `;
 
 const Img = styled.img`
@@ -22,7 +23,7 @@ export default function KunaSideAdvertisement() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper href="https://kuna.io/" target="_blank" rel="noopener noreferrer">
       <Img src={`/kuna/side_${variant.current}.png`} onError={setShow} />
     </Wrapper>
   );
