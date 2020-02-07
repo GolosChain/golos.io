@@ -7,8 +7,9 @@ import { cardStyle, EntryWrapper } from 'components/cards/common';
 const BIG_VARIANTS_COUNT = 2;
 const MOBILE_VARIANTS_COUNT = 3;
 
-const Wrapper = styled(EntryWrapper)`
+const Wrapper = styled(EntryWrapper).attrs({ as: 'a' })`
   position: relative;
+  display: block;
   ${cardStyle};
   width: 100%;
   overflow: hidden;
@@ -44,7 +45,7 @@ export default function KunaMainAdvertisement({ isMobile }) {
   }
 
   return (
-    <Wrapper isMobile={isMobile}>
+    <Wrapper isMobile={isMobile} href="https://kuna.io/" target="_blank" rel="noopener noreferrer">
       {isMobile ? (
         <MobileImage
           src={`/kuna/side_${(variant.current % MOBILE_VARIANTS_COUNT) + 1}.png`}
