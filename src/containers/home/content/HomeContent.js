@@ -220,6 +220,7 @@ export default class HomeContent extends Component {
           isLoading={isFetching}
           hideIgnored
           layout={layout}
+          isShowAdvertisement
           loadMore={this.fetchPosts}
         />
       </Wrapper>

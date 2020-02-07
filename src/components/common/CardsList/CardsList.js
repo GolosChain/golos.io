@@ -8,9 +8,11 @@ import { getScrollElement } from 'helpers/window';
 import PostCard from 'components/cards/PostCard';
 import PostCardCompact from 'components/cards/PostCardCompact';
 import LoadingIndicator from 'components/elements/LoadingIndicator';
+import KunaMainAdvertisement from 'components/advertisement/KunaMainAdvertisement';
 
 export const FORCE_LINES_WIDTH = 1000;
 const FORCE_COMPACT_WIDTH = 550;
+const SHOW_ADVERTISEMENT_EVERY = 18;
 
 const Root = styled.div``;
 
@@ -45,6 +47,7 @@ export default class CardsList extends PureComponent {
     hideIgnored: PropTypes.bool,
     ignoreResult: PropTypes.any,
     listScrollPosition: PropTypes.number,
+    isShowAdvertisement: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -53,6 +56,7 @@ export default class CardsList extends PureComponent {
     allowInlineReply: false,
     showPinButton: false,
     hideIgnored: false,
+    isShowAdvertisement: false,
   };
 
   state = {
@@ -200,7 +204,7 @@ export default class CardsList extends PureComponent {
     return items.map(this.renderCard);
   }
 
-  renderCard = id => {
+  renderCard = (id, index) => {
     const {
       userId,
       layout,
@@ -208,6 +212,7 @@ export default class CardsList extends PureComponent {
       showPinButton,
       disallowGrid,
       itemRender,
+      isShowAdvertisement,
     } = this.props;
 
     const { forceCompact, forceLines } = this.state;
@@ -219,7 +224,7 @@ export default class CardsList extends PureComponent {
       return null;
     }
 
-    return itemRenderFunc({
+    const card = itemRenderFunc({
       key: id,
       id,
       compact,
@@ -228,6 +233,21 @@ export default class CardsList extends PureComponent {
       showPinButton,
       onClick: this.onEntryClick,
     });
+
+    if (
+      isShowAdvertisement &&
+      index > 0 &&
+      (index + SHOW_ADVERTISEMENT_EVERY / 2) % SHOW_ADVERTISEMENT_EVERY === 0
+    ) {
+      return (
+        <>
+          {card}
+          <KunaMainAdvertisement />
+        </>
+      );
+    }
+
+    return card;
   };
 
   render() {

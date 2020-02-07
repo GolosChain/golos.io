@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import TagsCard from 'components/home/sidebar/TagsCard';
 import { CONTAINER_MOBILE_WIDTH } from 'constants/container';
 import { getHashTagTop } from 'store/actions/gate';
+import TagsCard from 'components/home/sidebar/TagsCard';
+import KunaSideAdvertisement from 'components/advertisement/KunaSideAdvertisement';
 
 const Wrapper = styled.div`
   @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
 export default class HomeSidebar extends Component {
   static propTypes = {
     selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isMobile: PropTypes.bool.isRequired,
   };
 
   static async getInitialProps({ store, query: { tags } }) {
@@ -32,10 +34,11 @@ export default class HomeSidebar extends Component {
   }
 
   render() {
-    const { selectedTags } = this.props;
+    const { selectedTags, isMobile } = this.props;
 
     return (
       <Wrapper>
+        {isMobile ? null : <KunaSideAdvertisement />}
         <TagsCard selectedTags={selectedTags} />
       </Wrapper>
     );
