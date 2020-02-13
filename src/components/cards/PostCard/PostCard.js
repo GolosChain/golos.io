@@ -279,6 +279,7 @@ export default class PostCard extends PureComponent {
     author: PropTypes.shape({}).isRequired,
     repostAuthor: PropTypes.shape({}),
     currentUserId: PropTypes.string,
+    isLowReputation: PropTypes.bool,
     isPinned: PropTypes.bool,
     id: PropTypes.string.isRequired,
     hideNsfw: PropTypes.bool,
@@ -320,6 +321,7 @@ export default class PostCard extends PureComponent {
     pinDisabled: false,
     repostHtml: '',
     currentUserId: '',
+    isLowReputation: false,
   };
 
   state = {
@@ -683,15 +685,15 @@ export default class PostCard extends PureComponent {
   render() {
     // return <Wrapper>{JSON.stringify(this.props.post)}</Wrapper>;
 
-    const { hideNsfw, stats, isHidden, post, className } = this.props;
+    const { hideNsfw, isHidden, post, isLowReputation, className } = this.props;
 
     // user wishes to hide these posts entirely
-    if (hideNsfw || isHidden || !post) {
+    if (hideNsfw || isHidden || !post || isLowReputation) {
       return null;
     }
 
     return (
-      <Wrapper gray={stats.gray || stats.hide} className={className}>
+      <Wrapper gray={post.stats.gray || post.stats.hide} className={className}>
         <SmartLazyLoad once resize height={500} offset={300}>
           {this.renderHeader()}
           {post?.repost?.isRepost ? this.renderRepostPart() : null}
