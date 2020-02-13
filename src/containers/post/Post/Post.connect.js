@@ -11,6 +11,7 @@ import { formatContentId } from 'store/schemas/gate';
 // import { toggleFavorite } from 'app/redux/actions/favorites';
 // import { isHide } from 'utils/StateFunctions';
 // import { HIDE_BY_TAGS } from 'constants/tags';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import Post from './Post';
 
@@ -20,14 +21,24 @@ export default connect(
       currentUserSelector,
       isUnsafeAuthorized,
       (state, props) => statusSelector(['postComments', formatContentId(props.contentId)])(state),
-      (state, props) => entitySelector('posts', formatContentId(props.contentId))(state),
+      (state, props) => {
+        const post = entitySelector('posts', formatContentId(props.contentId))(state);
+
+        return {
+          post,
+          author: entitySelector('users', post?.author)(state),
+        };
+      },
     ],
-    (user, isAuthorized, { isLoading } = {}, post) => {
+    (user, isAuthorized, { isLoading } = {}, { post, author }) => {
+      const reputation = repLog10(author?.stats?.reputation) || 0;
+
       return {
         user,
         post,
         isAuthorized,
         isCommentsLoading: isLoading,
+        isLowReputation: reputation < 0,
         // author: author.account,
         // postLoaded: Boolean(post),
         // isPinned: author.pinnedPostsUrls.includes(`${author.account}/${post.permLink}`),

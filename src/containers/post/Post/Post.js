@@ -101,8 +101,12 @@ export default class Post extends Component {
   }
 
   isNeedShowAlert(props) {
-    if (props.stats) {
-      return props.stats.gray || props.stats.hide;
+    if (props.isLowReputation) {
+      return true;
+    }
+
+    if (props.post.stats) {
+      return props.post.stats.gray || props.post.stats.hide;
     }
 
     return false;

@@ -2,13 +2,14 @@
 import { connect } from 'react-redux';
 import { openModal } from 'redux-modals-manager';
 
-import { SHOW_MODAL_REPOST } from '/store/constants';
+import { SHOW_MODAL_REPOST } from 'store/constants';
 import { dataSelector, entitySelector } from 'store/selectors/common';
 import { currentUserIdSelector } from 'store/selectors/auth';
 import { nsfwTypeSelector } from 'store/selectors/settings';
 
 import { removeReblog } from 'store/actions/cyberway';
 import { addFavorite, removeFavorite, fetchFavorites, fetchPost } from 'store/actions/gate';
+import { repLog10 } from 'utils/ParsersAndFormatters';
 
 import PostCard from './PostCard';
 
@@ -32,6 +33,8 @@ export default connect(
 
     const isOwner = userId && post && (post.author === userId || post.repost?.userId === userId);
 
+    const reputation = repLog10(author?.stats?.reputation) || 0;
+
     return {
       post,
       author,
@@ -40,6 +43,7 @@ export default connect(
       isFavorite,
       hideNsfw,
       warnNsfw,
+      isLowReputation: reputation < 0,
       currentUserId: userId,
     };
   },
