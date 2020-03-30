@@ -78,7 +78,7 @@ export const stopLeader = () => async (dispatch, getState) => {
     [CYBERWAY_API]: {
       types: [STOP_WITNESS, STOP_WITNESS_SUCCESS, STOP_WITNESS_ERROR],
       contract: CONTRACT_NAME,
-      method: 'unregwitness',
+      method: 'stopwitness',
       params: data,
     },
     meta: data,
