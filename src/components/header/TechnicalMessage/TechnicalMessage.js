@@ -38,18 +38,31 @@ export default function() {
       <TechnicalContainerWrapper>
         {tt('technical_work.dears')}
         <br />
-        {/*{tt('technical_work.text_pause')}*/}
+        {/* {tt('technical_work.text_pause')} */}
+        {/* <Interpolate */}
+        {/*  with={{ */}
+        {/*    channel: <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>, */}
+        {/*    tasks: ( */}
+        {/*      <a href="https://github.com/GolosChain/golos.io/issues/new"> */}
+        {/*        {tt('technical_work.tasks')} */}
+        {/*      </a> */}
+        {/*    ), */}
+        {/*  }} */}
+        {/* > */}
+        {/*  {tt('technical_work.want', { */}
+        {/*    interpolate: false, */}
+        {/*  })} */}
+        {/* </Interpolate> */}
         <Interpolate
           with={{
-            channel: <a href="https://t.me/golos_developers">{tt('technical_work.channel')}</a>,
-            tasks: (
-              <a href="https://github.com/GolosChain/golos.io/issues/new">
-                {tt('technical_work.tasks')}
+            post: (
+              <a href="https://golos.io/@goloscore/operacii-s-tokenami-golos-cyber-1594822432061">
+                https://golos.io/@goloscore/operacii-s-tokenami-golos-cyber-1594822432061
               </a>
             ),
           }}
         >
-          {tt('technical_work.want', {
+          {tt('technical_work.readonly', {
             interpolate: false,
           })}
         </Interpolate>

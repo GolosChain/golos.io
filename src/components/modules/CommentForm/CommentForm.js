@@ -6,6 +6,9 @@ import cn from 'classnames';
 import tt from 'counterpart';
 
 import { displayError } from 'utils/toastMessages';
+import { checkPostHtml } from 'utils/validator';
+import { getTags } from 'utils/bodyProcessing/htmlReady';
+import { FEATURE_TECHNICAL_WORKS } from 'shared/feature-flags';
 
 import DialogManager from 'components/elements/common/DialogManager';
 import Icon from 'components/elements/Icon';
@@ -13,8 +16,6 @@ import MarkdownEditor from 'components/elements/postEditor/MarkdownEditor';
 import CommentFooter from 'components/elements/postEditor/CommentFooter';
 import PreviewButton from 'components/elements/postEditor/PreviewButton';
 import MarkdownViewer, { getRemarkable } from 'components/cards/MarkdownViewer/MarkdownViewer';
-import { checkPostHtml } from 'utils/validator';
-import { getTags } from 'utils/bodyProcessing/htmlReady';
 import CommentAuthor from 'components/cards/CommentAuthor';
 
 import {
@@ -52,6 +53,7 @@ export default class CommentForm extends Component {
     onSuccess: PropTypes.func,
     onCancel: PropTypes.func,
     onChange: PropTypes.func,
+    featureFlags: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -481,7 +483,7 @@ export default class CommentForm extends Component {
   checkBodyLazy = throttle(this.checkBody, 300, { leading: true });
 
   render() {
-    const { editMode, hideFooter, autoFocus, withHeader, replyAuthorId } = this.props;
+    const { editMode, hideFooter, autoFocus, withHeader, replyAuthorId, featureFlags } = this.props;
     const { text, emptyBody, isPreview, uploadingCount, isLoading } = this.state;
     // const allowPost = uploadingCount === 0 && !emptyBody;
 
@@ -514,6 +516,7 @@ export default class CommentForm extends Component {
                 ref={this.editorRef}
                 autoFocus={autoFocus}
                 commentMode
+                isDisabled={featureFlags[FEATURE_TECHNICAL_WORKS]}
                 initialValue={text}
                 placeholder={tt('g.reply')}
                 uploadImage={this.onUploadImage}

@@ -1,3 +1,5 @@
+export const FEATURE_TECHNICAL_WORKS = 'technicalWorks';
+
 // HEADER
 export const HEADER_SEARCH = 'headerSearch';
 export const HEADER_SIGN_IN = 'headerSignIn';
@@ -33,6 +35,7 @@ if (process.env.FEATURE_FLAGS) {
 }
 
 export default {
+  [FEATURE_TECHNICAL_WORKS]: true,
   // HEADER
   [HEADER_SEARCH]: true,
   [HEADER_SIGN_IN]: true,

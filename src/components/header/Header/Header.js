@@ -18,6 +18,7 @@ import {
   HEADER_CREATE_POST,
   HEADER_SIGN_IN,
   HEADER_SIGN_UP,
+  FEATURE_TECHNICAL_WORKS,
 } from 'shared/feature-flags';
 import { initGCE } from 'utils/googleSearchEngine';
 
@@ -34,7 +35,7 @@ import LocaleSelect from '../LocaleSelect';
 import AccountInfo from '../AccountInfo';
 import AccountInfoMobile from '../AccountInfoMobile';
 import NotificationsCounter from '../NotificationsCounter';
-// import TechnicalMessage from '../TechnicalMessage';
+import TechnicalMessage from '../TechnicalMessage';
 
 const Wrapper = styled.div``;
 
@@ -43,7 +44,7 @@ const ScrollFixStyled = styled(ScrollFix)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 60px;
+  height: ${({ isMaintenance }) => (isMaintenance ? '180px' : '60px')};
   background: #fff;
   z-index: 15;
 
@@ -62,7 +63,7 @@ const ScrollFixStyled = styled(ScrollFix)`
 `;
 
 const HeaderStub = styled.div`
-  height: 60px;
+  height: ${({ isMaintenance }) => (isMaintenance ? '180px' : '60px')};
 `;
 
 const ContainerWrapper = styled.div`
@@ -149,17 +150,6 @@ const SearchBlock = styled.a`
 
 const Filler = styled.div`
   flex-grow: 1;
-`;
-
-const SearchInput = styled.input`
-  flex-grow: 1;
-  width: 100%;
-  height: 40px;
-  padding: 0 8px;
-  border: none;
-  background: none;
-  font-size: 16px;
-  outline: none;
 `;
 
 const SearchIcon = styled(Icon)`
@@ -291,6 +281,7 @@ export default class Header extends PureComponent {
     isDesktop: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    featureFlags: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -334,13 +325,6 @@ export default class Header extends PureComponent {
     clearTimeout(this.timeoutId);
   }
 
-  initGCEIfNeeded() {
-    const { isDesktop } = this.props;
-    if (isDesktop) {
-      initGCE();
-    }
-  }
-
   onLoginClick = () => {
     const { openModal } = this.props;
     openModal(SHOW_MODAL_LOGIN);
@@ -377,28 +361,45 @@ export default class Header extends PureComponent {
     openModal(SHOW_MODAL_SIGNUP);
   };
 
+  initGCEIfNeeded() {
+    const { isDesktop } = this.props;
+    if (isDesktop) {
+      initGCE();
+    }
+  }
+
   renderLocaleBlock = () => (
     <LocaleWrapper>
       <LocaleSelect />
     </LocaleWrapper>
   );
 
+  renderNewPostButton() {
+    const { featureFlags } = this.props;
+
+    return (
+      <Button as="span" isDisabled={featureFlags[FEATURE_TECHNICAL_WORKS]}>
+        <NewPostIcon />
+        {tt('g.create_post')}
+      </Button>
+    );
+  }
+
   renderAuthorizedPart() {
-    const { screenType } = this.props;
+    const { screenType, featureFlags } = this.props;
     const { isNotificationsOpen } = this.state;
 
     return (
       <>
         <ToggleFeature flag={HEADER_CREATE_POST}>
           <>
-            <Link route="submit" passHref>
-              <NewPostLink name="header__create-post">
-                <Button as="span">
-                  <NewPostIcon />
-                  {tt('g.create_post')}
-                </Button>
-              </NewPostLink>
-            </Link>
+            {featureFlags[FEATURE_TECHNICAL_WORKS] ? (
+              this.renderNewPostButton()
+            ) : (
+              <Link route="submit" passHref>
+                <NewPostLink name="header__create-post">{this.renderNewPostButton()}</NewPostLink>
+              </Link>
+            )}
             <Link route="submit" passHref>
               <MobileNewPostLink as="a" aria-label={tt('g.create_post')} name="header__create-post">
                 <NewPostIcon mobile={1} />
@@ -521,6 +522,8 @@ export default class Header extends PureComponent {
         </Popover>
       );
     }
+
+    return null;
   }
 
   renderMenu() {
@@ -542,15 +545,20 @@ export default class Header extends PureComponent {
         </Popover>
       );
     }
+
+    return null;
   }
 
   render() {
-    const { screenType, isDesktop } = this.props;
+    const { screenType, isDesktop, featureFlags } = this.props;
 
     return (
       <Wrapper>
-        <ScrollFixStyled isFixed={isDesktop ? 1 : 0}>
-          {/* <TechnicalMessage /> */}
+        <ScrollFixStyled
+          isFixed={isDesktop ? 1 : 0}
+          isMaintenance={featureFlags[FEATURE_TECHNICAL_WORKS]}
+        >
+          {featureFlags[FEATURE_TECHNICAL_WORKS] ? <TechnicalMessage /> : null}
           <ContainerWrapper>
             {this.renderLogo()}
             {screenType === 'tablet' ? <Filler /> : null}
@@ -560,7 +568,7 @@ export default class Header extends PureComponent {
           {this.renderNotifications()}
           {this.renderMenu()}
         </ScrollFixStyled>
-        {isDesktop ? <HeaderStub /> : null}
+        {isDesktop ? <HeaderStub isMaintenance={featureFlags[FEATURE_TECHNICAL_WORKS]} /> : null}
       </Wrapper>
     );
   }
