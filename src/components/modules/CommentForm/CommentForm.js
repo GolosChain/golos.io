@@ -109,8 +109,8 @@ export default class CommentForm extends Component {
   }
 
   componentDidMount() {
-    const { autoFocus, forwardRef } = this.props;
-    if (window.location.hash === '#createComment') {
+    const { autoFocus, forwardRef, featureFlags } = this.props;
+    if (window.location.hash === '#createComment' && !featureFlags[FEATURE_TECHNICAL_WORKS]) {
       this.setFocus();
       this.onInputFocused();
     } else if (autoFocus) {
