@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { connect } from 'react-redux';
+import { selectFeatureFlags } from '@flopflip/react-redux';
 
 import { entitySelector } from 'store/selectors/common';
 import { createComment, updateComment } from 'store/actions/complex/content';
@@ -10,6 +11,7 @@ import CommentForm from './CommentForm';
 
 export default connect(
   (state, { reply, params }) => {
+    const featureFlags = selectFeatureFlags(state);
     let parentAuthorUsername;
 
     if (reply && params.contentId) {
@@ -18,6 +20,7 @@ export default connect(
 
     return {
       parentAuthorUsername,
+      featureFlags,
     };
   },
   {

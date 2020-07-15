@@ -23,6 +23,13 @@ if (process.browser) {
 
 let lastWidgetId = 0;
 
+const Wrapper = styled.div`
+  ${is('isDisabled')`
+    pointer-events: none;
+    cursor: not-allowerd;
+  `}
+`;
+
 const PanelWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -63,6 +70,7 @@ export default class MarkdownEditor extends PureComponent {
     onChangeNotify: PropTypes.func.isRequired,
     uploadImage: PropTypes.func.isRequired,
     onInputBlured: PropTypes.func,
+    isDisabled: PropTypes.bool,
   };
 
   textAreaRef = createRef();
@@ -159,9 +167,10 @@ export default class MarkdownEditor extends PureComponent {
   }
 
   render() {
-    const { uploadImage, commentMode, wrapperRef, editMode } = this.props;
+    const { uploadImage, commentMode, wrapperRef, editMode, isDisabled } = this.props;
     return (
-      <div
+      <Wrapper
+        isDisabled={isDisabled}
         className={cn('MarkdownEditor', {
           MarkdownEditor_comment: commentMode,
         })}
@@ -197,7 +206,7 @@ export default class MarkdownEditor extends PureComponent {
               wrapperRef.current
             )
           : null}
-      </div>
+      </Wrapper>
     );
   }
 

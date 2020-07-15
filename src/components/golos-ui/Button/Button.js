@@ -47,10 +47,15 @@ export const BaseButton = styled.button`
     background: #0e69ff;
   }
 
+  ${is('isDisabled')``},
   &:disabled {
     opacity: 0.8;
-    cursor: default;
+    cursor: not-allowed;
     background: #2879ff;
+
+    &:hover {
+      background: #2879ff;
+    }
   }
 
   ${is('auto')`
@@ -74,6 +79,7 @@ export const BaseButton = styled.button`
       border: 1px solid #c0c0c0;
     }
 
+    ${is('isDisabled')``},
     &:disabled {
       background-color: #fff;
     }
