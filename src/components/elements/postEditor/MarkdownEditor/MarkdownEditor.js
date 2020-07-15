@@ -26,7 +26,7 @@ let lastWidgetId = 0;
 const Wrapper = styled.div`
   ${is('isDisabled')`
     pointer-events: none;
-    cursor: not-allowerd;
+    cursor: not-allowed;
   `}
 `;
 
