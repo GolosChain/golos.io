@@ -454,7 +454,7 @@ export default class Header extends PureComponent {
   }
 
   renderRight() {
-    const { isAuthorized, screenType } = this.props;
+    const { isAuthorized, screenType, featureFlags } = this.props;
     const { isMenuOpen, waitAuth } = this.state;
 
     const isMobile = screenType === 'mobile' || screenType === 'landscapeMobile';
@@ -469,7 +469,11 @@ export default class Header extends PureComponent {
           {this.renderLocaleBlock()}
           <Buttons hidden={waitAuth}>
             <ToggleFeature flag={HEADER_SIGN_UP}>
-              <SignUp name="header__sigh-up" onClick={this.openSignUp}>
+              <SignUp
+                name="header__sigh-up"
+                isDisabled={featureFlags[FEATURE_TECHNICAL_WORKS]}
+                onClick={this.openSignUp}
+              >
                 {tt('g.sign_up')}
               </SignUp>
             </ToggleFeature>
