@@ -357,8 +357,12 @@ export default class Header extends PureComponent {
   };
 
   openSignUp = () => {
-    const { openModal } = this.props;
-    openModal(SHOW_MODAL_SIGNUP);
+    const { openModal, featureFlags } = this.props;
+
+    if (featureFlags[FEATURE_TECHNICAL_WORKS]) {
+    }
+
+    // openModal(SHOW_MODAL_SIGNUP);
   };
 
   initGCEIfNeeded() {
