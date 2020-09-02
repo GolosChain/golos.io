@@ -10,7 +10,6 @@ tmp/*
 .vscode
 
 .env
-.npmrc
 .yarnrc
 
 src/app/static/static/*.js
