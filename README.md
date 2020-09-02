@@ -23,6 +23,7 @@ cp .env.example .env
 
 ```bash
 yarn
+# запуск с обновлениями при изменениях кода
 yarn dev
 # или
 yarn start
@@ -34,7 +35,7 @@ yarn start
 
 ### Production
 
-Если вы хотите протестировать его локально в production окружении, просто выполните следующие команды:
+Если вы хотите протестировать проект локально в production окружении и использовать docker-compose для его запуска, просто выполните следующие команды:
 
 ```bash
 docker-compose up
@@ -43,6 +44,23 @@ docker-compose up
 Теперь у вас есть production окружение:
 
 - [localhost:3000](http://localhost:3000) - nextjs с golos.io
+
+#### Deploy
+
+В ручном режиме деплоя нужно выполнить следующие команды:
+
+```bash
+git clone https://github.com/goloschain/golos.io
+cd golos.io
+sudo docker-compose up --build
+```
+
+при повторных деплоях:
+
+```bash
+git pull
+sudo docker-compose up --build
+```
 
 ### Проблемы
 
