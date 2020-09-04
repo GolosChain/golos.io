@@ -3753,10 +3753,10 @@ cyber-client@^1.8.0:
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
 
-cyber-country-flag@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
-  integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
+cyber-country-flag@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/cyber-country-flag/-/cyber-country-flag-0.0.4.tgz#1097798669e6a72ed6e541917d2a880971c79ac5"
+  integrity sha512-dNR+urJFKvDW7NK8yPCE5c5+MhiRjDknww3wS6X9xcn8rI3jMx35Tkye+HeX7zrZwl+W9mWAVfeHD2DaGOAhvw==
 
 cyberwayjs@20.0.2:
   version "20.0.2"
@@ -8200,10 +8200,10 @@ next-i18next@^0.36.5:
     react-i18next "9.0.10"
     url "^0.11.0"
 
-next-links@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/next-links/-/next-links-0.1.2.tgz#f5d139d313bdc78eeb554e0cd2b388ba3d4d4435"
-  integrity sha512-ncv4KVuduAPzOSQYrtQYoIHGGDbuiCOUQ0gW3tDt3TEhTaIMpD2kj6BS8JIio6FJmHwCUwQKxqi3zw5PaWaa3A==
+next-links@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/next-links/-/next-links-1.0.0.tgz#cc0df5f168a16440a5ceb8abb5925e46cff50fd1"
+  integrity sha512-CjuPxZPkIs7gMmjJ2CH3TjrM5ayhkPTbHd+XYHKPFOgk954ORaRtGVluTDZPgWZW9PkMs4wtPmrwJihDaXqzQw==
   dependencies:
     path-to-regexp "^3.0.0"
 
@@ -10027,8 +10027,8 @@ redux-logger@^3.0.6:
 
 redux-modals-manager@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.npmjs.org/redux-modals-manager/-/redux-modals-manager-0.2.1.tgz#54eb2eb10ad0d304a9a4fcef39246c0844faf2ad"
-  integrity sha512-Xm+Hf8Q+mbzU7OzUayJ49nwK3um68R+Cn/dWFoATUNb964iUus72rDdcf88mT+VZxDOxYhxvsjbp3oAUXHVYwQ==
+  resolved "https://registry.yarnpkg.com/redux-modals-manager/-/redux-modals-manager-0.2.1.tgz#477a3b4b854a56f4e524ae25b825e01f6c9ff46b"
+  integrity sha512-0vgHvbMBv0qGckE9XIpSPl9ztMKQ5VTMPWOsbYlLbIFrGZmvmHASMGb44Q0yM0gTpMqsKFZP2iZAdwMnrbES2Q==
 
 redux-thunk@^2.3.0:
   version "2.3.0"
@@ -11708,10 +11708,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-toasts-manager@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/toasts-manager/-/toasts-manager-0.1.8.tgz#784abb56d65db2eb79821fbedc62735935659462"
-  integrity sha512-bZKsPprta09U12G4vAHz51K+nqaMWg6plufGGgrOocLET/zLZ56+mXTe58EyGZPN7HLJYPy7mlKpKyTiU4vZxg==
+toasts-manager@^0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/toasts-manager/-/toasts-manager-0.1.16.tgz#fdbb859cc3ffc937ed8d6909a9804201738adb52"
+  integrity sha512-4gGyoOZG4Xi74WaRDwUk4wTIo9z81yTCk0dqNt5RNTy6jri16G1aj9rCqGNJF0pn8aB4aXuT4wFLHy9ZVNQpDQ==
 
 toidentifier@1.0.0:
   version "1.0.0"

@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN npm install --global yarn
 
-COPY package.json yarn.lock .babelrc.js next.config.js ./
+COPY .env package.json yarn.lock .babelrc.js next.config.js ./
 
 COPY src/ ./src
 
