@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { CONTAINER_MOBILE_WIDTH } from 'constants/container';
 import { getHashTagTop } from 'store/actions/gate';
 import TagsCard from 'components/home/sidebar/TagsCard';
-import KunaSideAdvertisement from 'components/advertisement/KunaSideAdvertisement';
+// import KunaSideAdvertisement from 'components/advertisement/KunaSideAdvertisement';
 
 const Wrapper = styled.div`
   @media (max-width: ${CONTAINER_MOBILE_WIDTH}px) {
@@ -38,7 +38,7 @@ export default class HomeSidebar extends Component {
 
     return (
       <Wrapper>
-        {isMobile ? null : <KunaSideAdvertisement />}
+        {/* isMobile ? null : <KunaSideAdvertisement /> */}
         <TagsCard selectedTags={selectedTags} />
       </Wrapper>
     );
