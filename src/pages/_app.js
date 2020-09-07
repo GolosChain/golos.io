@@ -82,7 +82,7 @@ export default class GolosApp extends App {
 
     try {
       await ctx.store.dispatch(getVestingSupplyAndBalance());
-      await ctx.store.dispatch(getActualRates());
+      // await ctx.store.dispatch(getActualRates());
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn(err);

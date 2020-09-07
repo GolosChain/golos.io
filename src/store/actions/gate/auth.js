@@ -128,8 +128,8 @@ export const login = (username, privateKey, meta = {}) => async dispatch => {
             dispatch(getBalance(auth.user)),
             dispatch(fetchSettings()),
             dispatch(fetchFavorites()),
-            dispatch(subscribeNotifications()),
-            dispatch(getNotificationsCount()),
+            // dispatch(subscribeNotifications()),
+            // dispatch(getNotificationsCount()),
           ]);
         } catch (err) {
           // eslint-disable-next-line no-console
