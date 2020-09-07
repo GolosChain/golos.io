@@ -11708,10 +11708,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-toasts-manager@^0.1.16:
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/toasts-manager/-/toasts-manager-0.1.16.tgz#fdbb859cc3ffc937ed8d6909a9804201738adb52"
-  integrity sha512-4gGyoOZG4Xi74WaRDwUk4wTIo9z81yTCk0dqNt5RNTy6jri16G1aj9rCqGNJF0pn8aB4aXuT4wFLHy9ZVNQpDQ==
+toasts-manager@^0.1.17:
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/toasts-manager/-/toasts-manager-0.1.17.tgz#48e2426cf9c2b09e9d64a0c6b6ed4978be249187"
+  integrity sha512-ReV7KckHlKODyq+IrN3K6DFXunCOin7OdimmzAsxyXa2arbloPHfZxkdzqIiT1hx9EluGgivHiM73zByx+dh3w==
 
 toidentifier@1.0.0:
   version "1.0.0"
