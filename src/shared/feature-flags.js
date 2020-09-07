@@ -35,12 +35,12 @@ if (process.env.FEATURE_FLAGS) {
 }
 
 export default {
-  [FEATURE_TECHNICAL_WORKS]: true,
+  [FEATURE_TECHNICAL_WORKS]: false,
   // HEADER
   [HEADER_SEARCH]: true,
   [HEADER_SIGN_IN]: true,
   [HEADER_SIGN_UP]: true,
-  [HEADER_CREATE_POST]: false,
+  [HEADER_CREATE_POST]: true,
 
   // PROFILE
   [RIGHTACTIONS_BUY_OR_SELL]: false,

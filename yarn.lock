@@ -3742,26 +3742,26 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cyber-client@1.7.3:
-  version "1.7.3"
-  resolved "https://registry.npmjs.org/cyber-client/-/cyber-client-1.7.3.tgz#52904206c13264e32b05a4969e41a5f49e914af1"
-  integrity sha512-jlKE9hmyrp9qkUsYhHg0xgSY0mRSrqCkbJTKCrreN+jUKSBmqOBi9VvEN0CwJPJuif+y/0pOgC/w1G69/RvkSA==
+cyber-client@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/cyber-client/-/cyber-client-1.8.0.tgz#97c46064d911620724e2f5e7d2b29c60f3829b2c"
+  integrity sha512-feC9rmMJW5hock7+EPIr2YKYoc0tLy5ERyl2k0hA0g3KcgShavXEcJ8/e+9E/ChWtoOiWsYEABMufu5Ez6++XQ==
   dependencies:
     "@babel/runtime" "^7.2.0"
-    cyberwayjs "20.0.0-beta8"
+    cyberwayjs "20.0.2"
     idb "^3.0.2"
     node-fetch "^2.3.0"
     text-encoding "^0.7.0"
 
-cyber-country-flag@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/cyber-country-flag/-/cyber-country-flag-0.0.3.tgz#10b2a83fea9b0b197f1ea7d26a71e98ad7217422"
-  integrity sha512-9c4VyZpe23YxWKx57InJLR5aAHpIhSIHyG7Zbdd6K933ZYegFWfMgtnn/WnEs2mJ8OvXsn+rs0KM8lro1dsyuQ==
+cyber-country-flag@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/cyber-country-flag/-/cyber-country-flag-0.0.4.tgz#1097798669e6a72ed6e541917d2a880971c79ac5"
+  integrity sha512-dNR+urJFKvDW7NK8yPCE5c5+MhiRjDknww3wS6X9xcn8rI3jMx35Tkye+HeX7zrZwl+W9mWAVfeHD2DaGOAhvw==
 
-cyberwayjs@20.0.0-beta8:
-  version "20.0.0-beta8"
-  resolved "https://registry.npmjs.org/cyberwayjs/-/cyberwayjs-20.0.0-beta8.tgz#a0160678d3a2f692ae4b8e8d783bbac63f31b10b"
-  integrity sha512-Y+NTSzIgKGkqKLw2YXnBBaNedPhUrSU4TiX1trJFcWz++cd4u9JwF+Gx17mLqTHD1Zq3qvmR+7BJrDJ8aCeHNw==
+cyberwayjs@20.0.2:
+  version "20.0.2"
+  resolved "https://registry.yarnpkg.com/cyberwayjs/-/cyberwayjs-20.0.2.tgz#785c725f43efa04f7e77878ac78f0b6dedef2f9b"
+  integrity sha512-wU5lTx4fjqvDEWv9HH7+/CmLmN0GGCymM5YH20buATjMq/s7eeGZcgiJllKTTDkiPele6HaswUHwZ5DwLkEM0w==
   dependencies:
     babel-polyfill "^6.26.0"
     eosjs-ecc "^4.0.1"
@@ -8200,10 +8200,10 @@ next-i18next@^0.36.5:
     react-i18next "9.0.10"
     url "^0.11.0"
 
-next-links@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/next-links/-/next-links-0.1.2.tgz#f5d139d313bdc78eeb554e0cd2b388ba3d4d4435"
-  integrity sha512-ncv4KVuduAPzOSQYrtQYoIHGGDbuiCOUQ0gW3tDt3TEhTaIMpD2kj6BS8JIio6FJmHwCUwQKxqi3zw5PaWaa3A==
+next-links@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/next-links/-/next-links-1.0.0.tgz#cc0df5f168a16440a5ceb8abb5925e46cff50fd1"
+  integrity sha512-CjuPxZPkIs7gMmjJ2CH3TjrM5ayhkPTbHd+XYHKPFOgk954ORaRtGVluTDZPgWZW9PkMs4wtPmrwJihDaXqzQw==
   dependencies:
     path-to-regexp "^3.0.0"
 
@@ -10027,8 +10027,8 @@ redux-logger@^3.0.6:
 
 redux-modals-manager@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.npmjs.org/redux-modals-manager/-/redux-modals-manager-0.2.1.tgz#54eb2eb10ad0d304a9a4fcef39246c0844faf2ad"
-  integrity sha512-Xm+Hf8Q+mbzU7OzUayJ49nwK3um68R+Cn/dWFoATUNb964iUus72rDdcf88mT+VZxDOxYhxvsjbp3oAUXHVYwQ==
+  resolved "https://registry.yarnpkg.com/redux-modals-manager/-/redux-modals-manager-0.2.1.tgz#477a3b4b854a56f4e524ae25b825e01f6c9ff46b"
+  integrity sha512-0vgHvbMBv0qGckE9XIpSPl9ztMKQ5VTMPWOsbYlLbIFrGZmvmHASMGb44Q0yM0gTpMqsKFZP2iZAdwMnrbES2Q==
 
 redux-thunk@^2.3.0:
   version "2.3.0"
@@ -11708,10 +11708,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-toasts-manager@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/toasts-manager/-/toasts-manager-0.1.8.tgz#784abb56d65db2eb79821fbedc62735935659462"
-  integrity sha512-bZKsPprta09U12G4vAHz51K+nqaMWg6plufGGgrOocLET/zLZ56+mXTe58EyGZPN7HLJYPy7mlKpKyTiU4vZxg==
+toasts-manager@^0.1.17:
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/toasts-manager/-/toasts-manager-0.1.17.tgz#48e2426cf9c2b09e9d64a0c6b6ed4978be249187"
+  integrity sha512-ReV7KckHlKODyq+IrN3K6DFXunCOin7OdimmzAsxyXa2arbloPHfZxkdzqIiT1hx9EluGgivHiM73zByx+dh3w==
 
 toidentifier@1.0.0:
   version "1.0.0"

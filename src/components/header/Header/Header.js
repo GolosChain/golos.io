@@ -34,7 +34,7 @@ import NotificationsWindow from '../NotificationsWindow';
 import LocaleSelect from '../LocaleSelect';
 import AccountInfo from '../AccountInfo';
 import AccountInfoMobile from '../AccountInfoMobile';
-import NotificationsCounter from '../NotificationsCounter';
+// import NotificationsCounter from '../NotificationsCounter';
 import TechnicalMessage from '../TechnicalMessage';
 
 const Wrapper = styled.div``;
@@ -411,11 +411,11 @@ export default class Header extends PureComponent {
             </Link>
           </>
         </ToggleFeature>
-        <NotificationsCounter
+        {/* <NotificationsCounter
           isOpen={isNotificationsOpen}
           iconRef={this.notificationsIconRef}
           onToggle={this.onNotificationsToggle}
-        />
+        /> */}
         {this.renderLocaleBlock()}
         {screenType === 'desktop' ? <AccountInfo /> : <AccountInfoMobile />}
       </>
