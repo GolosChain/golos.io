@@ -68,7 +68,7 @@
     "remarkable": "^1.7.1",
     "reselect": "^4.0.0",
     "rpc-websockets": "^4.3.5",
-    "sanitize-html": "^1.20.0",
+    "sanitize-html": "^2.3.2",
     "speakingurl": "^14.0.1",
     "styled-breakpoints": "^6.5.5",
     "styled-by": "^0.3.0",
